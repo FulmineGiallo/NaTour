@@ -1,13 +1,13 @@
 package com.example.natour;
 
 public class Itinerario {
-    String nome;
-    int durata;
-    boolean accessibilitaDisabili;
-    int difficoltà; //va da 1 a 5
-    String descrizione;
-    String percorsoInizio;
-    String percorsoFine;
+    private String nome;
+    private int durata;
+    private boolean accessibilitaDisabili;
+    private int difficoltà; //va da 1 a 5
+    private String descrizione;
+    private String percorsoInizio;
+    private String percorsoFine;
 
     public String getNome() {
         return nome;
@@ -38,7 +38,10 @@ public class Itinerario {
     }
 
     public void setDifficoltà(int difficoltà) {
-        this.difficoltà = difficoltà;
+        if(difficoltà <= 5 || difficoltà >= 1)
+            this.difficoltà = difficoltà;
+        else if(difficoltà > 5) this.difficoltà = 5;
+        else this.difficoltà = 1;
     }
 
     public String getDescrizione() {

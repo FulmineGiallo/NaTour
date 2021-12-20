@@ -8,7 +8,7 @@ import android.util.Patterns;
 import com.example.natour.view.data.LoginRepository;
 import com.example.natour.view.data.Result;
 import com.example.natour.view.data.model.LoggedInUser;
-import com.example.natour.view.R;
+import com.example.natour.R;
 
 public class LoginViewModel extends ViewModel {
 

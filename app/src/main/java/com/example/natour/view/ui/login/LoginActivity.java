@@ -18,10 +18,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.natour.view.R;
+import com.example.natour.R;
 import com.example.natour.view.ui.login.LoginViewModel;
 import com.example.natour.view.ui.login.LoginViewModelFactory;
-import com.example.natour.view.databinding.ActivityLoginBinding;
+import com.example.natour.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="-36.755 0.875 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <filter id="drop-shadow-filter-0" x="-500%" y="-500%" width="1000%" height="1000%" bx:preset="drop-shadow 1 2 -2 0 0.5 rgba(0,0,0,0.3)">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="0"/>
+      <feOffset dx="2" dy="-2"/>
+      <feComponentTransfer result="offsetblur">
+        <feFuncA id="spread-ctrl" type="linear" slope="1"/>
+      </feComponentTransfer>
+      <feFlood flood-color="rgba(0,0,0,0.3)"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="filter-1" x="-500%" y="-500%" width="1000%" height="1000%" bx:preset="drop-shadow 1 2 -2 0 0.5 rgba(0,0,0,0.3)">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="0"/>
+      <feOffset dx="2" dy="-2"/>
+      <feComponentTransfer result="offsetblur">
+        <feFuncA id="feFuncA-1" type="linear" slope="1"/>
+      </feComponentTransfer>
+      <feFlood flood-color="rgba(0,0,0,0.3)"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path style="fill: rgb(95, 167, 255);" transform="matrix(0, -1, 1, 0, -77.997163, 494.973152)" d="M 22.993 171.653 A 239.493 239.493 0 1 1 22.993 411.146 A 175.248 175.248 0 1 0 22.993 171.653 Z" bx:shape="crescent 230.4 291.4 239.493 300 0.7 1@bb704fd7"/>
+  <path style="fill: rgb(123, 182, 255);" d="M 140.066 -13.382 C 213.533 -13.382 277.73 18.092 319.299 90.097 C 360.869 162.102 356.033 233.431 319.299 297.053 C 282.566 360.675 223.206 400.532 140.066 400.532 C 106.07 400.532 104.671 400.178 93.241 399.443 C 97.683 398.298 94.151 398.999 108.018 395.88 C 172.115 379.37 235.14 325.779 259.549 253.575 C 279.418 179.96 256.205 100.718 212.126 51.378 C 169.136 7.51 129.036 -7.786 78.585 -12.272 C 88.711 -13.881 81.896 -13.382 140.066 -13.382 Z" transform="matrix(0, -1, 1, 0, 20.099528, 407.176428)"/>
+  <path d="M 194.206 192.306 L 228.824 64.284 L 334.327 470.216 L 93.653 473.34 L 177.722 123.609 L 194.206 192.306 Z" style="fill: rgb(85, 169, 90); filter: url(#drop-shadow-filter-0);"/>
+  <path d="M 195.251 182.838 L 230.842 55.066 L 341.825 469.638 L 89.249 472.819 L 178.166 113.725 Z M 195.041 197.06 L 178.166 128.778 L 93.884 469.147 L 337.133 466.081 L 230.77 68.79 Z" style="fill: none;"/>
+  <path d="M 195.251 182.838 L 230.842 55.066 L 341.825 469.638 L 89.249 472.819 L 178.166 113.725 Z M 195.041 197.06 L 178.166 128.778 L 93.884 469.147 L 337.133 466.081 L 230.77 68.79 Z" style="fill: none;"/>
+  <path d="M 195.251 182.838 L 230.842 55.066 L 341.825 469.638 L 89.249 472.819 L 178.166 113.725 Z M 195.041 197.06 L 178.166 128.778 L 93.884 469.147 L 337.133 466.081 L 230.77 68.79 Z" style="fill: none;"/>
+  <path d="M 178.166 113.725 L 195.251 182.838 L 230.842 55.062 L 341.825 469.638 L 89.249 472.819 Z M 337.133 466.081 L 230.77 68.786 L 195.041 197.06 L 178.166 128.778 L 93.884 469.147 Z" style="fill: none;"/>
+  <path d="M 178.166 113.725 L 195.251 182.838 L 230.842 55.062 L 341.825 469.638 L 89.249 472.819 Z M 337.133 466.081 L 230.77 68.786 L 195.041 197.06 L 178.166 128.778 L 93.884 469.147 Z" style="fill: none;"/>
+  <path d="M 204.955 308.069 L 225.889 232.908 L 289.692 471.229 L 144.141 473.065 L 194.984 267.735 L 204.955 308.069 Z" style="filter: url(#filter-1); fill: rgb(103, 228, 111);"/>
+</svg>

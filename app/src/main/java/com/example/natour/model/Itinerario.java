@@ -1,4 +1,4 @@
-package com.example.natour;
+package com.example.natour.model;
 
 public class Itinerario {
     private String nome;

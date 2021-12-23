@@ -1,4 +1,4 @@
-package com.example.natour;
+package com.example.natour.model;
 
 import android.graphics.Point;
 

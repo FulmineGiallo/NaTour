@@ -3,6 +3,7 @@ package com.example.natour.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import com.example.natour.R;
 
 public class Homepage extends AppCompatActivity {
 

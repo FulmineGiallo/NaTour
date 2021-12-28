@@ -23,14 +23,17 @@ public class UtenteDAO implements UtenteDaoInterface
 
         int accesso = 0; //se ritorna zero l'utente non esiste altrimenti 1
 
-        try{
+        try
+        {
             login.setString(1,email);
             login.setString(2,password);
             ResultSet rs = login.executeQuery();
-            while(rs.next()){
+            while(rs.next())
+            {
                 accesso = rs.getInt("count");
             }
-        }catch (SQLException error){
+        }
+        catch (SQLException error){
             //TODO: Aggiungere risposta all'errore
         }
         return accesso;

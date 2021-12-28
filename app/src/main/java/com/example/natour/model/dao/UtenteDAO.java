@@ -21,7 +21,7 @@ public class UtenteDAO implements UtenteDaoInterface
     public int utenteExist(String email, String password) throws SQLException
     {
 
-        int accesso; //se ritorna zero l'utente non esiste altrimenti 1
+        int accesso = 0; //se ritorna zero l'utente non esiste altrimenti 1
 
         try{
             login.setString(1,email);

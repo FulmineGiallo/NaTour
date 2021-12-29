@@ -15,9 +15,19 @@ import com.example.natour.R;
 
 public class Homepage extends AppCompatActivity {
 
+    RecyclerView mRecyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView = findViewById(R.id.rec_view);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+        MasonryAdapter adapter = new MasonryAdapter(this);
+        mRecyclerView.setAdapter(adapter);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
+        mRecyclerView.addItemDecoration(decoration);
     }
 }

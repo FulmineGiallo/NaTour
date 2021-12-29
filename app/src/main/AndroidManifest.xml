@@ -12,6 +12,7 @@
         <activity
             android:name=".view.Register"
             android:exported="false" />
+        <activity android:name=".view.Homepage"/>
         <activity
             android:name=".view.Login"
             android:exported="true">

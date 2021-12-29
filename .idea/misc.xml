@@ -3,18 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_google___original.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_bell_on.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_envelope_close.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_home.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_search.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/profile.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.264" />
-        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.4" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_profile.xml" value="0.264" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_register.xml" value="0.3625" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.19479166666666667" />
-        <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.29082426127527217" />
+        <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.33" />
         <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.33" />
-        <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/grid_item.xml" value="0.18931159420289856" />
       </map>
     </option>
   </component>
@@ -23,5 +25,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.4" />
+      </ProjectState>
+    </option>
   </component>
 </project>

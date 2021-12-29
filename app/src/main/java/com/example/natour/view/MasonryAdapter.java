@@ -1,0 +1,58 @@
+package com.example.natour.view;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.natour.R;
+
+public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> {
+    private Context context;
+
+    int[] imgList = {R.drawable.abc_vector_test, R.drawable.ic_icon_bell_on, R.drawable.ic_icon_home, R.drawable.ic_icon_search,
+            R.drawable.ic_icon_envelope_close, R.drawable.abc_vector_test, R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground,
+            R.drawable.ic_logo_natour_v2, R.drawable.profile};
+
+    String[] nameList = {"One", "Two", "Three", "Four", "Five", "Six",
+            "Seven", "Eight", "Nine", "Ten"};
+
+    public MasonryAdapter(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public MasonryAdapter.MasonryView onCreateViewHolder(ViewGroup parent, int viewType) {
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout., parent, false);
+        MasonryView masonryView = new MasonryView(layoutView);
+        return masonryView;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MasonryAdapter.MasonryView holder, int position) {
+        holder.imageView.setImageResource(imgList[position]);
+        holder.textView.setText(nameList[position]);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return nameList.length;
+    }
+
+    class MasonryView extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView textView;
+
+        public MasonryView(@NonNull View itemView) {
+            super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            textView = (TextView) itemView.findViewById(R.id.textView);
+        }
+    }
+}

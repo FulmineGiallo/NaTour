@@ -9,6 +9,6 @@ public class visualizza_itinerario extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_itinerario);
+        setContentView(R.layout.activity_visualizza_itinerario);
     }
 }

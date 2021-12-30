@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Program Files/Eclipse/eclipse-workspace/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.4642210144927536" />
+        <entry key="..\:/Program Files/Eclipse/eclipse-workspace/NaTour/app/src/main/res/layout/activity_itinerario.xml" value="0.6" />
+        <entry key="..\:/Program Files/Eclipse/eclipse-workspace/NaTour/app/src/main/res/layout/activity_login.xml" value="0.4642210144927536" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_google___original.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_bell_on.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_envelope_close.xml" value="0.37864583333333335" />

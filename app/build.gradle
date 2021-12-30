@@ -26,6 +26,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildToolsVersion '32.0.0'
+    sourceSets {
+        main {
+            assets {
+                srcDirs 'src\\main\\assets'
+            }
+        }
+    }
 }
 
 dependencies {

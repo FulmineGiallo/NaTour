@@ -63,7 +63,7 @@
         app:srcCompat="@drawable/ic_icon_bell_on" />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/profile"
         android:layout_width="43dp"
         android:layout_height="33dp"
         android:layout_marginStart="20dp"

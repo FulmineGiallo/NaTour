@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NaTour">
         <activity
-            android:name=".view.profile"
+            android:name=".view.Profile"
             android:exported="false" />
         <activity
             android:name=".view.Register"

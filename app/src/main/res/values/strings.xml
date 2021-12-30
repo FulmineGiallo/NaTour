@@ -8,4 +8,5 @@
     <string name="edt_dataDiNascita">Data di nascita</string>
     <string name="edt_nome">Nome</string>
     <string name="edt_cognome">Cognome</string>
+    <string name="txt_iMieiItinerari"> <u>I miei itinerari</u></string>
 </resources>

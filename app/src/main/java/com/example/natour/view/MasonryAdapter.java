@@ -2,6 +2,8 @@ package com.example.natour.view;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.icu.text.CompactDecimalFormat;
+import android.renderscript.Sampler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.motion.widget.DesignTool;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
+
+import javax.xml.transform.Source;
 
 public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> {
     private Context context;
 
     //TODO: trovare un modo per aggiungere dinamicamente le immagini e aggiornarle
 
-    int[] imgList = {R.drawable.profile, R.drawable.ic_icon_bell_on, R.drawable.ic_icon_home, R.drawable.ic_icon_search,
-            R.drawable.ic_icon_envelope_close, R.drawable.abc_vector_test, R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground,
+    int[] imgList = {R.drawable.ic_launcher_foreground, R.drawable.ic_icon_bell_on, R.drawable.ic_icon_home, R.drawable.ic_icon_search,
+            R.drawable.ic_icon_envelope_close, R.drawable.abc_vector_test, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground,
             R.drawable.ic_logo_natour_v2, R.drawable.profile};
 
     String[] nameList = {"One", "Two", "Three", "Four", "Five", "Six",

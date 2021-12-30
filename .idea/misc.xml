@@ -3,9 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Program Files/Eclipse/eclipse-workspace/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.4642210144927536" />
-        <entry key="..\:/Program Files/Eclipse/eclipse-workspace/NaTour/app/src/main/res/layout/activity_itinerario.xml" value="0.6" />
-        <entry key="..\:/Program Files/Eclipse/eclipse-workspace/NaTour/app/src/main/res/layout/activity_login.xml" value="0.4642210144927536" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_google___original.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_bell_on.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_envelope_close.xml" value="0.37864583333333335" />
@@ -19,8 +16,11 @@
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.19479166666666667" />
         <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.33" />
+        <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_itinerario.xml" value="0.18206521739130435" />
         <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/grid_item.xml" value="0.18206521739130435" />
+        <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2109375" />
+        <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2109375" />
       </map>
     </option>
   </component>

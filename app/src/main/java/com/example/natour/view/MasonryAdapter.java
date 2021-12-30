@@ -16,7 +16,9 @@ import com.example.natour.R;
 public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> {
     private Context context;
 
-    int[] imgList = {R.drawable.abc_vector_test, R.drawable.ic_icon_bell_on, R.drawable.ic_icon_home, R.drawable.ic_icon_search,
+    //TODO: trovare un modo per aggiungere dinamicamente le immagini e aggiornarle
+
+    int[] imgList = {R.drawable.profile, R.drawable.ic_icon_bell_on, R.drawable.ic_icon_home, R.drawable.ic_icon_search,
             R.drawable.ic_icon_envelope_close, R.drawable.abc_vector_test, R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground,
             R.drawable.ic_logo_natour_v2, R.drawable.profile};
 

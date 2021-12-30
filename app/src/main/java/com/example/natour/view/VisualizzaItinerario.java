@@ -1,14 +1,16 @@
-package com.example.natour;
+package com.example.natour.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class visualizza_itinerario extends AppCompatActivity {
+import com.example.natour.R;
+
+public class VisualizzaItinerario extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_visualizza_itinerario);
+        setContentView(R.layout.activity_visualizzaitinerario);
     }
 }

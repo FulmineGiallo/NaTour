@@ -15,14 +15,16 @@ public class Login extends AppCompatActivity {
     Button btn_login;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         intentHomePage = new Intent(this, Homepage.class);
         btn_login = findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 startActivity(intentHomePage);
                 //TODO: inserire metodi per effettuare effettivamente il login
             }

@@ -1,11 +1,13 @@
-package com.example.natour;
+package com.example.natour.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class profile extends AppCompatActivity {
+import com.example.natour.R;
 
+public class profile extends AppCompatActivity
+{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -10,12 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NaTour">
         <activity
+            android:name=".visualizza_itinerario"
+            android:exported="false" />
+        <activity
             android:name=".view.profile"
             android:exported="false" />
         <activity
             android:name=".view.Register"
             android:exported="false" />
-        <activity android:name=".view.Homepage"/>
+        <activity android:name=".view.Homepage" />
         <activity
             android:name=".view.Login"
             android:exported="true">

@@ -35,7 +35,8 @@ public class TabActivity extends AppCompatActivity {
             switch (item.getItemId())
             {
                 case R.id.home:
-                    fragment = new Fragment();
+                    fragment = new HomePageFragment();
+                    break;
 
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();

@@ -20,7 +20,7 @@ public class TabActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tab);
 
         bottomNavigationView = findViewById(R.id.bottomNav);
-
+        bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomePageFragment()).commit();
 
@@ -37,7 +37,8 @@ public class TabActivity extends AppCompatActivity {
                 case R.id.home:
                     fragment = new HomePageFragment();
                     break;
-
+                case R.id.profile:
+                    fragment = new ProfileFragment();
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 

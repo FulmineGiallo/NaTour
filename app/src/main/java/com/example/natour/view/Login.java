@@ -19,7 +19,7 @@ public class Login extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        intentHomePage = new Intent(this, Homepage.class);
+        intentHomePage = new Intent(this, TabActivity.class);
         btn_login = findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener()
         {

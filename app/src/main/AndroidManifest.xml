@@ -15,7 +15,7 @@
         <activity
             android:name=".view.Register"
             android:exported="false" />
-        <activity android:name=".view.Homepage"/>
+        <activity android:name=".view.Homepage" />
         <activity
             android:name=".view.Login"
             android:exported="true">
@@ -27,6 +27,9 @@
         </activity>
         <activity
             android:name=".view.VisualizzaItinerario"
+            android:exported="false" />
+        <activity
+            android:name=".view.TabActivity"
             android:exported="false" />
     </application>
 

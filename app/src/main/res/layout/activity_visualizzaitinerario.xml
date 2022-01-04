@@ -51,252 +51,262 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="408dp"
-        android:layout_height="773dp"
+        android:layout_width="405dp"
+        android:layout_height="674dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="1.0"
-        android:fillViewport="true">
+        app:layout_constraintVertical_bias="1.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Itinerario"
-                android:textSize="18dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.02"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageButton
-                android:id="@+id/imageButton7"
-                android:layout_width="31dp"
-                android:layout_height="31dp"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton8"
-                app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_icon_bookmarks" />
+                <ImageButton
+                    android:id="@+id/imageButton7"
+                    android:layout_width="31dp"
+                    android:layout_height="31dp"
+                    app:layout_constraintEnd_toStartOf="@+id/imageButton8"
+                    app:layout_constraintHorizontal_bias="0.04"
+                    app:layout_constraintStart_toEndOf="@+id/textView4"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_icon_bookmarks" />
 
-            <ImageButton
-                android:id="@+id/sharepic"
-                android:layout_width="29dp"
-                android:layout_height="27dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_small"
-                android:src="@drawable/ic_icon_warning"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.193"
-                app:layout_constraintStart_toEndOf="@+id/imageButton8"
-                tools:layout_editor_absoluteY="3dp" />
+                <ImageButton
+                    android:id="@+id/sharepic"
+                    android:layout_width="29dp"
+                    android:layout_height="27dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_small"
+                    android:src="@drawable/ic_icon_warning"
+                    app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.193"
+                    app:layout_constraintStart_toEndOf="@+id/imageButton8"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/imageButton8"
-                android:layout_width="28dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="60dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_icon_envelope_close"
-                tools:layout_editor_absoluteY="3dp" />
+                <ImageButton
+                    android:id="@+id/imageButton8"
+                    android:layout_width="28dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="60dp"
+                    app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_icon_envelope_close" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="467dp"
-                android:layout_height="267dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.491"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:layout_constraintVertical_bias="0.006"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                <ImageButton
+                    android:id="@+id/sharepic3"
+                    android:layout_width="26dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_small"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.035"
+                    app:layout_constraintStart_toEndOf="@+id/textView9"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5"
+                    app:layout_constraintVertical_bias="0.027" />
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="17dp"
-                android:layout_height="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.023"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                app:layout_constraintVertical_bias="0.021"
-                app:srcCompat="@drawable/ic_ellipse_155" />
+                <ImageButton
+                    android:id="@+id/sharepic2"
+                    android:layout_width="35dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_small"
+                    android:src="@drawable/ic_chat"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.573"
+                    app:layout_constraintStart_toEndOf="@+id/textView12"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                    app:layout_constraintVertical_bias="0.437" />
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="difficoltà"
-                app:layout_constraintBottom_toTopOf="@+id/textView9"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                app:layout_constraintVertical_bias="0.434" />
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="467dp"
+                    android:layout_height="267dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.491"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:layout_constraintVertical_bias="0.006"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="44dp"
-                android:text="Durata: numero minuti"
-                app:layout_constraintBottom_toTopOf="@+id/sharepic3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                app:layout_constraintVertical_bias="0.434" />
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="17dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.023"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                    app:layout_constraintVertical_bias="0.021"
+                    app:srcCompat="@drawable/ic_ellipse_155" />
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="numero KM"
-                app:layout_constraintBottom_toTopOf="@+id/sharepic3"
-                app:layout_constraintEnd_toStartOf="@+id/textView7"
-                app:layout_constraintHorizontal_bias="0.329"
-                app:layout_constraintStart_toEndOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                app:layout_constraintVertical_bias="0.434" />
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                    app:layout_constraintEnd_toStartOf="@+id/sharepic"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/textView12"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                    app:layout_constraintVertical_bias="0.304"
+                    app:srcCompat="@android:drawable/btn_star_big_on" />
 
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Foto"
-                android:textSize="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.022"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView4"
-                app:layout_constraintVertical_bias="0.027" />
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="426dp"
+                    android:layout_height="107dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.111"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9"
+                    app:layout_constraintVertical_bias="0.006">
 
-            <ImageButton
-                android:id="@+id/sharepic3"
-                android:layout_width="26dp"
-                android:layout_height="24dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_small"
-                android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.035"
-                app:layout_constraintStart_toEndOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/textView5"
-                app:layout_constraintVertical_bias="0.027" />
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView2"
-                android:layout_width="413dp"
-                android:layout_height="87dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="0.04">
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="404dp"
+                    android:layout_height="88dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12"
+                    app:layout_constraintVertical_bias="1.0">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="TextView" />
-            </androidx.cardview.widget.CardView>
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Itinerario"
+                    android:textSize="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.02"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recensioni"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.028"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                app:layout_constraintVertical_bias="0.291" />
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="difficoltà"
+                    app:layout_constraintBottom_toTopOf="@+id/textView9"
+                    app:layout_constraintStart_toEndOf="@+id/imageView4"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                    app:layout_constraintVertical_bias="0.434" />
 
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" MEDIA TOTALE : numero"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.126"
-                app:layout_constraintStart_toEndOf="@+id/textView11"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                app:layout_constraintVertical_bias="0.036" />
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="44dp"
+                    android:text="Durata: numero minuti"
+                    app:layout_constraintBottom_toTopOf="@+id/sharepic3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/textView5"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                    app:layout_constraintVertical_bias="0.434" />
 
-            <ImageButton
-                android:id="@+id/sharepic2"
-                android:layout_width="35dp"
-                android:layout_height="32dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_small"
-                android:src="@drawable/ic_chat"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.573"
-                app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                app:layout_constraintVertical_bias="0.437" />
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="numero KM"
+                    app:layout_constraintBottom_toTopOf="@+id/sharepic3"
+                    app:layout_constraintEnd_toStartOf="@+id/textView7"
+                    app:layout_constraintHorizontal_bias="0.329"
+                    app:layout_constraintStart_toEndOf="@+id/textView5"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                    app:layout_constraintVertical_bias="0.434" />
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-                app:layout_constraintEnd_toStartOf="@+id/sharepic"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                app:layout_constraintVertical_bias="0.304"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Foto"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.022"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView4"
+                    app:layout_constraintVertical_bias="0.027" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="415dp"
-                android:layout_height="156dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12">
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recensioni"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.028"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                    app:layout_constraintVertical_bias="0.291" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" MEDIA TOTALE : numero"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.126"
+                    app:layout_constraintStart_toEndOf="@+id/textView11"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                    app:layout_constraintVertical_bias="0.036" />
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
+                    android:id="@+id/cardView2"
+                    android:layout_width="413dp"
+                    android:layout_height="87dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    app:layout_constraintVertical_bias="0.04">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="426dp"
-                android:layout_height="107dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.111"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9"
-                app:layout_constraintVertical_bias="0.006">
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="TextView" />
+                </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
 
 

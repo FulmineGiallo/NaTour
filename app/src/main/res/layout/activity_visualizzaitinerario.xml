@@ -169,8 +169,8 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
-                    android:layout_width="426dp"
-                    android:layout_height="107dp"
+                    android:layout_width="408dp"
+                    android:layout_height="112dp"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -283,15 +283,15 @@
                     android:textSize="18dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.132"
+                    app:layout_constraintHorizontal_bias="0.094"
                     app:layout_constraintStart_toEndOf="@+id/textView11"
                     app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                    app:layout_constraintVertical_bias="0.134" />
+                    app:layout_constraintVertical_bias="0.036" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
-                    android:layout_width="413dp"
-                    android:layout_height="87dp"
+                    android:layout_width="408dp"
+                    android:layout_height="153dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

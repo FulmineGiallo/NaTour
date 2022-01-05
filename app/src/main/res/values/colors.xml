@@ -8,4 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="celeste">#DFFFFF</color>
+    <color name="facile">#009900</color>
+    <color name="dilettante">#CCFF33</color>
+    <color name="esperto">#FF0000</color>
+    <color name="difficile">#FF6600</color>
+    <color name="intermedio">#FFFF00</color>
+    <color name="blue">#4759fc</color>
+    <color name="blue_inactive">#8f99ff</color>
+
+
 </resources>

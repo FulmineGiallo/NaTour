@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NaTour">
         <activity
+            android:name=".view.InserimentoItinerario"
+            android:exported="false" />
+        <activity
             android:name=".view.Profile"
             android:exported="false" />
         <activity

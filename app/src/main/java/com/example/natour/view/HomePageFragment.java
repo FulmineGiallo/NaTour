@@ -19,8 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class HomePageFragment extends Fragment
 {
     RecyclerView mRecyclerView;
-    /*FloatingActionButton fab;
-    Intent intentInserimentoItinerario;*/
+    FloatingActionButton fab;
+    Intent intentInserimentoItinerario;
 
 
     /*// TODO: Rename parameter arguments, choose names that match
@@ -62,14 +62,16 @@ public class HomePageFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
 
-        /*fab = (FloatingActionButton) getView().findViewById(R.id.btn_inserimentoItinerario);
+        fab = (FloatingActionButton) getView().findViewById(R.id.btn_inserimentoItinerario);
+        intentInserimentoItinerario = new Intent(HomePageFragment.this.getActivity(), InserimentoItinerario.class);
+
         fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                return false;
+                startActivity(intentInserimentoItinerario);
+                return true;
             }
-        });*/
+        });
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.rec_view);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);

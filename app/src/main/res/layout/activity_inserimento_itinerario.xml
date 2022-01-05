@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.InserimentoItinerario">
+
+    <ImageButton
+        android:id="@+id/btn_indietroInsItineraio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#00FFFFFF"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_icon_undo"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="30dp"
+        android:text="INSERISCI INFORMAZIONI ITINERARIO"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_indietroInsItineraio"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_indietroInsItineraio"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+                <Switch
+                    android:id="@+id/switch_disabili"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/edt_nomeItinerario"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <ImageView
+                    android:id="@+id/img_disabili"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/ic_disabili"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/edt_nomeItinerario"
+                    app:layout_constraintRight_toLeftOf="@id/switch_disabili"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edt_nomeItinerario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nome"
+                    android:layout_marginHorizontal="20dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    >
+
+                <EditText
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:ems="10"
+                    android:inputType="textPersonName"
+
+                    />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="Durata"
+                    android:id="@+id/edt_timeItinerario"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_nomeItinerario"
+                    >
+                    <EditText
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="time"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/text_difficoltà"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Difficoltà"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/edt_timeItinerario"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    />
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_difficoltà"
+                    android:layout_height="wrap_content"
+                    android:layout_width="330dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:valueFrom="1.0"
+                    android:valueTo="5.0"
+                    android:stepSize="1.0"
+                    app:layout_constraintTop_toBottomOf="@id/edt_timeItinerario"
+                    app:layout_constraintLeft_toRightOf="@id/text_difficoltà"
+                    android:value="3"
+                    app:trackColorInactive="@color/blue_inactive"
+                    app:trackColorActive="@color/blue"
+                    app:tickColorActive="@color/celeste"
+                    app:tickColorInactive="@color/blue"
+                    app:thumbColor="@color/intermedio"
+                    app:thumbStrokeColor="@color/blue"
+                    app:thumbStrokeWidth="0.5dp"
+                    app:labelBehavior="gone"
+
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

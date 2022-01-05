@@ -1,5 +1,6 @@
 package com.example.natour.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -8,14 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.natour.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomePageFragment extends Fragment
 {
     RecyclerView mRecyclerView;
+    /*FloatingActionButton fab;
+    Intent intentInserimentoItinerario;*/
+
+
     /*// TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,6 +62,14 @@ public class HomePageFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
 
+        /*fab = (FloatingActionButton) getView().findViewById(R.id.btn_inserimentoItinerario);
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                return false;
+            }
+        });*/
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.rec_view);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);

@@ -21,7 +21,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     int[] imgList = {R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6,
                      R.drawable.img7, R.drawable.img8, R.drawable.img9, R.drawable.img10, R.drawable.img11};
 
-    String[] nameList = {"One", "One", "One", "One", "One", "One", "One", "One",  "One" ,  "One",  "One"};
+    String[] nameList = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",  "Nine" ,  "Ten",  "Eleven"};
 
     public MasonryAdapter(Context context) {
         this.context = context;

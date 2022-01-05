@@ -63,7 +63,7 @@
         app:srcCompat="@drawable/ic_icon_bell_on" />
 
     <ImageButton
-        android:id="@+id/profile"
+        android:id="@+id/imageButton5"
         android:layout_width="43dp"
         android:layout_height="33dp"
         android:layout_marginStart="20dp"
@@ -80,14 +80,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="165dp"
-        android:layout_marginTop="158dp"
         android:layout_marginEnd="165dp"
         android:text="Nome Utente"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="158dp" />
 
     <TextView
         android:id="@+id/mieiItinerari"
@@ -154,17 +153,16 @@
         app:srcCompat="@drawable/ic_icon_bars" />
 
     <ImageView
-        android:id="@+id/imgProfile"
+        android:id="@+id/immagineProfilo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="142dp"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/utente"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/menu"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_profile__1_"
-        tools:srcCompat="@drawable/ic_profile__1_" />
+        tools:srcCompat="@tools:sample/avatars" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

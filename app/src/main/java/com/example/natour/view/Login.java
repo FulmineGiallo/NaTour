@@ -21,8 +21,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         intentHomePage = new Intent(this, TabActivity.class);
         btn_login = findViewById(R.id.btn_login);
-        btn_login.setOnClickListener(new View.OnClickListener()
-        {
+        btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {

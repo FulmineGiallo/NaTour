@@ -42,9 +42,11 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation files('libs\\osmdroid-android-4.2.jar')
+    implementation files('libs\\atlas-checks-6.1.6.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.osmdroid:osmdroid-android:6.1.6'
 
 }

@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
 
 import com.example.natour.R;
+import com.google.android.material.tabs.TabLayout;
 
 public class Login extends AppCompatActivity {
 

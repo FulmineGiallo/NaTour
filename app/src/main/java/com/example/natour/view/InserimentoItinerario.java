@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view;//package com.example.natour.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,18 +11,27 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MotionEvent;
 
 import com.example.natour.R;
 import com.google.android.material.slider.Slider;
 
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 
 import java.util.ArrayList;
@@ -73,6 +82,7 @@ public class InserimentoItinerario extends AppCompatActivity {
 
         /* SEZIONE MAPPA */
 
+
         map = findViewById(R.id.mapview);
         Context ctx = this.getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
@@ -100,6 +110,41 @@ public class InserimentoItinerario extends AppCompatActivity {
         map.getOverlays().add(startMarker);
 
         map.getController().setCenter(point);
+
+        Overlay overlay = new Overlay(this)
+        {
+            ItemizedIconOverlay<OverlayItem> items = null;
+            ArrayList<OverlayItem> markers;
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
+                Projection proj = mapView.getProjection();
+                GeoPoint loc = (GeoPoint) proj.fromPixels((int)e.getX(), (int)e.getY());
+                double longitude = loc.getLongitude();
+                double latitude = loc.getLatitude();
+                point.setLatitude(latitude);
+                point.setLongitude(longitude);
+
+                ArrayList<OverlayItem> markers = new ArrayList<>();
+                OverlayItem item = new OverlayItem("", "", new GeoPoint(latitude, longitude));
+                item.setMarker(ContextCompat.getDrawable(InserimentoItinerario.this, R.drawable.marker_default));
+                markers.add(item);
+
+
+                items = new ItemizedIconOverlay<>(InserimentoItinerario.this, markers, null);
+                map.getOverlays().add(items);
+                map.invalidate();
+
+
+                return true;
+            }
+
+            public ArrayList<OverlayItem> getMarker()
+            {
+                return markers;
+            }
+        };
+
+        map.getOverlays().add(overlay);
 
         /* --------------------------------------------------------------------------------------------*/
     }

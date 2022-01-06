@@ -8,6 +8,7 @@ public class Itinerario {
     private String descrizione;
     private String percorsoInizio;
     private String percorsoFine;
+    Mappa mappa;
 
     public String getNome() {
         return nome;

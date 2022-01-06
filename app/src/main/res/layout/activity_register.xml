@@ -7,32 +7,60 @@
     android:layout_height="match_parent"
     tools:context=".view.Register">
 
-    <EditText
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_passwordRec"
         android:layout_width="145dp"
         android:layout_height="48dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="@string/edt_password"
+        android:hint="Password"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.532"
-        app:layout_constraintStart_toEndOf="@+id/edt_email2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintLeft_toRightOf="@id/edt_email2"
+        app:layout_constraintTop_toBottomOf="@id/editTextDate"
+        app:layout_constraintRight_toRightOf="parent"
 
-    <EditText
+        >
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_email2"
         android:layout_width="145dp"
         android:layout_height="48dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="@string/edt_email"
+        android:hint="Email"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate"
+        >
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <ImageView
         android:id="@+id/img_logoReg"
@@ -45,43 +73,76 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logo_natour_v2" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextTextPersonName"
         android:layout_width="145dp"
         android:layout_height="48dp"
+        android:hint="Nome"
         android:layout_marginTop="76dp"
-        android:ems="10"
-        android:hint="@string/edt_nome"
-        android:inputType="textPersonName"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName3"
         app:layout_constraintHorizontal_bias="0.423"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_logoReg" />
+        app:layout_constraintTop_toBottomOf="@+id/img_logoReg"
+        >
 
-    <EditText
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextTextPersonName3"
         android:layout_width="145dp"
         android:layout_height="48dp"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="36dp"
-        android:ems="10"
-        android:hint="@string/edt_cognome"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_logoReg" />
+        android:hint="Cognome"
 
-    <EditText
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_logoReg"
+        >
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextDate"
         android:layout_width="338dp"
         android:layout_height="51dp"
         android:layout_marginTop="28dp"
-        android:ems="10"
         android:hint="@string/edt_dataDiNascita"
-        android:inputType="date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        >
+
+    <EditText
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+
+        />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/button"

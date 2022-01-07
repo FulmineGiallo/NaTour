@@ -15,6 +15,7 @@
     <color name="intermedio">#FFFF00</color>
     <color name="blue">#4759fc</color>
     <color name="blue_inactive">#8f99ff</color>
+    <color name="colorebottone">#1D2647</color>
 
-
+    <color name="aggiungiimmaginebtn">#3C6ED0</color>
 </resources>

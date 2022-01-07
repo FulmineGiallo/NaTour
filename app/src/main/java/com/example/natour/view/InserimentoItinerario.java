@@ -39,7 +39,6 @@ import java.util.ArrayList;
 public class InserimentoItinerario extends AppCompatActivity {
 
     Slider difficolta;
-    MapView map = null;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     @Override
@@ -80,7 +79,7 @@ public class InserimentoItinerario extends AppCompatActivity {
         });
 
 
-        /* SEZIONE MAPPA */
+        /* SEZIONE MAPPA
 
 
         map = findViewById(R.id.mapview);
@@ -146,7 +145,7 @@ public class InserimentoItinerario extends AppCompatActivity {
 
         map.getOverlays().add(overlay);
 
-        /* --------------------------------------------------------------------------------------------*/
+        --------------------------------------------------------------------------------------------*/
     }
     private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();

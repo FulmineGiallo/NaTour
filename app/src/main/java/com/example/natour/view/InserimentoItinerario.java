@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.Context;
@@ -15,6 +18,7 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
+import android.widget.FrameLayout;
 
 import com.example.natour.R;
 import com.google.android.material.slider.Slider;
@@ -40,6 +44,9 @@ public class InserimentoItinerario extends AppCompatActivity {
 
     Slider difficolta;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    FrameLayout containerMappa;
+    Fragment mappa;
+    MappaFragment mappaFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -78,88 +85,16 @@ public class InserimentoItinerario extends AppCompatActivity {
             }
         });
 
+        containerMappa = findViewById(R.id.containerMappa);
 
-        /* SEZIONE MAPPA
-
-
-        map = findViewById(R.id.mapview);
-        Context ctx = this.getApplicationContext();
-        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-
-        map = findViewById(R.id.mapview);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.getController().setZoom(18);
-        requestPermissionsIfNecessary(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
-        });
-
-        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
-        map.setMultiTouchControls(true);
-
-        CompassOverlay compassOverlay = new CompassOverlay(this, map);
-        compassOverlay.enableCompass();
-        map.getOverlays().add(compassOverlay);
-
-        GeoPoint point = new GeoPoint(40.8889946, 14.2455589);
-
-        Marker startMarker = new Marker(map);
-        startMarker.setPosition(point);
-
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        map.getOverlays().add(startMarker);
-
-        map.getController().setCenter(point);
-
-        Overlay overlay = new Overlay(this)
+        if(findViewById(R.id.containerMappa) != null)
         {
-            ItemizedIconOverlay<OverlayItem> items = null;
-            ArrayList<OverlayItem> markers;
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
-                Projection proj = mapView.getProjection();
-                GeoPoint loc = (GeoPoint) proj.fromPixels((int)e.getX(), (int)e.getY());
-                double longitude = loc.getLongitude();
-                double latitude = loc.getLatitude();
-                point.setLatitude(latitude);
-                point.setLongitude(longitude);
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-                ArrayList<OverlayItem> markers = new ArrayList<>();
-                OverlayItem item = new OverlayItem("", "", new GeoPoint(latitude, longitude));
-                item.setMarker(ContextCompat.getDrawable(InserimentoItinerario.this, R.drawable.marker_default));
-                markers.add(item);
-
-
-                items = new ItemizedIconOverlay<>(InserimentoItinerario.this, markers, null);
-                map.getOverlays().add(items);
-                map.invalidate();
-
-
-                return true;
-            }
-
-            public ArrayList<OverlayItem> getMarker()
-            {
-                return markers;
-            }
-        };
-
-        map.getOverlays().add(overlay);
-
-        --------------------------------------------------------------------------------------------*/
-    }
-    private void requestPermissionsIfNecessary(String[] permissions) {
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                permissionsToRequest.add(permission);
-            }
+            ft.add(R.id.containerMappa, new MappaFragment());
+            ft.commit();
         }
-        if (permissionsToRequest.size() > 0) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
+
     }
 }

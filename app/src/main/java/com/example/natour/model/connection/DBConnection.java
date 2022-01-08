@@ -12,17 +12,20 @@ public class DBConnection
     private static DBConnection instance;
     private Connection connection = null;
     private final String USERNAME = "postgres";
-    private final String PASSWORD = "Postgresebello1";
-    private final String IP = "database-oobd.c9kspmggklai.eu-west-2.rds.amazonaws.com";
+    private final String PASSWORD = "Carmine123";
+    private final String IP = "natour.ch9owjm5jwk4.eu-west-1.rds.amazonaws.com\n";
     private final String PORT = "5432";
-    private final String database ="Azienda";
+    private final String database ="natourapp";
     private String url = "jdbc:postgresql://"+IP+":"+PORT+"/"+database;
 
-    public DBConnection() throws SQLException {
+
+    public DBConnection() throws SQLException
+    {
         try
         {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, USERNAME, PASSWORD);
+            System.out.println("Database Connection Creation");
 
         }
         catch (ClassNotFoundException ex)

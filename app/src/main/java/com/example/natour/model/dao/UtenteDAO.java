@@ -1,6 +1,6 @@
 package com.example.natour.model.dao;
 
-import com.example.natour.daointerface.UtenteDaoInterface;
+import com.example.natour.model.daointerface.UtenteDaoInterface;
 import com.example.natour.model.Utente;
 
 import java.sql.Connection;
@@ -12,7 +12,8 @@ import java.util.Date;
 public class UtenteDAO implements UtenteDaoInterface
 {
     private final PreparedStatement login;
-    public UtenteDAO(Connection connection) throws SQLException{
+    public UtenteDAO(Connection connection) throws SQLException
+    {
 
         login = connection.prepareStatement("SELECT Count(*) FROM Utente WHERE email = ? AND password = ?");
     }

@@ -1,4 +1,4 @@
-package com.example.natour.daointerface;
+package com.example.natour.model.daointerface;
 
 import com.example.natour.model.Utente;
 

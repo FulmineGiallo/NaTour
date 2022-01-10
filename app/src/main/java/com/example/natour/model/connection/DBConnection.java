@@ -1,5 +1,7 @@
 package com.example.natour.model.connection;
 
+import android.os.StrictMode;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,9 +15,9 @@ public class DBConnection
     private Connection connection = null;
     private final String USERNAME = "postgres";
     private final String PASSWORD = "Carmine123";
-    private final String IP = "natour.ch9owjm5jwk4.eu-west-1.rds.amazonaws.com\n";
+    private final String IP = "natour.ch9owjm5jwk4.eu-west-1.rds.amazonaws.com";
     private final String PORT = "5432";
-    private final String database ="natourapp";
+    private final String database ="natour";
     private String url = "jdbc:postgresql://"+IP+":"+PORT+"/"+database;
 
 

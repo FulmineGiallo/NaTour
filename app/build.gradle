@@ -43,7 +43,9 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs\\atlas-checks-6.1.6.jar')
-    implementation files('libs\\postgresql-42.2.18.jar')
+    implementation files('libs\\postgresql-42.2.23.jar')
+    implementation 'com.android.volley:volley:1.2.1'
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -55,4 +57,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.8.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.29'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.6.29'
 }

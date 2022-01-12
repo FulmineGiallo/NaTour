@@ -16,6 +16,7 @@ import com.example.natour.model.connection.DBConnection;
 import com.google.android.material.tabs.TabLayout;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Login extends AppCompatActivity {
 
@@ -28,6 +29,7 @@ public class Login extends AppCompatActivity {
     private String password;
     EditText edtEmail;
     EditText edtPassword;
+    Connection connection = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,14 +39,6 @@ public class Login extends AppCompatActivity {
         controllerLogin = new ControllerLogin();
 
         btn_login = findViewById(R.id.btn_login);
-      /*  btn_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                startActivity(intentHomePage);
-                //TODO: inserire metodi per effettuare effettivamente il login
-            }
-        });*/
 
 
         intentRegister = new Intent(this, Register.class);
@@ -71,14 +65,18 @@ public class Login extends AppCompatActivity {
                     email = edtEmail.getText().toString();
                     password = edtPassword.getText().toString();
 
-                    controllerLogin.checkLogin(email, password);
+                    controllerLogin.checkLogin(email, password, Login.this);
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace();
                 }
             }
+
+
         });
         /* ----------------------------------------------------------------*/
     }
+
+
 }

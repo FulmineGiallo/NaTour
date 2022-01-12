@@ -13,6 +13,7 @@
         android:layout_width="145dp"
         android:layout_height="48dp"
         android:layout_marginStart="36dp"
+        android:layout_marginRight="27dp"
         android:layout_marginTop="40dp"
         android:hint="Password"
 
@@ -26,11 +27,11 @@
         >
 
         <EditText
-
+            android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
 
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -40,7 +41,7 @@
         android:id="@+id/edt_email2"
         android:layout_width="145dp"
         android:layout_height="48dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
         android:hint="Email"
 
@@ -49,14 +50,15 @@
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDate"
+        app:layout_constraintLeft_toLeftOf="parent"
         >
 
         <EditText
-
+            android:id="@id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
 
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +90,7 @@
         >
 
         <EditText
-
+            android:id="@+id/edt_nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -111,7 +113,7 @@
         >
 
         <EditText
-
+            android:id="@+id/edt_cognome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -134,18 +136,18 @@
         >
 
     <EditText
-
+        android:id="@+id/edt_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="date"
 
         />
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_signin"

@@ -17,7 +17,7 @@ public class DBConnection
     private final String PASSWORD = "Carmine123";
     private final String IP = "natour.ch9owjm5jwk4.eu-west-1.rds.amazonaws.com";
     private final String PORT = "5432";
-    private final String database ="natour";
+    private final String database ="natourapp";
     private String url = "jdbc:postgresql://"+IP+":"+PORT+"/"+database;
 
 

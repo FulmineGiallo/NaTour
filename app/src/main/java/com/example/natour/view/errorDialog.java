@@ -21,7 +21,7 @@ public class errorDialog extends DialogFragment
     Button confermaErrore;
     String errorMSG;
     TextView msg_errore;
-    Context context;
+
 
     public errorDialog(String errorMSG)
     {

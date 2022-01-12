@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminPanel">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="293dp"
+        android:layout_height="34dp"
+        android:text="Pannello Amministratore"
+        android:textSize="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_utenti_registrati"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toEndOf="@+id/cardView3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.285"
+        android:textColor="@color/black"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_utenti_registrati"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26">
+
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:srcCompat="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_logout"
+        android:layout_width="163dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="24dp"
+        android:text="log out"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottonelogout"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_numero_foto"
+        app:layout_constraintVertical_bias="0.526"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_area_utente"
+        android:layout_width="208dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginBottom="8dp"
+        android:text="Area utente"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottone"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_numero_foto"
+        app:layout_constraintVertical_bias="1.0"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_numero_foto"
+        android:layout_width="400dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:text="Visualizza numero foto"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottone"
+        app:cornerRadius="25dp"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        tools:layout_editor_absoluteX="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="btn_area_utente"
+        tools:layout_editor_absoluteY="520dp"></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_numero_segnalazioni"
+        android:layout_width="400dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:text="Visualizza numero segnalazioni"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottone"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_numero_foto"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="5dp"></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_numero_itinerari"
+        android:layout_width="400dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:text="Visualizza numero itinerari"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottone"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_numero_segnalazioni"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="5dp"></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_numero_recensioni"
+        android:layout_width="400dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:text="Visualizza numero recensioni"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottone"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_numero_itinerari"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="5dp"></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_numero_richerche"
+        android:layout_width="400dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:layout_marginBottom="2dp"
+        android:text="Visualizza numero di richerche"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottone"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_numero_recensioni"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="5dp"></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_utenti_registrati"
+        android:layout_width="400dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:text="Visualizza Utenti registrati"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottone"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_numero_accessi"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        android:elevation="10dp"
+        tools:layout_editor_absoluteX="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        ></com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_numero_accessi"
+        android:layout_width="400dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="90dp"
+        android:text="Visualizza numero di accessi"
+        android:textSize="18dp"
+        app:backgroundTint="@color/colorebottone"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_numero_richerche"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        tools:layout_editor_absoluteX="5dp"></com.google.android.material.button.MaterialButton>
+</androidx.constraintlayout.widget.ConstraintLayout>

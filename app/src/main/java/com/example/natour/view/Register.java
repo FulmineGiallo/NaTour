@@ -49,15 +49,14 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     {
         nome = findViewById(R.id.edt_nome);
         cognome = findViewById(R.id.edt_cognome);
-
         email = findViewById(R.id.edt_email);
         password = findViewById(R.id.edt_password);
-
         dataDiNascita = findViewById(R.id.edt_date);
 
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
 
-        SignUpHandler signupCallBack = new SignUpHandler() {
+        SignUpHandler signupCallBack = new SignUpHandler()
+        {
             @Override
             public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails)
             {
@@ -72,7 +71,6 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
                     Log.i("NATOUR", "Registrazione avvenuta, confermata");
                 }
             }
-
             @Override
             public void onFailure(Exception exception)
             {

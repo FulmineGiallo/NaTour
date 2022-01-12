@@ -16,14 +16,14 @@ import android.widget.TextView;
 
 import com.example.natour.R;
 
-public class errorDialog extends DialogFragment
+public class ErrorDialog extends DialogFragment
 {
     Button confermaErrore;
     String errorMSG;
     TextView msg_errore;
 
 
-    public errorDialog(String errorMSG)
+    public ErrorDialog(String errorMSG)
     {
         this.errorMSG = errorMSG;
 

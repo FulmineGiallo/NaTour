@@ -1,22 +1,20 @@
 package com.example.natour.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.content.Loader;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TableLayout;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerLogin;
-import com.example.natour.model.connection.DBConnection;
-import com.google.android.material.tabs.TabLayout;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class Login extends AppCompatActivity {
 
@@ -29,7 +27,8 @@ public class Login extends AppCompatActivity {
     private String password;
     EditText edtEmail;
     EditText edtPassword;
-    Connection connection = null;
+    boolean login = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,9 +36,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         controllerLogin = new ControllerLogin();
-
         btn_login = findViewById(R.id.btn_login);
-
 
         intentRegister = new Intent(this, Register.class);
         btn_register = findViewById(R.id.btn_signin);
@@ -57,26 +54,34 @@ public class Login extends AppCompatActivity {
 
         btn_login.setOnClickListener(new View.OnClickListener()
         {
-
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 try
                 {
                     email = edtEmail.getText().toString();
                     password = edtPassword.getText().toString();
+                    login = controllerLogin.checkLogin(email, password, Login.this);
 
-                    controllerLogin.checkLogin(email, password, Login.this);
+                    if(!login)
+                    {
+                        errorDialog errorLogin = new errorDialog("Login errato");
+                        errorLogin.show(getSupportFragmentManager(), "Errore Login");
+                    }
+
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace();
                 }
             }
-
-
         });
+
+
         /* ----------------------------------------------------------------*/
     }
+
+
 
 
 }

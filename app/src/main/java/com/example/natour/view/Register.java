@@ -32,6 +32,8 @@ public class Register extends AppCompatActivity
         setContentView(R.layout.activity_register);
     }
 
+
+    /* Spostare nel controller del Register */
     private void registerUser()
     {
         nome = findViewById(R.id.edt_nome);

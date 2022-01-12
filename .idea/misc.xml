@@ -16,8 +16,6 @@
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_home.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_search.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_undo.xml" value="0.37864583333333335" />
-        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icons8_golang.xml" value="0.37864583333333335" />
-        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_image_16.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/profile.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/rounded_corner.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.264" />
@@ -38,6 +36,8 @@
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.19479166666666667" />
         <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.33" />
         <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/Users/Lorenzo/StudioProjects/NaTour/app/src/main/res/layout/conferma_registrazione_bottom_sheet.xml" value="0.33" />
       </map>
     </option>
   </component>

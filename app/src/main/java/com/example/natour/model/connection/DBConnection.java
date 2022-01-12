@@ -3,11 +3,14 @@ package com.example.natour.model.connection;
 import android.os.StrictMode;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.util.Properties;
 
 public class DBConnection
 {
@@ -26,8 +29,25 @@ public class DBConnection
         try
         {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(url, USERNAME, PASSWORD);
-            System.out.println("Database Connection Creation");
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Class.forName("org.postgresql.Driver");
+                        connection = DriverManager.getConnection(url, USERNAME, PASSWORD);
+                    } catch (Exception e) {
+                        System.out.print(e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            try {
+                thread.join();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
         catch (ClassNotFoundException ex)

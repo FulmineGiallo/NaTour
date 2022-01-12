@@ -40,9 +40,9 @@
         android:id="@+id/edt_email2"
         android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
-        android:hint="Email"
+        android:hint="@string/email"
 
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:inputType="textEmailAddress"
@@ -59,7 +59,7 @@
             android:ems="10"
             android:inputType="textEmailAddress"
 
-            />
+            android:importantForAutofill="no" />
     </com.google.android.material.textfield.TextInputLayout>
 
 

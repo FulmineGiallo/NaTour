@@ -62,7 +62,7 @@ public class HomePageFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
 
-        fab = (FloatingActionButton) getView().findViewById(R.id.btn_inserimentoItinerario);
+        fab = getView().findViewById(R.id.btn_inserimentoItinerario);
         intentInserimentoItinerario = new Intent(HomePageFragment.this.getActivity(), InserimentoItinerario.class);
 
         fab.setOnTouchListener(new View.OnTouchListener() {

@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class Register extends AppCompatActivity
+public class Register extends AppCompatActivity implements ConfermaRegistrazioneDialog.BottomSheetListener
 {
     private EditText nome;
     private EditText cognome;
@@ -30,6 +30,17 @@ public class Register extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        btn_register = findViewById(R.id.btn_register);
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+
+                ConfermaRegistrazioneDialog bottomSheet = new ConfermaRegistrazioneDialog();
+                bottomSheet.show(getSupportFragmentManager(), "confermaRegistrazione");
+
+            }
+        });
     }
 
 
@@ -82,8 +93,18 @@ public class Register extends AppCompatActivity
 
                 cognitoSettings.getUserPool().signUpInBackground(String.valueOf(email.getText()), String.valueOf(password.getText()),
                         userAttributes, null, signupCallBack);
+
+                ConfermaRegistrazioneDialog bottomSheet = new ConfermaRegistrazioneDialog();
+                bottomSheet.show(getSupportFragmentManager(), "confermaRegistrazione");
+
             }
         });
 
+    }
+
+    @Override
+    public void onButtonClicked(String codice) {
+        //TODO: metodi per confermare il codice di conferma
+        Log.i("NATOUR","codice = "+ codice);
     }
 }

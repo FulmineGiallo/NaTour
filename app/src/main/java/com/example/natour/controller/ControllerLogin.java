@@ -3,6 +3,9 @@ package com.example.natour.controller;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.TabActivity;
 import com.example.natour.view.errorDialog;
@@ -14,7 +17,7 @@ public class ControllerLogin
     Intent intentHomePage;
 
 
-    public boolean checkLogin(String email, String password, Context activityPrec) throws SQLException, Exception
+    public boolean checkLogin(String email, String password, Context activityPrec, FragmentManager fm) throws SQLException, Exception
     {
         int accesso = 1; //1 presente , 0 assente
         boolean check = false;
@@ -32,7 +35,13 @@ public class ControllerLogin
             return check;
         }
         /* Se il login non va a buon fine, bisogna caricare la pagina di errore */
+        if(accesso == 1)
+        {
+            errorDialog errorLogin = new errorDialog("Login errato");
+            errorLogin.show(fm, "ERROR");
 
+
+        }
         return check;
 
     }

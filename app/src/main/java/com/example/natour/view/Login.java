@@ -1,6 +1,7 @@
 package com.example.natour.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -28,6 +29,7 @@ public class Login extends AppCompatActivity {
     EditText edtEmail;
     EditText edtPassword;
     boolean login = false;
+    FragmentManager fm = getSupportFragmentManager();
 
 
     @Override
@@ -61,13 +63,7 @@ public class Login extends AppCompatActivity {
                 {
                     email = edtEmail.getText().toString();
                     password = edtPassword.getText().toString();
-                    login = controllerLogin.checkLogin(email, password, Login.this);
-
-                    if(!login)
-                    {
-                        errorDialog errorLogin = new errorDialog("Login errato");
-                        errorLogin.show(getSupportFragmentManager(), "Errore Login");
-                    }
+                    login = controllerLogin.checkLogin(email, password, Login.this, fm);
 
                 }
                 catch (Exception e)

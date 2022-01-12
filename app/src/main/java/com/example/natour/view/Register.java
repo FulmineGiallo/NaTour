@@ -75,7 +75,7 @@ public class Register extends AppCompatActivity
                 userAttributes.addAttribute("name", String.valueOf(nome.getText()));
                 userAttributes.addAttribute("family_name", String.valueOf(cognome.getText()));
                 userAttributes.addAttribute("email", String.valueOf(email.getText()));
-
+                userAttributes.addAttribute("birthdate",String.valueOf(dataDiNascita.getText()));
                 CognitoSettings cognitoSettings = new CognitoSettings(Register.this);
 
                 cognitoSettings.getUserPool().signUpInBackground(String.valueOf(email.getText()), String.valueOf(password.getText()),

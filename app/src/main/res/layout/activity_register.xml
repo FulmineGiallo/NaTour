@@ -79,7 +79,7 @@
         android:id="@+id/editTextTextPersonName"
         android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:hint="Nome"
+        android:hint="Nomone"
         android:layout_marginTop="76dp"
 
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

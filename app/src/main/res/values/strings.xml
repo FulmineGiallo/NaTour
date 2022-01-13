@@ -15,4 +15,5 @@
     <string name="codice_di_conferma">Codice di conferma</string>
     <string name="email">Email</string>
     <string name="conferma">conferma</string>
+    <string name="il_codice_inserito_non_corretto">il codice inserito non è corretto</string>
 </resources>

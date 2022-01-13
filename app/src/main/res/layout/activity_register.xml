@@ -128,21 +128,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:hint="@string/edt_dataDiNascita"
+        android:clickable="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
-        >
+        android:focusable="true">
 
     <EditText
         android:id="@+id/edt_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="date"
-
-        />
+        android:clickable="true"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <FrameLayout

@@ -11,10 +11,12 @@ import com.example.natour.R;
 import com.example.natour.controller.ControllerRegister;
 import com.example.natour.databinding.ActivityRegisterBinding;
 import com.example.natour.model.connection.CognitoSettings;
+import com.google.android.material.textfield.TextInputLayout;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -24,8 +26,12 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 public class Register extends AppCompatActivity implements ConfermaRegistrazioneDialog.BottomSheetListener
 {
@@ -37,6 +43,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     private FrameLayout btn_register;
     private ActivityRegisterBinding mBinding;
     ControllerRegister controllerRegister;
+    private TextInputLayout textInputLayout;
 
 
     @Override
@@ -52,6 +59,27 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
         email = findViewById(R.id.edt_email);
         password = findViewById(R.id.edt_password);
         dataDiNascita = findViewById(R.id.edt_date);
+        dataDiNascita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Register.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                        if(dayOfMonth < 10){
+                            dataDiNascita.setText("0" + dayOfMonth+"/"+(month +1)+"/"+year);
+                            Log.i("NATOUR","0" + dayOfMonth+"<---- GIORNO DEL MESE CHE DOVREBBE MOSTRARE");
+                        }
+                        if(month < 10){
+                            dataDiNascita.setText(dayOfMonth+"/0"+(month +1)+"/"+year);
+                        }
+
+
+
+                    }
+                }, Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
         btn_register = findViewById(R.id.btn_register);
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +90,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
             }
         });
     }
-    public void load(View view){
+    public void load(){
         animateButtonWidth();
         fadeOutTextAndSetProgressDialog();
         nextAction();
@@ -144,7 +172,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
             public void run() {
                 controllerRegister.passaAlLogin();
             }
-        },100);
+        },2000);
     }
 
     private int getFinalWidth(){
@@ -154,9 +182,13 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     @Override
     public void onButtonClicked(String codice) {
         //TODO: metodi per confermare il codice di conferma da inserire nel controller
-        animateButtonWidth();
-        fadeOutTextAndSetProgressDialog();
-        nextAction();
+        String result = controllerRegister.verficaCodiceCognito(codice, String.valueOf(email.getText()));
+        if(result.equals("confermato")){
+            load();
+        }else{
+            TextView textView = findViewById(R.id.txt_codice_errore);
+            textView.setVisibility(View.VISIBLE);
+        }
         Log.i("NATOUR","codice = "+ codice);
     }
 }

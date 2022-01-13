@@ -1,9 +1,12 @@
 package com.example.natour.controller;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -79,7 +82,7 @@ public class ControllerRegister
         /*Logica conferma codice di Cognito */
     }
 
-    public void verficaCodiceCognito(String codice, String email)
+    public String verficaCodiceCognito(String codice, String email)
     {
         String[] result = new String[1];
 
@@ -112,8 +115,22 @@ public class ControllerRegister
 
         confermaCodice.start();
 
+        return result[0];
     }
 
     public void passaAlLogin() {
+    }
+
+    public void mostraErrore(String s) {
+
+    }
+
+    public void cambiaDataDiNascita(String data) {
+        StringBuffer dataDaInviare = new StringBuffer();
+        if(data.charAt(1) == '/') {
+            dataDaInviare.append("0");
+            dataDaInviare.append(data);
+        }
+
     }
 }

@@ -27,6 +27,15 @@
         app:layout_constraintTop_toTopOf="@id/txt_conferma_codice"
         app:srcCompat="@drawable/ic_icons8_golang"
         tools:ignore="ImageContrastCheck" />
+    <TextView
+        android:id="@+id/txt_codice_errore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/design_default_color_error"
+        app:layout_constraintTop_toBottomOf="@id/txt_conferma_codice"
+        app:layout_constraintStart_toStartOf="@id/txt_conferma_codice"
+        android:visibility="invisible"
+        android:text="@string/il_codice_inserito_non_corretto"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_codice_conferma"

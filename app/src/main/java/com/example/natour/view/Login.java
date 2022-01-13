@@ -37,7 +37,7 @@ public class Login extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        controllerLogin = new ControllerLogin();
+        controllerLogin = new ControllerLogin(fm, this);
         btn_login = findViewById(R.id.btn_login);
 
         intentRegister = new Intent(this, Register.class);
@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity {
                 {
                     email = edtEmail.getText().toString();
                     password = edtPassword.getText().toString();
-                    login = controllerLogin.checkLogin(email, password, Login.this, fm);
+                    login = controllerLogin.checkLogin(email, password);
 
                 }
                 catch (Exception e)

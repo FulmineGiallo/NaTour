@@ -26,7 +26,6 @@ public class ErrorDialog extends DialogFragment
     public ErrorDialog(String errorMSG)
     {
         this.errorMSG = errorMSG;
-
     }
 
     @Nullable
@@ -34,7 +33,6 @@ public class ErrorDialog extends DialogFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.activity_error_dialog, container, false);
-
         msg_errore = v.findViewById(R.id.txt_errore);
         msg_errore.setText(errorMSG);
 
@@ -48,27 +46,7 @@ public class ErrorDialog extends DialogFragment
             }
         });
 
-
         return v;
     }
 
-    /*public void showDialogError(Context context, String errorMSG)
-    {
-        setContentView(R.layout.activity_error_dialog);
-        msg_errore = findViewById(R.id.txt_errore);
-        msg_errore.setText(errorMSG);
-
-        confermaErrore = findViewById(R.id.btn_errore);
-
-        final Dialog dialogError = new Dialog(context);
-        dialogError.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogError.setCancelable(true);
-        dialogError.setContentView(R.layout.activity_error_dialog);
-
-
-
-        dialogError.show();
-
-
-    }*/
 }

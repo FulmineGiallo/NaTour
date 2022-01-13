@@ -51,7 +51,7 @@ public class UtenteDAO
         parmasAPI.put("email", email);
         parmasAPI.put("password", password);
 
-        RequestAPI request = new RequestAPI(URL, activityPrec, parmasAPI);
+        /*RequestAPI request = new RequestAPI(URL, activityPrec, parmasAPI);*/
 
 
 

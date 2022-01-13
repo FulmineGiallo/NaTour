@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class RequestAPI
 {
-    private String URL;
+   /* private String URL;
     private Context context;
     private JSONObject response;
     private Map<String, String> paramsBody = new HashMap<String, String>();
@@ -34,7 +34,7 @@ public class RequestAPI
         this.paramsBody = paramsBody;
     }
 
-    /* OTTENERE IL JSONOBJECT indietro */
+    *//* OTTENERE IL JSONOBJECT indietro *//*
     RequestQueue queue = Volley.newRequestQueue(context);
     StringRequest request = new StringRequest(Request.Method.POST, URL, new com.android.volley.Response.Listener<String>()
     {
@@ -69,5 +69,5 @@ public class RequestAPI
             return params;
         }
     };
-       /* queue.add(request);*/
+       *//* queue.add(request);*/
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.example.natour.model.connection.CognitoSettings;
 import com.example.natour.view.ConfermaRegistrazioneDialog;
@@ -44,7 +45,7 @@ public class ControllerRegister
                 if(!signUpConfirmationState)
                 {
                     Log.i("NATOUR", "Registrazione non confermata, codice di verifica inviato a " + cognitoUserCodeDeliveryDetails.getDestination());
-                    inserimentoCodice();
+                    showCodiceConfermato();
                 }
                 else
                 {
@@ -70,8 +71,46 @@ public class ControllerRegister
                 userAttributes, null, signupCallBack);
     }
 
-    public void inserimentoCodice() {
+    public void showCodiceConfermato()
+    {
         ConfermaRegistrazioneDialog bottomSheet = new ConfermaRegistrazioneDialog();
         bottomSheet.show(fragmentManager, "confermaRegistrazione");
+
+        /*Logica conferma codice di Cognito */
+    }
+
+    public void verficaCodiceCognito(String codice, String email)
+    {
+        String[] result = new String[1];
+
+        Thread confermaCodice = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                GenericHandler confirmationCallBack = new GenericHandler()
+                {
+                    @Override
+                    public void onSuccess()
+                    {
+                        result[0] = "Confermato";
+                    }
+
+                    @Override
+                    public void onFailure(Exception exception)
+                    {
+                        result[0] = "Faild" + exception.getMessage();
+                    }
+                };
+
+                CognitoSettings cognitoSettings = new CognitoSettings(activity);
+                CognitoUser thisUser = cognitoSettings.getUserPool().getUser(email);
+                thisUser.confirmSignUp(codice, false, confirmationCallBack);
+
+            }
+        });
+
+        confermaCodice.start();
+
     }
 }

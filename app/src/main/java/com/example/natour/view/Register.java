@@ -2,14 +2,10 @@ package com.example.natour.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerRegister;
-import com.example.natour.model.connection.CognitoSettings;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,14 +20,14 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     private EditText password;
     private EditText dataDiNascita;
     private Button btn_register;
-
+    ControllerRegister controllerRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        ControllerRegister controllerRegister = new ControllerRegister(getSupportFragmentManager(), this);
+        controllerRegister = new ControllerRegister(getSupportFragmentManager(), this);
         nome = findViewById(R.id.edt_nome);
         cognome = findViewById(R.id.edt_cognome);
         email = findViewById(R.id.edt_email);
@@ -48,13 +44,10 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
         });
     }
 
-
-    /* Spostare nel controller del Register */
-
-
     @Override
-    public void onButtonClicked(String codice) {
-        //TODO: metodi per confermare il codice di conferma da inserire nel controller
-        Log.i("NATOUR","codice = "+ codice);
+    public void onButtonClicked(String codice)
+    {
+        controllerRegister.verficaCodiceCognito(codice, String.valueOf(email.getText()));
+
     }
 }

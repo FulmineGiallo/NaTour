@@ -14,7 +14,8 @@ import androidx.annotation.Nullable;
 import com.example.natour.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class ConfermaRegistrazioneDialog extends BottomSheetDialogFragment {
+public class ConfermaRegistrazioneDialog extends BottomSheetDialogFragment
+{
     private BottomSheetListener mListener;
 
     @Nullable

@@ -4,61 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.visualizza_ricerche_effettuate">
+    tools:context=".visualizza_foto_inserite">
 
     <TextView
-        android:id="@+id/txt_val_ricerche_totale"
+        android:id="@+id/txt_val_foto_totale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="2dp"
         android:text="val"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.975"
-        app:layout_constraintStart_toEndOf="@+id/txt_ricerche_totale"
-        app:layout_constraintTop_toBottomOf="@+id/txt_val_ricerche_anno" />
+        app:layout_constraintStart_toEndOf="@+id/txt_foto_totale"
+        app:layout_constraintTop_toBottomOf="@+id/txt_val_foto_anno" />
 
     <TextView
-        android:id="@+id/txt_val_ricerche_anno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="2dp"
-        android:text="val"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.97"
-        app:layout_constraintStart_toEndOf="@+id/txt_ricerche_anno"
-        app:layout_constraintTop_toBottomOf="@+id/txt_val_ricerche_mese" />
-
-    <TextView
-        android:id="@+id/txt_val_ricerche_mese"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="1dp"
-        android:text="val"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.966"
-        app:layout_constraintStart_toEndOf="@+id/txt_ricerche_mese"
-        app:layout_constraintTop_toBottomOf="@+id/txt_val_ricerche_settimana" />
-
-    <TextView
-        android:id="@+id/txt_val_ricerche_settimana"
+        android:id="@+id/txt_val_foto_anno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="val"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.946"
-        app:layout_constraintStart_toEndOf="@+id/txt_ricerche_settimana"
-        app:layout_constraintTop_toBottomOf="@+id/txt_val_ricerche_giorno" />
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toEndOf="@+id/txt_foto_anno"
+        app:layout_constraintTop_toBottomOf="@+id/txt_val_foto_mese" />
+
+    <TextView
+        android:id="@+id/txt_val_foto_mese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="val"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.972"
+        app:layout_constraintStart_toEndOf="@+id/txt_foto_mese"
+        app:layout_constraintTop_toBottomOf="@+id/txt_val_foto_settimana" />
+
+    <TextView
+        android:id="@+id/txt_val_foto_settimana"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="val"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.964"
+        app:layout_constraintStart_toEndOf="@+id/txt_foto_settimana"
+        app:layout_constraintTop_toBottomOf="@+id/txt_val_foto_giorno" />
 
     <ImageButton
-        android:id="@+id/btn_indietro_ricerche_effettuate"
+        android:id="@+id/btn_indietro_foto_inserite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
@@ -74,84 +71,83 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/txt_ricerche_mese"
+        android:id="@+id/txt_foto_mese"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
-        android:text="Numero di ricerche questo mese :"
+        android:text="Numero di foto questo mese :"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_ricerche_settimana" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_foto_settimana" />
 
     <TextView
-        android:id="@+id/txt_ricerche_settimana"
+        android:id="@+id/txt_foto_settimana"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
-        android:text="Numero di ricerche questa settimana :"
+        android:text="Numero di foto questa settimana :"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_ricerche_giorno" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_foto_giorno" />
 
     <TextView
-        android:id="@+id/txt_ricerche_anno"
+        android:id="@+id/txt_foto_anno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
-        android:text="Numero di ricerche quest'anno :"
+        android:text="Numero di foto quest'anno :"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_ricerche_mese" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_foto_mese" />
 
     <TextView
-        android:id="@+id/txt_ricerche_totale"
+        android:id="@+id/txt_foto_totale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
-        android:text="Numero di ricerche in totale :"
+        android:text="Numero di foto in totale :"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_ricerche_anno" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_foto_anno" />
 
     <TextView
-        android:id="@+id/txt_ricerche_descrizione"
+        android:id="@+id/txt_foto_descrizione"
         android:layout_width="293dp"
-        android:layout_height="68dp"
+        android:layout_height="34dp"
         android:layout_marginTop="21dp"
-        android:text="Visualizza Ricerche effettuate"
+        android:text="Visualizza foto inserite"
         android:textColor="@color/black"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.703"
-        app:layout_constraintStart_toEndOf="@+id/btn_indietro_ricerche_effettuate"
+        app:layout_constraintStart_toEndOf="@+id/btn_indietro_foto_inserite"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_ricerche_giorno"
+        android:id="@+id/txt_foto_giorno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="36dp"
-        android:text="Numero di ricerche oggi :"
+        android:layout_marginTop="32dp"
+        android:text="Numero di foto oggi :"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_indietro_ricerche_effettuate" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_indietro_foto_inserite" />
 
     <TextView
-        android:id="@+id/txt_val_ricerche_giorno"
+        android:id="@+id/txt_val_foto_giorno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginTop="32dp"
         android:text="val"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.979"
-        app:layout_constraintStart_toEndOf="@+id/txt_ricerche_giorno"
-        app:layout_constraintTop_toBottomOf="@+id/btn_indietro_ricerche_effettuate" />
+        app:layout_constraintStart_toEndOf="@+id/txt_foto_giorno"
+        app:layout_constraintTop_toBottomOf="@+id/btn_indietro_foto_inserite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHan
 import com.example.natour.model.connection.CognitoSettings;
 import com.example.natour.view.ConfermaRegistrazioneDialog;
 import com.example.natour.view.ErrorDialog;
-import com.example.natour.view.Register;
 
 public class ControllerRegister
 {

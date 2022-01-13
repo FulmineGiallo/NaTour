@@ -36,17 +36,18 @@ public class ControllerLogin
 
     public boolean checkLogin(String email, String password)
     {
-        final int[] accesso = new int[0]; //1 presente , 0 assente
         boolean check = false;
 
-        UtenteDAO utente = new UtenteDAO();
-        utente.utenteExist(email, password, contexController);
+       /* UtenteDAO utente = new UtenteDAO();
+        utente.utenteExist(email, password, contexController);*/
+
         final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
             @Override
             public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice)
             {
                 Log.i("LOGIN", "Login avvenuto con successo, puoi prendere il token qui");
-                accesso[0] = 1;
+                intentHomePage = new Intent(contexController, TabActivity.class);
+                contexController.startActivity(intentHomePage);
                 /* userSession contiene il token */
 
             }
@@ -77,7 +78,9 @@ public class ControllerLogin
             @Override
             public void onFailure(Exception exception)
             {
-                accesso[0] = 0;
+                ErrorDialog errorLogin = new ErrorDialog("Email o Password non corretti, riprova!");
+                errorLogin.show(fragmentManager, "ERROR");
+
                 Log.i("ERROR_LOGIN", "Login Failed" + exception.getLocalizedMessage());
             }
         };
@@ -87,23 +90,7 @@ public class ControllerLogin
         CognitoUser thisUser = cognitoSettings.getUserPool().getUser(email);
         thisUser.getSessionInBackground(authenticationHandler);
 
-        /* Se il login va a buon fine, bisogna caricare TabActivity */
-        if(accesso[0] == 0)
-        {
 
-            intentHomePage = new Intent(contexController, TabActivity.class);
-            contexController.startActivity(intentHomePage);
-
-            check = true;
-
-            return check;
-        }
-        /* Se il login non va a buon fine, bisogna caricare la pagina di errore */
-        if(accesso[0] == 1)
-        {
-            ErrorDialog errorLogin = new ErrorDialog("Login errato");
-            errorLogin.show(fragmentManager, "ERROR");
-        }
         return check;
 
     }

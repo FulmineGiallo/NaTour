@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".visualizza_utenti_registrati">
+    tools:context=".view.visualizza_utenti_registrati">
 
     <TextView
         android:id="@+id/txt_val_totale"

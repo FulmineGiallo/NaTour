@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.TabActivity;
-import com.example.natour.view.errorDialog;
+import com.example.natour.view.ErrorDialog;
 
 import java.sql.SQLException;
 
@@ -37,7 +36,7 @@ public class ControllerLogin
         /* Se il login non va a buon fine, bisogna caricare la pagina di errore */
         if(accesso == 1)
         {
-            errorDialog errorLogin = new errorDialog("Login errato");
+            ErrorDialog errorLogin = new ErrorDialog("Login errato");
             errorLogin.show(fm, "ERROR");
 
 

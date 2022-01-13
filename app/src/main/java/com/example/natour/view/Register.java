@@ -32,78 +32,29 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ControllerRegister controllerRegister = new ControllerRegister(getSupportFragmentManager(), this);
+        nome = findViewById(R.id.edt_nome);
+        cognome = findViewById(R.id.edt_cognome);
+        email = findViewById(R.id.edt_email);
+        password = findViewById(R.id.edt_password);
+        dataDiNascita = findViewById(R.id.edt_date);
         btn_register = findViewById(R.id.btn_register);
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-
-                controllerRegister.inserimentoCodice();
-
+                controllerRegister.registerUser(String.valueOf(nome.getText()),String.valueOf(cognome.getText()),
+                        String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));
             }
         });
     }
 
 
     /* Spostare nel controller del Register */
-    private void registerUser()
-    {
-        nome = findViewById(R.id.edt_nome);
-        cognome = findViewById(R.id.edt_cognome);
-        email = findViewById(R.id.edt_email);
-        password = findViewById(R.id.edt_password);
-        dataDiNascita = findViewById(R.id.edt_date);
 
-        CognitoUserAttributes userAttributes = new CognitoUserAttributes();
-
-        SignUpHandler signupCallBack = new SignUpHandler()
-        {
-            @Override
-            public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails)
-            {
-                Log.i("NATOUR", "Registrazione avvenuta" + signUpConfirmationState);
-
-                if(!signUpConfirmationState)
-                {
-                    Log.i("NATOUR", "Registrazione non confermata, codice di verifica inviato a " + cognitoUserCodeDeliveryDetails.getDestination());
-                }
-                else
-                {
-                    Log.i("NATOUR", "Registrazione avvenuta, confermata");
-                }
-            }
-            @Override
-            public void onFailure(Exception exception)
-            {
-                Log.i("NATOUR", "Registrazione fallita" + exception.getLocalizedMessage());
-            }
-        };
-
-        btn_register = findViewById(R.id.btn_register);
-        btn_register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                userAttributes.addAttribute("name", String.valueOf(nome.getText()));
-                userAttributes.addAttribute("family_name", String.valueOf(cognome.getText()));
-                userAttributes.addAttribute("email", String.valueOf(email.getText()));
-                userAttributes.addAttribute("birthdate",String.valueOf(dataDiNascita.getText()));
-                CognitoSettings cognitoSettings = new CognitoSettings(Register.this);
-
-                cognitoSettings.getUserPool().signUpInBackground(String.valueOf(email.getText()), String.valueOf(password.getText()),
-                        userAttributes, null, signupCallBack);
-
-                ConfermaRegistrazioneDialog bottomSheet = new ConfermaRegistrazioneDialog();
-                bottomSheet.show(getSupportFragmentManager(), "confermaRegistrazione");
-
-            }
-        });
-
-    }
 
     @Override
     public void onButtonClicked(String codice) {
-        //TODO: metodi per confermare il codice di conferma
+        //TODO: metodi per confermare il codice di conferma da inserire nel controller
         Log.i("NATOUR","codice = "+ codice);
     }
 }

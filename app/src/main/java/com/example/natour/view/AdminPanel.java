@@ -1,14 +1,16 @@
-package com.example.natour;
+package com.example.natour.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class visualizza_ricerche_effettuate extends AppCompatActivity {
+import com.example.natour.R;
+
+public class AdminPanel extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_visualizza_ricerche_effettuate);
+        setContentView(R.layout.activity_admin_panel);
     }
 }

@@ -42,7 +42,7 @@ public class UtenteDAO
 {
     Map<String, String> parmasAPI = new HashMap<String, String>();
 
-    public int utenteExist(String email, String password, Context activityPrec) throws SQLException
+    public int utenteExist(String email, String password, Context activityPrec)
     {
         /* L'idea è di creare Un hashMap e passarla a volley per metterla nel body */
         String URL = "http://ec2-52-210-159-218.eu-west-1.compute.amazonaws.com/natour21/api/utente/login.php";

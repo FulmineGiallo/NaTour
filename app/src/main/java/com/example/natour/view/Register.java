@@ -7,6 +7,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttribu
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.example.natour.R;
+import com.example.natour.controller.ControllerRegister;
 import com.example.natour.model.connection.CognitoSettings;
 
 import android.os.Bundle;
@@ -30,14 +31,14 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ControllerRegister controllerRegister = new ControllerRegister(getSupportFragmentManager(), this);
         btn_register = findViewById(R.id.btn_register);
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
 
-                ConfermaRegistrazioneDialog bottomSheet = new ConfermaRegistrazioneDialog();
-                bottomSheet.show(getSupportFragmentManager(), "confermaRegistrazione");
+                controllerRegister.inserimentoCodice();
 
             }
         });

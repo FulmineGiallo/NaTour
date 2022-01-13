@@ -27,7 +27,7 @@ public class ConfermaRegistrazioneDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 mListener.onButtonClicked(((EditText)(v.findViewById(R.id.edt_codice_conferma))).getText().toString());
-                //TODO: mettere metodi per confermare il codice con cognito
+
                 dismiss();
             }
         });

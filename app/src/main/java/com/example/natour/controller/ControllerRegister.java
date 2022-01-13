@@ -74,4 +74,7 @@ public class ControllerRegister
         ConfermaRegistrazioneDialog bottomSheet = new ConfermaRegistrazioneDialog();
         bottomSheet.show(fragmentManager, "confermaRegistrazione");
     }
+
+    public void passaAlLogin() {
+    }
 }

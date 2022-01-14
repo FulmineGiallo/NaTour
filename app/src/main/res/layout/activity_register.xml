@@ -21,16 +21,14 @@
         android:id="@+id/edt_passwordRec"
         android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginRight="27dp"
+
         android:layout_marginTop="40dp"
         android:hint="Password"
 
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:inputType="textPassword"
-        app:layout_constraintLeft_toRightOf="@id/edt_email2"
+        app:layout_constraintRight_toRightOf="@id/editTextTextPersonName3"
         app:layout_constraintTop_toBottomOf="@id/editTextDate"
-        app:layout_constraintRight_toRightOf="parent"
 
         >
 
@@ -49,16 +47,15 @@
         android:id="@+id/edt_email2"
         android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         android:hint="@string/email"
 
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@id/editTextDate"
+
         >
 
         <EditText
@@ -87,8 +84,10 @@
         android:id="@+id/editTextTextPersonName"
         android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:hint="Nomone"
+        android:hint="Nome"
         android:layout_marginTop="76dp"
+
+
 
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName3"
@@ -132,16 +131,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextDate"
-        android:layout_width="338dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:hint="@string/edt_dataDiNascita"
         android:clickable="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@id/editTextTextPersonName"
+        app:layout_constraintLeft_toLeftOf="@id/editTextTextPersonName"
+        app:layout_constraintRight_toRightOf="@id/editTextTextPersonName3"
         android:focusable="true">
 
     <EditText
@@ -149,12 +146,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="@string/edt_dataDiNascita"
         android:clickable="true"
         android:focusable="false"
         android:cursorVisible="false"
         android:focusableInTouchMode="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_erroreData"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/esperto"
+        app:layout_constraintRight_toRightOf="@id/editTextDate"
+        app:layout_constraintTop_toBottomOf="@id/editTextDate"
+        app:layout_constraintLeft_toLeftOf="@id/editTextDate"
+        />
     <FrameLayout
         android:id="@+id/btn_register"
         android:layout_width="match_parent"

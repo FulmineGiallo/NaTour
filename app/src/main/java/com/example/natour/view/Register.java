@@ -28,7 +28,10 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Register extends AppCompatActivity implements ConfermaRegistrazioneDialog.BottomSheetListener
 {
@@ -41,7 +44,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     private ActivityRegisterBinding mBinding;
     private ControllerRegister controllerRegister;
     private ImageButton btn_backToLogin;
-
+    private TextView erroreData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,6 +59,8 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
         email = findViewById(R.id.edt_email);
         password = findViewById(R.id.edt_password);
         btn_backToLogin = findViewById(R.id.btn_register_back);
+        erroreData = findViewById(R.id.txt_erroreData);
+
         btn_backToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,12 +74,30 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(Register.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        if(dayOfMonth < 10){
-                            dataDiNascita.setText("0" + dayOfMonth+"/"+(month +1)+"/"+year);
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth)
+                    {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        Calendar calendario = Calendar.getInstance();
+                        calendario.set(year,month,dayOfMonth);
+                        Date date = calendario.getTime();
+
+                        dataDiNascita.setText(simpleDateFormat.format(date));
+
+                        if(Calendar.getInstance().get(Calendar.YEAR)  - year > 120)
+                        {
+                            erroreData.setText("Range di età non incluso, sei un vampiro? ");
                         }
-                        if(month < 10){
-                            dataDiNascita.setText(dayOfMonth+"/0"+(month +1)+"/"+year);
+                        else if(Calendar.getInstance().get(Calendar.YEAR)  - year < 13)
+                        {
+                            erroreData.setText("Range di età non incluso, hai il permesso dei tuoi genitori?");
+                        }
+                        else if(Calendar.getInstance().get(Calendar.YEAR) < year)
+                        {
+                            erroreData.setText("Vieni dal futuro?");
+                        }
+                        else
+                        {
+                            erroreData.setText("");
                         }
                     }
                 }, 2000 ,Calendar.getInstance().get(Calendar.MONTH), 1);
@@ -83,11 +106,41 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
             }
         });
         btn_register = findViewById(R.id.btn_register);
-        btn_register.setOnClickListener(new View.OnClickListener() {
+        btn_register.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
-                controllerRegister.registerUser(String.valueOf(nome.getText()),String.valueOf(cognome.getText()),
+                boolean checkEditBox = true;
+
+                if(String.valueOf(nome.getText()).isEmpty())
+                {
+                    nome.setError("Il campo è vuoto");
+                    checkEditBox = false;
+                }
+                if(String.valueOf(cognome.getText()).isEmpty())
+                {
+                    cognome.setError("Il campo è vuoto");
+                    checkEditBox = false;
+                }
+                if(String.valueOf(dataDiNascita.getText()).isEmpty())
+                {
+                    dataDiNascita.setError("Il campo è vuoto");
+                    checkEditBox = false;
+                }
+                if(String.valueOf(email.getText()).isEmpty())
+                {
+                    email.setError("Il campo è vuoto");
+                    checkEditBox = false;
+                }
+                if(String.valueOf(password.getText()).isEmpty())
+                {
+                    password.setError("Il campo è vuoto");
+                    checkEditBox = false;
+                }
+
+                if(checkEditBox)
+                    controllerRegister.registerUser(String.valueOf(nome.getText()),String.valueOf(cognome.getText()),
                         String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));
             }
         });

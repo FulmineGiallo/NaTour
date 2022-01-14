@@ -1,8 +1,11 @@
 package com.example.natour.controller;
 
+import static org.apache.commons.lang3.StringUtils.join;
+
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
@@ -59,8 +62,10 @@ public class ControllerRegister
             @Override
             public void onFailure(Exception exception)
             {
-                Log.i("NATOUR", "Registrazione fallita" + exception.getLocalizedMessage());
-                ErrorDialog errorDialog = new ErrorDialog("Registrazione fallita!");
+                Log.i("NATOUR", "Registrazione fallita -----> " + exception.getLocalizedMessage() + " <---- ");
+                StringBuffer stringBuffer = new StringBuffer(exception.getLocalizedMessage());
+                stringBuffer.delete(stringBuffer.indexOf(".") + 1,stringBuffer.length());
+                ErrorDialog errorDialog = new ErrorDialog(stringBuffer.toString());
                 errorDialog.show(fragmentManager,"NATOUR");
             }
         };
@@ -83,45 +88,50 @@ public class ControllerRegister
         /*Logica conferma codice di Cognito */
     }
 
-    public String verficaCodiceCognito(String codice, String email)
+    public void verficaCodiceCognito(String codice, String email)
     {
-        String[] result = new String[1];
+        new ConfirmTask().execute(codice,email);
 
-        Thread confermaCodice = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                GenericHandler confirmationCallBack = new GenericHandler()
-                {
-                    @Override
-                    public void onSuccess()
-                    {
-                        result[0] = "Confermato";
-                    }
-
-                    @Override
-                    public void onFailure(Exception exception)
-                    {
-                        result[0] = "Faild" + exception.getMessage();
-                    }
-                };
-
-                CognitoSettings cognitoSettings = new CognitoSettings(activity);
-                CognitoUser thisUser = cognitoSettings.getUserPool().getUser(email);
-                thisUser.confirmSignUp(codice, false, confirmationCallBack);
-
-            }
-        });
-
-        confermaCodice.start();
-
-        return result[0];
     }
 
     public void passaAlLogin() {
 
     }
 
+    private class ConfirmTask extends AsyncTask<String,Void,String>{
+        @Override
+        protected String doInBackground(String... strings){
+            final String[] result = new String[1];
+
+            //Callback Handler for confirmSignUp API
+            final GenericHandler confirmationCallBack = new GenericHandler() {
+                @Override
+                public void onSuccess() {
+                    //User was successfully confirmed
+                    result[0] = "Confermato";
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    //User confirmation failed. Check exception for the cause.
+                    result[0] = "Failed: "+exception.getMessage();
+                }
+            };
+            CognitoSettings cognitoSettings = new CognitoSettings(activity);
+            CognitoUser thisUser = cognitoSettings.getUserPool().getUser(strings[1]);
+            /*
+            * this will cause confirmation to fail if
+            * the user attribute (alias) has been verified for
+            * another user in the same pool*/
+            thisUser.confirmSignUp(strings[0],false, confirmationCallBack);
+            return result[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.i("NATOUR","Confirmation result: " + s);
+        }
+    }
 
 }

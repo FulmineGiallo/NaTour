@@ -3,15 +3,9 @@ package com.example.natour.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerRegister;
 import com.example.natour.databinding.ActivityRegisterBinding;
-import com.example.natour.model.connection.CognitoSettings;
-import com.google.android.material.textfield.TextInputLayout;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -20,14 +14,12 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -180,7 +172,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
             public void run() {
                 controllerRegister.passaAlLogin();
             }
-        },2000);
+        },5000);
     }
 
     private int getFinalWidth(){
@@ -188,15 +180,15 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     }
 
     @Override
-    public void onButtonClicked(String codice) {
+    public void onButtonClicked(String codice, TextView errore, ConfermaRegistrazioneDialog dialog, ) {
         //TODO: metodi per confermare il codice di conferma da inserire nel controller
-        String result = controllerRegister.verficaCodiceCognito(codice, String.valueOf(email.getText()));
-        if(result.equals("confermato")){
+        controllerRegister.verficaCodiceCognito(codice, String.valueOf(email.getText()));
+        /*if(result.equals("confermato")){
+            confermaRegistrazioneDialog.dismiss();
             load();
         }else{
-            TextView textView = findViewById(R.id.txt_codice_errore);
-            textView.setVisibility(View.VISIBLE);
-        }
+            errore.setVisibility(View.VISIBLE);
+        }*/
         Log.i("NATOUR","codice = "+ codice);
     }
 }

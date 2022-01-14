@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +25,13 @@ public class ConfermaRegistrazioneDialog extends BottomSheetDialogFragment
         View v = inflater.inflate(R.layout.conferma_registrazione_bottom_sheet,container, false);
 
         Button conferma = v.findViewById(R.id.btn_confermaCodice);
+        TextView errore = v.findViewById(R.id.txt_codice_errore);
         conferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onButtonClicked(((EditText)(v.findViewById(R.id.edt_codice_conferma))).getText().toString());
+                mListener.onButtonClicked(((EditText)(v.findViewById(R.id.edt_codice_conferma))).getText().toString(),errore, ConfermaRegistrazioneDialog.this);
 
-                dismiss();
+                //dismiss();
             }
         });
 
@@ -37,7 +39,7 @@ public class ConfermaRegistrazioneDialog extends BottomSheetDialogFragment
     }
 
     public interface BottomSheetListener{
-        void onButtonClicked(String codice);
+        void onButtonClicked(String codice, TextView errore, ConfermaRegistrazioneDialog confermaRegistrazioneDialog);
         /*
         * come argomenti a questo metodo si possono mettere
         * qualsiasi tipo di dato, esso sarà passato all'attività

@@ -17,8 +17,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -29,6 +31,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -42,8 +45,8 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     private EditText dataDiNascita;
     private FrameLayout btn_register;
     private ActivityRegisterBinding mBinding;
-    ControllerRegister controllerRegister;
-    private TextInputLayout textInputLayout;
+    private ControllerRegister controllerRegister;
+    private ImageButton btn_backToLogin;
 
 
     @Override
@@ -58,6 +61,14 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
         cognome = findViewById(R.id.edt_cognome);
         email = findViewById(R.id.edt_email);
         password = findViewById(R.id.edt_password);
+        btn_backToLogin = findViewById(R.id.btn_register_back);
+        btn_backToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentBackToLogin = new Intent(Register.this, Login.class);
+                startActivity(intentBackToLogin);
+            }
+        });
         dataDiNascita = findViewById(R.id.edt_date);
         dataDiNascita.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,16 +78,13 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                         if(dayOfMonth < 10){
                             dataDiNascita.setText("0" + dayOfMonth+"/"+(month +1)+"/"+year);
-                            Log.i("NATOUR","0" + dayOfMonth+"<---- GIORNO DEL MESE CHE DOVREBBE MOSTRARE");
                         }
                         if(month < 10){
                             dataDiNascita.setText(dayOfMonth+"/0"+(month +1)+"/"+year);
                         }
-
-
-
                     }
-                }, Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                }, 2000 ,Calendar.getInstance().get(Calendar.MONTH), 1);
+
                 datePickerDialog.show();
             }
         });

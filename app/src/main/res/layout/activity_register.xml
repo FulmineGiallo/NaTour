@@ -8,6 +8,14 @@
     android:layout_height="match_parent"
     tools:context=".view.Register">
 
+    <ImageButton
+        android:id="@+id/btn_register_back"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:backgroundTintMode="screen"
+        android:src="@drawable/ic_icon_undo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_passwordRec"

@@ -17,6 +17,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHan
 import com.example.natour.model.connection.CognitoSettings;
 import com.example.natour.view.ConfermaRegistrazioneDialog;
 import com.example.natour.view.ErrorDialog;
+import com.example.natour.view.Login;
 
 public class ControllerRegister
 {
@@ -119,18 +120,8 @@ public class ControllerRegister
     }
 
     public void passaAlLogin() {
-    }
-
-    public void mostraErrore(String s) {
 
     }
 
-    public void cambiaDataDiNascita(String data) {
-        StringBuffer dataDaInviare = new StringBuffer();
-        if(data.charAt(1) == '/') {
-            dataDaInviare.append("0");
-            dataDaInviare.append(data);
-        }
 
-    }
 }

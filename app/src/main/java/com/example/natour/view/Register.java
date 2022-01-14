@@ -26,6 +26,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 
 public class Register extends AppCompatActivity implements ConfermaRegistrazioneDialog.BottomSheetListener
@@ -48,7 +50,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_register);
-        controllerRegister = new ControllerRegister(getSupportFragmentManager(), this);
+        controllerRegister = new ControllerRegister(getSupportFragmentManager(), this, this);
         nome = findViewById(R.id.edt_nome);
         cognome = findViewById(R.id.edt_cognome);
         email = findViewById(R.id.edt_email);
@@ -90,7 +92,8 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
             }
         });
     }
-    public void load(){
+    public void load()
+    {
         animateButtonWidth();
         fadeOutTextAndSetProgressDialog();
         nextAction();
@@ -180,15 +183,12 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     }
 
     @Override
-    public void onButtonClicked(String codice, TextView errore, ConfermaRegistrazioneDialog dialog, ) {
-        //TODO: metodi per confermare il codice di conferma da inserire nel controller
-        controllerRegister.verficaCodiceCognito(codice, String.valueOf(email.getText()));
-        /*if(result.equals("confermato")){
-            confermaRegistrazioneDialog.dismiss();
-            load();
-        }else{
-            errore.setVisibility(View.VISIBLE);
-        }*/
+    public void onButtonClicked(String codice, TextView errore, ConfermaRegistrazioneDialog dialog)
+    {
+
+        controllerRegister.verficaCodiceCognito(codice, String.valueOf(email.getText()), errore, dialog);
+
+
         Log.i("NATOUR","codice = "+ codice);
     }
 }

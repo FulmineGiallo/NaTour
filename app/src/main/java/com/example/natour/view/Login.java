@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        /* ACCESSO UTENTE --------------------------------------------- */
+        /* ---------------------- ACCESSO UTENTE --------------------------------------------- */
         edtEmail = findViewById(R.id.email);
         edtPassword = findViewById(R.id.password);
 
@@ -59,17 +59,9 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                try
-                {
-                    email = edtEmail.getText().toString();
-                    password = edtPassword.getText().toString();
-                    login = controllerLogin.checkLogin(email, password);
-
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                email = edtEmail.getText().toString();
+                password = edtPassword.getText().toString();
+                login = controllerLogin.checkLogin(email, password);
             }
         });
 

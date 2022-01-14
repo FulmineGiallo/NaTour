@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
@@ -21,16 +23,22 @@ import com.example.natour.model.connection.CognitoSettings;
 import com.example.natour.view.ConfermaRegistrazioneDialog;
 import com.example.natour.view.ErrorDialog;
 import com.example.natour.view.Login;
+import com.example.natour.view.Register;
 
 public class ControllerRegister
 {
     private Intent registerToLogin;
     private FragmentManager fragmentManager;
     private Context activity;
+    private TextView codiceErrato;
+    private Register register;
 
-    public ControllerRegister(FragmentManager fragmentManager, Context context){
+    public ControllerRegister(FragmentManager fragmentManager, Context context, Register register)
+    {
         this.fragmentManager = fragmentManager;
         this.activity = context;
+        this.register = register;
+
     }
 
 
@@ -83,55 +91,115 @@ public class ControllerRegister
     public void showCodiceConfermato()
     {
         ConfermaRegistrazioneDialog bottomSheet = new ConfermaRegistrazioneDialog();
+        bottomSheet.setCancelable(false);
         bottomSheet.show(fragmentManager, "confermaRegistrazione");
-
         /*Logica conferma codice di Cognito */
     }
 
-    public void verficaCodiceCognito(String codice, String email)
+    public void verficaCodiceCognito(String codice, String email, TextView errore, ConfermaRegistrazioneDialog dialog)
     {
-        new ConfirmTask().execute(codice,email);
+        codiceErrato = errore;
+        final String[] result = new String[1];
+        Thread richiestaCodiceCognito = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                final GenericHandler confirmationCallBack = new GenericHandler()
+                {
+                    @Override
+                    public void onSuccess()
+                    {
+                        result[0] = "Confermato";
+                        register.runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
 
+                                dialog.dismiss();
+                                register.load();
+
+                            }
+                        });
+
+                    }
+                    @Override
+                    public void onFailure(Exception exception)
+                    {
+                        result[0] = "Failed: "+exception.getMessage();
+                        register.runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                codiceErrato.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+                    }
+                };
+
+                CognitoSettings cognitoSettings = new CognitoSettings(activity);
+                CognitoUser thisUser = cognitoSettings.getUserPool().getUser(email);
+
+                thisUser.confirmSignUp(codice,false, confirmationCallBack);
+            }
+        });
+        richiestaCodiceCognito.start();
     }
 
     public void passaAlLogin() {
 
     }
 
-    private class ConfirmTask extends AsyncTask<String,Void,String>{
+   /* private class ConfirmTask extends AsyncTask<String,Void,String>
+    {
         @Override
-        protected String doInBackground(String... strings){
+        protected String doInBackground(String... strings)
+        {
             final String[] result = new String[1];
 
             //Callback Handler for confirmSignUp API
             final GenericHandler confirmationCallBack = new GenericHandler() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess()
+                {
                     //User was successfully confirmed
                     result[0] = "Confermato";
+                    register.load();
+
                 }
 
                 @Override
-                public void onFailure(Exception exception) {
+                public void onFailure(Exception exception)
+                {
                     //User confirmation failed. Check exception for the cause.
+                    codiceErrato.setVisibility(View.VISIBLE);
                     result[0] = "Failed: "+exception.getMessage();
                 }
             };
             CognitoSettings cognitoSettings = new CognitoSettings(activity);
             CognitoUser thisUser = cognitoSettings.getUserPool().getUser(strings[1]);
-            /*
-            * this will cause confirmation to fail if
-            * the user attribute (alias) has been verified for
-            * another user in the same pool*/
+
             thisUser.confirmSignUp(strings[0],false, confirmationCallBack);
+
+
             return result[0];
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onProgressUpdate()
+        {
+            super.onProgressUpdate();
+        }
+
+        @Override
+        protected void onPostExecute(String s)
+        {
             super.onPostExecute(s);
             Log.i("NATOUR","Confirmation result: " + s);
         }
-    }
+    }*/
 
 }

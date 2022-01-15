@@ -93,7 +93,7 @@ public class ControllerRegister
         ConfermaRegistrazioneDialog bottomSheet = new ConfermaRegistrazioneDialog();
         bottomSheet.setCancelable(false);
         bottomSheet.show(fragmentManager, "confermaRegistrazione");
-        /*Logica conferma codice di Cognito */
+
     }
 
     public void verficaCodiceCognito(String codice, String email, TextView errore, ConfermaRegistrazioneDialog dialog)
@@ -149,57 +149,10 @@ public class ControllerRegister
         richiestaCodiceCognito.start();
     }
 
-    public void passaAlLogin() {
+    public void passaAlLogin()
+    {
 
     }
 
-   /* private class ConfirmTask extends AsyncTask<String,Void,String>
-    {
-        @Override
-        protected String doInBackground(String... strings)
-        {
-            final String[] result = new String[1];
-
-            //Callback Handler for confirmSignUp API
-            final GenericHandler confirmationCallBack = new GenericHandler() {
-                @Override
-                public void onSuccess()
-                {
-                    //User was successfully confirmed
-                    result[0] = "Confermato";
-                    register.load();
-
-                }
-
-                @Override
-                public void onFailure(Exception exception)
-                {
-                    //User confirmation failed. Check exception for the cause.
-                    codiceErrato.setVisibility(View.VISIBLE);
-                    result[0] = "Failed: "+exception.getMessage();
-                }
-            };
-            CognitoSettings cognitoSettings = new CognitoSettings(activity);
-            CognitoUser thisUser = cognitoSettings.getUserPool().getUser(strings[1]);
-
-            thisUser.confirmSignUp(strings[0],false, confirmationCallBack);
-
-
-            return result[0];
-        }
-
-        @Override
-        protected void onProgressUpdate()
-        {
-            super.onProgressUpdate();
-        }
-
-        @Override
-        protected void onPostExecute(String s)
-        {
-            super.onPostExecute(s);
-            Log.i("NATOUR","Confirmation result: " + s);
-        }
-    }*/
 
 }

@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -139,9 +140,10 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
                     checkEditBox = false;
                 }
 
-                if(checkEditBox)
+                load();
+                /*if(checkEditBox)
                     controllerRegister.registerUser(String.valueOf(nome.getText()),String.valueOf(cognome.getText()),
-                        String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));
+                        String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));*/
             }
         });
     }
@@ -183,7 +185,8 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     }
 
     private void nextAction(){
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable()
+        {
             @Override
             public void run() {
                 revealButton();
@@ -197,38 +200,44 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
         mBinding.btnRegister.setElevation(0f);
         mBinding.revealView.setVisibility(View.VISIBLE);
         int x = mBinding.revealView.getWidth();
-        int y = mBinding.revealView.getWidth();
+        int y = mBinding.revealView.getHeight();
 
         int startX = (int) (getFinalWidth()/2 + mBinding.btnRegister.getX());
         int startY = (int) (getFinalWidth()/2 + mBinding.btnRegister.getY());
 
-        float radius = Math.max(x,y) * 1.2f;
+        float radius = (Math.max(x,y) * 1.0f) / 2;
 
         Animator reveal = ViewAnimationUtils.createCircularReveal(mBinding.revealView,startX,startY,getFinalWidth(),radius);
         reveal.setDuration(350);
-        reveal.addListener(new AnimatorListenerAdapter() {
+        reveal.addListener(new AnimatorListenerAdapter()
+        {
             @Override
-            public void onAnimationEnd(Animator animation) {
+            public void onAnimationEnd(Animator animation)
+            {
                 super.onAnimationEnd(animation);
-
                 finish();
             }
         });
 
         reveal.start();
+
     }
 
-    private void fadeOutProgressDialog(){
-        mBinding.progressBar.animate().alpha(0f).setDuration(200).start();
+    private void fadeOutProgressDialog()
+    {
+        mBinding.progressBar.animate().alpha(0f).setDuration(20000).start();
     }
 
-    private void delayedStartNextActivity(){
-        new Handler().postDelayed(new Runnable() {
+    private void delayedStartNextActivity()
+    {
+        Handler nextActivity = new Handler(Looper.getMainLooper());
+        nextActivity.postDelayed(new Runnable()
+        {
             @Override
             public void run() {
-                controllerRegister.passaAlLogin();
+                startActivity(new Intent(Register.this, TransazioneRegister.class));
             }
-        },5000);
+        },100);
     }
 
     private int getFinalWidth(){

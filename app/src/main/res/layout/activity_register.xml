@@ -24,7 +24,7 @@
 
         android:layout_marginTop="40dp"
         android:hint="Password"
-
+        app:boxStrokeErrorColor="@color/design_default_color_error"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:inputType="textPassword"
         app:layout_constraintRight_toRightOf="@id/editTextTextPersonName3"

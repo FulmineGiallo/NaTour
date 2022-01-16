@@ -10,6 +10,7 @@ import com.example.natour.databinding.ActivityRegisterBinding;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -141,9 +142,9 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
                 }
 
                 load();
-                /*if(checkEditBox)
+                if(checkEditBox)
                     controllerRegister.registerUser(String.valueOf(nome.getText()),String.valueOf(cognome.getText()),
-                        String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));*/
+                        String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));
             }
         });
     }
@@ -205,10 +206,10 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
         int startX = (int) (getFinalWidth()/2 + mBinding.btnRegister.getX());
         int startY = (int) (getFinalWidth()/2 + mBinding.btnRegister.getY());
 
-        float radius = (Math.max(x,y) * 1.0f) / 2;
+        float radius = Math.max(x,y) * 1.0f;
 
         Animator reveal = ViewAnimationUtils.createCircularReveal(mBinding.revealView,startX,startY,getFinalWidth(),radius);
-        reveal.setDuration(350);
+        reveal.setDuration(250);
         reveal.addListener(new AnimatorListenerAdapter()
         {
             @Override
@@ -225,7 +226,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
 
     private void fadeOutProgressDialog()
     {
-        mBinding.progressBar.animate().alpha(0f).setDuration(20000).start();
+        mBinding.progressBar.animate().alpha(0f).setDuration(2000).start();
     }
 
     private void delayedStartNextActivity()

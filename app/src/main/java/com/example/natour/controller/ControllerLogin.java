@@ -1,12 +1,14 @@
 package com.example.natour.controller;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.amazonaws.auth.AWSCognitoIdentityProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
@@ -16,11 +18,18 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.example.natour.model.connection.CognitoSettings;
-import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.TabActivity;
 import com.example.natour.view.ErrorDialog;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
-import java.sql.SQLException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ControllerLogin
 {
@@ -94,4 +103,5 @@ public class ControllerLogin
         return check;
 
     }
+
 }

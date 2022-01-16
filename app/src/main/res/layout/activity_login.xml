@@ -105,7 +105,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_msg" />
 
     <ImageButton
-        android:id="@+id/imageButton9"
+        android:id="@+id/image_facebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -116,11 +116,11 @@
         app:srcCompat="@drawable/ic_facebook___original" />
 
     <ImageButton
-        android:id="@+id/imageButton10"
+        android:id="@+id/image_google"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="12dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/txt_msg"
         app:layout_constraintEnd_toEndOf="parent"

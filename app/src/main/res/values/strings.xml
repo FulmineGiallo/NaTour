@@ -16,4 +16,6 @@
     <string name="email">Email</string>
     <string name="conferma">conferma</string>
     <string name="il_codice_inserito_non_corretto">il codice inserito non è corretto</string>
+    <string name="facebook_app_id">[APP_ID]</string>
+    <string name="fb_login_protocol_scheme">fb[APP_ID]</string>
 </resources>

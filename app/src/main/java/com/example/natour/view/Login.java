@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,19 +16,42 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.CognitoCredentialsProvider;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.HostedUIOptions;
+import com.amazonaws.mobile.client.IdentityProvider;
+import com.amazonaws.mobile.client.SignInUIOptions;
+import com.amazonaws.mobile.client.UserStateDetails;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.auth.AuthProvider;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerLogin;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Login extends AppCompatActivity
 {
@@ -40,9 +65,11 @@ public class Login extends AppCompatActivity
     private String password;
     EditText edtEmail;
     EditText edtPassword;
-    boolean login = false;
+
     FragmentManager fm = getSupportFragmentManager();
     ImageButton googleLogin;
+    ImageButton facebookLogin;
+
     private static final int RC_SIGN_IN = 007;
     Intent intentLoginHappened;
 
@@ -51,6 +78,18 @@ public class Login extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        try
+        {
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.configure(getApplicationContext());
+        }
+        catch (AmplifyException e)
+        {
+            e.printStackTrace();
+        }
+
+
+        Log.i("Tutorial", "Initialized Amplify");
         setContentView(R.layout.activity_login);
         controllerLogin = new ControllerLogin(fm, this);
         btn_login = findViewById(R.id.btn_login);
@@ -71,6 +110,11 @@ public class Login extends AppCompatActivity
         edtEmail = findViewById(R.id.email);
         edtPassword = findViewById(R.id.password);
 
+        Amplify.Auth.fetchAuthSession(
+                result -> Log.i("AmplifyQuickstart", result.toString()),
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
+
 
         btn_login.setOnClickListener(new View.OnClickListener()
         {
@@ -79,126 +123,55 @@ public class Login extends AppCompatActivity
             {
                 email = edtEmail.getText().toString();
                 password = edtPassword.getText().toString();
-                login = controllerLogin.checkLogin(email, password);
+                controllerLogin.checkLogin(email, password);
             }
         });
 
+        /*                          FACEBOOK                        */
 
-        /* ----------------------------------------------------------------*/
-
-        /* ------------------ ACCESSO GOOGLE ------------------------------*/
-        intentLoginHappened = new Intent(this, TabActivity.class);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-
-
-        googleLogin.setOnClickListener(new View.OnClickListener()
-        {
+        facebookLogin = findViewById(R.id.img_facebook);
+        /*Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
+                result -> Log.i("AuthQuickstart", result.toString()),
+                error -> Log.e("AuthQuickstart", error.toString())
+        );*/
+        facebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
+                // For Facebook
+                HostedUIOptions hostedUIOptions = HostedUIOptions.builder()
+                        .scopes("openid", "email")
+                        .identityProvider("Facebook")
+                        .build();
 
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                SignInUIOptions signInUIOptions = SignInUIOptions.builder()
+                        .hostedUIOptions(hostedUIOptions)
+                        .build();
+                AWSMobileClient.getInstance().showSignIn(Login.this, signInUIOptions, new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails details) {
+                        Log.d("Result", "onResult: " + details.getUserState());
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("Error", "onError: ", e);
+                    }
+                });
+
             }
         });
 
-
-        /* ----------------------------------------------------------------*/
     }
 
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN)
+        if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE)
         {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            Amplify.Auth.handleWebUISignInResponse(data);
         }
-    }
-
-   private void handleSignInResult(GoogleSignInResult result)
-   {
-       String TAG = "GOOGLE";
-       Log.d("GOOGLE", "handleSignInResult:" + result.isSuccess());
-       if (result.isSuccess())
-       {
-           // Signed in successfully, show authenticated UI.
-           GoogleSignInAccount acct = result.getSignInAccount();
-
-           Log.e(TAG, "display name: " + acct.getDisplayName());
-
-           String personName = acct.getDisplayName();
-           String personPhotoUrl = acct.getPhotoUrl().toString();
-           String email = acct.getEmail();
-
-           Log.e(TAG, "Name: " + personName + ", email: " + email
-                   + ", Image: " + personPhotoUrl);
-
-
-           /*txtName.setText(personName);
-           txtEmail.setText(email);
-           Glide.with(getApplicationContext()).load(personPhotoUrl)
-                   .thumbnail(0.5f)
-                   .into(imgProfilePic);
-                   TODO: Implmentare logica per recuperare l'utente su cognito
-
-                   */
-
-           updateUI(true);
-       }
-       else
-           {
-           // Signed out, show unauthenticated UI.
-            updateUI(false);
-           }
-   }
-
-
-    private void updateUI(boolean isSignedIn)
-    {
-        if(isSignedIn)
-        {
-            startActivity(intentLoginHappened);
-        }
-        else
-        {
-            //TODO: Errore login google, fare schermata;
-        }
-
-    }
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        /*OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d("GOOGLE CACHED", "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }*/
     }
 }

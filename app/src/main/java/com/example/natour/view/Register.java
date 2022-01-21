@@ -141,10 +141,16 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
                     checkEditBox = false;
                 }
 
-                load();
+
+                System.out.println("VALORE "+ checkEditBox);
+
                 if(checkEditBox)
+                {
                     controllerRegister.registerUser(String.valueOf(nome.getText()),String.valueOf(cognome.getText()),
-                        String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));
+                            String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));
+
+                }
+
             }
         });
     }

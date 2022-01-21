@@ -19,11 +19,19 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttribu
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
+import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
+import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
+import com.amplifyframework.core.Amplify;
 import com.example.natour.model.connection.CognitoSettings;
 import com.example.natour.view.ConfermaRegistrazioneDialog;
 import com.example.natour.view.ErrorDialog;
 import com.example.natour.view.Login;
 import com.example.natour.view.Register;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ControllerRegister
 {
@@ -42,50 +50,31 @@ public class ControllerRegister
     }
 
 
-    public void registerUser(String nome,
-                             String cognome,
-                             String email,
-                             String password,
-                             String dataDiNascita)
+    public void registerUser(String nome, String cognome, String email, String password, String dataDiNascita)
     {
-        CognitoUserAttributes userAttributes = new CognitoUserAttributes();
 
-        SignUpHandler signupCallBack = new SignUpHandler()
-        {
-            @Override
-            public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails)
-            {
-                Log.i("NATOUR", "Registrazione avvenuta" + signUpConfirmationState);
 
-                if(!signUpConfirmationState)
+        ArrayList<AuthUserAttribute> params = new ArrayList<>();
+        params.add(new AuthUserAttribute(AuthUserAttributeKey.name(), nome));
+        params.add(new AuthUserAttribute(AuthUserAttributeKey.familyName(), cognome));
+        params.add(new AuthUserAttribute(AuthUserAttributeKey.birthdate(), dataDiNascita));
+
+        AuthSignUpOptions options = AuthSignUpOptions.builder()
+                .userAttributes(params)
+                .build();
+        Amplify.Auth.signUp(email, password, options,
+                result ->
                 {
-                    Log.i("NATOUR", "Registrazione non confermata, codice di verifica inviato a " + cognitoUserCodeDeliveryDetails.getDestination());
+                    Log.i("AuthQuickStart", "Result: " + result.toString());
                     showCodiceConfermato();
-                }
-                else
-                {
-                    Log.i("NATOUR", "Registrazione avvenuta, confermata");
-                }
-            }
-            @Override
-            public void onFailure(Exception exception)
-            {
-                Log.i("NATOUR", "Registrazione fallita -----> " + exception.getLocalizedMessage() + " <---- ");
-                StringBuffer stringBuffer = new StringBuffer(exception.getLocalizedMessage());
-                stringBuffer.delete(stringBuffer.indexOf(".") + 1,stringBuffer.length());
-                ErrorDialog errorDialog = new ErrorDialog(stringBuffer.toString());
-                errorDialog.show(fragmentManager,"NATOUR");
-            }
-        };
+                },
+                error -> Log.e("AuthQuickStart", "Sign up failed", error)
+                // TODO: Fare schermata sign up failed
+        );
 
-        userAttributes.addAttribute("name", nome);
-        userAttributes.addAttribute("family_name", cognome);
-        userAttributes.addAttribute("email", email);
-        userAttributes.addAttribute("birthdate",dataDiNascita);
-        CognitoSettings cognitoSettings = new CognitoSettings(activity);
 
-        cognitoSettings.getUserPool().signUpInBackground(email, password,
-                userAttributes, null, signupCallBack);
+
+
     }
 
     public void showCodiceConfermato()
@@ -98,61 +87,28 @@ public class ControllerRegister
 
     public void verficaCodiceCognito(String codice, String email, TextView errore, ConfermaRegistrazioneDialog dialog)
     {
-        codiceErrato = errore;
-        final String[] result = new String[1];
-        Thread richiestaCodiceCognito = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                final GenericHandler confirmationCallBack = new GenericHandler()
+        Amplify.Auth.confirmSignUp(
+                email,
+                codice,
+                result ->{
+                    Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete");
+                    register.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            dialog.dismiss();
+                            register.load();
+                        }
+                    });
+                },
+                error ->
                 {
-                    @Override
-                    public void onSuccess()
-                    {
-                        result[0] = "Confermato";
-                        register.runOnUiThread(new Runnable()
-                        {
-                            @Override
-                            public void run()
-                            {
+                    Log.e("AuthQuickstart", error.toString());
+                    errore.setVisibility(View.VISIBLE);
+                }
+        );
 
-                                dialog.dismiss();
-                                register.load();
 
-                            }
-                        });
-
-                    }
-                    @Override
-                    public void onFailure(Exception exception)
-                    {
-                        result[0] = "Failed: "+exception.getMessage();
-                        register.runOnUiThread(new Runnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                codiceErrato.setVisibility(View.VISIBLE);
-                            }
-                        });
-
-                    }
-                };
-
-                CognitoSettings cognitoSettings = new CognitoSettings(activity);
-                CognitoUser thisUser = cognitoSettings.getUserPool().getUser(email);
-
-                thisUser.confirmSignUp(codice,false, confirmationCallBack);
-            }
-        });
-        richiestaCodiceCognito.start();
-    }
-
-    public void passaAlLogin()
-    {
 
     }
-
-
 }

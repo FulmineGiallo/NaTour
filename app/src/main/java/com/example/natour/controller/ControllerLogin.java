@@ -2,6 +2,7 @@ package com.example.natour.controller;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Auth
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.amplifyframework.core.Amplify;
 import com.example.natour.model.connection.CognitoSettings;
 import com.example.natour.view.TabActivity;
 import com.example.natour.view.ErrorDialog;
@@ -43,65 +45,28 @@ public class ControllerLogin
         this.contexController = contexController;
     }
 
-    public boolean checkLogin(String email, String password)
+    public void checkLogin(String email, String password)
     {
-        boolean check = false;
-
-       /* UtenteDAO utente = new UtenteDAO();
+        /* UtenteDAO utente = new UtenteDAO();
         utente.utenteExist(email, password, contexController);*/
 
-        final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
-            @Override
-            public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice)
-            {
-                Log.i("LOGIN", "Login avvenuto con successo, puoi prendere il token qui");
-                intentHomePage = new Intent(contexController, TabActivity.class);
-                contexController.startActivity(intentHomePage);
-                /* userSession contiene il token */
+        Amplify.Auth.signIn(
+                email,
+                password,
+                result ->{
+                    Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete");
+                    intentHomePage = new Intent(contexController, TabActivity.class);
+                    contexController.startActivity(intentHomePage);
+                    ((Activity) contexController).finish();
+                    System.out.println(Amplify.Auth.getCurrentUser().getUserId());
+                },
+                error -> Log.e("AuthQuickstart", error.toString())
+        );
 
-            }
-
-            @Override
-            public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId)
-            {
-                Log.i("LOGIN", "getAuthenticationDetails()...");
-                /* password per continuare */
-                AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, password, null);
-
-                authenticationContinuation.setAuthenticationDetails(authenticationDetails);
-                authenticationContinuation.continueTask();
-
-
-            }
-
-            @Override
-            public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
-
-            }
-
-            @Override
-            public void authenticationChallenge(ChallengeContinuation continuation) {
-
-            }
-
-            @Override
-            public void onFailure(Exception exception)
-            {
-                ErrorDialog errorLogin = new ErrorDialog("Email o Password non corretti, riprova!");
-                errorLogin.show(fragmentManager, "ERROR");
-
-                Log.i("ERROR_LOGIN", "Login Failed" + exception.getLocalizedMessage());
-            }
-        };
-
-        /*Verifica con Cognito */
-        CognitoSettings cognitoSettings = new CognitoSettings(contexController);
-        CognitoUser thisUser = cognitoSettings.getUserPool().getUser(email);
-        thisUser.getSessionInBackground(authenticationHandler);
-
-
-        return check;
 
     }
+    public void loginWithFacebook()
+    {
 
+    }
 }

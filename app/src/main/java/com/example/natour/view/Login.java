@@ -78,25 +78,11 @@ public class Login extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        try
-        {
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
-        }
-        catch (AmplifyException e)
-        {
-            e.printStackTrace();
-        }
-
-
-        Log.i("Tutorial", "Initialized Amplify");
         setContentView(R.layout.activity_login);
         controllerLogin = new ControllerLogin(fm, this);
         btn_login = findViewById(R.id.btn_login);
         googleLogin = findViewById(R.id.image_google);
-
         intentRegister = new Intent(this, Register.class);
-
         btn_register = findViewById(R.id.btn_signin);
         btn_register.setOnClickListener(new View.OnClickListener()
         {
@@ -110,11 +96,18 @@ public class Login extends AppCompatActivity
         edtEmail = findViewById(R.id.email);
         edtPassword = findViewById(R.id.password);
 
+        try {
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+
         Amplify.Auth.fetchAuthSession(
                 result -> Log.i("AmplifyQuickstart", result.toString()),
                 error -> Log.e("AmplifyQuickstart", error.toString())
         );
-
 
         btn_login.setOnClickListener(new View.OnClickListener()
         {
@@ -130,34 +123,15 @@ public class Login extends AppCompatActivity
         /*                          FACEBOOK                        */
 
         facebookLogin = findViewById(R.id.img_facebook);
-        /*Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
-                result -> Log.i("AuthQuickstart", result.toString()),
-                error -> Log.e("AuthQuickstart", error.toString())
-        );*/
         facebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 // For Facebook
-                HostedUIOptions hostedUIOptions = HostedUIOptions.builder()
-                        .scopes("openid", "email")
-                        .identityProvider("Facebook")
-                        .build();
-
-                SignInUIOptions signInUIOptions = SignInUIOptions.builder()
-                        .hostedUIOptions(hostedUIOptions)
-                        .build();
-                AWSMobileClient.getInstance().showSignIn(Login.this, signInUIOptions, new Callback<UserStateDetails>() {
-                    @Override
-                    public void onResult(UserStateDetails details) {
-                        Log.d("Result", "onResult: " + details.getUserState());
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("Error", "onError: ", e);
-                    }
-                });
+                Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), Login.this,
+                        result -> Log.i("AuthQuickstart", result.toString()),
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
 
             }
         });

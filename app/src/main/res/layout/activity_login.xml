@@ -111,17 +111,16 @@
         android:layout_marginStart="100dp"
         android:layout_marginBottom="14dp"
         android:background="#00FFFFFF"
-
         app:layout_constraintBottom_toTopOf="@+id/txt_msg"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_facebook___original"/>
-<!--
-    <com.facebook.login.widget.LoginButton
+
+    <ImageButton
         android:id="@+id/image_facebook"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="30dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:focusable="true"
         android:clickable="true"
         app:layout_constraintTop_toTopOf="@id/img_facebook"
@@ -129,7 +128,7 @@
         app:layout_constraintRight_toRightOf="@id/img_facebook"
         app:layout_constraintLeft_toLeftOf="@id/img_facebook"
         android:background="#00FFFFFF"
-        />-->
+        />
 
     <ImageButton
         android:id="@+id/image_google"

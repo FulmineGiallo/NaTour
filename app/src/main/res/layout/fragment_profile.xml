@@ -12,70 +12,53 @@
         android:id="@+id/utente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginTop="158dp"
-        android:layout_marginEnd="165dp"
+        android:layout_marginTop="10dp"
         android:text="Nome Utente"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/img_profileUtente"
+        app:layout_constraintRight_toRightOf="@+id/img_profileUtente"
+        app:layout_constraintLeft_toLeftOf="@id/img_profileUtente"
+        />
 
     <TextView
         android:id="@+id/mieiItinerari"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="171dp"
-        android:layout_marginEnd="171dp"
         android:background="#00000000"
         android:text="@string/txt_iMieiItinerari"
         android:textColor="#000000"
         android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/utente" />
+        app:layout_constraintTop_toBottomOf="@id/utente"
+        app:layout_constraintRight_toRightOf="@id/utente"
+        app:layout_constraintLeft_toLeftOf="@id/utente"
 
-    <ScrollView
-        android:layout_width="409dp"
-        android:layout_height="443dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+    <ImageView
+        android:id="@+id/img_profileUtente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="29dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:src="@tools:sample/avatars" />
 
-            <TableLayout
-                android:id="@+id/grigliaItinerario"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </TableLayout>
-        </LinearLayout>
-    </ScrollView>
-
-
+    <ImageButton
+        android:id="@+id/btn_optionsProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:src="@drawable/ic_icon_bars"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="-1dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:padding="10dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

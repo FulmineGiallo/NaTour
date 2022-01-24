@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.natour">
-
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" tools:ignore="QueryAllPackagesPermission" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
@@ -12,14 +13,16 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="https" />
+
+            <data android:scheme="natour" />
         </intent>
         <intent>
-            <action android:name=
-                "android.support.customtabs.action.CustomTabsService" />
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
+
         </intent>
     </queries>
 
@@ -30,6 +33,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NaTour">
+
         <activity
             android:name=".view.TransazioneRegister"
             android:exported="false" />
@@ -68,11 +72,11 @@
             android:exported="false" />
         <activity
             android:name=".view.TabActivity"
-            android:exported="false" />
-        <!-- Facebook Requirements -->
+            android:exported="false" /> <!-- Facebook Requirements -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
         <activity
             android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
             android:exported="true">
@@ -80,11 +84,19 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="natour" />
+                <data android:scheme="natour"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="com.amazonaws.mobile.client.activities.HostedUIRedirectActivity"
+            android:name=".view.Signout"
+            android:exported="true">
+            <intent-filter>
+                <data android:scheme="natour"/>
+            </intent-filter>
+
+        </activity>
+        <!--<activity
+            android:name="com.amazonaws.mobileconnectors.cognitoauth.activities.CustomTabsRedirectActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -92,8 +104,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="natour" />
             </intent-filter>
-        </activity>
-
+        </activity>-->
     </application>
 
 </manifest>

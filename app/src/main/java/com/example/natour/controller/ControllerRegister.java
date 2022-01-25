@@ -2,36 +2,22 @@ package com.example.natour.controller;
 
 import static org.apache.commons.lang3.StringUtils.join;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
-import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
-import com.example.natour.model.connection.CognitoSettings;
 import com.example.natour.view.ConfermaRegistrazioneDialog;
-import com.example.natour.view.ErrorDialog;
-import com.example.natour.view.Login;
 import com.example.natour.view.Register;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ControllerRegister
 {
@@ -57,7 +43,7 @@ public class ControllerRegister
         ArrayList<AuthUserAttribute> params = new ArrayList<>();
         params.add(new AuthUserAttribute(AuthUserAttributeKey.name(), nome));
         params.add(new AuthUserAttribute(AuthUserAttributeKey.familyName(), cognome));
-        params.add(new AuthUserAttribute(AuthUserAttributeKey.birthdate(), dataDiNascita));
+        /*params.add(new AuthUserAttribute(AuthUserAttributeKey.birthdate(), dataDiNascita));*/
 
         AuthSignUpOptions options = AuthSignUpOptions.builder()
                 .userAttributes(params)

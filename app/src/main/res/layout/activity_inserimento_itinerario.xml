@@ -100,19 +100,21 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
                     android:hint="Durata"
                     android:id="@+id/edt_timeItinerario"
                     app:layout_constraintTop_toBottomOf="@+id/edt_nomeItinerario"
+                    app:layout_constraintRight_toLeftOf="@id/img_disabili"
                     >
                     <EditText
 
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:inputType="time"

@@ -39,6 +39,10 @@ public class TabActivity extends AppCompatActivity {
                     break;
                 case R.id.profile:
                     fragment = new ProfileFragment();
+                    break;
+                case R.id.cerca:
+                    fragment = new CercaFragment();
+                    break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 

@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
+import com.amplifyframework.core.Amplify;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -19,6 +23,7 @@ import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.model.daointerface.UtenteDaoInterface;
 import com.example.natour.model.Utente;
 import com.example.natour.view.Login;
+import com.google.android.gms.auth.api.Auth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +43,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UtenteDAO
+public class UtenteDAO implements UtenteDaoInterface
 {
     Map<String, String> parmasAPI = new HashMap<String, String>();
 
@@ -57,6 +62,31 @@ public class UtenteDAO
 
         return 0;
     }
+
+
+    public Utente getInformationOfAmplifySession()
+    {
+        Utente nuovoUtente = new Utente();
+
+
+        Amplify.Auth.fetchUserAttributes(
+                result -> {
+                    AuthUserAttribute id = result.get(3);
+                    StringBuffer idUtente = new StringBuffer(id.getValue());
+                    String token;
+                    token = idUtente.substring(idUtente.indexOf("userId\":\"") + 9, idUtente.indexOf(",") - 1 );
+
+                    nuovoUtente.setToken(token);
+                    Log.i("NAME", nuovoUtente.getToken());
+                },
+                error -> Log.e("Error", error.getLocalizedMessage())
+
+        );
+
+
+        return nuovoUtente;
+    }
+
 }
 
 

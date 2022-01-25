@@ -53,9 +53,6 @@
             android:name=".view.InserimentoItinerario"
             android:exported="false" />
         <activity
-            android:name=".view.Profile"
-            android:exported="false" />
-        <activity
             android:name=".view.Register"
             android:exported="false" />
         <activity

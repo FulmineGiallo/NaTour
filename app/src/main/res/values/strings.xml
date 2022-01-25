@@ -18,4 +18,5 @@
     <string name="il_codice_inserito_non_corretto">il codice inserito non è corretto</string>
     <string name="facebook_app_id">473428800832521</string>
     <string name="fb_login_protocol_scheme">fb473428800832521</string>
+    <string name="filtro_per_gli_itinerari">Filtro per gli itinerari</string>
 </resources>

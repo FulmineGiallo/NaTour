@@ -117,11 +117,6 @@ public class Login extends AppCompatActivity
         }
 
 
-       /* Amplify.Auth.fetchAuthSession(
-                result -> Log.i("AmplifyQuickstart", result.toString()),
-                error -> Log.e("AmplifyQuickstart", error.toString())
-        );*/
-
         btn_login.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -132,7 +127,13 @@ public class Login extends AppCompatActivity
                 controllerLogin.checkLogin(email, password);
             }
         });
-
+        btn_register.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentRegister);
+            }
+        });
 
         facebookLogin = findViewById(R.id.image_facebook);
         facebookLogin.setOnClickListener(new View.OnClickListener()

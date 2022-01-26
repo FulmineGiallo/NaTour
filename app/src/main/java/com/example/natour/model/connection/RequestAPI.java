@@ -46,29 +46,27 @@ public class RequestAPI
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest request = new StringRequest(Request.Method.POST, URL, new com.android.volley.Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
-
-                Toast.makeText(context, "Data added to API", Toast.LENGTH_SHORT).show();
-                try {
-
-                    JSONObject respObj = new JSONObject(response);
-                    Log.i("TOKEN", respObj.toString());
-
-                } catch (JSONException e) {
+            public void onResponse(String response)
+            {
+                try
+                {
+                    respObj = new JSONObject(response);
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+            public void onErrorResponse(VolleyError error)
+            {
+                Log.e("ERROR", error.getLocalizedMessage());
             }
         }) {
             @Override
             protected Map<String, String> getParams()
             {
-
-
                 return params;
             }
         };

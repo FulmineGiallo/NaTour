@@ -6,6 +6,8 @@ import androidx.databinding.DataBindingUtil;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerRegister;
 import com.example.natour.databinding.ActivityRegisterBinding;
+import com.example.natour.model.connection.SimpleCallBackInterface;
+import com.example.natour.model.dao.UtenteDAO;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -47,6 +49,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     private ControllerRegister controllerRegister;
     private ImageButton btn_backToLogin;
     private TextView erroreData;
+    private String dataN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -101,6 +104,9 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
                         {
                             erroreData.setText("");
                         }
+                        simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                        dataN = simpleDateFormat.format(date);
+
                     }
                 }, 2000 ,Calendar.getInstance().get(Calendar.MONTH), 1);
 
@@ -147,7 +153,7 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
                 if(checkEditBox)
                 {
                     controllerRegister.registerUser(String.valueOf(nome.getText()),String.valueOf(cognome.getText()),
-                            String.valueOf(email.getText()),String.valueOf(password.getText()),String.valueOf(dataDiNascita.getText()));
+                            String.valueOf(email.getText()),String.valueOf(password.getText()), dataN);
 
                 }
 
@@ -254,10 +260,8 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     @Override
     public void onButtonClicked(String codice, TextView errore, ConfermaRegistrazioneDialog dialog)
     {
-
         controllerRegister.verficaCodiceCognito(codice, String.valueOf(email.getText()), errore, dialog);
 
 
-        Log.i("NATOUR","codice = "+ codice);
     }
 }

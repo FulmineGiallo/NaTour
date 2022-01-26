@@ -10,6 +10,11 @@
       "StackName": "amplify-natour-dev-112853",
       "StackId": "arn:aws:cloudformation:eu-west-1:040386018727:stack/amplify-natour-dev-112853/04b43260-7b6e-11ec-85bd-0a33c7a891f3",
       "AmplifyAppId": "du7m6y668jwkk"
+    },
+    "categories": {
+      "auth": {
+        "natour9d6fb197": {}
+      }
     }
   },
   "natourenv": {
@@ -26,7 +31,12 @@
     },
     "categories": {
       "auth": {
-        "natour9d6fb197": {}
+        "natour00470965": {
+          "userPoolId": "eu-west-1_OEyJd3UpX",
+          "userPoolName": "natour63bc8ba4_userpool_63bc8ba4-dev",
+          "webClientId": "43j1blujt9of45n597e5m27i3a",
+          "nativeClientId": "4viavqurap7dtf6lele2fq2d3b"
+        }
       }
     }
   }

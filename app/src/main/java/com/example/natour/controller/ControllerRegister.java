@@ -8,12 +8,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
+import com.example.natour.model.Utente;
+import com.example.natour.model.connection.SimpleCallBackInterface;
+import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.ConfermaRegistrazioneDialog;
 import com.example.natour.view.Register;
 
@@ -21,11 +25,11 @@ import java.util.ArrayList;
 
 public class ControllerRegister
 {
-    private Intent registerToLogin;
     private FragmentManager fragmentManager;
     private Context activity;
     private TextView codiceErrato;
     private Register register;
+    private String dataDiNascita;
 
     public ControllerRegister(FragmentManager fragmentManager, Context context, Register register)
     {
@@ -39,7 +43,7 @@ public class ControllerRegister
     public void registerUser(String nome, String cognome, String email, String password, String dataDiNascita)
     {
 
-
+        this.dataDiNascita = dataDiNascita;
         ArrayList<AuthUserAttribute> params = new ArrayList<>();
         params.add(new AuthUserAttribute(AuthUserAttributeKey.name(), nome));
         params.add(new AuthUserAttribute(AuthUserAttributeKey.familyName(), cognome));
@@ -53,6 +57,8 @@ public class ControllerRegister
                 {
                     Log.i("AuthQuickStart", "Result: " + result.toString());
                     showCodiceConfermato();
+                    Log.i("AUTH USER", result.getUser().toString());
+
                 },
                 error -> Log.e("AuthQuickStart", "Sign up failed", error)
                 // TODO: Fare schermata sign up failed
@@ -86,14 +92,16 @@ public class ControllerRegister
                             register.load();
                         }
                     });
+
+                    Log.i("RESULT SIGN IN", result.toString());
                 },
                 error ->
                 {
                     Log.e("AuthQuickstart", error.toString());
                     errore.setVisibility(View.VISIBLE);
+
                 }
         );
-
 
 
     }

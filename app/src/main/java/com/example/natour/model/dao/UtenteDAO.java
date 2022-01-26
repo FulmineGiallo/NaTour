@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.connection.SimpleCallBackInterface;
 import com.example.natour.model.daointerface.UtenteDaoInterface;
 import com.example.natour.model.Utente;
 import com.example.natour.view.Login;
@@ -47,20 +48,22 @@ public class UtenteDAO implements UtenteDaoInterface
 {
     Map<String, String> parmasAPI = new HashMap<String, String>();
 
-    public int utenteExist(String email, String password, Context activityPrec)
+    public void setTokenUtente(String idUtente, String dataDiNascita, Context activityPrec)
     {
         /* L'idea è di creare Un hashMap e passarla a volley per metterla nel body */
-        String URL = "http://ec2-52-210-159-218.eu-west-1.compute.amazonaws.com/natour21/api/utente/login.php";
+        String URL = "http://ec2-34-243-75-95.eu-west-1.compute.amazonaws.com/natour21/api/utente/insertToken.php";
 
-        /* Per cercare un utente nel database bisogna mettere l'email e la password */
-        parmasAPI.put("email", email);
-        parmasAPI.put("password", password);
-
-        /*RequestAPI request = new RequestAPI(URL, activityPrec, parmasAPI);*/
+        /* Insert Token e Data Di Nascita nella registrazione*/
+        parmasAPI.put("token", idUtente);
+        parmasAPI.put("dataDiNascita", dataDiNascita);
 
 
+        RequestAPI request = new RequestAPI(URL, activityPrec, parmasAPI);
+        JSONObject responseAPI = request.sendRequest();
 
-        return 0;
+
+
+
     }
 
 
@@ -86,6 +89,7 @@ public class UtenteDAO implements UtenteDaoInterface
 
         return nuovoUtente;
     }
+
 
 }
 

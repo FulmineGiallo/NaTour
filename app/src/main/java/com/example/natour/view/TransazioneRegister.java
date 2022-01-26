@@ -48,11 +48,18 @@ public class TransazioneRegister extends AppCompatActivity
 
         gufo.startAnimation(anim);
         conferma.startAnimation(anim);
+
         new Handler().postDelayed(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
+
                 startActivity(new Intent(TransazioneRegister.this,Login.class));
             }
         },3000);
+
+
+
+
     }
 }

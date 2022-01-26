@@ -92,7 +92,7 @@
             </intent-filter>
 
         </activity>
-        <!--<activity
+        <activity
             android:name="com.amazonaws.mobileconnectors.cognitoauth.activities.CustomTabsRedirectActivity"
             android:exported="true">
             <intent-filter>
@@ -101,7 +101,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="natour" />
             </intent-filter>
-        </activity>-->
+        </activity>
     </application>
 
 </manifest>

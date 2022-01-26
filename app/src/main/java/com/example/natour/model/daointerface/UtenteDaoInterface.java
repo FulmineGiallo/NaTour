@@ -9,6 +9,6 @@ import java.util.Date;
 
 public interface UtenteDaoInterface
 {
-    public Utente getInformationOfAmplifySession();
-    public int utenteExist(String email, String password, Context activityPrec);
+    Utente getInformationOfAmplifySession();
+    void setTokenUtente(String token, String dataDiNascita,Context activityPrec);
 }

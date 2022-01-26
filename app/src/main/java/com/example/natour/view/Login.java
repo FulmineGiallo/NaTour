@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
@@ -34,8 +35,18 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerLogin;
+import com.example.natour.model.Utente;
+import com.example.natour.model.dao.UtenteDAO;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -49,6 +60,9 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.tasks.Task;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -86,13 +100,6 @@ public class Login extends AppCompatActivity
         googleLogin = findViewById(R.id.image_google);
         intentRegister = new Intent(this, Register.class);
         btn_register = findViewById(R.id.btn_signin);
-        btn_register.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                startActivity(intentRegister);
-            }
-        });
 
         /* ---------------------- ACCESSO UTENTE --------------------------------------------- */
         edtEmail = findViewById(R.id.email);
@@ -110,10 +117,10 @@ public class Login extends AppCompatActivity
         }
 
 
-        Amplify.Auth.fetchAuthSession(
+       /* Amplify.Auth.fetchAuthSession(
                 result -> Log.i("AmplifyQuickstart", result.toString()),
                 error -> Log.e("AmplifyQuickstart", error.toString())
-        );
+        );*/
 
         btn_login.setOnClickListener(new View.OnClickListener()
         {
@@ -126,7 +133,6 @@ public class Login extends AppCompatActivity
             }
         });
 
-        /*                          FACEBOOK                        */
 
         facebookLogin = findViewById(R.id.image_facebook);
         facebookLogin.setOnClickListener(new View.OnClickListener()

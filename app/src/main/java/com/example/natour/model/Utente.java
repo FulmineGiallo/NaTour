@@ -1,14 +1,11 @@
 package com.example.natour.model;
 
-import java.util.Date;
-
 public class Utente
 {
     private String email;
-    private String password;
     private String nome;
     private String cognome;
-    private Date dataDiNascita;
+    private String dataDiNascita;
     private String token;
 
     public String getNome() {
@@ -27,16 +24,27 @@ public class Utente
         this.cognome = cognome;
     }
 
-    public Date getDataDiNascita() {
+    public String getDataDiNascita() {
         return dataDiNascita;
     }
 
-    public void setDataDiNascita(Date dataDiNascita) {
+    public void setDataDiNascita(String dataDiNascita) {
         this.dataDiNascita = dataDiNascita;
     }
 
     public String getToken() {
         return token;
+    }
+
+    @Override
+    public String toString() {
+        return "Utente{" +
+                "email='" + email + '\'' +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", dataDiNascita=" + dataDiNascita +
+                ", token='" + token + '\'' +
+                '}';
     }
 
     public void setToken(String token) {
@@ -51,11 +59,5 @@ public class Utente
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

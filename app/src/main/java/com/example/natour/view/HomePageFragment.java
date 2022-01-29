@@ -51,10 +51,6 @@ public class HomePageFragment extends Fragment
         fab = getView().findViewById(R.id.btn_inserimentoItinerario);
         intentInserimentoItinerario = new Intent(HomePageFragment.this.getActivity(), InserimentoItinerario.class);
 
-        tokenLogin = getView().findViewById(R.id.tokenLogin);
-        UtenteDAO utente = new UtenteDAO();
-        Utente utenteLoggato = utente.getInformationOfAmplifySession();
-        tokenLogin.setText(utenteLoggato.getNome());
 
 
         fab.setOnTouchListener(new View.OnTouchListener()

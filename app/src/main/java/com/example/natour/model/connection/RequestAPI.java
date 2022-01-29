@@ -73,6 +73,11 @@ public class RequestAPI
 
         queue.add(request);
 
+        while(respObj == null)
+        {
+
+        }
+
         return respObj;
     }
 

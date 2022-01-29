@@ -19,4 +19,5 @@
     <string name="facebook_app_id">473428800832521</string>
     <string name="fb_login_protocol_scheme">fb473428800832521</string>
     <string name="filtro_per_gli_itinerari">Filtro per gli itinerari</string>
+    <string name="endpointVM"> http://ec2-54-170-83-9.eu-west-1.compute.amazonaws.com/natour21/api/</string>
 </resources>

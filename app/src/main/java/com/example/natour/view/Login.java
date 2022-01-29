@@ -35,6 +35,7 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.rx.RxAmplify;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -68,6 +69,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Login extends AppCompatActivity
 {
@@ -105,10 +107,12 @@ public class Login extends AppCompatActivity
         edtEmail = findViewById(R.id.email);
         edtPassword = findViewById(R.id.password);
 
+        edtEmail.setText("carminefb@live.it");
+        edtPassword.setText("Carmine13-");
         try
         {
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.configure(getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         }
         catch (AmplifyException error)

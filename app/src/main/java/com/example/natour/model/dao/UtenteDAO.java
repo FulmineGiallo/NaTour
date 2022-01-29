@@ -58,14 +58,14 @@ public class UtenteDAO implements UtenteDaoInterface
     {
         Map<String, String> parmasAPI = new HashMap<String, String>();
         /* L'idea è di creare Un hashMap e passarla a volley per metterla nel body */
-        String URL = R.string.endpointVM + "utente/insertToken.php";
+        String path = "utente/insertToken.php";
 
         /* Insert Token e Data Di Nascita nella registrazione*/
         parmasAPI.put("token", idUtente);
         parmasAPI.put("dataDiNascita", dataDiNascita);
 
 
-        RequestAPI request = new RequestAPI(URL, activityPrec, parmasAPI);
+        RequestAPI request = new RequestAPI(path, activityPrec, parmasAPI);
         JSONObject responseAPI = request.sendRequest();
 
 
@@ -73,21 +73,21 @@ public class UtenteDAO implements UtenteDaoInterface
     public void existUtente(String token, Context context)
     {
         Map<String, String> parmasAPI = new HashMap<String, String>();
-        String URL = R.string.endpointVM + "utente/existUtente.php";
+        String path = "utente/existUtente.php";
         parmasAPI.put("token", token);
         JSONObject response;
 
-        RequestAPI requestExistUtente = new RequestAPI(URL, context, parmasAPI);
+        RequestAPI requestExistUtente = new RequestAPI(path, context, parmasAPI);
 
     }
     public String getBirthdate(String token, Context context)
     {
         Map<String, String> parmasAPI = new HashMap<String, String>();
-        String URL = R.string.endpointVM + "utente/getBirthdate.php";
+        String path = "utente/getBirthdate.php";
         parmasAPI.put("token", token);
         JSONObject response ;
 
-        RequestAPI requestBirthdate = new RequestAPI(URL, context, parmasAPI);
+        RequestAPI requestBirthdate = new RequestAPI(path, context, parmasAPI);
         response = requestBirthdate.sendRequest();
 
         Log.i("COMPLEANNO", response.toString());

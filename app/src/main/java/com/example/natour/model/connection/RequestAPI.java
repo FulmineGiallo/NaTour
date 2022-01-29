@@ -27,14 +27,15 @@ import java.util.Map;
 
 public class RequestAPI
 {
-    private String URL;
+    private String endpoint = "http://ec2-54-170-83-9.eu-west-1.compute.amazonaws.com/natour21/api/";
+    private String path;
     private Context context;
     private JSONObject respObj;
     private Map<String, String> params = null;
 
-    public RequestAPI(String URL, Context context, Map<String, String> paramsBody)
+    public RequestAPI(String path, Context context, Map<String, String> paramsBody)
     {
-        this.URL = URL;
+        this.path = path;
         this.context = context;
         this.params = paramsBody;
 
@@ -44,7 +45,7 @@ public class RequestAPI
     {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest request = new StringRequest(Request.Method.POST, URL, new com.android.volley.Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, endpoint + path, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response)
             {
@@ -61,7 +62,7 @@ public class RequestAPI
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Log.e("ERROR", error.getLocalizedMessage());
+                Log.e("ERROR", error.toString());
             }
         }) {
             @Override

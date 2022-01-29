@@ -111,8 +111,8 @@ public class Login extends AppCompatActivity
         edtPassword.setText("Carmine13-");
         try
         {
-            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
-            RxAmplify.configure(getApplicationContext());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.configure(getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         }
         catch (AmplifyException error)

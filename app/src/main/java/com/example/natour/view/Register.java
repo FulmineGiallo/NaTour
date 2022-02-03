@@ -6,13 +6,10 @@ import androidx.databinding.DataBindingUtil;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerRegister;
 import com.example.natour.databinding.ActivityRegisterBinding;
-import com.example.natour.model.connection.SimpleCallBackInterface;
-import com.example.natour.model.dao.UtenteDAO;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,7 +17,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -30,12 +26,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class Register extends AppCompatActivity implements ConfermaRegistrazioneDialog.BottomSheetListener
 {

@@ -2,22 +2,17 @@ package com.example.natour.controller;
 
 import static org.apache.commons.lang3.StringUtils.join;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
-import com.example.natour.model.Utente;
-import com.example.natour.model.connection.SimpleCallBackInterface;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.ConfermaRegistrazioneDialog;
 import com.example.natour.view.Register;
@@ -60,6 +55,7 @@ public class ControllerRegister
                     showCodiceConfermato();
                     Log.i("AUTH USER", result.getUser().getUserId());
                     UtenteDAO utenteDAO = new UtenteDAO();
+                    Log.i("DATA DI NASCITA", dataDiNascita);
                     utenteDAO.setTokenUtente(result.getUser().getUserId(), dataDiNascita, activity);
                 },
                 error -> Log.e("AuthQuickStart", "Sign up failed", error)

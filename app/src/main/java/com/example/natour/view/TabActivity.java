@@ -8,16 +8,22 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.natour.R;
+import com.example.natour.controller.ControllerTab;
+import com.example.natour.model.Utente;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TabActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-
+    private Utente utente;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
+        ControllerTab controllerTab = new ControllerTab(getSupportFragmentManager(), this);
+        utente = controllerTab.loadingUtente();
 
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setSelectedItemId(R.id.home);

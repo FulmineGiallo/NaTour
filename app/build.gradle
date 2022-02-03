@@ -81,9 +81,15 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'io.reactivex:rxandroid:1.2.0'
     implementation 'io.reactivex:rxjava:1.1.8'
     implementation 'com.amplifyframework:rxbindings:1.31.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.kymjs.rxvolley:rxvolley:1.1.4'
 
+    // If use okhttp function
+    implementation 'com.kymjs.rxvolley:okhttp:1.1.4'
+
+    // If use image-loader function
+    implementation 'com.kymjs.rxvolley:bitmapcore:1.1.4'
 }

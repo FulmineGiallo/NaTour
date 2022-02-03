@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.amplifyframework.core.Amplify;
 import com.example.natour.R;
+import com.example.natour.controller.ControllerHomePage;
+import com.example.natour.controller.ControllerRegister;
 import com.example.natour.model.Utente;
 import com.example.natour.model.dao.UtenteDAO;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,16 +28,18 @@ public class HomePageFragment extends Fragment
     FloatingActionButton fab;
     Intent intentInserimentoItinerario;
     TextView tokenLogin;
-
+    Utente utente;
 
     public HomePageFragment() {
-        // Required empty public constructor
+
 
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+
 
     }
 

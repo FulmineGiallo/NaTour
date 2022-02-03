@@ -28,6 +28,7 @@ public class ErrorDialog extends DialogFragment
         this.errorMSG = errorMSG;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)

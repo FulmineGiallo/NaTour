@@ -2,28 +2,34 @@ package com.example.natour.model.connection;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.loader.content.Loader;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.natour.view.Login;
+import com.example.natour.model.Utente;
+import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.client.HttpCallback;
+import com.kymjs.rxvolley.client.HttpParams;
+import com.kymjs.rxvolley.client.ProgressListener;
+import com.kymjs.rxvolley.rx.Result;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.http.Field;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+
 
 public class RequestAPI
 {
@@ -32,6 +38,7 @@ public class RequestAPI
     private Context context;
     private JSONObject respObj;
     private Map<String, String> params = null;
+    private PublishSubject<JSONObject> risposta;
 
     public RequestAPI(String path, Context context, Map<String, String> paramsBody)
     {
@@ -41,8 +48,10 @@ public class RequestAPI
 
     }
 
-    public JSONObject sendRequest()
+    public PublishSubject<JSONObject> sendRequest()
     {
+
+        risposta = PublishSubject.create();
 
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest request = new StringRequest(Request.Method.POST, endpoint + path, new com.android.volley.Response.Listener<String>() {
@@ -51,7 +60,10 @@ public class RequestAPI
             {
                 try
                 {
+
                     respObj = new JSONObject(response);
+                    risposta.onNext(respObj);
+
                 }
                 catch (JSONException e)
                 {
@@ -74,14 +86,9 @@ public class RequestAPI
 
         queue.add(request);
 
-        while(respObj == null)
-        {
 
-        }
-
-        return respObj;
+        return risposta;
     }
-
 
 
 }

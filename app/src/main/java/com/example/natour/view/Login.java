@@ -88,7 +88,6 @@ public class Login extends AppCompatActivity
     ImageButton googleLogin;
     ImageButton facebookLogin;
 
-    private static final int RC_SIGN_IN = 007;
     Intent intentLoginHappened;
 
 
@@ -111,8 +110,8 @@ public class Login extends AppCompatActivity
         edtPassword.setText("Carmine13-");
         try
         {
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.configure(getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         }
         catch (AmplifyException error)
@@ -128,7 +127,8 @@ public class Login extends AppCompatActivity
             {
                 email = edtEmail.getText().toString();
                 password = edtPassword.getText().toString();
-                controllerLogin.checkLogin(email, password);
+
+                controllerLogin.checkLoginCognito(email, password);
             }
         });
         btn_register.setOnClickListener(new View.OnClickListener()
@@ -145,7 +145,7 @@ public class Login extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                controllerLogin.loginWithFacebook();
+                controllerLogin.checkLoginFacebook();
             }
         });
 
@@ -155,7 +155,7 @@ public class Login extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                controllerLogin.loginWithGoogle();
+                controllerLogin.checkLoginGoogle();
             }
         });
     }

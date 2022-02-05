@@ -191,16 +191,17 @@
                     ></com.google.android.material.button.MaterialButton>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txt_descrizione"
                     app:layout_constraintTop_toBottomOf="@id/btn_gpx"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+
+                    app:layout_constraintLeft_toLeftOf="@id/edt_descrizione"
                     android:text="Descrizione"
                     android:textColor="@color/black"
                     android:textSize="30dp"
                     android:textStyle="bold"
+
                     >
                 </TextView>
 

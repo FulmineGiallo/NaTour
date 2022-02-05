@@ -3,6 +3,7 @@ package com.example.natour.view.Tab;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -25,9 +26,18 @@ public class TabActivity extends AppCompatActivity {
     {
 
         super.onCreate(savedInstanceState);
+        SharedViewModel model = new ViewModelProvider(this).get(SharedViewModel.class);
+        try
+        {
+            model.setUtente(UtenteSingleton.getInstance().getUtente());
+        }
+        catch (SingletonNullException e)
+        {
+            e.printStackTrace();
+        }
+
         setContentView(R.layout.activity_tab);
-       /* ControllerTab controllerTab = new ControllerTab(getSupportFragmentManager(), this);
-        utente = controllerTab.loadingUtente();*/
+
 
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setSelectedItemId(R.id.home);

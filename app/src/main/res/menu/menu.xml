@@ -18,7 +18,7 @@
     <item
         android:id="@+id/messaggio"
         android:title="Messaggio"
-        android:icon="@drawable/ic_icon_envelope_close" />
+        android:icon="@drawable/ic_chat" />
     <item
         android:id="@+id/notifica"
         android:title="Notifiche"

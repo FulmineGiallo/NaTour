@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view.Tab;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.amplifyframework.core.Amplify;
 import com.example.natour.R;
-import com.example.natour.controller.ControllerHomePage;
-import com.example.natour.controller.ControllerRegister;
 import com.example.natour.model.Utente;
-import com.example.natour.model.dao.UtenteDAO;
+import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomePageFragment extends Fragment

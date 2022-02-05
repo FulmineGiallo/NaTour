@@ -35,28 +35,28 @@
         android:theme="@style/Theme.NaTour">
 
         <activity
-            android:name=".view.TransazioneRegister"
+            android:name=".view.RegisterActivity.TransazioneRegister"
             android:exported="false" />
         <activity
-            android:name=".visualizza_foto_inserite"
+            android:name=".view.visualizza_foto_inserite"
             android:exported="false" />
         <activity
-            android:name=".visualizza_segnalazioni_effettuate"
+            android:name=".view.visualizza_segnalazioni_effettuate"
             android:exported="false" />
         <activity
-            android:name=".visualizza_itinerari_inseriti"
+            android:name=".view.visualizza_itinerari_inseriti"
             android:exported="false" />
         <activity
-            android:name=".visualizza_recensioni_inserite"
+            android:name=".view.visualizza_recensioni_inserite"
             android:exported="false" />
         <activity
-            android:name=".view.InserimentoItinerario"
+            android:name=".view.InserimentoItinerarioActivity.InserimentoItinerario"
             android:exported="false" />
         <activity
-            android:name=".view.Register"
+            android:name=".view.RegisterActivity.Register"
             android:exported="false" />
         <activity
-            android:name=".view.Login"
+            android:name=".view.LoginActivity.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,7 +68,7 @@
             android:name=".view.VisualizzaItinerario"
             android:exported="false" />
         <activity
-            android:name=".view.TabActivity"
+            android:name=".view.Tab.TabActivity"
             android:exported="false" /> <!-- Facebook Requirements -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

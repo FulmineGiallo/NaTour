@@ -7,7 +7,7 @@
         android:id="@+id/edt_emailReg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.Register">
+        tools:context=".view.RegisterActivity.Register">
 
         <ImageButton
             android:id="@+id/btn_register_back"

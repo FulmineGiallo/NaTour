@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view.Tab;
 
 import android.content.Context;
 import android.graphics.Rect;

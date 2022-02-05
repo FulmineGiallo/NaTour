@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view.InserimentoItinerarioActivity;
 
 import android.os.Bundle;
 

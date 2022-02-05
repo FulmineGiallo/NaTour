@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view.RegisterActivity;
 
 import android.content.Context;
 import android.os.Bundle;

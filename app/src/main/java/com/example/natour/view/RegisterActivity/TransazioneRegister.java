@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view.RegisterActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.natour.R;
+import com.example.natour.view.LoginActivity.Login;
 
 public class TransazioneRegister extends AppCompatActivity
 {
@@ -54,7 +55,7 @@ public class TransazioneRegister extends AppCompatActivity
             public void run()
             {
 
-                startActivity(new Intent(TransazioneRegister.this,Login.class));
+                startActivity(new Intent(TransazioneRegister.this, Login.class));
             }
         },3000);
 

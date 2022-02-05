@@ -6,8 +6,7 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.amplifyframework.core.Amplify;
-import com.example.natour.view.Login;
+import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.view.Signout;
 
 
@@ -27,7 +26,11 @@ public class ControllerProfile
 
     public void signOut()
     {
-        contexController.startActivity(intentLogin);
+        RxAmplify.Auth.signOut()
+                .subscribe(
+                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
 
     }
 }

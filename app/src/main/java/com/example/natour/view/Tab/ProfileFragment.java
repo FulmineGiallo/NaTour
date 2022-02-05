@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view.Tab;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

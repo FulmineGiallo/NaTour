@@ -42,7 +42,7 @@ public class Utente
                 "email='" + email + '\'' +
                 ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
-                ", dataDiNascita=" + dataDiNascita +
+                ", dataDiNascita='" + dataDiNascita + '\'' +
                 ", token='" + token + '\'' +
                 '}';
     }

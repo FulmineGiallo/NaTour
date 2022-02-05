@@ -1,44 +1,18 @@
-package com.example.natour.view;//package com.example.natour.view;
+package com.example.natour.view.InserimentoItinerarioActivity;//package com.example.natour.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.graphics.Canvas;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 import com.example.natour.R;
 import com.google.android.material.slider.Slider;
-
-import org.osmdroid.config.Configuration;
-import org.osmdroid.events.MapListener;
-import org.osmdroid.events.ScrollEvent;
-import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.CustomZoomButtonsController;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.compass.CompassOverlay;
-
-import java.util.ArrayList;
 
 public class InserimentoItinerario extends AppCompatActivity {
 

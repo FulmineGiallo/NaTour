@@ -1,35 +1,46 @@
-package com.example.natour.view;
+package com.example.natour.view.Tab;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.natour.R;
-import com.example.natour.controller.ControllerTab;
 import com.example.natour.model.Utente;
+import com.example.natour.view.LoginActivity.SingletonNullException;
+import com.example.natour.view.LoginActivity.UtenteSingleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TabActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private Utente utente;
+    private String TAG = "tab activity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
-        ControllerTab controllerTab = new ControllerTab(getSupportFragmentManager(), this);
-        utente = controllerTab.loadingUtente();
+       /* ControllerTab controllerTab = new ControllerTab(getSupportFragmentManager(), this);
+        utente = controllerTab.loadingUtente();*/
 
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomePageFragment()).commit();
 
+        try
+        {
+            Log.i(TAG, UtenteSingleton.getInstance().getUtente().toString());
+        } catch (SingletonNullException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new BottomNavigationView.OnNavigationItemSelectedListener() {

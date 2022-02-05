@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view.RegisterActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerRegister;
 import com.example.natour.databinding.ActivityRegisterBinding;
+import com.example.natour.view.LoginActivity.Login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

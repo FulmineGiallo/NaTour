@@ -33,7 +33,7 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class RequestAPI
 {
-    private String endpoint = "http://ec2-54-170-83-9.eu-west-1.compute.amazonaws.com/natour21/api/";
+    private String endpoint = "http://ec2-54-216-181-112.eu-west-1.compute.amazonaws.com/natour21/api/";
     private String path;
     private Context context;
     private JSONObject respObj;

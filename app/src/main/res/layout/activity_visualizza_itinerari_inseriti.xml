@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".visualizza_itinerari_inseriti">
+    tools:context=".view.visualizza_itinerari_inseriti">
 
     <TextView
         android:id="@+id/txt_val_itinerari_totale"

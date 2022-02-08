@@ -16,7 +16,10 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerLogin;
+import com.example.natour.model.Utente;
 import com.example.natour.view.RegisterActivity.Register;
+
+import io.reactivex.rxjava3.core.Observable;
 
 public class Login extends AppCompatActivity
 {
@@ -36,14 +39,25 @@ public class Login extends AppCompatActivity
     ImageButton facebookLogin;
 
     Intent intentLoginHappened;
+    private String TAG = "Activity Login";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        try
+        {
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.configure(getApplicationContext());
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        }
+        catch (AmplifyException error)
+        {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
         controllerLogin = new ControllerLogin(fm, this);
+        setContentView(R.layout.activity_login);
         btn_login = findViewById(R.id.btn_login);
         googleLogin = findViewById(R.id.image_google);
         intentRegister = new Intent(this, Register.class);
@@ -55,16 +69,7 @@ public class Login extends AppCompatActivity
 
         edtEmail.setText("natour2022bbg@gmail.com");
         edtPassword.setText("Tanjiro13-");
-        try
-        {
-            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
-            RxAmplify.configure(getApplicationContext());
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        }
-        catch (AmplifyException error)
-        {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
+
 
 
         btn_login.setOnClickListener(new View.OnClickListener()

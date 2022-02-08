@@ -6,11 +6,14 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.amplifyframework.auth.AuthProvider;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.result.AuthSignInResult;
+import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.Utente;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.ErrorDialog;
+import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.LoginActivity.UtenteSingleton;
 import com.example.natour.view.Tab.TabActivity;
 
@@ -20,6 +23,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ControllerLogin
@@ -30,6 +34,7 @@ public class ControllerLogin
     Intent intentHomePage;
     private Utente utenteLoggato;
     private UtenteDAO utenteDati = new UtenteDAO();
+    private String TAG = "Controller Login";
 
     public ControllerLogin(FragmentManager fragmentManager, Context contexController)
     {
@@ -49,44 +54,6 @@ public class ControllerLogin
                        result ->
                        {
 
-                           Single<List<AuthUserAttribute>> infoUtente = utenteDati.getInformationOfAmplifySession();
-                           infoUtente.doOnSubscribe(dosub -> Log.i("AuthDemo", "Attributes:"))
-                                   .flatMapObservable(Observable::fromIterable)
-                                   .subscribe(
-                                           eachAttribute ->
-                                           {
-                                               Log.i("AuthDemo", eachAttribute.toString());
-                                               if(eachAttribute.getKey().getKeyString().equals("email"))
-                                                   utenteLoggato.setEmail(eachAttribute.getValue());
-                                               if(eachAttribute.getKey().getKeyString().equals("sub"))
-                                                   utenteLoggato.setToken(eachAttribute.getValue());
-                                               if(eachAttribute.getKey().getKeyString().equals("family_name"))
-                                                   utenteLoggato.setCognome(eachAttribute.getValue());
-                                               if(eachAttribute.getKey().getKeyString().equals("name"))
-                                                   utenteLoggato.setNome(eachAttribute.getValue());
-                                           },
-
-                                           error -> Log.e("AuthDemo", "Failed to fetch attributes.", error),
-                                           () ->
-                                           {
-                                               PublishSubject<JSONObject> subject;
-                                               /* Finisce qui */
-                                               subject = utenteDati.getBirthdate(utenteLoggato.getToken(), contexController);
-                                               subject.subscribe(
-                                                       data ->
-                                                       {
-
-                                                           utenteLoggato.setDataDiNascita(data.getString("data_di_nascita"));
-                                                           UtenteSingleton utenteSingleton = UtenteSingleton.getInstance(utenteLoggato);
-
-                                                           contexController.startActivity(intentHomePage);
-                                                       },
-                                                       dataError ->
-                                                               Log.e("ERROR Birt", dataError.toString())
-
-                                               );
-                                           }
-                                   );
                        },
                        error ->
                        {
@@ -95,7 +62,44 @@ public class ControllerLogin
                        }
                );
 
+        Single<List<AuthUserAttribute>> infoUtente = utenteDati.getInformationOfAmplifySession();
+        infoUtente.doOnSubscribe(dosub -> Log.i("AuthDemo", "Attributes:"))
+                .flatMapObservable(Observable::fromIterable)
+                .subscribe(
+                        eachAttribute ->
+                        {
+                            Log.i("AuthDemo", eachAttribute.toString());
+                            if(eachAttribute.getKey().getKeyString().equals("email"))
+                                utenteLoggato.setEmail(eachAttribute.getValue());
+                            if(eachAttribute.getKey().getKeyString().equals("sub"))
+                                utenteLoggato.setToken(eachAttribute.getValue());
+                            if(eachAttribute.getKey().getKeyString().equals("family_name"))
+                                utenteLoggato.setCognome(eachAttribute.getValue());
+                            if(eachAttribute.getKey().getKeyString().equals("name"))
+                                utenteLoggato.setNome(eachAttribute.getValue());
+                        },
 
+                        error -> Log.e("AuthDemo", "Failed to fetch attributes.", error),
+                        () ->
+                        {
+                            PublishSubject<JSONObject> subject;
+                            /* Finisce qui */
+                            subject = utenteDati.getBirthdate(utenteLoggato.getToken(), contexController);
+                            subject.subscribe(
+                                    data ->
+                                    {
+
+                                        utenteLoggato.setDataDiNascita(data.getString("data_di_nascita"));
+                                        UtenteSingleton.getInstance(utenteLoggato);
+
+                                        contexController.startActivity(intentHomePage);
+                                    },
+                                    dataError ->
+                                            Log.e("ERROR Birt", dataError.toString())
+
+                            );
+                        }
+                );
 
     }
     public void checkLoginFacebook()
@@ -106,8 +110,71 @@ public class ControllerLogin
     }
     public void checkLoginGoogle()
     {
-        utenteDati.loginWithGoogle(contexController);
-        utenteDati.getInformationOfAmplifySessionWithGoogle(contexController, utenteLoggato);
-        System.out.println(utenteLoggato.toString());
+        utenteLoggato = new Utente();
+        RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.google(), (Login) contexController)
+                .subscribe(
+                        result ->
+                        {
+                            Log.i("AuthQuickstart", result.toString());
+                            RxAmplify.Auth.fetchUserAttributes()
+                                    .doOnSubscribe(esult -> Log.i("AuthDemo", "Attributes:" + esult.toString()))
+                                    .flatMapObservable(Observable::fromIterable)
+                                    .subscribe(
+                                            eachAttribute ->
+                                            {
+                                                Log.i("AuthDemo", eachAttribute.toString());
+                                                if(eachAttribute.getKey().getKeyString().equals("email"))
+                                                    utenteLoggato.setEmail(eachAttribute.getValue());
+                                                if(eachAttribute.getKey().getKeyString().equals("sub"))
+                                                    utenteLoggato.setToken(eachAttribute.getValue());
+                                                if(eachAttribute.getKey().getKeyString().equals("family_name"))
+                                                    utenteLoggato.setCognome(eachAttribute.getValue());
+                                                if(eachAttribute.getKey().getKeyString().equals("name"))
+                                                    utenteLoggato.setNome(eachAttribute.getValue());
+                                            },
+                                            error -> Log.e("AuthDemo", "Failed to fetch attributes.", error),
+                                            () ->
+                                            {
+                                                UtenteSingleton.getInstance(utenteLoggato);
+                                                contexController.startActivity(intentHomePage);
+                                            }
+                                    );
+                        },
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
+
+
+        /*utenteDati.loginWithGoogle(contexController)
+                .subscribe(
+                    result ->{
+                        utenteDati.getInformationOfAmplifySession()
+                                .doOnSubscribe(dosub -> Log.i("AuthDemo", "Attributes:"))
+                                .flatMapObservable(Observable::fromIterable)
+                                .subscribe(
+                                    eachAttribute -> {
+                                        Log.i("AuthDemo", eachAttribute.toString());
+                                        if(eachAttribute.getKey().getKeyString().equals("email"))
+                                            utenteLoggato.setEmail(eachAttribute.getValue());
+                                        if(eachAttribute.getKey().getKeyString().equals("sub"))
+                                            utenteLoggato.setToken(eachAttribute.getValue());
+                                        if(eachAttribute.getKey().getKeyString().equals("family_name"))
+                                            utenteLoggato.setCognome(eachAttribute.getValue());
+                                        if(eachAttribute.getKey().getKeyString().equals("name"))
+                                            utenteLoggato.setNome(eachAttribute.getValue());
+                                    },
+                                    sessionError -> {
+
+                                    },
+                                    () -> {
+                                        Log.i(TAG,"finito!" *//*+ utenteLoggato.toString()*//*);
+                                    }
+                        );
+                        Log.i(TAG, "loggato con successo");
+                    },
+                    error -> {
+                        Log.e(TAG, "login fallito");
+                    }
+        );*/
+
     }
 }

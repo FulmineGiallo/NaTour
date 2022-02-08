@@ -8,27 +8,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.natour.model.Utente;
-import com.kymjs.rxvolley.RxVolley;
-import com.kymjs.rxvolley.client.HttpCallback;
-import com.kymjs.rxvolley.client.HttpParams;
-import com.kymjs.rxvolley.client.ProgressListener;
-import com.kymjs.rxvolley.rx.Result;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.http.Field;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 
 
 public class RequestAPI

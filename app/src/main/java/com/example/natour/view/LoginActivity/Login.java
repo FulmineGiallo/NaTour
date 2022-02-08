@@ -53,8 +53,8 @@ public class Login extends AppCompatActivity
         edtEmail = findViewById(R.id.email);
         edtPassword = findViewById(R.id.password);
 
-        edtEmail.setText("carminefb@live.it");
-        edtPassword.setText("Carmine13-");
+        edtEmail.setText("natour2022bbg@gmail.com");
+        edtPassword.setText("Tanjiro13-");
         try
         {
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());

@@ -26,11 +26,12 @@ public class ControllerProfile
 
     public void signOut()
     {
-        RxAmplify.Auth.signOut()
+        contexController.startActivity(intentLogin);
+        /*RxAmplify.Auth.signOut()
                 .subscribe(
                         () -> Log.i("AuthQuickstart", "Signed out successfully"),
                         error -> Log.e("AuthQuickstart", error.toString())
-                );
+                );*/
 
     }
 }

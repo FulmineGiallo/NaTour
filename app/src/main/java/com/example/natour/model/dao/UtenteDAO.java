@@ -16,10 +16,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import rx.Observable;
 
 public class UtenteDAO
 {
@@ -27,17 +27,17 @@ public class UtenteDAO
 
     public void setTokenUtente(String idUtente, String dataDiNascita, Context activityPrec)
     {
-        /*Map<String, String> parmasAPI = new HashMap<String, String>();
-        *//* L'idea è di creare Un hashMap e passarla a volley per metterla nel body *//*
+        Map<String, String> parmasAPI = new HashMap<String, String>();
+         //L'idea è di creare Un hashMap e passarla a volley per metterla nel body
         String path = "utente/insertToken.php";
 
-        *//* Insert Token e Data Di Nascita nella registrazione*//*
+         //Insert Token e Data Di Nascita nella registrazione
         parmasAPI.put("token", idUtente);
         parmasAPI.put("data_di_nascita", dataDiNascita);
 
 
         RequestAPI request = new RequestAPI(path, activityPrec, parmasAPI);
-        JSONObject responseAPI = request.sendRequest();*/
+        request.sendRequest();
 
 
     }
@@ -72,13 +72,8 @@ public class UtenteDAO
     }
     public void loginWithGoogle(Context context)
     {
-        Amplify.Auth.signInWithSocialWebUI(AuthProvider.google(), (Activity) context,
-                result -> {
-                    Log.i("AuthQuickstart", result.toString());
+        //return RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.google(), (Activity) context);
 
-                },
-                error -> Log.e("AuthQuickstart", error.toString())
-        );
     }
     public void loginWithFacebook(Context context)
     {
@@ -103,6 +98,7 @@ public class UtenteDAO
     {
 
     }
+
     public void getInformationOfAmplifySessionWithFacebook()
     {
 

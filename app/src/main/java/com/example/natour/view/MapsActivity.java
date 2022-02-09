@@ -1,25 +1,18 @@
 package com.example.natour.view;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentActivity;
-
 import android.content.Context;
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.example.natour.R;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.natour.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -43,6 +36,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText finePercorso;
     private ImageButton indietro;
     private Marker markerInizio;
+    private Marker markerFine;
+    private LatLng puntoInizio;
+    private LatLng puntoFine;
+/*
+    private RouteDirection percorso = new RouteDirection();
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -96,6 +95,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
     }
 
 
@@ -108,6 +108,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setting.setMapToolbarEnabled(false);
         setting.setZoomControlsEnabled(true);
 
+
         //TODO: mettere la current position dell'utente
         LatLng Napoli = new LatLng(40.88817802379429, 14.280845900795518);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Napoli));
@@ -118,13 +119,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onMapClick(@NonNull LatLng latLng)
             {
 
-                if(markerInizio != null)
+                /*if(markerInizio != null)
                     markerInizio.remove();
+                */
+                if(markerInizio == null)
+                {
+                    inizioPercorso.setText(getAddresMarker(getApplicationContext(), latLng));
+                    finePercorso.setText("");
+                    markerInizio = mMap.addMarker(new MarkerOptions()
+                            .position(latLng));
+                    puntoInizio = latLng;
+                }
+                else
+                {
+                    finePercorso.setText(getAddresMarker(getApplicationContext(), latLng));
+                    markerFine = mMap.addMarker(new MarkerOptions()
+                            .position(latLng));
+                    puntoFine = latLng;
+                }
 
-                inizioPercorso.setText(getAddresMarker(getApplicationContext(), latLng));
-                markerInizio = mMap.addMarker(new MarkerOptions()
-                 .position(latLng));
+                if(markerInizio != null && markerFine != null)
+                {
+                    /*Document doc = percorso.getDocument(puntoInizio, puntoFine,
+                            RouteDirection.MODE_WALKING);
 
+                    ArrayList<LatLng> directionPoint = percorso.getDirection(doc);
+                    PolylineOptions rectLine = new PolylineOptions().width(3).color(
+                            Color.RED);
+
+                    for (int i = 0; i < directionPoint.size(); i++) {
+                        rectLine.add(directionPoint.get(i));
+                    }
+                    Polyline polylin = mMap.addPolyline(rectLine);*/
+                }
             }
         });
 

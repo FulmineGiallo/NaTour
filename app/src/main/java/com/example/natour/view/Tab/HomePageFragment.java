@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
+import com.example.natour.view.MapsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomePageFragment extends Fragment
@@ -50,7 +51,7 @@ public class HomePageFragment extends Fragment
     {
 
         fab = getView().findViewById(R.id.btn_inserimentoItinerario);
-        intentInserimentoItinerario = new Intent(HomePageFragment.this.getActivity(), InserimentoItinerario.class);
+        intentInserimentoItinerario = new Intent(HomePageFragment.this.getActivity(), MapsActivity.class);
 
 
 

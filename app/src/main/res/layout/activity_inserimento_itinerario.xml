@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.InserimentoItinerarioActivity.InserimentoItinerario">
@@ -166,11 +167,13 @@
                     app:strokeWidth="0.5dp"
                     app:strokeColor="@color/black">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:map="http://schemas.android.com/apk/res-auto"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:id="@+id/containerMappa"
-                        />
+                        tools:context=".MapsActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
 
 
                 </com.google.android.material.card.MaterialCardView>

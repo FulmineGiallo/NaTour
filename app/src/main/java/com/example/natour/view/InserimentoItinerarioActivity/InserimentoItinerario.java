@@ -12,9 +12,15 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.example.natour.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.slider.Slider;
 
-public class InserimentoItinerario extends AppCompatActivity {
+public class InserimentoItinerario extends AppCompatActivity implements OnMapReadyCallback
+{
 
     Slider difficolta;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
@@ -70,5 +76,13 @@ public class InserimentoItinerario extends AppCompatActivity {
             ft.commit();
         }
 
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap)
+    {
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(0, 0))
+                .title("Marker"));
     }
 }

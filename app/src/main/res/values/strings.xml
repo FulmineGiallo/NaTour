@@ -20,4 +20,5 @@
     <string name="fb_login_protocol_scheme">fb473428800832521</string>
     <string name="filtro_per_gli_itinerari">Filtro per gli itinerari</string>
     <string name="email_codice">Codice inviato sulla mail: </string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

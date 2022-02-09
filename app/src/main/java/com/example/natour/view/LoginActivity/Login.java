@@ -3,7 +3,9 @@ package com.example.natour.view.LoginActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +40,7 @@ public class Login extends AppCompatActivity
     ImageButton googleLogin;
     ImageButton facebookLogin;
 
-    Intent intentLoginHappened;
+
     private String TAG = "Activity Login";
 
 
@@ -67,10 +69,16 @@ public class Login extends AppCompatActivity
         edtEmail = findViewById(R.id.email);
         edtPassword = findViewById(R.id.password);
 
-        edtEmail.setText("natour2022bbg@gmail.com");
-        edtPassword.setText("Tanjiro13-");
+        edtEmail.setText("carminefb@live.it");
+        edtPassword.setText("Carmine13-");
 
 
+
+        RxAmplify.Auth.fetchAuthSession()
+                .subscribe(
+                        result -> Log.i("SESSION", result.toString()),
+                        error -> Log.e("SESSIONERR", error.toString())
+                );
 
         btn_login.setOnClickListener(new View.OnClickListener()
         {
@@ -86,7 +94,8 @@ public class Login extends AppCompatActivity
         btn_register.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 startActivity(intentRegister);
             }
         });

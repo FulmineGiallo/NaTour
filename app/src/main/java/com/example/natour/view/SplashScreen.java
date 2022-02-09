@@ -16,6 +16,7 @@ import com.example.natour.model.Utente;
 import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.LoginActivity.UtenteSingleton;
 import com.example.natour.view.Tab.TabActivity;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -24,12 +25,15 @@ public class SplashScreen extends AppCompatActivity
 
     private static final String TAG = "SplashScreen";
     Utente utenteLoggato;
+    LinearProgressIndicator progress_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        progress_bar = findViewById(R.id.loading_bar);
+        progress_bar.setProgressCompat(0, true);
         try
         {
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
@@ -43,6 +47,7 @@ public class SplashScreen extends AppCompatActivity
 
         RxAmplify.Auth.fetchAuthSession().subscribe(
                 result -> {
+                    progress_bar.setProgressCompat(25, true);
                     if(result.isSignedIn())
                     {
 
@@ -50,12 +55,14 @@ public class SplashScreen extends AppCompatActivity
                         RxAmplify.Auth.fetchUserAttributes()
                                 .doOnSubscribe(consu ->
                                 {
+                                    progress_bar.setProgressCompat(50, true);
                                     Log.i(TAG, consu.toString());
                                     utenteLoggato = new Utente();
                                 })
                                 .flatMapObservable(Observable::fromIterable)
                                 .subscribe(
                                         eachAttribute -> {
+                                            progress_bar.setProgressCompat(progress_bar.getProgress()+5, true);
                                             Log.i("AuthDemo", eachAttribute.toString());
                                             if(eachAttribute.getKey().getKeyString().equals("email"))
                                                 utenteLoggato.setEmail(eachAttribute.getValue());
@@ -69,19 +76,26 @@ public class SplashScreen extends AppCompatActivity
                                         error -> Log.i(TAG,error.toString()),
                                         () -> {
                                             UtenteSingleton.getInstance(utenteLoggato);
-                                            new Handler(Looper.getMainLooper()).postDelayed(() ->
-                                                    startActivity(new Intent(this,
-                                                            TabActivity.class))
-                                                    , 2000);
-
+                                            progress_bar.setProgressCompat(90, true);
+                                            new Handler(Looper.getMainLooper()).postDelayed(() ->{
+                                                progress_bar.setProgressCompat(100, true);
+                                                startActivity(new Intent(this,
+                                                        TabActivity.class));
+                                                }
+                                                , 2000);
                                         }
                                 );
                     }
                     else
                     {
-                        new Handler(Looper.getMainLooper()).postDelayed(() ->
-                                startActivity(new Intent(this,
-                                        Login.class)), 2000);
+                        progress_bar.setProgressCompat(70, true);
+                        new Handler(Looper.getMainLooper()).postDelayed(() ->{
+                                    progress_bar.setProgressCompat(100, true);
+                                    new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                            startActivity(new Intent(this,
+                                                    TabActivity.class)), 1200);
+                                }
+                                , 2000);
                     }
                 },
                 error -> Log.i(TAG, error.toString())

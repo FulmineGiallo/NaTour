@@ -14,8 +14,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.example.natour.R;
@@ -43,24 +48,51 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText finePercorso;
     private ImageButton indietro;
     private Marker markerInizio;
+    private FrameLayout backContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_maps);
+
+        backContainer = findViewById(R.id.frameIndietro);
         inizioPercorso = findViewById(R.id.edt_inizioPercorso);
         finePercorso = findViewById(R.id.edt_finePercorso);
         indietro = findViewById(R.id.btn_indietro);
-        /*indietro.setOnClickListener(new View.OnClickListener()
+        backContainer.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                //animazione per la pulsazione del tasto back
 
+                AnimationSet animationSet = new AnimationSet(true);
+                Animation bigger = new ScaleAnimation(1f, 1.25f, // Start and end values for the X axis scaling
+                        1f, 1.25f, // Start and end values for the Y axis scaling
+                        Animation.ABSOLUTE, backContainer.getPivotX(), // Pivot point of X scaling
+                        Animation.ABSOLUTE, backContainer.getPivotY());
+                bigger.setDuration(500);
+                Animation smaller = new ScaleAnimation(1f, 0, // Start and end values for the X axis scaling
+                        1f, 0, // Start and end values for the Y axis scaling
+                        Animation.ABSOLUTE, backContainer.getPivotX(), // Pivot point of X scaling
+                        Animation.ABSOLUTE, backContainer.getPivotY());
+                smaller.setDuration(200);
+                smaller.setStartOffset(200);
+                animationSet.addAnimation(bigger);
+                animationSet.addAnimation(smaller);
+                animationSet.setFillAfter(true);
+
+                //fade out del tasto back
+
+                Animation fadeOut = new AlphaAnimation(indietro.getAlpha(), 0f);
+                fadeOut.setFillAfter(true);
+
+
+                backContainer.startAnimation(animationSet);
+                //TODO: ritorno all'attività precedente
             }
-        });*/
+        });
 
         inizioPercorso.setFocusable(false);
         inizioPercorso.setOnClickListener(new View.OnClickListener()
@@ -142,6 +174,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String addressString = new String();
         try
         {
+            //TODO: questo codice può creare problemi
             List<Address> addressList = geocoder.getFromLocation(pos.latitude, pos.longitude, 1);
             Address address = addressList.get(0);
             addressString = address.getAddressLine(0);

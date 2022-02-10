@@ -26,12 +26,15 @@ public class InserimentoItinerarioFragment extends Fragment
     FrameLayout containerMappa;
     MaterialCardView boxMappa;
     ImageView buttonNascosto;
-    InserimentoPercorsoFragment mappa = new InserimentoPercorsoFragment();
+    InserimentoPercorsoFragment mappa;
+    MappaFragment mappaFragment;
 
     public InserimentoItinerarioFragment()
     {
         // Required empty public constructor
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -91,8 +94,8 @@ public class InserimentoItinerarioFragment extends Fragment
         {
             FragmentManager fm = getParentFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-
-            ft.add(R.id.containerMappa, new MappaFragment());
+            mappaFragment = new MappaFragment();
+            ft.add(R.id.containerMappa, mappaFragment);
             ft.commit();
         }
 
@@ -101,6 +104,8 @@ public class InserimentoItinerarioFragment extends Fragment
             @Override
             public void onClick(View view)
             {
+                mappa = new InserimentoPercorsoFragment(mappaFragment);
+
                 getParentFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragmentMappa, mappa)

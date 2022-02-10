@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,6 +35,9 @@ public class InserimentoPercorsoFragment extends Fragment
     private ImageButton indietro;
     private Marker markerInizio;
     private FrameLayout backContainer;
+    private InserimentoPercorsoFragment mappa;
+    private MappaFragment mappaFragment;
+    private FrameLayout mappaBox;
 
     public InserimentoPercorsoFragment()
     {
@@ -45,7 +50,33 @@ public class InserimentoPercorsoFragment extends Fragment
         fragment.setArguments(args);
         return fragment;
     }
+    public InserimentoPercorsoFragment(MappaFragment mappa)
+    {
+        this.mappaFragment = mappa;
+        this.mappa = new InserimentoPercorsoFragment();
+    }
 
+    private Fragment recreateFragment(Fragment fragment)
+    {
+        Fragment newIstance = null;
+        try
+        {
+            Fragment.SavedState savedState = getParentFragmentManager().saveFragmentInstanceState(fragment);
+            newIstance = fragment.getClass().newInstance();
+            newIstance.setInitialSavedState(savedState);
+
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        catch (java.lang.InstantiationException e)
+        {
+            e.printStackTrace();
+        }
+
+        return newIstance;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -133,6 +164,18 @@ public class InserimentoPercorsoFragment extends Fragment
         });
 
 
+
+        if(getView().findViewById(R.id.map) != null)
+        {
+            FragmentManager fm = getParentFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.remove(mappaFragment);
+
+            Fragment newIstance = recreateFragment(mappaFragment);
+
+            ft.add(R.id.map, newIstance);
+            ft.commit();
+        }
 
 
     }

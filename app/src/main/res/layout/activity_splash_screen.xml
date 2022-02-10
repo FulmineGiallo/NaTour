@@ -4,8 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SplashScreen"
-    android:background="@drawable/background">
+    tools:context=".view.SplashScreen">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/splash_screen"
+        android:src="@drawable/splash_screen_bg"
+
+        />
 
     <ImageView
         android:id="@+id/imageView3"

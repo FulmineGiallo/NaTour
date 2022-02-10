@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +17,6 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
-import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.LoginActivity.UtenteSingleton;
 import com.example.natour.view.Tab.TabActivity;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -26,12 +29,23 @@ public class SplashScreen extends AppCompatActivity
     private static final String TAG = "SplashScreen";
     Utente utenteLoggato;
     LinearProgressIndicator progress_bar;
+    ImageView backGround;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        //gradient animation
+        backGround = findViewById(R.id.splash_screen);
+        Animation fadein = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_PARENT, 0f,
+                TranslateAnimation.RELATIVE_TO_PARENT, 0f,
+                TranslateAnimation.RELATIVE_TO_PARENT, -1f,
+                TranslateAnimation.RELATIVE_TO_PARENT, 0f);
+        fadein.setDuration(1000);
+        backGround.startAnimation(fadein);
+
         progress_bar = findViewById(R.id.loading_bar);
         progress_bar.setProgressCompat(0, true);
         try

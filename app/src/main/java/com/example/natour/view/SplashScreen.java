@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -17,6 +16,7 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
+import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.LoginActivity.UtenteSingleton;
 import com.example.natour.view.Tab.TabActivity;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -107,7 +107,7 @@ public class SplashScreen extends AppCompatActivity
                                     progress_bar.setProgressCompat(100, true);
                                     new Handler(Looper.getMainLooper()).postDelayed(() ->
                                             startActivity(new Intent(this,
-                                                    TabActivity.class)), 1200);
+                                                    Login.class)), 1200);
                                 }
                                 , 2000);
                     }

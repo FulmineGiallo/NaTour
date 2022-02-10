@@ -15,6 +15,8 @@
         <entry key="..\:/Program Files/Eclipse/eclipse-workspace/NaTour/app/src/main/res/layout/activity_visualizza_utenti_registrati.xml" value="0.3333333333333333" />
         <entry key="..\:/Program Files/Eclipse/eclipse-workspace/NaTour/app/src/main/res/layout/activity_visualizzaitinerario.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/circle.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_baseline_filter_alt_24.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_chat.xml" value="0.378125" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_google___original.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/drawable/ic_icon_bell_on.xml" value="0.37864583333333335" />
@@ -33,8 +35,9 @@
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_facebook.xml" value="0.3484375" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_homepage.xml" value="0.264" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_inserimento_itinerario.xml" value="0.4" />
-        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.72" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_login.xml" value="0.4" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_mappa.xml" value="0.3484375" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_maps.xml" value="0.264" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_profile.xml" value="0.264" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_register.xml" value="0.3625" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/activity_signout.xml" value="0.338768115942029" />
@@ -45,6 +48,9 @@
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/conferma_registrazione_bottom_sheet.xml" value="0.3625" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/fragment_cerca.xml" value="0.264" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/fragment_home_page.xml" value="0.3625" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/fragment_inserimento_itinerario.xml" value="0.3625" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/fragment_inserimento_percorso.xml" value="0.3625" />
+        <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/fragment_mappa.xml" value="0.2821557971014493" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/fragment_mappe.xml" value="0.3625" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/fragment_profile.xml" value="0.3625" />
         <entry key="..\:/Users/Carmi/AndroidStudioProjects/NaTour/app/src/main/res/layout/grid_item.xml" value="0.3625" />

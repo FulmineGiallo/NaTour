@@ -1,8 +1,10 @@
-package com.example.natour.view;
+package com.example.natour.view.InserimentoItinerarioActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -12,22 +14,18 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.natour.R;
-import com.example.natour.view.InserimentoItinerarioActivity.MappaFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.Marker;
 
-import org.osmdroid.config.Configuration;
 
-
-public class MapsActivity extends AppCompatActivity
+public class InserimentoPercorsoFragment extends Fragment
 {
-
     private GoogleMap mMap;
     private UiSettings setting;
     private EditText inizioPercorso;
@@ -36,16 +34,41 @@ public class MapsActivity extends AppCompatActivity
     private Marker markerInizio;
     private FrameLayout backContainer;
 
+    public InserimentoPercorsoFragment()
+    {
+        // Required empty public constructor
+    }
+    public static InserimentoPercorsoFragment newInstance(String param1, String param2)
+    {
+        InserimentoPercorsoFragment fragment = new InserimentoPercorsoFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
 
-        backContainer = findViewById(R.id.frameIndietro);
-        inizioPercorso = findViewById(R.id.edt_inizioPercorso);
-        finePercorso = findViewById(R.id.edt_finePercorso);
-        indietro = findViewById(R.id.btn_indietro);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
+    {
+
+        return inflater.inflate(R.layout.fragment_inserimento_percorso, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        backContainer = getView().findViewById(R.id.frameIndietro);
+        inizioPercorso = getView().findViewById(R.id.edt_inizioPercorso);
+        finePercorso = getView().findViewById(R.id.edt_finePercorso);
+        indietro = getView().findViewById(R.id.btn_indietro);
         backContainer.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -91,7 +114,7 @@ public class MapsActivity extends AppCompatActivity
                 inizioPercorso.setFocusableInTouchMode(true);
                 inizioPercorso.setEnabled(true);
                 inizioPercorso.requestFocus();
-                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(inizioPercorso, 0);
+                ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(inizioPercorso, 0);
             }
         });
         finePercorso.setFocusable(false);
@@ -105,26 +128,12 @@ public class MapsActivity extends AppCompatActivity
                 finePercorso.setFocusableInTouchMode(true);
                 finePercorso.setEnabled(true);
                 finePercorso.requestFocus();
-                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(finePercorso, 0);
+                ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(finePercorso, 0);
             }
         });
 
-        Configuration.getInstance().setUserAgentValue("MyOwnUserAgent/1.0");
-        FrameLayout map = this.findViewById(R.id.map);
 
-        if(map != null)
-        {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
 
-            ft.add(R.id.map, new MappaFragment());
-            ft.commit();
-        }
 
     }
-
-
-
-
-
 }

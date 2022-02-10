@@ -26,11 +26,6 @@ import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MappaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MappaFragment extends Fragment implements MapEventsReceiver
 {
 
@@ -84,7 +79,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView)
             {
-                final Drawable marker = getActivity().getApplicationContext().getResources().getDrawable(R.drawable.marker_default);
+                final Drawable marker = getActivity().getApplicationContext().getResources().getDrawable(R.drawable.ic_baseline_location_on_24);
                 Projection proj = mapView.getProjection();
                 GeoPoint loc = (GeoPoint) proj.fromPixels((int) e.getX(), (int) e.getY());
 

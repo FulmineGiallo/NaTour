@@ -13,7 +13,6 @@ import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.view.LoginActivity.SingletonNullException;
 import com.example.natour.view.LoginActivity.UtenteSingleton;
-import com.example.natour.view.MapsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TabActivity extends AppCompatActivity {

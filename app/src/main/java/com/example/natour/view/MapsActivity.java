@@ -1,41 +1,31 @@
 package com.example.natour.view;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
-import android.widget.FrameLayout;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.location.Address;
-import android.location.Geocoder;
-import android.os.Bundle;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.example.natour.view.InserimentoItinerarioActivity.MappaFragment;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
+import org.osmdroid.config.Configuration;
 
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback
+public class MapsActivity extends AppCompatActivity
 {
 
     private GoogleMap mMap;
@@ -44,6 +34,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText finePercorso;
     private ImageButton indietro;
     private Marker markerInizio;
+    private FrameLayout backContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -82,7 +73,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 Animation fadeOut = new AlphaAnimation(indietro.getAlpha(), 0f);
                 fadeOut.setFillAfter(true);
-
+                fadeOut.setDuration(500);
 
                 backContainer.startAnimation(animationSet);
                 //TODO: ritorno all'attività precedente
@@ -118,99 +109,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        Configuration.getInstance().setUserAgentValue("MyOwnUserAgent/1.0");
+        FrameLayout map = this.findViewById(R.id.map);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-
-    }
-
-
-    @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
-        mMap = googleMap;
-
-        setting = mMap.getUiSettings();
-        setting.setMapToolbarEnabled(false);
-        setting.setZoomControlsEnabled(true);
-
-
-        //TODO: mettere la current position dell'utente
-        LatLng Napoli = new LatLng(40.88817802379429, 14.280845900795518);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Napoli));
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener()
+        if(map != null)
         {
-            @Override
-            public void onMapClick(@NonNull LatLng latLng)
-            {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-                /*if(markerInizio != null)
-                    markerInizio.remove();
-                */
-                if(markerInizio == null)
-                {
-                    inizioPercorso.setText(getAddresMarker(getApplicationContext(), latLng));
-                    finePercorso.setText("");
-                    markerInizio = mMap.addMarker(new MarkerOptions()
-                            .position(latLng));
-                    puntoInizio = latLng;
-                }
-                else
-                {
-                    finePercorso.setText(getAddresMarker(getApplicationContext(), latLng));
-                    markerFine = mMap.addMarker(new MarkerOptions()
-                            .position(latLng));
-                    puntoFine = latLng;
-                }
-
-                if(markerInizio != null && markerFine != null)
-                {
-                    /*Document doc = percorso.getDocument(puntoInizio, puntoFine,
-                            RouteDirection.MODE_WALKING);
-
-                    ArrayList<LatLng> directionPoint = percorso.getDirection(doc);
-                    PolylineOptions rectLine = new PolylineOptions().width(3).color(
-                            Color.RED);
-
-                    for (int i = 0; i < directionPoint.size(); i++) {
-                        rectLine.add(directionPoint.get(i));
-                    }
-                    Polyline polylin = mMap.addPolyline(rectLine);*/
-                }
-            }
-        });
-
-        /*
-        *Ottenere la posizione
-        *Creare tracciato, con inzio(Marker) e fine
-        * Le foto se hanno latlng possiamo mettere il marker sulla mappa
-        **Far inserire marker sulla mappa, con allegato una foto con i metadati LatLng
-
-        */
-    }
-    public String getAddresMarker(Context context, LatLng pos)
-    {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-        String addressString = new String();
-        try
-        {
-            //TODO: questo codice può creare problemi
-            List<Address> addressList = geocoder.getFromLocation(pos.latitude, pos.longitude, 1);
-            Address address = addressList.get(0);
-            addressString = address.getAddressLine(0);
-
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
+            ft.add(R.id.map, new MappaFragment());
+            ft.commit();
         }
 
-
-        return addressString;
     }
+
+
+
 
 
 }

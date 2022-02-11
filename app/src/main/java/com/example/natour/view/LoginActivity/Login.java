@@ -1,11 +1,6 @@
 package com.example.natour.view.LoginActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,15 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerLogin;
-import com.example.natour.model.Utente;
 import com.example.natour.view.RegisterActivity.Register;
-
-import io.reactivex.rxjava3.core.Observable;
 
 public class Login extends AppCompatActivity
 {
@@ -48,16 +41,7 @@ public class Login extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        try
-        {
-            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
-            RxAmplify.configure(getApplicationContext());
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        }
-        catch (AmplifyException error)
-        {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
+
         controllerLogin = new ControllerLogin(fm, this);
         setContentView(R.layout.activity_login);
         btn_login = findViewById(R.id.btn_login);

@@ -58,7 +58,7 @@ public class SplashScreen extends AppCompatActivity
         {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
-
+        //TODO: aggiungere errore in caso di mancanza di connessione internet
         RxAmplify.Auth.fetchAuthSession().subscribe(
                 result -> {
                     progress_bar.setProgressCompat(25, true);
@@ -87,7 +87,18 @@ public class SplashScreen extends AppCompatActivity
                                             if(eachAttribute.getKey().getKeyString().equals("name"))
                                                 utenteLoggato.setNome(eachAttribute.getValue());
                                         },
-                                        error -> Log.i(TAG,error.toString()),
+                                        error ->
+                                        {
+                                            Log.e(TAG, error.toString());
+                                            progress_bar.setProgressCompat(70, true);
+                                            new Handler(Looper.getMainLooper()).postDelayed(() ->{
+                                                        progress_bar.setProgressCompat(100, true);
+                                                        new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                                                startActivity(new Intent(this,
+                                                                        Login.class)), 1200);
+                                                    }
+                                                    , 2000);
+                                        },
                                         () -> {
                                             UtenteSingleton.getInstance(utenteLoggato);
                                             progress_bar.setProgressCompat(90, true);
@@ -112,7 +123,7 @@ public class SplashScreen extends AppCompatActivity
                                 , 2000);
                     }
                 },
-                error -> Log.i(TAG, error.toString())
+                error -> Log.e(TAG, error.toString())
         );
     }
 }

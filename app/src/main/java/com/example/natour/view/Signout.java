@@ -22,7 +22,6 @@ public class Signout extends AppCompatActivity
                         () ->
                         {
                             Log.i("AuthQuickstart", "Signed out successfully");
-                           /* startActivity(new Intent(this, Login.class));*/
                         },
                         error -> Log.e("AuthQuickstart", error.toString())
                 );

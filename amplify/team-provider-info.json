@@ -36,7 +36,14 @@
           "userPoolName": "natour63bc8ba4_userpool_63bc8ba4-dev",
           "webClientId": "43j1blujt9of45n597e5m27i3a",
           "nativeClientId": "4viavqurap7dtf6lele2fq2d3b"
-        }
+        },
+        "natour06a24550": {
+          "userPoolId": "eu-west-1_XR8sVZKN6",
+          "userPoolName": "natour2a294390_userpool_2a294390-natourenv",
+          "webClientId": "4tu3hni35iqak4lklhbsq8a3lc",
+          "nativeClientId": "fleui32r0lm7641opur1p0tbr"
+        },
+        "natour0b81c595": {}
       }
     }
   }

@@ -10,7 +10,6 @@ import com.amplifyframework.auth.AuthProvider;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.result.AuthSignInResult;
 import com.amplifyframework.rx.RxAmplify;
-import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.ErrorDialog;
@@ -24,7 +23,6 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ControllerLogin
@@ -148,37 +146,6 @@ public class ControllerLogin
                 );
 
 
-        /*utenteDati.loginWithGoogle(contexController)
-                .subscribe(
-                    result ->{
-                        utenteDati.getInformationOfAmplifySession()
-                                .doOnSubscribe(dosub -> Log.i("AuthDemo", "Attributes:"))
-                                .flatMapObservable(Observable::fromIterable)
-                                .subscribe(
-                                    eachAttribute -> {
-                                        Log.i("AuthDemo", eachAttribute.toString());
-                                        if(eachAttribute.getKey().getKeyString().equals("email"))
-                                            utenteLoggato.setEmail(eachAttribute.getValue());
-                                        if(eachAttribute.getKey().getKeyString().equals("sub"))
-                                            utenteLoggato.setToken(eachAttribute.getValue());
-                                        if(eachAttribute.getKey().getKeyString().equals("family_name"))
-                                            utenteLoggato.setCognome(eachAttribute.getValue());
-                                        if(eachAttribute.getKey().getKeyString().equals("name"))
-                                            utenteLoggato.setNome(eachAttribute.getValue());
-                                    },
-                                    sessionError -> {
-
-                                    },
-                                    () -> {
-                                        Log.i(TAG,"finito!" *//*+ utenteLoggato.toString()*//*);
-                                    }
-                        );
-                        Log.i(TAG, "loggato con successo");
-                    },
-                    error -> {
-                        Log.e(TAG, "login fallito");
-                    }
-        );*/
 
     }
 }

@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.R;
-import com.example.natour.view.LoginActivity.Login;
 
 public class Signout extends AppCompatActivity
 {
@@ -23,7 +22,7 @@ public class Signout extends AppCompatActivity
                         () ->
                         {
                             Log.i("AuthQuickstart", "Signed out successfully");
-                            startActivity(new Intent(this, Login.class));
+                           /* startActivity(new Intent(this, Login.class));*/
                         },
                         error -> Log.e("AuthQuickstart", error.toString())
                 );

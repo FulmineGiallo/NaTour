@@ -1,13 +1,15 @@
 package com.example.natour.view.Tab;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
 import com.example.natour.model.Utente;
@@ -27,6 +29,8 @@ public class TabActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         SharedViewModel model = new ViewModelProvider(this).get(SharedViewModel.class);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+
         model.setUtente((Utente) getIntent().getSerializableExtra("utente"));
         //TODO: eliminare la classe singleton e ogni suo utilizzo
         setContentView(R.layout.activity_tab);

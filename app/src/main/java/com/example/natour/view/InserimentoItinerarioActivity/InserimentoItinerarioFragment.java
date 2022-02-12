@@ -26,7 +26,7 @@ public class InserimentoItinerarioFragment extends Fragment
     FrameLayout containerMappa;
     MaterialCardView boxMappa;
     ImageView buttonNascosto;
-    InserimentoPercorsoFragment mappa;
+    InserimentoPercorsoFragment percorsoFragment;
     MappaFragment mappaFragment;
 
     public InserimentoItinerarioFragment()
@@ -95,24 +95,29 @@ public class InserimentoItinerarioFragment extends Fragment
             FragmentManager fm = getParentFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             mappaFragment = new MappaFragment();
+
             ft.add(R.id.containerMappa, mappaFragment);
             ft.commit();
         }
+
 
         buttonNascosto.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                mappa = new InserimentoPercorsoFragment(mappaFragment);
+                percorsoFragment = new InserimentoPercorsoFragment(mappaFragment, InserimentoItinerarioFragment.this);
 
                 getParentFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentMappa, mappa)
+                        .replace(R.id.fragmentMappa, percorsoFragment)
                         .addToBackStack(InserimentoItinerarioFragment.class.getSimpleName())
                         .commit();
 
             }
         });
     }
+
+
+
 }

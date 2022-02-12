@@ -21,23 +21,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.Marker;
 
 
 public class InserimentoPercorsoFragment extends Fragment
 {
-    private GoogleMap mMap;
-    private UiSettings setting;
     private EditText inizioPercorso;
     private EditText finePercorso;
     private ImageButton indietro;
-    private Marker markerInizio;
+
+
     private FrameLayout backContainer;
-    private InserimentoPercorsoFragment mappa;
+    private InserimentoItinerarioFragment inserimentoItinerarioFragment;
     private MappaFragment mappaFragment;
-    private FrameLayout mappaBox;
+
 
     public InserimentoPercorsoFragment()
     {
@@ -50,13 +46,13 @@ public class InserimentoPercorsoFragment extends Fragment
         fragment.setArguments(args);
         return fragment;
     }
-    public InserimentoPercorsoFragment(MappaFragment mappa)
+    public InserimentoPercorsoFragment(MappaFragment mappa, InserimentoItinerarioFragment inserimentoItinerarioFragment)
     {
         this.mappaFragment = mappa;
-        this.mappa = new InserimentoPercorsoFragment();
+        this.inserimentoItinerarioFragment = inserimentoItinerarioFragment;
     }
 
-    private Fragment recreateFragment(Fragment fragment)
+    public Fragment recreateFragment(Fragment fragment)
     {
         Fragment newIstance = null;
         try
@@ -130,7 +126,15 @@ public class InserimentoPercorsoFragment extends Fragment
                 fadeOut.setDuration(500);
 
                 backContainer.startAnimation(animationSet);
-                //TODO: ritorno all'attività precedente
+
+                /* Torna indietro al*/
+                getActivity().onBackPressed();
+                /*getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentMappa, inserimentoItinerarioFragment)
+                        .commit();*/
+
+
             }
         });
 
@@ -176,7 +180,6 @@ public class InserimentoPercorsoFragment extends Fragment
             ft.add(R.id.map, newIstance);
             ft.commit();
         }
-
-
     }
+
 }

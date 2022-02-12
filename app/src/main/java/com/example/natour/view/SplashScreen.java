@@ -17,7 +17,6 @@ import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.view.LoginActivity.Login;
-import com.example.natour.view.LoginActivity.UtenteSingleton;
 import com.example.natour.view.Tab.TabActivity;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
@@ -31,11 +30,14 @@ public class SplashScreen extends AppCompatActivity
     LinearProgressIndicator progress_bar;
     ImageView backGround;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
 
         //gradient animation
         backGround = findViewById(R.id.splash_screen);
@@ -100,7 +102,16 @@ public class SplashScreen extends AppCompatActivity
                                                     , 2000);
                                         },
                                         () -> {
-                                            UtenteSingleton.getInstance(utenteLoggato);
+                                            Intent intentHomepage = new Intent(getBaseContext(), TabActivity.class);
+
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("nome", utenteLoggato.getNome());
+                                            bundle.putString("cognome", utenteLoggato.getCognome());
+                                            bundle.putString("datadinascita", utenteLoggato.getDataDiNascita());
+                                            bundle.putString("token", utenteLoggato.getToken());
+                                            bundle.putString("email", utenteLoggato.getEmail());
+                                            intentHomepage.putExtras(bundle);
+
                                             progress_bar.setProgressCompat(90, true);
                                             new Handler(Looper.getMainLooper()).postDelayed(() ->{
                                                 Intent intent = new Intent(this, TabActivity.class);

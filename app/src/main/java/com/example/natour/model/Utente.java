@@ -1,6 +1,8 @@
 package com.example.natour.model;
 
-public class Utente
+import java.io.Serializable;
+
+public class Utente implements Serializable
 {
     private String email;
     private String nome;

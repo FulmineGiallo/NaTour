@@ -79,12 +79,8 @@ public class ControllerLogin
                                                subject.subscribe(
                                                        data ->
                                                        {
-
                                                            utenteLoggato.setDataDiNascita(data.getString("data_di_nascita"));
-                                                           UtenteSingleton.getInstance(utenteLoggato);
-
-                                                           contexController.startActivity(intentHomePage);
-                                                           UtenteSingleton.getInstance(utenteLoggato);
+                                                           intentHomePage.putExtra("utente",utenteLoggato);
                                                            contexController.startActivity(intentHomePage);
                                                        },
                                                        dataError ->
@@ -137,7 +133,7 @@ public class ControllerLogin
                                             error -> Log.e("AuthDemo", "Failed to fetch attributes.", error),
                                             () ->
                                             {
-                                                UtenteSingleton.getInstance(utenteLoggato);
+                                                intentHomePage.putExtra("utente",utenteLoggato);
                                                 contexController.startActivity(intentHomePage);
                                             }
                                     );

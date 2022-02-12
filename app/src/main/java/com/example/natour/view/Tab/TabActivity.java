@@ -27,15 +27,8 @@ public class TabActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         SharedViewModel model = new ViewModelProvider(this).get(SharedViewModel.class);
-        try
-        {
-            model.setUtente(UtenteSingleton.getInstance().getUtente());
-        }
-        catch (SingletonNullException e)
-        {
-            e.printStackTrace();
-        }
-
+        model.setUtente((Utente) getIntent().getSerializableExtra("utente"));
+        //TODO: eliminare la classe singleton e ogni suo utilizzo
         setContentView(R.layout.activity_tab);
 
 

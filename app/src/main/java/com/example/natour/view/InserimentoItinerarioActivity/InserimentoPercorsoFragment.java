@@ -28,6 +28,8 @@ public class InserimentoPercorsoFragment extends Fragment
     private EditText inizioPercorso;
     private EditText finePercorso;
     private ImageButton indietro;
+    private ImageButton deleteMarkerInizio;
+    private ImageButton deleteMarkerFine;
 
 
     private FrameLayout backContainer;
@@ -73,6 +75,7 @@ public class InserimentoPercorsoFragment extends Fragment
 
         return newIstance;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -96,6 +99,10 @@ public class InserimentoPercorsoFragment extends Fragment
         inizioPercorso = getView().findViewById(R.id.edt_inizioPercorso);
         finePercorso = getView().findViewById(R.id.edt_finePercorso);
         indietro = getView().findViewById(R.id.btn_indietro);
+        deleteMarkerInizio = getView().findViewById(R.id.btn_deletemarkerInizio);
+        deleteMarkerFine = getView().findViewById(R.id.btn_deletemarkerFine);
+
+
         backContainer.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -152,6 +159,8 @@ public class InserimentoPercorsoFragment extends Fragment
                 ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(inizioPercorso, 0);
             }
         });
+
+
         finePercorso.setFocusable(false);
         finePercorso.setOnClickListener(new View.OnClickListener()
         {
@@ -177,9 +186,11 @@ public class InserimentoPercorsoFragment extends Fragment
 
             Fragment newIstance = recreateFragment(mappaFragment);
 
+            ((MappaFragment) newIstance).setEditTextMappa(inizioPercorso, finePercorso, deleteMarkerInizio, deleteMarkerFine);
             ft.add(R.id.map, newIstance);
             ft.commit();
         }
+
     }
 
 }

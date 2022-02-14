@@ -23,10 +23,21 @@ public class OverlayViewModel extends ViewModel
     {
         return puntoInizio;
     }
-
     public LiveData<GeoPoint> getFine()
     {
         return puntoFine;
     }
 
+
+    public void removeInizio()
+    {
+        if(puntoInizio.getValue() != null)
+            puntoInizio = new MutableLiveData<>();
+    }
+    public void removeFine()
+    {
+        if(puntoFine.getValue() != null)
+            puntoFine = new MutableLiveData<>();
+
+    }
 }

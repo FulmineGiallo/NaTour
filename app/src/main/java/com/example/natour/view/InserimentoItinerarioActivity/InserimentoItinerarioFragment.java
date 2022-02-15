@@ -161,7 +161,7 @@ public class InserimentoItinerarioFragment extends Fragment
             public void onClick(View view)
             {
                 if(percorsoFragment == null)
-                    percorsoFragment = new InserimentoPercorsoFragment(mappaFragment, InserimentoItinerarioFragment.this);
+                    percorsoFragment = new InserimentoPercorsoFragment(mappaFragment);
 
                 getParentFragmentManager()
                         .beginTransaction()

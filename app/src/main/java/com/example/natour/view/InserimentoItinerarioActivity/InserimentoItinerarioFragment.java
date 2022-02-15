@@ -192,7 +192,8 @@ public class InserimentoItinerarioFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                percorsoFragment = new InserimentoPercorsoFragment(mappaFragment, InserimentoItinerarioFragment.this);
+                if(percorsoFragment == null)
+                    percorsoFragment = new InserimentoPercorsoFragment(mappaFragment);
 
                 getParentFragmentManager()
                         .beginTransaction()

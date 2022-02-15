@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -74,74 +75,73 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        Configuration.getInstance().setUserAgentValue("MyOwnUserAgent/1.0");
-        locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this);
-        map = (MapView) getView().findViewById(R.id.mapFragment);
 
+        //Configurazione della mappa e del servizio di locazione
+        Configuration.getInstance().setUserAgentValue("MyOwnUserAgent/1.0");
+        locManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        //viene preso il riferimento della mappa e creato l'overlay per la mappa
+        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this);
+        map = (MapView) requireView().findViewById(R.id.mapFragment);
+
+        //si predispone l'oggetto per avere i due marker
         finePercorso = new Marker(map);
         inizioPercorso = new Marker(map);
         map.setMultiTouchControls(true);
 
+        //si setta lo stato UI iniziale per la mappa
         mapController = map.getController();
         mapController.setZoom(10.5);
         mapController.setCenter(currentPositionPhone());
         Log.i("CURRENT", String.valueOf(currentPositionPhone()));
+
+        //comando usato per aggiornare la mappa
         map.invalidate();
 
-
+        //viene aggiutno l'overlay per permettere eventi come il tocco
         map.getOverlays().add(0, mapEventsOverlay);
+
+
+        //inizializzazione del viewmodel per gestire i marker
         model = new ViewModelProvider(requireActivity()).get(OverlayViewModel.class);
 
-
-
+        //Observers per i cambiamenti al viewmodel
         model.getInizio().observe(getViewLifecycleOwner(),
                 puntoIniziale ->
-                {
-
-                    inizioPercorso.setPosition(puntoIniziale);
-
-                    inizioPercorso.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                    if(!map.getOverlays().contains(inizioPercorso))
-                        map.getOverlays().add(inizioPercorso);
-
-                    map.invalidate();
-
-                    inizioPercorso.setIcon(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_baseline_location_on_24));
-                    inizioPercorso.setTitle("Punto Iniziale");
-
-                    if (edtInizio != null)
-                    {
-                        edtInizio.setText(getAddress(puntoIniziale));
-                        deleteMarkerInizio.setVisibility(View.VISIBLE);
-                    }
-                }
+                    inizializzaPunto(puntoIniziale, inizioPercorso, R.drawable.ic_baseline_location_on_24, "Punto Iniziale", edtInizio, deleteMarkerInizio)
         );
         model.getFine().observe(getViewLifecycleOwner(),
                 puntoFinale ->
-                {
-                    finePercorso.setPosition(puntoFinale);
-
-                    finePercorso.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-
-                    if(!map.getOverlays().contains(finePercorso))
-                        map.getOverlays().add(finePercorso);
-
-                    map.invalidate();
-
-                    finePercorso.setIcon(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_finepercorso));
-                    finePercorso.setTitle("Punto Finale");
-
-                    if (edtFine != null)
-                    {
-                        edtFine.setText(getAddress(puntoFinale));
-                        deleteMarkerFine.setVisibility(View.VISIBLE);
-                    }
-                }
+                    inizializzaPunto(puntoFinale, finePercorso, R.drawable.ic_finepercorso, "Punto Finale", edtFine, deleteMarkerFine)
         );
 
     }
 
+    /*Metodo che gestisce l'impostazione dei marker nella mappa*/
+    private void inizializzaPunto(GeoPoint puntoIniziale, Marker inizioPercorso, int p, String s, EditText edtInizio, ImageButton deleteMarkerInizio)
+    {
+        inizioPercorso.setPosition(puntoIniziale);
+
+        inizioPercorso.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        if (!map.getOverlays().contains(inizioPercorso))
+            map.getOverlays().add(inizioPercorso);
+
+        mapController.setCenter(puntoIniziale);
+        map.invalidate();
+
+        inizioPercorso.setIcon(AppCompatResources.getDrawable(requireContext(), p));
+        inizioPercorso.setTitle(s);
+
+        if (edtInizio != null)
+        {
+            edtInizio.setText(getAddress(puntoIniziale));
+            deleteMarkerInizio.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /*questo metodo, ottenuto implementando MapEventsReceiver
+    * permette di gestire l'evento del tocco sulla mappa
+    * */
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p)
     {
@@ -162,6 +162,8 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         return true;
     }
 
+
+
     public void setEditTextMappa(EditText edtInizioPercorso, EditText edtFinePercorso, ImageButton deleteMarkerInizio, ImageButton deleteMarkerFine)
     {
         this.edtInizio = edtInizioPercorso;
@@ -169,28 +171,47 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         this.deleteMarkerInizio = deleteMarkerInizio;
         this.deleteMarkerFine = deleteMarkerFine;
 
-        deleteMarkerInizio.setOnClickListener(new View.OnClickListener()
+        deleteMarkerInizio.setOnClickListener(view ->
+            eliminaMarker(deleteMarkerInizio, edtInizio, inizioPercorso)
+        );
+        deleteMarkerFine.setOnClickListener(view ->
+            eliminaMarker(deleteMarkerFine, edtFine, finePercorso)
+        );
+
+        TextInputLayout til_puntoIniziale = (TextInputLayout) edtInizioPercorso.getParent().getParent();
+        til_puntoIniziale.setEndIconOnClickListener(view ->
         {
-            @Override
-            public void onClick(View view)
-            {
-                edtInizio.setText("");
+            if(!edtInizioPercorso.getText().toString().isEmpty()){
                 map.getOverlays().remove(inizioPercorso);
-                deleteMarkerInizio.setVisibility(View.INVISIBLE);
-                map.invalidate();
+                GeoPoint newMarker = getLocationFromAddress(edtInizioPercorso.getText().toString());
+                if (newMarker != null)
+                    model.setInizio(newMarker);
             }
+
         });
-        deleteMarkerFine.setOnClickListener(new View.OnClickListener()
+        TextInputLayout til_puntoFinale = (TextInputLayout) edtFinePercorso.getParent().getParent();
+        til_puntoFinale.setEndIconOnClickListener(view ->
         {
-            @Override
-            public void onClick(View view)
-            {
-                edtFine.setText("");
+            if(!edtFinePercorso.getText().toString().isEmpty()){
                 map.getOverlays().remove(finePercorso);
-                deleteMarkerFine.setVisibility(View.INVISIBLE);
-                map.invalidate();
+                GeoPoint newMarker = getLocationFromAddress(edtFinePercorso.getText().toString());
+                if (newMarker != null)
+                    model.setFine(newMarker);
             }
+
         });
+
+        edtInizioPercorso.setOnFocusChangeListener((view, b) -> til_puntoIniziale.setEndIconVisible(b));
+        edtFinePercorso.setOnFocusChangeListener((view,b) -> til_puntoFinale.setEndIconVisible(b));
+
+    }
+
+    private void eliminaMarker(@NonNull ImageButton deleteMarker, @NonNull EditText edtInizio, Marker inizioPercorso)
+    {
+        edtInizio.setText("");
+        map.getOverlays().remove(inizioPercorso);
+        deleteMarker.setVisibility(View.INVISIBLE);
+        map.invalidate();
     }
 
     @Override
@@ -202,12 +223,12 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     public GeoPoint currentPositionPhone()
     {
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, this);
             Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            double longitude = 0;
-            double latitude = 0;
+            double longitude;
+            double latitude;
             latitude = location.getLatitude();
             longitude = location.getLongitude();
 
@@ -218,13 +239,6 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-
-    }
 
     @Override
     public void onLocationChanged(@NonNull Location location)
@@ -253,36 +267,52 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     public String getAddress(GeoPoint point)
     {
         Geocoder geocoder;
-        List<Address> addresses = null;
+        List<Address> addresses;
         geocoder = new Geocoder(getContext(), Locale.getDefault());
-
+        String address = null;
+        String city = null;
+        String postalCode = null;
         try
         {
             addresses = geocoder.getFromLocation(point.getLatitude(), point.getLongitude(), 1);
+            address = addresses.get(0).getAddressLine(0);
+            city = addresses.get(0).getLocality();
+            postalCode = addresses.get(0).getPostalCode();
         } catch (IOException e)
         {
             e.printStackTrace();
         }
 
-        String address = addresses.get(0).getAddressLine(0);
-        String city = addresses.get(0).getLocality();
-        String postalCode = addresses.get(0).getPostalCode();
+
+
 
         return address + city + postalCode;
 
 
     }
 
-   /* @Override
-    public void onStop()
-    {
-        super.onStop();
+    public GeoPoint getLocationFromAddress(String strAddress) {
 
-        Log.i("DENTRO SAVE", "ccc");
-        if(inizioPercorso == null  || finePercorso == null)
-        {
-            getActivity().getViewModelStore().clear();
+        Geocoder coder = new Geocoder(getContext());
+        List<Address> address;
+        GeoPoint p1;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new GeoPoint((double) (location.getLatitude()),
+                    (double) (location.getLongitude()));
+
+            return p1;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        Log.i("Fuori SAVE", "ccc");
-    }*/
+        return null;
+    }
 }

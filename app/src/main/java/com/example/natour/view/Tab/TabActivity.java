@@ -3,7 +3,6 @@ package com.example.natour.view.Tab;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -14,9 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
 import com.example.natour.model.Utente;
-import com.example.natour.view.LoginActivity.SingletonNullException;
-import com.example.natour.view.LoginActivity.UtenteSingleton;
-import com.example.natour.view.MessaggioActivity.MessaggioFragment;
+import com.example.natour.view.MessaggioActivity.ChatFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TabActivity extends AppCompatActivity {
@@ -44,13 +41,6 @@ public class TabActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomePageFragment()).commit();
 
-        try
-        {
-            Log.i(TAG, UtenteSingleton.getInstance().getUtente().toString());
-        } catch (SingletonNullException e)
-        {
-            e.printStackTrace();
-        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -71,7 +61,7 @@ public class TabActivity extends AppCompatActivity {
                     fragment = new CercaFragment();
                     break;
                 case R.id.messaggio:
-                    fragment = new MessaggioFragment();
+                    fragment = new ChatFragment();
 
 
             }

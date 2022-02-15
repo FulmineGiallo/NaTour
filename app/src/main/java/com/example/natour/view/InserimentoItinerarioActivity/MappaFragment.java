@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -75,11 +76,12 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         super.onViewCreated(view, savedInstanceState);
         Configuration.getInstance().setUserAgentValue("MyOwnUserAgent/1.0");
         locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getContext(), this);
-
+        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this);
         map = (MapView) getView().findViewById(R.id.mapFragment);
-        map.setMultiTouchControls(true);
 
+        finePercorso = new Marker(map);
+        inizioPercorso = new Marker(map);
+        map.setMultiTouchControls(true);
 
         mapController = map.getController();
         mapController.setZoom(10.5);
@@ -89,65 +91,54 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
 
         map.getOverlays().add(0, mapEventsOverlay);
-
         model = new ViewModelProvider(requireActivity()).get(OverlayViewModel.class);
 
 
-        try
-        {
-            model.getInizio().observe(getViewLifecycleOwner(),
-                    puntoIniziale ->
-                    {
-                        inizioPercorso = new Marker(map);
-                        inizioPercorso.setPosition(puntoIniziale);
 
-                        inizioPercorso.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        model.getInizio().observe(getViewLifecycleOwner(),
+                puntoIniziale ->
+                {
+
+                    inizioPercorso.setPosition(puntoIniziale);
+
+                    inizioPercorso.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    if(!map.getOverlays().contains(inizioPercorso))
                         map.getOverlays().add(inizioPercorso);
 
-                        map.invalidate();
+                    map.invalidate();
 
-                        inizioPercorso.setIcon(getResources().getDrawable(R.drawable.ic_baseline_location_on_24));
-                        inizioPercorso.setTitle("Punto Iniziale");
+                    inizioPercorso.setIcon(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_baseline_location_on_24));
+                    inizioPercorso.setTitle("Punto Iniziale");
 
-                        if(edtInizio != null)
-                        {
-                            edtInizio.setText(getAddress(puntoIniziale));
-                            deleteMarkerInizio.setVisibility(View.VISIBLE);
-                        }
-
-                        Log.e("ESEGUITO PRIMA VOLTA I", "eeeee");
-
-
-                    }
-            );
-            model.getFine().observe(getViewLifecycleOwner(),
-                    puntoFinale ->
+                    if (edtInizio != null)
                     {
+                        edtInizio.setText(getAddress(puntoIniziale));
+                        deleteMarkerInizio.setVisibility(View.VISIBLE);
+                    }
+                }
+        );
+        model.getFine().observe(getViewLifecycleOwner(),
+                puntoFinale ->
+                {
+                    finePercorso.setPosition(puntoFinale);
 
-                        finePercorso = new Marker(map);
-                        finePercorso.setPosition(puntoFinale);
+                    finePercorso.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
-                        finePercorso.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    if(!map.getOverlays().contains(finePercorso))
                         map.getOverlays().add(finePercorso);
 
-                        map.invalidate();
+                    map.invalidate();
 
-                        finePercorso.setIcon(getResources().getDrawable(R.drawable.ic_finepercorso));
-                        finePercorso.setTitle("Punto Finale");
+                    finePercorso.setIcon(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_finepercorso));
+                    finePercorso.setTitle("Punto Finale");
 
-                        if(edtFine != null)
-                        {
-                            edtFine.setText(getAddress(puntoFinale));
-                            deleteMarkerFine.setVisibility(View.VISIBLE);
-                        }
-                        Log.e("ESEGUITO PRIMA VOLTA F", "eeeee");
+                    if (edtFine != null)
+                    {
+                        edtFine.setText(getAddress(puntoFinale));
+                        deleteMarkerFine.setVisibility(View.VISIBLE);
                     }
-            );
-        }
-        catch (NullPointerException ex)
-        {
-            Log.e("EX", ex.toString());
-        }
+                }
+        );
 
     }
 
@@ -158,15 +149,13 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
 
         /* INSERISCO IL MARKER PER IL PUNTO INIZIALE */
-        if (inizioPercorso == null)
+        if (!map.getOverlays().contains(inizioPercorso))
         {
             model.setInizio(p);
 
-        }
-        else if (finePercorso == null)
+        } else if (!map.getOverlays().contains(finePercorso))
         {
             model.setFine(p);
-
         }
         map.invalidate();
         Log.i("TAP", "");
@@ -187,9 +176,6 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             {
                 edtInizio.setText("");
                 map.getOverlays().remove(inizioPercorso);
-                inizioPercorso = null;
-
-
                 deleteMarkerInizio.setVisibility(View.INVISIBLE);
                 map.invalidate();
             }
@@ -201,8 +187,6 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             {
                 edtFine.setText("");
                 map.getOverlays().remove(finePercorso);
-                finePercorso = null;
-
                 deleteMarkerFine.setVisibility(View.INVISIBLE);
                 map.invalidate();
             }
@@ -223,15 +207,13 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, this);
             Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             double longitude = 0;
-            double latitude  = 0;
+            double latitude = 0;
             latitude = location.getLatitude();
             longitude = location.getLongitude();
 
             return new GeoPoint(latitude, longitude);
-        }
-        else
+        } else
             return new GeoPoint(40.839326626673405, 14.185227261143826);
-
 
 
     }
@@ -251,19 +233,23 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     }
 
     @Override
-    public void onProviderEnabled(@NonNull String provider) {
+    public void onProviderEnabled(@NonNull String provider)
+    {
 
     }
 
     @Override
-    public void onProviderDisabled(@NonNull String provider) {
+    public void onProviderDisabled(@NonNull String provider)
+    {
 
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
 
     }
+
     public String getAddress(GeoPoint point)
     {
         Geocoder geocoder;
@@ -283,7 +269,6 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         String postalCode = addresses.get(0).getPostalCode();
 
         return address + city + postalCode;
-
 
 
     }

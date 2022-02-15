@@ -64,12 +64,7 @@ public class InserimentoPercorsoFragment extends Fragment
             newIstance.setInitialSavedState(savedState);
 
         }
-        catch (IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
-        catch (java.lang.InstantiationException e)
-        {
+        catch (IllegalAccessException | java.lang.InstantiationException e){
             e.printStackTrace();
         }
 
@@ -190,7 +185,6 @@ public class InserimentoPercorsoFragment extends Fragment
             ft.add(R.id.map, newIstance);
             ft.commit();
         }
-
     }
 
 }

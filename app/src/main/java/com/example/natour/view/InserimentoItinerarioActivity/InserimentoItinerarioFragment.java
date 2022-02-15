@@ -1,11 +1,15 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -21,17 +25,23 @@ import com.google.android.material.slider.Slider;
 
 public class InserimentoItinerarioFragment extends Fragment
 {
-    Slider difficolta;
-    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    FrameLayout containerMappa;
-    MaterialCardView boxMappa;
-    ImageView buttonNascosto;
-    InserimentoPercorsoFragment percorsoFragment;
-    MappaFragment mappaFragment;
+    private Slider difficolta;
+
+    private FrameLayout containerMappa;
+    private MaterialCardView boxMappa;
+    private ImageView buttonNascosto;
+    private InserimentoPercorsoFragment percorsoFragment;
+    private MappaFragment mappaFragment;
+    private ImageButton backToTabActivity;
+    private EditText edtNome;
+    private EditText edtDurata;
+    private EditText edtDescrizione;
+
+
 
     public InserimentoItinerarioFragment()
     {
-        // Required empty public constructor
+
     }
 
 
@@ -86,9 +96,53 @@ public class InserimentoItinerarioFragment extends Fragment
             }
         });
 
+
         boxMappa = getView().findViewById(R.id.cardMap);
         containerMappa = getView().findViewById(R.id.containerMappa);
         buttonNascosto = getView().findViewById(R.id.btn_nascoto);
+
+        backToTabActivity = getView().findViewById(R.id.btn_indietroInsItineraio);
+        edtNome = getView().findViewById(R.id.nomeItinerario);
+        edtDurata = getView().findViewById(R.id.edt_durata);
+        edtDescrizione = getView().findViewById(R.id.descrizioneEditText);
+
+        backToTabActivity.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                getActivity().onBackPressed();
+            }
+        });
+
+        edtNome.setFocusable(false);
+        edtNome.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                initEditText(edtNome);
+            }
+        });
+        edtDurata.setFocusable(false);
+        edtDurata.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                initEditText(edtDurata);
+            }
+        });
+        edtDescrizione.setFocusable(false);
+        edtDescrizione.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                initEditText(edtDescrizione);
+            }
+        });
+
 
         if(getView().findViewById(R.id.containerMappa) != null)
         {
@@ -119,6 +173,13 @@ public class InserimentoItinerarioFragment extends Fragment
         });
     }
 
-
+    public void initEditText(EditText editText)
+    {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.setEnabled(true);
+        editText.requestFocus();
+        ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(edtNome, 0);
+    }
 
 }

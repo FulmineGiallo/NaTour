@@ -16,6 +16,7 @@ import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.view.LoginActivity.SingletonNullException;
 import com.example.natour.view.LoginActivity.UtenteSingleton;
+import com.example.natour.view.MessaggioActivity.MessaggioFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TabActivity extends AppCompatActivity {
@@ -69,6 +70,9 @@ public class TabActivity extends AppCompatActivity {
                 case R.id.cerca:
                     fragment = new CercaFragment();
                     break;
+                case R.id.messaggio:
+                    fragment = new MessaggioFragment();
+
 
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();

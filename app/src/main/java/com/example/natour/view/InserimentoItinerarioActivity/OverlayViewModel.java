@@ -28,7 +28,6 @@ public class OverlayViewModel extends ViewModel
         return puntoFine;
     }
 
-
     public void removeInizio()
     {
         if(puntoInizio.getValue() != null)

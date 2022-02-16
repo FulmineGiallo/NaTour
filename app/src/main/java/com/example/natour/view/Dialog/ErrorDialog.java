@@ -15,9 +15,9 @@ import com.example.natour.R;
 
 public class ErrorDialog extends DialogFragment
 {
-    Button confermaErrore;
-    String errorMSG;
-    TextView msg_errore;
+    private Button confermaErrore;
+    private String errorMSG;
+    private TextView msg_errore;
 
 
     public ErrorDialog(String errorMSG)

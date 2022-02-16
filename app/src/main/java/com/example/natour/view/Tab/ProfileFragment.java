@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerProfile;
+import com.example.natour.view.Dialog.ConfermaDialog;
+import com.example.natour.view.Dialog.ConfermaDialogInterfaccia;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -82,12 +84,28 @@ public class ProfileFragment extends Fragment
                                 return true;
                             case R.id.option_3:
                                 Toast.makeText(getContext(),"Logout", Toast.LENGTH_SHORT).show();
-                                controllerProfile.signOut();
+                                new ConfermaDialog("Sei sicuro di voler uscire?", new ConfermaDialogInterfaccia()
+                                {
+                                    @Override
+                                    public void actionConferma()
+                                    {
+                                        controllerProfile.signOut();
+                                    }
+
+                                    @Override
+                                    public void actionAnnulla()
+                                    {
+
+                                    }
+                                }).show(getParentFragmentManager(), null);
+
+
                                 return true;
                             case R.id.option_4:
                                 Toast.makeText(getContext(),"Chìudo MENU", Toast.LENGTH_SHORT).show();
                                 menuView.setVisibility(View.INVISIBLE);
                                 cardMenu.setVisibility(View.INVISIBLE);
+
                                 return true;
                             default:
                                 return false;
@@ -98,6 +116,7 @@ public class ProfileFragment extends Fragment
         });
 
     }
+
 
 
 }

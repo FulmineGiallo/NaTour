@@ -53,8 +53,6 @@ public class Login extends AppCompatActivity
         edtPassword = findViewById(R.id.password);
 
 
-
-
         sessionDisposable = RxAmplify.Auth.fetchAuthSession()
                 .subscribe(
                         result -> Log.i("SESSION", result.toString()),

@@ -1,4 +1,4 @@
-package com.example.natour.view;
+package com.example.natour.view.PannelloAdmin;
 
 import androidx.appcompat.app.AppCompatActivity;
 

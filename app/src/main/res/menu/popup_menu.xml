@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/option_4"
+        android:icon="@drawable/ic_baseline_close_24"
+        android:title="" />
+    <item android:id="@+id/option_1"
+        android:icon="@drawable/ic_modificaprofilo"
+        android:title="Modifica Profilo" />
+    <item android:id="@+id/option_2"
+        android:icon="@drawable/ic_iconcompilation"
+        android:title="Le mie compilation" />
+    <item android:id="@+id/option_3"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout" />
+</menu>

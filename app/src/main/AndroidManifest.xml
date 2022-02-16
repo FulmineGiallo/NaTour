@@ -74,16 +74,16 @@
             android:name=".view.RegisterActivity.TransazioneRegister"
             android:exported="false" />
         <activity
-            android:name=".view.visualizza_foto_inserite"
+            android:name=".view.PannelloAdmin.visualizza_foto_inserite"
             android:exported="false" />
         <activity
-            android:name=".view.visualizza_segnalazioni_effettuate"
+            android:name=".view.PannelloAdmin.visualizza_segnalazioni_effettuate"
             android:exported="false" />
         <activity
-            android:name=".view.visualizza_itinerari_inseriti"
+            android:name=".view.PannelloAdmin.visualizza_itinerari_inseriti"
             android:exported="false" />
         <activity
-            android:name=".view.visualizza_recensioni_inserite"
+            android:name=".view.PannelloAdmin.visualizza_recensioni_inserite"
             android:exported="false" />
         <activity
             android:name=".view.InserimentoItinerarioActivity.InserimentoItinerario"
@@ -95,7 +95,7 @@
             android:name=".view.LoginActivity.Login"
             android:exported="false"></activity>
         <activity
-            android:name=".view.VisualizzaItinerario"
+            android:name=".view.PannelloAdmin.VisualizzaItinerario"
             android:exported="false" />
         <activity
             android:name=".view.Tab.TabActivity"

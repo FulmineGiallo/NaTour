@@ -58,7 +58,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:padding="10dp"
-        />
+        android:onClick="showMenu"
+        tools:ignore="UsingOnClickInXml" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardMenu"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:strokeWidth="0.5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:elevation="20dp"
+        app:strokeColor="@color/black"
+        app:cardCornerRadius="20dp"
+        android:visibility="invisible"
+        >
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/menuview"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            app:menu="@menu/popup_menu"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"
+
+            />
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

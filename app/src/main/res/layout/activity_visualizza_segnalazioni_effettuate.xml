@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.visualizza_segnalazioni_effettuate">
+    tools:context=".view.PannelloAdmin.visualizza_segnalazioni_effettuate">
 
     <TextView
         android:id="@+id/txt_val_segnalazioni_totale"

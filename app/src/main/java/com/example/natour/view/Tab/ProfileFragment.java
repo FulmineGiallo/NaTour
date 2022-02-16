@@ -2,20 +2,22 @@ package com.example.natour.view.Tab;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerProfile;
-import com.example.natour.model.Utente;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.navigation.NavigationView;
 
 
 public class ProfileFragment extends Fragment
@@ -23,21 +25,13 @@ public class ProfileFragment extends Fragment
     private ControllerProfile controllerProfile;
     private ImageButton options;
     private TextView txtUtente;
-
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private NavigationView menuView;
+    private MaterialCardView cardMenu;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-
 
     }
 
@@ -54,8 +48,9 @@ public class ProfileFragment extends Fragment
     {
         controllerProfile = new ControllerProfile(getParentFragmentManager(), getActivity());
         SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        txtUtente = getView().findViewById(R.id.utente);
-
+        txtUtente = requireView().findViewById(R.id.utente);
+        menuView = requireView().findViewById(R.id.menuview);
+        cardMenu = requireView().findViewById(R.id.cardMenu);
 
         model.getUtente().observe(getViewLifecycleOwner(),
                 utente ->
@@ -64,16 +59,45 @@ public class ProfileFragment extends Fragment
 
                 }
         );
-
         options = getView().findViewById(R.id.btn_optionsProfile);
         options.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                controllerProfile.signOut();
+                menuView.setVisibility(View.VISIBLE);
+                cardMenu.setVisibility(View.VISIBLE);
+                menuView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+                {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item)
+                    {
+                        switch (item.getItemId())
+                        {
+                            case R.id.option_1:
+                                Toast.makeText(getContext(),"Modifica Profilo", Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.option_2:
+                                Toast.makeText(getContext(),"Le mie compilation", Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.option_3:
+                                Toast.makeText(getContext(),"Logout", Toast.LENGTH_SHORT).show();
+                                controllerProfile.signOut();
+                                return true;
+                            case R.id.option_4:
+                                Toast.makeText(getContext(),"Chìudo MENU", Toast.LENGTH_SHORT).show();
+                                menuView.setVisibility(View.INVISIBLE);
+                                cardMenu.setVisibility(View.INVISIBLE);
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
             }
         });
 
     }
+
+
 }

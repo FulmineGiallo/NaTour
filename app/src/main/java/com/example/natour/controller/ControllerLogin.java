@@ -12,7 +12,7 @@ import com.amplifyframework.auth.result.AuthSignInResult;
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.Utente;
 import com.example.natour.model.dao.UtenteDAO;
-import com.example.natour.view.ErrorDialog;
+import com.example.natour.view.Dialog.ErrorDialog;
 import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.Tab.TabActivity;
 

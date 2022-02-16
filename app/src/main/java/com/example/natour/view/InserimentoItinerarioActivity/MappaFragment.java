@@ -3,8 +3,6 @@ package com.example.natour.view.InserimentoItinerarioActivity;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,10 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
+import com.example.natour.controller.ControllerItinerario;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.osmdroid.api.IMapController;
@@ -40,10 +37,7 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class MappaFragment extends Fragment implements MapEventsReceiver, LocationListener
 {
@@ -57,14 +51,20 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     private EditText edtFine;
     private ImageButton deleteMarkerInizio;
     private ImageButton deleteMarkerFine;
-    private Button inserisciPercorso;
-    private ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
+    private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
     private Road road;
     private RoadManager roadManager;
     private Polyline roadOverlay;
+    private ControllerItinerario controllerItinerario;
+
     public MappaFragment()
     {
 
+    }
+
+    public MappaFragment(ControllerItinerario controllerItinerario)
+    {
+        this.controllerItinerario = controllerItinerario;
     }
 
 
@@ -97,7 +97,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
         //viene preso il riferimento della mappa e creato l'overlay per la mappa
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this);
-        map = (MapView) requireView().findViewById(R.id.mapFragment);
+        map = requireView().findViewById(R.id.mapFragment);
 
 
         //si predispone l'oggetto per avere i due marker
@@ -135,48 +135,46 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     }
 
     /*Metodo che gestisce l'impostazione dei marker nella mappa*/
-    private void inizializzaPunto(GeoPoint punto, Marker marker, int p, String s, EditText edtInizio, ImageButton deleteButton)
+    public void inizializzaPunto(GeoPoint punto, Marker marker, int p, String s, EditText edtPunto, ImageButton deleteButton)
     {
+        //viene deciso il punto per cui il marker deve posizionarsi
         marker.setPosition(punto);
-
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+
+        //se il marker è stato già aggiunto allora è necessario modificarlo solamente
         if (!map.getOverlays().contains(marker))
             map.getOverlays().add(marker);
 
+        //viene messo come centro il punto in cui preme l'utente
         mapController.setCenter(punto);
         map.invalidate();
 
+        //viene messa l'icona e il titolo adatti al tipo di marker
         marker.setIcon(AppCompatResources.getDrawable(requireContext(), p));
         marker.setTitle(s);
 
-        if (edtInizio != null)
+        //viene modificato il testo che mostra l'indirizzo
+        if (edtPunto != null)
         {
-            edtInizio.setText(getAddress(punto));
+            edtPunto.setText(getAddress(punto));
             deleteButton.setVisibility(View.VISIBLE);
         }
+        //viene aggiunto il punto come waypoint per fare il tracciato
         waypoints.add(punto);
 
+        //nel caso sono presenti entrambi i marker viene tracciato il percorso
         if(map.getOverlays().contains(inizioPercorso) && map.getOverlays().contains(finePercorso))
         {
             //TODO: caricamento nel mentre cerca la strada;
 
-            Thread percorso = new Thread(new Runnable()
+            //la strada viene tracciata usando un servizio network
+            Thread percorso = new Thread(() ->
             {
-                @Override
-                public void run()
-                {
-                    road = roadManager.getRoad(waypoints);
-                    roadOverlay = RoadManager.buildRoadOverlay(road);
-                    map.getOverlays().add(roadOverlay);
-                    requireActivity().runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            map.invalidate();
-                        }
-                    });
-                }
+                road = roadManager.getRoad(waypoints);
+                roadOverlay = RoadManager.buildRoadOverlay(road);
+                map.getOverlays().add(roadOverlay);
+                //per aggiornare l'UI della mappa è necessario farlo nel main thread
+                requireActivity().runOnUiThread(() -> map.invalidate());
             });
             percorso.start();
 
@@ -189,6 +187,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
             GeoPoint puntoMedio = new GeoPoint((latInizio + latFine) / 2, (lonInizio + lonFine) / 2);
 
+            //viene messo come centro della mappa il punto medio tra i marker
             mapController.setCenter(puntoMedio);
         }
     }
@@ -199,7 +198,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p)
     {
-        Toast.makeText(getContext(), "Tapped", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Tapped", Toast.LENGTH_SHORT).show();
 
 
         /* INSERISCO IL MARKER PER IL PUNTO INIZIALE */
@@ -208,12 +207,12 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             model.setInizio(p);
 
         }
+        /* INSERISCO IL MARKER PER IL PUNTO FINALE */
         else if (!map.getOverlays().contains(finePercorso))
         {
             model.setFine(p);
         }
         map.invalidate();
-        Log.i("TAP", "");
         return true;
     }
 
@@ -233,6 +232,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             eliminaMarker(deleteMarkerFine, edtFine, finePercorso)
         );
 
+        //listener per poter aggiungere un marker partendo da un indirizzo inserito manualmente
         TextInputLayout til_puntoIniziale = (TextInputLayout) edtInizioPercorso.getParent().getParent();
         til_puntoIniziale.setEndIconOnClickListener(view ->
         {
@@ -261,12 +261,13 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
     }
 
-    private void eliminaMarker(@NonNull ImageButton deleteMarker, @NonNull EditText edtInizio, Marker inizioPercorso)
+    //metodo per l'eliminazione dei marker dall'apposito bottone
+    private void eliminaMarker(@NonNull ImageButton deleteMarker, @NonNull EditText edtInizio, Marker marker)
     {
         edtInizio.setText("");
-        map.getOverlays().remove(inizioPercorso);
+        map.getOverlays().remove(marker);
         deleteMarker.setVisibility(View.INVISIBLE);
-        waypoints.remove(inizioPercorso.getPosition());
+        waypoints.remove(marker.getPosition());
         map.getOverlays().remove(roadOverlay);
         map.invalidate();
     }
@@ -280,7 +281,10 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     public GeoPoint currentPositionPhone()
     {
 
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, this);
             Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -297,79 +301,19 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     }
 
 
+
+    public String getAddress(GeoPoint point)
+    {
+        return controllerItinerario.getAddress(point);
+    }
+
+    public GeoPoint getLocationFromAddress(String strAddress) {
+        return controllerItinerario.getLocationFromAddress(strAddress);
+    }
+
     @Override
     public void onLocationChanged(@NonNull Location location)
     {
 
-    }
-
-    @Override
-    public void onProviderEnabled(@NonNull String provider)
-    {
-
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider)
-    {
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras)
-    {
-
-    }
-
-    public String getAddress(GeoPoint point)
-    {
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(getContext(), Locale.getDefault());
-        String address = null;
-        String city = null;
-        String postalCode = null;
-        try
-        {
-            addresses = geocoder.getFromLocation(point.getLatitude(), point.getLongitude(), 1);
-            address = addresses.get(0).getAddressLine(0);
-            city = addresses.get(0).getLocality();
-            postalCode = addresses.get(0).getPostalCode();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-
-
-
-        return address + city + postalCode;
-
-
-    }
-
-    public GeoPoint getLocationFromAddress(String strAddress) {
-
-        Geocoder coder = new Geocoder(getContext());
-        List<Address> address;
-        GeoPoint p1;
-
-        try {
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                return null;
-            }
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            p1 = new GeoPoint((double) (location.getLatitude()),
-                    (double) (location.getLongitude()));
-
-            return p1;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

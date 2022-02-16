@@ -3,16 +3,12 @@ package com.example.natour.view.InserimentoItinerarioActivity;//package com.exam
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour.R;
+import com.example.natour.controller.ControllerItinerario;
 
 public class InserimentoItinerario extends AppCompatActivity
 {
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -20,14 +16,8 @@ public class InserimentoItinerario extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inserimento_itinerario);
 
-        if(findViewById(R.id.fragmentMappa) != null)
-        {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-
-            ft.add(R.id.fragmentMappa, new InserimentoItinerarioFragment());
-            ft.commit();
-        }
+        ControllerItinerario controllerItinerario = new ControllerItinerario(getSupportFragmentManager(), this);
+        controllerItinerario.inizializzaInterfaccia();
     }
 
 

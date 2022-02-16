@@ -18,22 +18,23 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour.R;
+import com.example.natour.controller.ControllerItinerario;
 import com.google.android.material.textfield.TextInputLayout;
 
 
 public class InserimentoPercorsoFragment extends Fragment
 {
-    private EditText inizioPercorso;
-    private EditText finePercorso;
     private ImageButton indietro;
-
+    private ControllerItinerario controllerItinerario;
 
     private FrameLayout backContainer;
-    private MappaFragment mappaFragment;
+
+    private EditText inizioPercorso;
+    private EditText finePercorso;
+    private ImageButton deleteMarkerFine;
+    private ImageButton deleteMarkerInizio;
 
 
     public InserimentoPercorsoFragment()
@@ -42,9 +43,9 @@ public class InserimentoPercorsoFragment extends Fragment
     }
 
     //passiamo il fragment della mappa e quello precedente per matenere la persistenza dei dati
-    public InserimentoPercorsoFragment(MappaFragment mappa)
+    public InserimentoPercorsoFragment(ControllerItinerario controllerItinerario)
     {
-        this.mappaFragment = mappa;
+        this.controllerItinerario = controllerItinerario;
     }
 
 
@@ -73,8 +74,8 @@ public class InserimentoPercorsoFragment extends Fragment
         inizioPercorso = requireView().findViewById(R.id.edt_inizioPercorso);
         finePercorso = requireView().findViewById(R.id.edt_finePercorso);
         indietro = requireView().findViewById(R.id.btn_indietro);
-        ImageButton deleteMarkerInizio = requireView().findViewById(R.id.btn_deletemarkerInizio);
-        ImageButton deleteMarkerFine = requireView().findViewById(R.id.btn_deletemarkerFine);
+        deleteMarkerInizio = requireView().findViewById(R.id.btn_deletemarkerInizio);
+        deleteMarkerFine = requireView().findViewById(R.id.btn_deletemarkerFine);
 
         //Inizialmente i bottoni per aggiungere marker dal testo devono essere nascosti
         TextInputLayout til_inizio = (TextInputLayout) inizioPercorso.getParent().getParent();
@@ -85,35 +86,10 @@ public class InserimentoPercorsoFragment extends Fragment
         //questo listener contiene l'azione e l'animazione per tornare indietro
         backContainer.setOnClickListener(view1 ->
         {
-
-            //animazione per la pulsazione del tasto back
-            AnimationSet animationSet = new AnimationSet(true);
-            Animation bigger = new ScaleAnimation(1f, 1.25f, // Start and end values for the X axis scaling
-                    1f, 1.25f, // Start and end values for the Y axis scaling
-                    Animation.ABSOLUTE, backContainer.getPivotX(), // Pivot point of X scaling
-                    Animation.ABSOLUTE, backContainer.getPivotY());
-            bigger.setDuration(500);
-            Animation smaller = new ScaleAnimation(1f, 0, // Start and end values for the X axis scaling
-                    1f, 0, // Start and end values for the Y axis scaling
-                    Animation.ABSOLUTE, backContainer.getPivotX(), // Pivot point of X scaling
-                    Animation.ABSOLUTE, backContainer.getPivotY());
-            smaller.setDuration(200);
-            smaller.setStartOffset(200);
-            animationSet.addAnimation(bigger);
-            animationSet.addAnimation(smaller);
-            animationSet.setFillAfter(true);
-
-
-            //fade out dell'icona back
-            Animation fadeOut = new AlphaAnimation(indietro.getAlpha(), 0f);
-            fadeOut.setFillAfter(true);
-            fadeOut.setDuration(500);
-
-            indietro.startAnimation(fadeOut);
-            backContainer.startAnimation(animationSet);
+            buttonAnimation();//l'animazione dura in tutto 700ms
 
             /* permette all'animazione di compiersi prima di tornare all'attività precedente*/
-            new Handler().postDelayed(() -> requireActivity().onBackPressed(),700);
+            new Handler().postDelayed(() -> controllerItinerario.goBack(),700);
         });
 
         /*codice necessario per impedire che sia attivato il focus per il campo di testo
@@ -148,18 +124,56 @@ public class InserimentoPercorsoFragment extends Fragment
         /*
         * Qui viene cambiata l'istanza di MappaFragment
         * */
-        if(requireView().findViewById(R.id.map) != null)
-        {
-            FragmentManager fm = getParentFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.remove(mappaFragment);
+        controllerItinerario.resetMapView(this, R.id.map);
 
-            MappaFragment newIstance = new MappaFragment();
-
-            newIstance.setEditTextMappa(inizioPercorso, finePercorso, deleteMarkerInizio, deleteMarkerFine);
-            ft.add(R.id.map, newIstance);
-            ft.commit();
-        }
     }
 
+    private void buttonAnimation()
+    {
+        //animazione per la pulsazione del tasto back
+        AnimationSet animationSet = new AnimationSet(true);
+        Animation bigger = new ScaleAnimation(1f, 1.25f, // Start and end values for the X axis scaling
+                1f, 1.25f, // Start and end values for the Y axis scaling
+                Animation.ABSOLUTE, backContainer.getPivotX(), // Pivot point of X scaling
+                Animation.ABSOLUTE, backContainer.getPivotY());
+        bigger.setDuration(500);
+        Animation smaller = new ScaleAnimation(1f, 0, // Start and end values for the X axis scaling
+                1f, 0, // Start and end values for the Y axis scaling
+                Animation.ABSOLUTE, backContainer.getPivotX(), // Pivot point of X scaling
+                Animation.ABSOLUTE, backContainer.getPivotY());
+        smaller.setDuration(200);
+        smaller.setStartOffset(200);
+        animationSet.addAnimation(bigger);
+        animationSet.addAnimation(smaller);
+        animationSet.setFillAfter(true);
+
+
+        //fade out dell'icona back
+        Animation fadeOut = new AlphaAnimation(indietro.getAlpha(), 0f);
+        fadeOut.setFillAfter(true);
+        fadeOut.setDuration(500);
+
+        indietro.startAnimation(fadeOut);
+        backContainer.startAnimation(animationSet);
+    }
+
+    public EditText getInizioPercorso()
+    {
+        return inizioPercorso;
+    }
+
+    public EditText getFinePercorso()
+    {
+        return finePercorso;
+    }
+
+    public ImageButton getDeleteMarkerFine()
+    {
+        return deleteMarkerFine;
+    }
+
+    public ImageButton getDeleteMarkerInizio()
+    {
+        return deleteMarkerInizio;
+    }
 }

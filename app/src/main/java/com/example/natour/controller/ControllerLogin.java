@@ -14,7 +14,6 @@ import com.example.natour.model.Utente;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.ErrorDialog;
 import com.example.natour.view.LoginActivity.Login;
-import com.example.natour.view.LoginActivity.UtenteSingleton;
 import com.example.natour.view.Tab.TabActivity;
 
 import org.json.JSONObject;
@@ -102,10 +101,43 @@ public class ControllerLogin
     }
     public void checkLoginFacebook()
     {
-        utenteDati.loginWithFacebook(contexController);
+        utenteLoggato = new Utente();
+        RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), (Login) contexController)
+                .subscribe(
+                        result ->
+                        {
+                            Log.i("AuthQuickstart", result.toString());
+                            RxAmplify.Auth.fetchUserAttributes()
+                                    .doOnSubscribe(esult -> Log.i("AuthDemo", "Attributes:" + esult.toString()))
+                                    .flatMapObservable(Observable::fromIterable)
+                                    .subscribe(
+                                            eachAttribute ->
+                                            {
+                                                Log.i("AuthDemo", eachAttribute.toString());
+                                                if(eachAttribute.getKey().getKeyString().equals("email"))
+                                                    utenteLoggato.setEmail(eachAttribute.getValue());
+                                                if(eachAttribute.getKey().getKeyString().equals("sub"))
+                                                    utenteLoggato.setToken(eachAttribute.getValue());
+                                                if(eachAttribute.getKey().getKeyString().equals("family_name"))
+                                                    utenteLoggato.setCognome(eachAttribute.getValue());
+                                                if(eachAttribute.getKey().getKeyString().equals("name"))
+                                                    utenteLoggato.setNome(eachAttribute.getValue());
+                                            },
+                                            error -> Log.e("AuthDemo", "Failed to fetch attributes.", error),
+                                            () ->
+                                            {
+                                                intentHomePage.putExtra("utente",utenteLoggato);
+                                                contexController.startActivity(intentHomePage);
+                                            }
+                                    );
+                        },
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
+
 
 
     }
+
     public void checkLoginGoogle()
     {
         utenteLoggato = new Utente();

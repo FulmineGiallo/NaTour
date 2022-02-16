@@ -311,9 +311,16 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         return controllerItinerario.getLocationFromAddress(strAddress);
     }
 
+
     @Override
     public void onLocationChanged(@NonNull Location location)
     {
 
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
+        Log.i("MappaFragment", "something happened");
     }
 }

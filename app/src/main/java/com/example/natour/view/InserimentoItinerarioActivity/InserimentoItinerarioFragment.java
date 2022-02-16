@@ -3,6 +3,7 @@ package com.example.natour.view.InserimentoItinerarioActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import com.google.android.material.slider.Slider;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -203,44 +206,34 @@ public class InserimentoItinerarioFragment extends Fragment
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent){
-    if(resultCode==RESULT_OK) {
-        String FilePath = intent.getData().getPath();
-        String FileName = intent.getData().getLastPathSegment();
-        int lastPos = FilePath.length() - FileName.length();
-        String Folder = FilePath.substring(0, lastPos);
-
-        //String textFile = "Full Path: \n" + FilePath + "\n";
-        //String textFolder = "Folder: \n" + Folder + "\n";
-        String textFileName = "File Name: \n" + FileName + "\n";
-        Log.i("bla",textFileName);
-        if(textFileName.contains(".gpx")){
-            GPXParser parser = new GPXParser();
-            Gpx parsedGpx = null;
-
-            try {
-                InputStream in = requireContext().getAssets().open(textFileName);
-                parsedGpx = parser.parse(in);
-            } catch (IOException | XmlPullParserException e) {
-                new ErrorDialog("Errore nel caricamento file .gpx").show(getParentFragmentManager(),null);
-                e.printStackTrace();
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (resultCode == RESULT_OK) {
+            String FileName = intent.getData().getLastPathSegment();
+            // Inserito il file dal File Explorer viene effettuato un controllo per garantire che il file sia del tipo .gpx
+            if (FileName.contains("gpx")) {
+                // Essendo il file di tipo .gpx vengono presi dall'intent le informazioni per gestire l'itinerario
+                GPXParser parser = new GPXParser();
+                Gpx parsedGpx = null;
+                try {
+                    InputStream in = getActivity().getContentResolver().openInputStream(intent.getData());
+                    parsedGpx = parser.parse(in);
+                } catch (IOException | XmlPullParserException e) {
+                    new ErrorDialog("Errore nel caricamento del file .gpx").show(getParentFragmentManager(), null);
+                    e.printStackTrace();
+                }
+                if (parsedGpx == null) {
+                    new ErrorDialog("Errore nel caricamento del file .gpx").show(getParentFragmentManager(), null);
+                } else {
+                    // Nei casi precedenti viene controllato che il file gpx sia stato correttamente  analizzato dal parser
+                    // Ed entra in questo else solamente se vengono passati tutti i controlli procedendo poi a recuperare eventuali routes e waypoint
+                    List<WayPoint> waypoints = parsedGpx.getWayPoints();
+                    List<Route> routes = parsedGpx.getRoutes();
+                }
+            } else {
+                new ErrorDialog("Il file inserito non è di tipo .gpx").show(getParentFragmentManager(), null);
             }
-            if (parsedGpx == null) {
-                new ErrorDialog("Errore nel caricamento file .gpx").show(getParentFragmentManager(),null);
-            }
-            else
-                {
-                // Gestire gpx
-                List<WayPoint> waypoints = parsedGpx.getWayPoints();
-                List<Route> routes = parsedGpx.getRoutes();
-            }
-        }
-        else
-            {
-            new ErrorDialog("Il file inserito non è di tipo .gpx").show(getParentFragmentManager(),null);
         }
     }
-}
 
     public void initEditText(EditText editText)
     {

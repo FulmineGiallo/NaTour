@@ -103,26 +103,27 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="10dp"
-                    android:hint="Durata"
                     android:id="@+id/edt_timeItinerario"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_nomeItinerario"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="156dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="5dp"
+                    android:hint="Durata"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/img_disabili"
-                    >
+                    app:layout_constraintTop_toBottomOf="@+id/edt_nomeItinerario">
+
                     <EditText
                         android:id="@+id/edt_durata"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:inputType="time"
-                        />
+                        android:inputType="time" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <TextView
                     android:id="@+id/text_difficoltà"
                     android:layout_width="wrap_content"
@@ -297,6 +298,19 @@
                     app:backgroundTint="@color/colorebottone"
                     app:cornerRadius="10dp"
                     ></com.google.android.material.button.MaterialButton>
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="in minuti"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toTopOf="@+id/slider_difficoltà"
+                    app:layout_constraintEnd_toStartOf="@+id/img_disabili"
+                    app:layout_constraintHorizontal_bias="0.097"
+                    app:layout_constraintStart_toEndOf="@+id/edt_timeItinerario"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_nomeItinerario"
+                    app:layout_constraintVertical_bias="0.661" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

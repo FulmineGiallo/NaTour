@@ -5,9 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +20,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
-import com.example.natour.view.ErrorDialog;
-
+import com.example.natour.view.Dialog.ErrorDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -150,7 +145,7 @@ public class InserimentoItinerarioFragment extends Fragment
                 GPXParser parser = new GPXParser();
                 Gpx parsedGpx = null;
                 try {
-                    InputStream in = getActivity().getContentResolver().openInputStream(intent.getData());
+                    InputStream in = requireActivity().getContentResolver().openInputStream(intent.getData());
                     parsedGpx = parser.parse(in);
                 } catch (IOException | XmlPullParserException e) {
                     new ErrorDialog("Errore nel caricamento del file .gpx").show(getParentFragmentManager(), null);

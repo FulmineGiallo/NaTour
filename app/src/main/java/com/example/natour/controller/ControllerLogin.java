@@ -1,6 +1,5 @@
 package com.example.natour.controller;
 
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -22,19 +21,22 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ControllerLogin
 {
 
-    private FragmentManager fragmentManager;
-    private Context contexController;
-    Intent intentHomePage;
+    private final FragmentManager fragmentManager;
+    private final Login contexController;
+    private final Intent intentHomePage;
     private Utente utenteLoggato;
-    private UtenteDAO utenteDati = new UtenteDAO();
-    private String TAG = "Controller Login";
+    private final UtenteDAO utenteDati = new UtenteDAO();
+    private Disposable loginDisposable;
+    private Disposable userInfoDisposable;
+    private Disposable setDataDiNascitaDisposable;
 
-    public ControllerLogin(FragmentManager fragmentManager, Context contexController)
+    public ControllerLogin(FragmentManager fragmentManager, Login contexController)
     {
         this.fragmentManager = fragmentManager;
         this.contexController = contexController;
@@ -49,11 +51,11 @@ public class ControllerLogin
 
 
        login = utenteDati.loginWithCognito(email,password);
-       login.subscribe(
+       loginDisposable = login.subscribe(
                        result ->
                        {
                            Single<List<AuthUserAttribute>> infoUtente = utenteDati.getInformationOfAmplifySession();
-                           infoUtente.doOnSubscribe(dosub -> Log.i("AuthDemo", "Attributes:"))
+                           userInfoDisposable = infoUtente.doOnSubscribe(dosub -> Log.i("AuthDemo", "Attributes:"))
                                    .flatMapObservable(Observable::fromIterable)
                                    .subscribe(
                                            eachAttribute ->
@@ -75,12 +77,13 @@ public class ControllerLogin
                                                PublishSubject<JSONObject> subject;
                                                /* Finisce qui */
                                                subject = utenteDati.getBirthdate(utenteLoggato.getToken(), contexController);
-                                               subject.subscribe(
+                                               setDataDiNascitaDisposable = subject.subscribe(
                                                        data ->
                                                        {
                                                            utenteLoggato.setDataDiNascita(data.getString("data_di_nascita"));
                                                            intentHomePage.putExtra("utente",utenteLoggato);
                                                            contexController.startActivity(intentHomePage);
+                                                           terminaLogin();
                                                        },
                                                        dataError ->
                                                                Log.e("ERROR Birt", dataError.toString())
@@ -102,12 +105,12 @@ public class ControllerLogin
     public void checkLoginFacebook()
     {
         utenteLoggato = new Utente();
-        RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), (Login) contexController)
+        loginDisposable = RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), contexController)
                 .subscribe(
                         result ->
                         {
                             Log.i("AuthQuickstart", result.toString());
-                            RxAmplify.Auth.fetchUserAttributes()
+                            userInfoDisposable = RxAmplify.Auth.fetchUserAttributes()
                                     .doOnSubscribe(esult -> Log.i("AuthDemo", "Attributes:" + esult.toString()))
                                     .flatMapObservable(Observable::fromIterable)
                                     .subscribe(
@@ -128,6 +131,7 @@ public class ControllerLogin
                                             {
                                                 intentHomePage.putExtra("utente",utenteLoggato);
                                                 contexController.startActivity(intentHomePage);
+                                                terminaLogin();
                                             }
                                     );
                         },
@@ -141,12 +145,12 @@ public class ControllerLogin
     public void checkLoginGoogle()
     {
         utenteLoggato = new Utente();
-        RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.google(), (Login) contexController)
+        loginDisposable = RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.google(), contexController)
                 .subscribe(
                         result ->
                         {
                             Log.i("AuthQuickstart", result.toString());
-                            RxAmplify.Auth.fetchUserAttributes()
+                            userInfoDisposable= RxAmplify.Auth.fetchUserAttributes()
                                     .doOnSubscribe(esult -> Log.i("AuthDemo", "Attributes:" + esult.toString()))
                                     .flatMapObservable(Observable::fromIterable)
                                     .subscribe(
@@ -167,6 +171,7 @@ public class ControllerLogin
                                             {
                                                 intentHomePage.putExtra("utente",utenteLoggato);
                                                 contexController.startActivity(intentHomePage);
+                                                terminaLogin();
                                             }
                                     );
                         },
@@ -175,5 +180,13 @@ public class ControllerLogin
 
 
 
+    }
+
+    public void terminaLogin()
+    {
+        contexController.finish();
+        loginDisposable.dispose();
+        userInfoDisposable.dispose();
+        setDataDiNascitaDisposable.dispose();
     }
 }

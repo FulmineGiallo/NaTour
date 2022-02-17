@@ -62,7 +62,10 @@ public class TabActivity extends AppCompatActivity {
                     break;
                 case R.id.messaggio:
                     fragment = new MessaggioFragment();
-
+                    break;
+                case R.id.notifica:
+                    fragment = new NotificaFragment();
+                    break;
 
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();

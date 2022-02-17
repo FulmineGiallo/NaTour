@@ -1,6 +1,7 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,10 +15,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
 import androidx.fragment.app.Fragment;
+import androidx.transition.Transition;
+import androidx.transition.TransitionInflater;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
@@ -55,6 +61,7 @@ public class InserimentoPercorsoFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(R.transition.shared_image));
 
     }
 
@@ -70,6 +77,9 @@ public class InserimentoPercorsoFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+        ImageView mappaContainer = requireView().findViewById(R.id.img_mapIconPercorso);
+        ViewCompat.setTransitionName(mappaContainer, "big_map");
+
         backContainer = requireView().findViewById(R.id.frameIndietro);
         inizioPercorso = requireView().findViewById(R.id.edt_inizioPercorso);
         finePercorso = requireView().findViewById(R.id.edt_finePercorso);
@@ -89,7 +99,12 @@ public class InserimentoPercorsoFragment extends Fragment
             buttonAnimation();//l'animazione dura in tutto 700ms
 
             /* permette all'animazione di compiersi prima di tornare all'attività precedente*/
-            new Handler().postDelayed(() -> controllerItinerario.goBack(),700);
+            new Handler().postDelayed(() ->
+            {
+                indietro.setVisibility(View.INVISIBLE);
+                backContainer.setVisibility(View.INVISIBLE);
+                controllerItinerario.goBack();
+            },700);
         });
 
         /*codice necessario per impedire che sia attivato il focus per il campo di testo
@@ -124,7 +139,7 @@ public class InserimentoPercorsoFragment extends Fragment
         /*
         * Qui viene cambiata l'istanza di MappaFragment
         * */
-        controllerItinerario.resetMapView(this, R.id.map);
+        controllerItinerario.resetMapView(this, R.id.map, mappaContainer);
 
     }
 

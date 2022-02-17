@@ -6,16 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.natour.R;
@@ -61,6 +66,10 @@ public class InserimentoItinerarioFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
+        Transition transition = TransitionInflater.from(requireContext())
+                .inflateTransition(R.transition.shared_image);
+        setSharedElementEnterTransition(transition);
+
     }
 
     @Override
@@ -76,6 +85,9 @@ public class InserimentoItinerarioFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+        ImageView mapContainer = requireView().findViewById(R.id.img_mapIconItinerario);
+        ViewCompat.setTransitionName(mapContainer,"tiny_map");
+
         Slider difficolta = requireView().findViewById(R.id.slider_difficoltà);
         difficolta.addOnChangeListener((slider, value, fromUser) ->
         {

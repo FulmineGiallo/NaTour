@@ -2,7 +2,10 @@ package com.example.natour.controller;
 
 import android.location.Address;
 import android.location.Geocoder;
+import android.view.View;
+import android.widget.ImageView;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,6 +26,7 @@ import com.example.natour.model.Itinerario;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 public class ControllerItinerario
 {
@@ -41,11 +45,6 @@ public class ControllerItinerario
     {
         Itinerario itinerarioInserito = new Itinerario();
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
-
-
-
-
-
         return itinerarioInserito;
     }
 
@@ -93,23 +92,28 @@ public class ControllerItinerario
         inserimentoItinerarioActivity.onBackPressed();
     }
 
-    public void setMapView(Fragment fragment,int viewId)
+    public void setMapView(Fragment fragment, int viewId)
     {
         if(fragment.requireView().findViewById(viewId) != null)
         {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
             mappaFragment = new MappaFragment(this);
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.addSharedElement(fragment.requireView().findViewById(R.id.img_mapIconItinerario), "big_map");
+
+
 
             ft.add(viewId, mappaFragment);
             ft.commit();
+
         }
     }
 
-    public void resetMapView(InserimentoPercorsoFragment ipf, int map)
+    public void resetMapView(InserimentoPercorsoFragment ipf, int map, ImageView imageView)
     {
         if(percorsoFragment.requireView().findViewById(map) != null)
         {
             FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.addSharedElement(imageView, "big_map");
             ft.remove(mappaFragment);
 
             mappaFragment = new MappaFragment(this);
@@ -118,6 +122,8 @@ public class ControllerItinerario
                     ipf.getDeleteMarkerInizio(), ipf.getDeleteMarkerFine());
             ft.add(map, mappaFragment);
             ft.commit();
+
+
         }
     }
 

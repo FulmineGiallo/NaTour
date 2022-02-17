@@ -85,8 +85,9 @@ public class InserimentoItinerarioFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        ImageView mapContainer = requireView().findViewById(R.id.img_mapIconItinerario);
-        ViewCompat.setTransitionName(mapContainer,"tiny_map");
+        FrameLayout mapContainer = view.findViewById(R.id.containerMappa);
+        ViewGroupCompat.setTransitionGroup(mapContainer,true);
+        ViewCompat.setTransitionName(mapContainer, "tiny_map");
 
         Slider difficolta = requireView().findViewById(R.id.slider_difficoltà);
         difficolta.addOnChangeListener((slider, value, fromUser) ->
@@ -145,7 +146,7 @@ public class InserimentoItinerarioFragment extends Fragment
         controllerItinerario.setMapView(this, R.id.containerMappa);
 
 
-        buttonNascosto.setOnClickListener(view16 -> controllerItinerario.gotoPercorsoFragment());
+        buttonNascosto.setOnClickListener(view16 -> controllerItinerario.gotoPercorsoFragment(mapContainer));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

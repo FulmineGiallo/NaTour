@@ -62,7 +62,7 @@ public class InserimentoPercorsoFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(R.transition.shared_image));
-
+        setEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.fade));
     }
 
     @Override
@@ -77,7 +77,8 @@ public class InserimentoPercorsoFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        ImageView mappaContainer = requireView().findViewById(R.id.img_mapIconPercorso);
+        FrameLayout mappaContainer = view.findViewById(R.id.map);
+        ViewGroupCompat.setTransitionGroup(mappaContainer,true);
         ViewCompat.setTransitionName(mappaContainer, "big_map");
 
         backContainer = requireView().findViewById(R.id.frameIndietro);
@@ -139,7 +140,7 @@ public class InserimentoPercorsoFragment extends Fragment
         /*
         * Qui viene cambiata l'istanza di MappaFragment
         * */
-        controllerItinerario.resetMapView(this, R.id.map, mappaContainer);
+        controllerItinerario.resetMapView(this, R.id.map);
 
     }
 

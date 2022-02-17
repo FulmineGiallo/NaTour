@@ -175,7 +175,7 @@
                     android:focusable="true"
 
                     />
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/img_mapIconItinerario"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -187,7 +187,8 @@
                     map:layout_constraintLeft_toLeftOf="@id/cardMap"
                     map:layout_constraintRight_toRightOf="@id/cardMap"
                     android:background="@color/quantum_grey"
-                    />
+                    android:transitionName="small_map"
+                    />-->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:id="@+id/cardMap"
@@ -215,8 +216,10 @@
                         map:layout_constraintLeft_toLeftOf="parent"
                         android:focusable="false"
                         android:clickable="true"
+                        android:background="@drawable/ic_mapicon"
+
+
                         android:clipChildren="false"
-                        android:background="@color/grey"
                         tools:context=".view.MapsActivity"
                         tools:layout_editor_absoluteX="0dp" />
                 </com.google.android.material.card.MaterialCardView>

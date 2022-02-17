@@ -6,14 +6,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
+
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/transition_content"
-        android:clipChildren="false"
         >
 
         <FrameLayout
@@ -49,20 +48,6 @@
 
             />
 
-        <ImageView
-            android:id="@+id/img_mapIconPercorso"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/ic_mapicon"
-            android:scaleType="center"
-            map:layout_constraintTop_toTopOf="@id/map"
-            map:layout_constraintBottom_toBottomOf="@id/map"
-            map:layout_constraintLeft_toLeftOf="@id/map"
-            map:layout_constraintRight_toRightOf="@id/map"
-            android:elevation="10dp"
-            android:background="@color/quantum_grey"
-            />
-
         <FrameLayout
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -71,6 +56,8 @@
             android:clipChildren="false"
             map:layout_constraintLeft_toLeftOf="parent"
             map:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_mapicon"
+            tools:layout_editor_absoluteX="0dp"
             tools:context=".view.MapsActivity" />
 
         <com.google.android.material.textfield.TextInputLayout

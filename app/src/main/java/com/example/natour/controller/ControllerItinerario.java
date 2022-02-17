@@ -3,6 +3,7 @@ package com.example.natour.controller;
 import android.location.Address;
 import android.location.Geocoder;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.core.view.ViewCompat;
@@ -74,13 +75,14 @@ public class ControllerItinerario
         }
     }
 
-    public void gotoPercorsoFragment()
+    public void gotoPercorsoFragment(FrameLayout imageView)
     {
         if(percorsoFragment == null)
             percorsoFragment = new InserimentoPercorsoFragment(this);
 
         fragmentManager
                 .beginTransaction()
+                .addSharedElement(imageView, "big_map")
                 .replace(R.id.fragmentMappa, percorsoFragment)
                 .addToBackStack(InserimentoItinerarioFragment.class.getSimpleName())
                 .commit();
@@ -98,7 +100,6 @@ public class ControllerItinerario
         {
             mappaFragment = new MappaFragment(this);
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.addSharedElement(fragment.requireView().findViewById(R.id.img_mapIconItinerario), "big_map");
 
 
 
@@ -108,12 +109,11 @@ public class ControllerItinerario
         }
     }
 
-    public void resetMapView(InserimentoPercorsoFragment ipf, int map, ImageView imageView)
+    public void resetMapView(InserimentoPercorsoFragment ipf, int map)
     {
         if(percorsoFragment.requireView().findViewById(map) != null)
         {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.addSharedElement(imageView, "big_map");
             ft.remove(mappaFragment);
 
             mappaFragment = new MappaFragment(this);

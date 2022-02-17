@@ -102,7 +102,7 @@ public class ProfileFragment extends Fragment
 
                                 return true;
                             case R.id.option_4:
-                                Toast.makeText(getContext(),"Chìudo MENU", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(),"Chiudo MENU", Toast.LENGTH_SHORT).show();
                                 menuView.setVisibility(View.INVISIBLE);
                                 cardMenu.setVisibility(View.INVISIBLE);
 

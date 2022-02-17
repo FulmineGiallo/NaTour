@@ -1,4 +1,4 @@
-package com.example.natour.view.MessaggioActivity;
+package com.example.natour.view.Tab;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,14 +12,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.natour.R;
 
-public class MessaggioFragment extends Fragment
-{
-    private TextView txtMessaggiVuoti;
 
-    public MessaggioFragment()
-    {
-        // Required empty public constructor
-    }
+public class NotificaFragment extends Fragment
+{
+
+    private TextView txt_notifica;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -33,35 +30,32 @@ public class MessaggioFragment extends Fragment
                              Bundle savedInstanceState)
     {
 
-        return inflater.inflate(R.layout.fragment_messaggio, container, false);
+        return inflater.inflate(R.layout.fragment_notifica, container, false);
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        txtMessaggiVuoti = getView().findViewById(R.id.txt_msgRicevuti);
-        txtMessaggiVuoti.setVisibility(View.INVISIBLE);
 
-        boolean messaggiRicevuti = false;
+        txt_notifica = getView().findViewById(R.id.txt_avvisonotifica);
+        txt_notifica.setVisibility(View.INVISIBLE);
+
+        boolean notificheRicevute = false;
 
         /* Inizializzazione MESSAGGI */
         /* - Vedo se quell'utente ha messaggi altrimenti mostro la schermata di base */
 
 
         /* Se non ha messaggi */
-        if(messaggiRicevuti == false)
+        if(notificheRicevute == false)
         {
-            txtMessaggiVuoti.setVisibility(View.VISIBLE);
+            txt_notifica.setVisibility(View.VISIBLE);
         }
         else
         {
             /* Visualizzo le chat con gli altri utenti */
 
         }
-
-
-
     }
 }

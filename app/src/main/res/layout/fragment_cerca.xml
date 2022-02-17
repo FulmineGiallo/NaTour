@@ -32,7 +32,7 @@
         app:lottie_scale="0.3"
         app:lottie_rawRes="@raw/anim_load_location"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
+        app:lottie_loop="false"/>
 
 
     <androidx.recyclerview.widget.RecyclerView

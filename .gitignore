@@ -35,3 +35,9 @@ amplifytools.xcconfig
 **.sample
 #amplify-do-not-edit-end
 amplify/
+amplify/team-provider-info.json
+amplify/cli.json
+amplify/backend/types/amplify-dependent-resources-ref.d.ts
+amplify/backend/backend-config.json
+amplify/backend/auth/natour0b81c595/cli-inputs.json
+.idea/misc.xml

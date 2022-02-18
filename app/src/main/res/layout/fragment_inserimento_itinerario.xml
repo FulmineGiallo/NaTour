@@ -10,43 +10,65 @@
     android:clipChildren="false"
     >
 
-    <ImageButton
-        android:id="@+id/btn_indietroInsItineraio"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="#00FFFFFF"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/boxTop"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_icon_undo"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintBottom_toTopOf="@id/scroll"
+        android:stateListAnimator="@null"
+        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/scroll"
+        android:background="@color/white"
+        android:elevation="10dp"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        <ImageButton
+            android:id="@+id/btn_indietroInsItineraio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#00FFFFFF"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:srcCompat="@drawable/ic_icon_undo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:text="INSERISCI INFORMAZIONI ITINERARIO"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_indietroInsItineraio"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="-1dp"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="30dp"
+            android:text="INSERISCI INFORMAZIONI ITINERARIO"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_indietroInsItineraio"
+            app:layout_constraintTop_toTopOf="parent"
+
+
+            />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
+        android:id="@+id/scroll"
+        app:layout_constraintTop_toBottomOf="@id/boxTop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_indietroInsItineraio"
+
         >
 
         <LinearLayout
@@ -212,14 +234,14 @@
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        map:layout_constraintTop_toTopOf="parent"
-                        map:layout_constraintLeft_toLeftOf="parent"
-                        android:focusable="false"
-                        android:clickable="true"
                         android:background="@drawable/ic_mapicon"
-
-
+                        android:clickable="true"
                         android:clipChildren="false"
+                        android:focusable="false"
+                        map:layout_constraintLeft_toLeftOf="parent"
+
+
+                        map:layout_constraintTop_toTopOf="parent"
                         tools:context=".view.MapsActivity"
                         tools:layout_editor_absoluteX="0dp" />
                 </com.google.android.material.card.MaterialCardView>

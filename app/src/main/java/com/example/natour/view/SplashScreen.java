@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.rx.RxAmplify;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.view.LoginActivity.Login;
@@ -53,7 +54,9 @@ public class SplashScreen extends AppCompatActivity
         try
         {
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.addPlugin(new AWSS3StoragePlugin());
             RxAmplify.configure(getApplicationContext());
+
             Log.i("MyAmplifyApp", "Initialized Amplify");
         }
         catch (AmplifyException error)

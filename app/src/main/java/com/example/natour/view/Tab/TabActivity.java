@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -22,6 +23,7 @@ public class TabActivity extends AppCompatActivity {
     private Utente utente;
     private String TAG = "tab activity";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,7 +37,6 @@ public class TabActivity extends AppCompatActivity {
         //TODO: eliminare la classe singleton e ogni suo utilizzo
         setContentView(R.layout.activity_tab);
 
-
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
@@ -44,6 +45,7 @@ public class TabActivity extends AppCompatActivity {
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
@@ -53,18 +55,23 @@ public class TabActivity extends AppCompatActivity {
             {
                 case R.id.home:
                     fragment = new HomePageFragment();
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barrahomepage));
                     break;
                 case R.id.profile:
                     fragment = new ProfileFragment();
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barraprofilo));
                     break;
                 case R.id.cerca:
                     fragment = new CercaFragment();
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barraricerca));
                     break;
                 case R.id.messaggio:
                     fragment = new MessaggioFragment();
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barrachat));
                     break;
                 case R.id.notifica:
                     fragment = new NotificaFragment();
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barranotifiche));
                     break;
 
             }

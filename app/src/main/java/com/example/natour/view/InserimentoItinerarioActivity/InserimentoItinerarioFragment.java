@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -22,10 +23,11 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
-import com.example.natour.view.Dialog.ErrorDialog;
+import com.example.natour.view.dialog.ErrorDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 
@@ -49,6 +51,8 @@ public class InserimentoItinerarioFragment extends Fragment
     private EditText edtDurata;
     private EditText edtDescrizione;
     private static final int PICKFILE_REQUEST_CODE = 100;
+    private Button addImage;
+    private RecyclerView mRecyclerView;
 
 
     public InserimentoItinerarioFragment(ControllerItinerario controllerItinerario)
@@ -119,7 +123,7 @@ public class InserimentoItinerarioFragment extends Fragment
 
 
         ImageView buttonNascosto = requireView().findViewById(R.id.btn_nascoto);
-
+        addImage = requireView().findViewById(R.id.btn_addimg);
         ImageButton backToTabActivity = requireView().findViewById(R.id.btn_indietroInsItineraio);
         edtNome = requireView().findViewById(R.id.nomeItinerario);
         edtDurata = requireView().findViewById(R.id.edt_durata);
@@ -141,9 +145,19 @@ public class InserimentoItinerarioFragment extends Fragment
         edtDurata.setOnClickListener(view14 -> initEditText(edtDurata));
         edtDescrizione.setFocusable(false);
         edtDescrizione.setOnClickListener(view15 -> initEditText(edtDescrizione));
-
-
         controllerItinerario.setMapView(this, R.id.containerMappa);
+
+        controllerItinerario.updateScrollViewImage();
+        addImage.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                controllerItinerario.uploadFile();
+
+            }
+        });
+
 
 
         buttonNascosto.setOnClickListener(view16 -> controllerItinerario.gotoPercorsoFragment(mapContainer));

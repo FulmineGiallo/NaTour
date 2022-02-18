@@ -41,12 +41,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_height="0dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_indietroInsItineraio"
+        app:layout_constraintTop_toBottomOf="@id/btn_indietroInsItineraio"
         >
 
         <LinearLayout
@@ -302,7 +302,12 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     >
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_view_images"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
 
+                        />
                 </HorizontalScrollView>
 
                 <com.google.android.material.button.MaterialButton

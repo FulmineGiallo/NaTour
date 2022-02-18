@@ -1,4 +1,4 @@
-package com.example.natour.view.Dialog;
+package com.example.natour.view.dialog;
 
 public interface ConfermaDialogInterfaccia
 {

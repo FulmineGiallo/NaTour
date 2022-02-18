@@ -1,4 +1,4 @@
-package com.example.natour.view.LoginActivity;
+package com.example.natour.exception;
 
 public class SingletonNullException extends Exception
 {

@@ -1,4 +1,4 @@
-package com.example.natour.view.Tab;
+package com.example.natour.view.adapter;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
 
-public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> {
+public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView>
+{
     private Context context;
 
     //TODO: trovare un modo per aggiungere dinamicamente le immagini e aggiornarle
@@ -58,21 +59,3 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     }
 }
 
-class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-    private final int mSpace;
-
-    public SpacesItemDecoration(int space) {
-        this.mSpace = space;
-    }
-
-    @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        outRect.left = mSpace;
-        outRect.right = mSpace;
-        outRect.bottom = mSpace;
-
-        // Add top margin only for the first item to avoid double space between items
-        if (parent.getChildAdapterPosition(view) == 0)
-            outRect.top = mSpace;
-    }
-}

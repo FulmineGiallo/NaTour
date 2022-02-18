@@ -1,4 +1,4 @@
-package com.example.natour.view.Dialog;
+package com.example.natour.view.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

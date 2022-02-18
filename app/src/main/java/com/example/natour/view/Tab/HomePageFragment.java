@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
+import com.example.natour.view.adapter.MasonryAdapter;
+import com.example.natour.view.adapter.SpacesItemDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomePageFragment extends Fragment

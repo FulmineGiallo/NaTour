@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerProfile;
-import com.example.natour.view.Dialog.ConfermaDialog;
-import com.example.natour.view.Dialog.ConfermaDialogInterfaccia;
+import com.example.natour.view.dialog.ConfermaDialog;
+import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 

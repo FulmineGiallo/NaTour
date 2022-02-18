@@ -25,5 +25,15 @@
     <color name="colore_barrahomepage">#57B0CB</color>
     <color name="colore_barrachat">#6894F2</color>
     <color name="colore_barranotifiche">#7168F2</color>
+    <color name="colore_barraprofilo_light">#62be6a</color>
+    <color name="colore_barraricerca_light">#5edab0</color>
+    <color name="colore_barrahomepage_light">#5ad4e9</color>
+    <color name="colore_barrachat_light">#74acff</color>
+    <color name="colore_barranotifiche_light">#7476ff</color>
+    <color name="colore_barraprofilo_dark">#375b42</color>
+    <color name="colore_barraricerca_dark">#3a6a64</color>
+    <color name="colore_barrahomepage_dark">#3a5d71</color>
+    <color name="colore_barrachat_dark">#455187</color>
+    <color name="colore_barranotifiche_dark">#524587</color>
 
 </resources>

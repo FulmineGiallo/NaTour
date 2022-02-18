@@ -22,4 +22,6 @@
     <string name="email_codice">Codice inviato sulla mail: </string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="scrivi_un_messaggio">Scrivi un messaggio..</string>
+    <string name="cerca_qui">Cerca qui</string>
+    <string name="additinerariobutton">addItinerarioButton</string>
 </resources>

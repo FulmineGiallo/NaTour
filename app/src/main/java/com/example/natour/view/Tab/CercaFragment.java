@@ -2,19 +2,21 @@ package com.example.natour.view.Tab;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.Interpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
@@ -26,6 +28,7 @@ import com.google.android.material.slider.Slider;
 
 public class CercaFragment extends Fragment {
 
+    private static final String TAG = "CercaFragment";
     private FloatingActionButton filtro;
     private NavigationView filtraView;
     private EditText posizione;
@@ -33,7 +36,7 @@ public class CercaFragment extends Fragment {
     private Slider difficolta;
     private SwitchCompat disabili;
     private ImageView bottoneNascoto;
-
+    private SearchView searchView;
 
 
     public CercaFragment()
@@ -71,6 +74,21 @@ public class CercaFragment extends Fragment {
         filtraView = requireView().findViewById(R.id.viewFiltro);
         bottoneNascoto = requireView().findViewById(R.id.btn_nascotoFiltro);
 
+        searchView = requireView().findViewById(R.id.searchInput);
+        TextView txt_cercaQui = requireView().findViewById(R.id.txt_cerca_qui);
+        searchView.setOnQueryTextFocusChangeListener((view1, b) ->
+        {
+            Log.i(TAG,"focus change del search view");
+            if(b)
+                txt_cercaQui.setVisibility(View.INVISIBLE);
+            else if(searchView.getQuery().length() == 0) txt_cercaQui.setVisibility(View.VISIBLE);
+
+
+        });
+        FrameLayout viewTop = requireView().findViewById(R.id.viewtop_cerca);
+        viewTop.setOnClickListener((banner)->
+                searchView.requestFocus());
+
         difficolta = requireView().findViewById(R.id.slider_difficoltà);
         difficolta.addOnChangeListener((slider, value, fromUser) ->
         {
@@ -99,6 +117,44 @@ public class CercaFragment extends Fragment {
             }
         });
 
+
+
+        filtro.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                filtraView.setVisibility(View.VISIBLE);
+                filtraView.startAnimation(getPopUpAnimation());
+                bottoneNascoto.setVisibility(View.VISIBLE);
+
+            }
+        });
+        bottoneNascoto.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                filtraView.startAnimation(getCloseAnimation());
+                filtraView.setVisibility(View.INVISIBLE);
+                bottoneNascoto.setVisibility(View.INVISIBLE);
+            }
+        });
+
+    }
+
+    @NonNull
+    private TranslateAnimation getCloseAnimation()
+    {
+        TranslateAnimation discesa = new TranslateAnimation(0,0,0,1000);
+        discesa.setDuration(300);
+        discesa.setInterpolator(new AccelerateInterpolator());
+        return discesa;
+    }
+
+    @NonNull
+    private AnimationSet getPopUpAnimation()
+    {
         AnimationSet animationSet = new AnimationSet(false);
         TranslateAnimation salto =  new TranslateAnimation(0f,0f,1000,-100);
         salto.setDuration(300);
@@ -111,35 +167,8 @@ public class CercaFragment extends Fragment {
         discesa.setDuration(150);
         discesa.setFillAfter(true);
         animationSet.addAnimation(discesa);
-
-
-
-        filtro.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                filtraView.setVisibility(View.VISIBLE);
-                filtraView.startAnimation(animationSet);
-                bottoneNascoto.setVisibility(View.VISIBLE);
-
-            }
-        });
-        bottoneNascoto.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                filtraView.setVisibility(View.INVISIBLE);
-                bottoneNascoto.setVisibility(View.INVISIBLE);
-            }
-        });
-
+        return animationSet;
     }
-
-
-
-
 
 
 }

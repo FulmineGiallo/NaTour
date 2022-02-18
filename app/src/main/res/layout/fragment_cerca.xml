@@ -7,51 +7,56 @@
     tools:context=".view.Tab.HomePageFragment"
 
     >
-    <ImageView
-        android:id="@+id/btn_nascotoFiltro"
-        android:background="@color/black"
-        android:alpha="0.3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="invisible"
 
-        />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:lottie_scale="0.3"
-        app:lottie_rawRes="@raw/anim_load_location"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="false"/>
+
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/viewtop_cerca"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/viewchat"
         android:layout_marginTop="-20dp"
+        android:background="@drawable/viewchat"
         android:elevation="1dp"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewtop_cerca">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rec_viewSearch"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/anim_load_location"
+                app:lottie_scale="0.3" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_viewSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp" />
+
+            <ImageView
+                android:id="@+id/btn_nascotoFiltro"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:background="@color/black"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
@@ -59,15 +64,15 @@
         android:id="@+id/btn_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_filter_alt_24"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:focusable="true"
-        android:contentDescription="@string/filtro_per_gli_itinerari"
         android:backgroundTint="@color/colore_barraricerca_dark"
+        android:clickable="true"
+        android:contentDescription="@string/filtro_per_gli_itinerari"
+        android:focusable="true"
+        android:src="@drawable/ic_baseline_filter_alt_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
 
         />
 
@@ -75,222 +80,219 @@
         android:id="@+id/viewtop_cerca"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:background="@color/colore_barraricerca_light"
-
-        >
-
-        <androidx.appcompat.widget.SearchView
-            android:layout_width="match_parent"
-            android:id="@+id/searchInput"
-            android:layout_height="match_parent"
-            android:queryHint="Cerca Itinerario..."
-            app:defaultQueryHint="pls "
-            />
-
-
-    </FrameLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cerca_qui"
-        android:textSize="25sp"
-
-        android:fontFamily="@font/robotobold"
-        app:layout_constraintTop_toTopOf="@id/viewtop_cerca"
-        app:layout_constraintBottom_toBottomOf="@id/viewtop_cerca"
-        app:layout_constraintLeft_toLeftOf="@id/viewtop_cerca"
-        app:layout_constraintRight_toRightOf="@id/viewtop_cerca"
-        />
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/img_gps"
-        android:src="@drawable/gps"
-        app:layout_constraintTop_toTopOf="@id/viewtop_cerca"
-        app:layout_constraintBottom_toBottomOf="@id/viewtop_cerca"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="20dp"
-        />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchInput"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                app:iconifiedByDefault="false"
+                app:layout_constraintRight_toLeftOf="@id/img_gps"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:queryHint="Cerca Itinerario..." />
+            <TextView
+                android:id="@+id/txt_cerca_qui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:text="@string/cerca_qui"
+
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/img_gps"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/gps"
+                app:layout_constraintBottom_toBottomOf="@id/searchInput"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/searchInput" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+
+
 
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/viewFiltro"
         android:layout_width="300dp"
         android:layout_height="600dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="-100dp"
         android:background="@drawable/shape_rounded_corner"
         android:visibility="invisible"
-        android:layout_marginBottom="-100dp"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/txt_filtra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Filtra"
-            android:padding="10dp"
-            android:textSize="40dp"
-            android:fontFamily="@font/robotobold"
-            android:textColor="@color/black"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/cardPosizione"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Inserisci area geografica"
-            android:layout_marginHorizontal="20dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:layout_constraintTop_toBottomOf="@id/txt_filtra"
-            app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_finepercorso"
-            >
-            <EditText
-                android:id="@+id/edt_posizione"
+            <TextView
+                android:id="@+id/txt_filtra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:padding="10dp"
+                android:text="Filtra"
+                android:textColor="@color/black"
+                android:textSize="40dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/cardPosizione"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textEmailAddress"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginHorizontal="20dp"
+                android:hint="Inserisci area geografica"
+                app:endIconDrawable="@drawable/ic_finepercorso"
+                app:endIconMode="custom"
+                app:layout_constraintTop_toBottomOf="@id/txt_filtra">
+
+                <EditText
+                    android:id="@+id/edt_posizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <TextView
                 android:id="@+id/txt_difficoltà"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Livello di difficoltà"
-                android:layout_marginTop="10dp"
-                android:padding="5dp"
-                android:textSize="15dp"
-                android:fontFamily="@font/robotoregular"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/cardPosizione"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/robotoregular"
+                android:padding="5dp"
+                android:text="Livello di difficoltà"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardPosizione"
 
                 />
+
             <com.google.android.material.slider.Slider
                 android:id="@+id/slider_difficoltà"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:stepSize="1.0"
+                android:value="3"
                 android:valueFrom="1.0"
                 android:valueTo="5.0"
-                android:stepSize="1.0"
-                app:layout_constraintTop_toBottomOf="@id/txt_difficoltà"
+                app:labelBehavior="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:value="3"
-                app:trackColorInactive="@color/blue_inactive"
-                app:trackColorActive="@color/blue"
-                app:tickColorActive="@color/celeste"
-                app:tickColorInactive="@color/blue"
+                app:layout_constraintTop_toBottomOf="@id/txt_difficoltà"
                 app:thumbColor="@color/intermedio"
                 app:thumbStrokeColor="@color/blue"
                 app:thumbStrokeWidth="0.5dp"
-                app:labelBehavior="gone"
-                />
+                app:tickColorActive="@color/celeste"
+                app:tickColorInactive="@color/blue"
+                app:trackColorActive="@color/blue"
+                app:trackColorInactive="@color/blue_inactive" />
 
             <TextView
                 android:id="@+id/txt_durata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Durata"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:textSize="15dp"
-                android:fontFamily="@font/robotoregular"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/slider_difficoltà"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginStart="20dp"
-                />
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/robotoregular"
+                android:padding="10dp"
+                android:text="Durata"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slider_difficoltà" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cardDurata"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:layout_constraintLeft_toRightOf="@id/txt_durata"
-                app:layout_constraintBottom_toBottomOf="@id/txt_durata"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/txt_durata"
-                app:endIconMode="custom"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
                 app:endIconDrawable="@drawable/ic_baseline_watch_later_24"
-                >
+                app:endIconMode="custom"
+                app:layout_constraintBottom_toBottomOf="@id/txt_durata"
+                app:layout_constraintLeft_toRightOf="@id/txt_durata"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_durata">
+
                 <EditText
                     android:id="@+id/edt_durata"
                     android:layout_width="180dp"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:inputType="textEmailAddress"
-                    />
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/txt_disabili"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Accessibilità Disabili?"
-                android:layout_marginTop="50dp"
-                android:padding="10dp"
-                android:textSize="15dp"
-                android:fontFamily="@font/robotoregular"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/cardDurata"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginStart="20dp"
-                />
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/robotoregular"
+                android:padding="10dp"
+                android:text="Accessibilità Disabili?"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardDurata" />
+
             <ImageView
                 android:id="@+id/image_disabili"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_disabili"
-                app:layout_constraintLeft_toRightOf="@id/txt_disabili"
                 app:layout_constraintBottom_toBottomOf="@id/txt_disabili"
-                app:layout_constraintTop_toTopOf="@id/txt_disabili"
-                />
+                app:layout_constraintLeft_toRightOf="@id/txt_disabili"
+                app:layout_constraintTop_toTopOf="@id/txt_disabili" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_disabili"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                app:layout_constraintLeft_toRightOf="@id/image_disabili"
                 app:layout_constraintBottom_toBottomOf="@id/image_disabili"
-                app:layout_constraintTop_toTopOf="@id/image_disabili"
-                />
+                app:layout_constraintLeft_toRightOf="@id/image_disabili"
+                app:layout_constraintTop_toTopOf="@id/image_disabili" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_filtra"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="Filtra"
+                android:layout_marginRight="15dp"
                 android:fontFamily="@font/robotoregular"
+                android:text="Filtra"
                 app:backgroundTint="#0B5FFF"
                 app:cornerRadius="10dp"
-                android:layout_marginRight="15dp"
 
-                app:layout_constraintTop_toBottomOf="@id/image_disabili"
                 app:layout_constraintRight_toRightOf="parent"
-                >
-
+                app:layout_constraintTop_toBottomOf="@id/image_disabili">
 
 
             </com.google.android.material.button.MaterialButton>
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

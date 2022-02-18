@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.Interpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -97,20 +99,16 @@ public class CercaFragment extends Fragment {
             }
         });
 
-        AnimationSet animationSet = new AnimationSet(true);
-        TranslateAnimation salto =  new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
-                filtraView.getX(), Animation.RELATIVE_TO_PARENT, filtraView.getX(), Animation.RELATIVE_TO_PARENT,
-                1f, Animation.RELATIVE_TO_PARENT, filtraView.getY() - 0.1f);
-        salto.setDuration(500);
-        salto.setRepeatMode(Animation.REVERSE);
+        AnimationSet animationSet = new AnimationSet(false);
+        TranslateAnimation salto =  new TranslateAnimation(0f,0f,1000,-100);
+        salto.setDuration(300);
         salto.setFillAfter(true);
+        salto.setInterpolator(new AccelerateInterpolator());
         animationSet.addAnimation(salto);
 
-        TranslateAnimation discesa = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
-                filtraView.getX(), Animation.RELATIVE_TO_PARENT, filtraView.getX(), Animation.RELATIVE_TO_PARENT,
-                filtraView.getY() - 0.1f, Animation.RELATIVE_TO_PARENT, filtraView.getY());
-        discesa.setStartOffset(500);
-        discesa.setDuration(1000);
+        TranslateAnimation discesa = new TranslateAnimation(0f,0f,-100,100);
+        discesa.setStartOffset(300);
+        discesa.setDuration(150);
         discesa.setFillAfter(true);
         animationSet.addAnimation(discesa);
 

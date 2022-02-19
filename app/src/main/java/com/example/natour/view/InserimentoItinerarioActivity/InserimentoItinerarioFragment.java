@@ -147,14 +147,15 @@ public class InserimentoItinerarioFragment extends Fragment
         edtDescrizione.setOnClickListener(view15 -> initEditText(edtDescrizione));
         controllerItinerario.setMapView(this, R.id.containerMappa);
 
-        controllerItinerario.updateScrollViewImage();
+
+
         addImage.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 controllerItinerario.uploadFile();
-
+                controllerItinerario.updateScrollViewImage();
             }
         });
 

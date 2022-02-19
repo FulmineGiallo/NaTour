@@ -196,7 +196,8 @@ public class ControllerItinerario
         if (intent.resolveActivity(inserimentoItinerarioActivity.getPackageManager()) != null)
             inserimentoItinerarioActivity.startActivityForResult(intent, PICKFILE_REQUEST_CODE);
 
-
+        for(int i = 0; i < imageItinerario.size(); i++)
+            System.out.println("IMAGE" + i + imageItinerario.get(i));
     }
 
     public void fileInserito(int requestCode, int resultCode, Intent intent)
@@ -209,9 +210,12 @@ public class ControllerItinerario
             if(intent.getData() != null)
             {
                 singolaFoto = intent.getData();
-                if(controlloUriDoppio(imageItinerario, singolaFoto))
+                if(!controlloUriDoppio(imageItinerario, singolaFoto))
+                {
                     imageItinerario.add(singolaFoto);
+                }
             }
+            /* Inserimento multiplo di un immagine*/
             else if (intent.getClipData() != null)
             {
                 ClipData clipData = intent.getClipData();
@@ -219,13 +223,13 @@ public class ControllerItinerario
                 for(int i = 0; i < clipData.getItemCount(); i++)
                 {
                     ClipData.Item item = clipData.getItemAt(i);
-                    if(controlloUriDoppio(imageItinerario, item.getUri()))
+                    if(!controlloUriDoppio(imageItinerario, item.getUri()))
                         imageItinerario.add(item.getUri());
                 }
 
             }
 
-            imageAdapter.notifyDataSetChanged();
+            
 
             //TODO: controllo immagini non appropiate
 

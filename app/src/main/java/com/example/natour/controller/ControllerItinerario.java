@@ -228,7 +228,7 @@ public class ControllerItinerario
                 }
 
             }
-
+            updateScrollViewImage();
             
 
             //TODO: controllo immagini non appropiate

@@ -155,7 +155,7 @@ public class InserimentoItinerarioFragment extends Fragment
             public void onClick(View view)
             {
                 controllerItinerario.uploadFile();
-                controllerItinerario.updateScrollViewImage();
+
             }
         });
 

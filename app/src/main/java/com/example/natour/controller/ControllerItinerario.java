@@ -14,19 +14,19 @@ import android.widget.FrameLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
 import com.example.natour.R;
 import com.example.natour.model.Itinerario;
-import com.example.natour.view.adapter.ImageAdapter;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.MappaFragment;
+import com.example.natour.view.adapter.ImageAdapter;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -278,9 +278,9 @@ public class ControllerItinerario
     @SuppressLint("NotifyDataSetChanged")
     public void updateScrollViewImage()
     {
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(inserimentoItinerarioFragment.getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView = (RecyclerView) inserimentoItinerarioFragment.getView().findViewById(R.id.rec_view_images);
-        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        mRecyclerView.setLayoutManager(linearLayout);
 
         imageAdapter = new ImageAdapter(imageItinerario);
         mRecyclerView.setAdapter(imageAdapter);

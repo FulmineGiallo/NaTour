@@ -2,7 +2,6 @@ package com.example.natour.controller;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
 import android.location.Address;
@@ -46,7 +45,7 @@ public class ControllerItinerario
     private int difficoltàItinerario; //Ha 5 possibili valori, da 1 a 5
     private File gpx;
     private String descrizioneItnerario;
-    private List<String> listaImmagini; //Questa lista contiene tutti i link alle immagine inserite
+    private List<String> URLImmagini; //Questa lista contiene tutti i link alle immagine inserite
     private static final int PICKFILE_REQUEST_CODE = 100;
     private List<Uri> imageItinerario;
     private ImageAdapter imageAdapter;
@@ -63,6 +62,7 @@ public class ControllerItinerario
     {
         Itinerario itinerarioInserito = new Itinerario();
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
+        /* Chiamato all'ItinerarioDAO */
         return itinerarioInserito;
     }
 
@@ -71,6 +71,7 @@ public class ControllerItinerario
         this.fragmentManager = fragmentManager;
         this.inserimentoItinerarioActivity = inserimentoItinerarioActivity;
         this.imageItinerario = new ArrayList<>();
+        this.imageAdapter = new ImageAdapter(imageItinerario);
     }
 
     public void inizializzaInterfaccia()
@@ -102,6 +103,7 @@ public class ControllerItinerario
     public void goBack()
     {
         inserimentoItinerarioActivity.onBackPressed();
+        imageAdapter.notifyDataSetChanged();
     }
 
     public void setMapView(Fragment fragment, int viewId)
@@ -189,15 +191,12 @@ public class ControllerItinerario
 
     public void uploadFile()
     {
-
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         if (intent.resolveActivity(inserimentoItinerarioActivity.getPackageManager()) != null)
             inserimentoItinerarioActivity.startActivityForResult(intent, PICKFILE_REQUEST_CODE);
 
-        for(int i = 0; i < imageItinerario.size(); i++)
-            System.out.println("IMAGE" + i + imageItinerario.get(i));
     }
 
     public void fileInserito(int requestCode, int resultCode, Intent intent)
@@ -213,32 +212,37 @@ public class ControllerItinerario
                 if(!controlloUriDoppio(imageItinerario, singolaFoto))
                 {
                     imageItinerario.add(singolaFoto);
+                    imageAdapter.notifyItemInserted(imageItinerario.indexOf(singolaFoto));
                 }
             }
             /* Inserimento multiplo di un immagine*/
             else if (intent.getClipData() != null)
             {
                 ClipData clipData = intent.getClipData();
-
-                for(int i = 0; i < clipData.getItemCount(); i++)
+                ClipData.Item item;
+                int i;
+                for(i = 0; i < clipData.getItemCount(); i++)
                 {
-                    ClipData.Item item = clipData.getItemAt(i);
+                    item = clipData.getItemAt(i);
                     if(!controlloUriDoppio(imageItinerario, item.getUri()))
                         imageItinerario.add(item.getUri());
                 }
+                imageAdapter.notifyItemRangeInserted(imageItinerario.indexOf(clipData.getItemAt(0)), clipData.getItemCount());
 
             }
-            updateScrollViewImage();
+
             
 
             //TODO: controllo immagini non appropiate
 
+
             if(imageConsentite == true)
             {
-
+                /* Gestire la lista List<String> URLImmagini */
             }
             else
             {
+                /* Effettuare il remove sul bucket di S3 */
 
             }
 
@@ -275,16 +279,12 @@ public class ControllerItinerario
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void updateScrollViewImage()
+    public void updateScrollViewImage(RecyclerView mRecyclerView)
     {
         LinearLayoutManager linearLayout = new LinearLayoutManager(inserimentoItinerarioFragment.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView = (RecyclerView) inserimentoItinerarioFragment.getView().findViewById(R.id.rec_view_images);
         mRecyclerView.setLayoutManager(linearLayout);
-
-        imageAdapter = new ImageAdapter(imageItinerario);
         mRecyclerView.setAdapter(imageAdapter);
 
-        imageAdapter.notifyDataSetChanged();
+
     }
 }

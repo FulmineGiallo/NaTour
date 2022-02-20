@@ -129,6 +129,7 @@ public class InserimentoItinerarioFragment extends Fragment
         edtDurata = requireView().findViewById(R.id.edt_durata);
         edtDescrizione = requireView().findViewById(R.id.descrizioneEditText);
         MaterialButton btn_gpx = requireView().findViewById(R.id.btn_gpx);
+        mRecyclerView = requireView().findViewById(R.id.rec_view_images);
 
         btn_gpx.setOnClickListener(view1 ->
         {
@@ -146,8 +147,7 @@ public class InserimentoItinerarioFragment extends Fragment
         edtDescrizione.setFocusable(false);
         edtDescrizione.setOnClickListener(view15 -> initEditText(edtDescrizione));
         controllerItinerario.setMapView(this, R.id.containerMappa);
-
-
+        controllerItinerario.updateScrollViewImage(mRecyclerView);
 
         addImage.setOnClickListener(new View.OnClickListener()
         {
@@ -158,8 +158,6 @@ public class InserimentoItinerarioFragment extends Fragment
 
             }
         });
-
-
 
         buttonNascosto.setOnClickListener(view16 -> controllerItinerario.gotoPercorsoFragment(mapContainer));
     }

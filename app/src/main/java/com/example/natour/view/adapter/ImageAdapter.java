@@ -3,7 +3,6 @@ package com.example.natour.view.adapter;
 
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_image, parent, false);
-        Log.i("INSERISCO FOTO HOLDER", String.valueOf(imageList.get(0)));
         return new ViewHolder(layoutView);
     }
 

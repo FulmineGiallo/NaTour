@@ -258,7 +258,7 @@
                     android:text="Inserisci GPX"
                     app:backgroundTint="@color/colorebottone"
                     app:cornerRadius="10dp"
-                    ></com.google.android.material.button.MaterialButton>
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -315,9 +315,10 @@
 
                 </com.google.android.material.button.MaterialButton>
 
-                <HorizontalScrollView
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="160dp"
                     android:id="@+id/scrollImmagini"
                     app:layout_constraintTop_toBottomOf="@id/btn_addimg"
                     app:layout_constraintRight_toRightOf="parent"
@@ -329,7 +330,7 @@
                         android:layout_height="match_parent"
 
                         />
-                </HorizontalScrollView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"

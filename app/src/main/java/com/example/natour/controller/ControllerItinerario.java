@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -37,6 +38,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ControllerItinerario
 {
@@ -275,16 +277,15 @@ public class ControllerItinerario
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+
     public void updateScrollViewImage()
     {
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
-        mRecyclerView = (RecyclerView) inserimentoItinerarioFragment.getView().findViewById(R.id.rec_view_images);
-        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(inserimentoItinerarioActivity, LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView = (RecyclerView) inserimentoItinerarioFragment.requireView().findViewById(R.id.rec_view_images);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         imageAdapter = new ImageAdapter(imageItinerario);
         mRecyclerView.setAdapter(imageAdapter);
 
-        imageAdapter.notifyDataSetChanged();
     }
 }

@@ -71,7 +71,7 @@ public class ControllerItinerario
         this.fragmentManager = fragmentManager;
         this.inserimentoItinerarioActivity = inserimentoItinerarioActivity;
         this.imageItinerario = new ArrayList<>();
-        this.imageAdapter = new ImageAdapter(imageItinerario);
+        this.imageAdapter = new ImageAdapter(imageItinerario, fragmentManager);
     }
 
     public void inizializzaInterfaccia()
@@ -213,6 +213,7 @@ public class ControllerItinerario
                 {
                     imageItinerario.add(singolaFoto);
                     imageAdapter.notifyItemInserted(imageItinerario.indexOf(singolaFoto));
+                  /*  uploadOnS3Bucket(singolaFoto);*/
                 }
             }
             /* Inserimento multiplo di un immagine*/
@@ -225,7 +226,11 @@ public class ControllerItinerario
                 {
                     item = clipData.getItemAt(i);
                     if(!controlloUriDoppio(imageItinerario, item.getUri()))
+                    {
                         imageItinerario.add(item.getUri());
+                       /* uploadOnS3Bucket(item.getUri());*/
+                    }
+
                 }
                 imageAdapter.notifyItemRangeInserted(imageItinerario.indexOf(clipData.getItemAt(0)), clipData.getItemCount());
 
@@ -239,6 +244,7 @@ public class ControllerItinerario
             if(imageConsentite == true)
             {
                 /* Gestire la lista List<String> URLImmagini */
+
             }
             else
             {
@@ -253,6 +259,9 @@ public class ControllerItinerario
     {
         return uri.contains(findUri);
     }
+
+
+
     public void uploadOnS3Bucket(Uri uriImage)
     {
         try

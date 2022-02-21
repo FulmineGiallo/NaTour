@@ -76,5 +76,8 @@ public class RequestAPI
         return risposta;
     }
 
-
+    public void setEndpoint(String endpoint)
+    {
+        this.endpoint = endpoint;
+    }
 }

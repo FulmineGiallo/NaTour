@@ -30,7 +30,7 @@ public class ErrorDialog extends DialogFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.activity_error_dialog, container, false);
+        View v = inflater.inflate(R.layout.layout_error_dialog, container, false);
         msg_errore = v.findViewById(R.id.txt_errore);
         msg_errore.setText(errorMSG);
 

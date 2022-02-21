@@ -1,8 +1,6 @@
 package com.example.natour.view.adapter;
 
 
-
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
+import com.example.natour.model.Immagine;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
 
@@ -21,10 +20,10 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
 {
-    private List<Uri> imageList;
+    private List<Immagine> imageList;
     private FragmentManager manager;
 
-    public ImageAdapter(List<Uri> uriList, FragmentManager fragmentManager)
+    public ImageAdapter(List<Immagine>  uriList, FragmentManager fragmentManager)
     {
         imageList = uriList;
         this.manager = fragmentManager;
@@ -41,22 +40,26 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.imageView.setImageURI(imageList.get(position));
+
+        holder.imageView.setImageURI(imageList.get(position).getUri());
         holder.deleteItinerario.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 Log.i("entro qui", "ciao");
-                new ConfermaDialog("Sei sicuro di voler cancellare questa foto?", new ConfermaDialogInterfaccia()
+                ConfermaDialog conferma = new ConfermaDialog("Sei sicuro di voler cancellare questa foto?", new ConfermaDialogInterfaccia()
                 {
                     @Override
                     public void actionConferma()
                     {
                         //Remove dalla lista
                         imageList.remove(holder.getAdapterPosition());
+
+
                         //Aggiorna l'interfaccia
                         notifyItemRemoved(holder.getAdapterPosition());
+
                     }
 
                     @Override
@@ -64,7 +67,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
                     {
 
                     }
-                }).show(manager, null);
+                });
+                conferma.show(manager, null);
             }
         });
     }

@@ -28,5 +28,10 @@ public class InserimentoItinerario extends AppCompatActivity
         controllerItinerario.fileInserito(resultCode, resultCode, intent);
     }
 
-
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        controllerItinerario.removeOnBackPressedImage();
+    }
 }

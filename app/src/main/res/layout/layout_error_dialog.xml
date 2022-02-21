@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:text="Login errato!"
         android:textSize="20dp"
+        android:gravity="center"
+        android:layout_marginHorizontal="10dp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/img_waringLogin"
         app:layout_constraintRight_toRightOf="parent"

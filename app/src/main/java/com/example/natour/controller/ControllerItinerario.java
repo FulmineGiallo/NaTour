@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -224,6 +225,8 @@ public class ControllerItinerario
                 singolaFoto = intent.getData();
                 Immagine immagine = new Immagine(singolaFoto, singolaKey);
 
+
+
                 if(!controlloUriDoppio(mapKeyURI, immagine))
                 {
                     mapKeyURI.add(immagine);
@@ -238,8 +241,6 @@ public class ControllerItinerario
         return immagini.contains(findUri);
     }
 
-
-
     public void uploadOnS3Bucket(Uri uriImage, String key, int positionImage)
     {
         try
@@ -247,6 +248,7 @@ public class ControllerItinerario
             InputStream exampleInputStream = inserimentoItinerarioActivity.getContentResolver().openInputStream(uriImage);
             RxStorageBinding.RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
                     RxAmplify.Storage.uploadInputStream(key, exampleInputStream);
+
 
             rxUploadOperation
                     .observeResult()
@@ -271,6 +273,8 @@ public class ControllerItinerario
                                                         if(imageResult.getBoolean("is_save"))
                                                         {
                                                             Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
+                                                            /* recupero metadati */
+                                                            getMetadatiImage(exampleInputStream, uriImage);
                                                         }
 
                                                         else
@@ -333,13 +337,36 @@ public class ControllerItinerario
         inserimentoItinerarioActivity.finish();
     }
 
-
-
     public void updateScrollViewImage(RecyclerView mRecyclerView)
     {
         LinearLayoutManager linearLayout = new LinearLayoutManager(inserimentoItinerarioFragment.getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayout);
         mRecyclerView.setAdapter(imageAdapter);
+
+
+    }
+
+    public void getMetadatiImage(InputStream immagine, Uri uriImage)
+    {
+        /* Se la posizione dell'immagine è presente */
+        try
+        {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
+            {
+                immagine = inserimentoItinerarioActivity.getContentResolver().openInputStream(uriImage);
+                ExifInterface metadati = new ExifInterface(immagine);
+                float[] latLong = new float[2];
+                if(metadati.getLatLong(latLong))
+                {
+                    Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
+
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
 
     }

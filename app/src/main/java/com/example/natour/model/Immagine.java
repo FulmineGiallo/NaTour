@@ -8,6 +8,12 @@ public class Immagine
     private Uri uri;
     private String key;
 
+    public Immagine(Uri uri, String key)
+    {
+        this.uri = uri;
+        this.key = key;
+    }
+
     public Uri getUri()
     {
         return uri;

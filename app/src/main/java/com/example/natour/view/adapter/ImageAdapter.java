@@ -1,7 +1,6 @@
 package com.example.natour.view.adapter;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
+import com.example.natour.controller.ControllerItinerario;
 import com.example.natour.model.Immagine;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
@@ -22,11 +22,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
 {
     private List<Immagine> imageList;
     private FragmentManager manager;
-
-    public ImageAdapter(List<Immagine>  uriList, FragmentManager fragmentManager)
+    private ControllerItinerario controllerItinerario;
+    public ImageAdapter(List<Immagine> uriList, FragmentManager fragmentManager, ControllerItinerario controllerItinerario)
     {
         imageList = uriList;
         this.manager = fragmentManager;
+        this.controllerItinerario = controllerItinerario;
     }
 
     @NonNull
@@ -47,15 +48,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
             @Override
             public void onClick(View view)
             {
-                Log.i("entro qui", "ciao");
                 ConfermaDialog conferma = new ConfermaDialog("Sei sicuro di voler cancellare questa foto?", new ConfermaDialogInterfaccia()
                 {
                     @Override
                     public void actionConferma()
                     {
                         //Remove dalla lista
+                        controllerItinerario.removeImageFromS3Bucket(imageList.get(holder.getAdapterPosition()).getKey());
                         imageList.remove(holder.getAdapterPosition());
-
 
                         //Aggiorna l'interfaccia
                         notifyItemRemoved(holder.getAdapterPosition());
@@ -71,6 +71,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
                 conferma.show(manager, null);
             }
         });
+    }
+
+    public void onDeleteImageView()
+    {
+
     }
 
     @Override
@@ -98,5 +103,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
 
 
     }
+
 
 }

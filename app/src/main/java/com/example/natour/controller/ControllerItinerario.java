@@ -53,11 +53,8 @@ public class ControllerItinerario
     private int difficoltàItinerario; //Ha 5 possibili valori, da 1 a 5
     private File gpx;
     private String descrizioneItnerario;
-    private List<String> URLImmagini; //Questa lista contiene tutti i link alle immagine inserite
     private static final int PICKFILE_REQUEST_CODE = 100;
-    private List<Uri> imageItinerario;
     private ImageAdapter imageAdapter;
-    private List<String> keyStringImage;
 
     /* Coppia valore Key = URI */
     private List<Immagine> mapKeyURI;
@@ -84,7 +81,7 @@ public class ControllerItinerario
         this.fragmentManager = fragmentManager;
         this.inserimentoItinerarioActivity = inserimentoItinerarioActivity;
         this.mapKeyURI = new ArrayList<>();
-        this.imageAdapter = new ImageAdapter(mapKeyURI, fragmentManager);
+        this.imageAdapter = new ImageAdapter(mapKeyURI, fragmentManager, this);
 
     }
 
@@ -214,10 +211,10 @@ public class ControllerItinerario
 
     public void fileInserito(int requestCode, int resultCode, Intent intent)
     {
-        boolean imageConsentite = true;
+
         Uri singolaFoto;
         String singolaKey = UUID.randomUUID().toString();
-        List<String> multipleKey = new ArrayList<>();
+
 
         if (resultCode == RESULT_OK)
         {
@@ -225,40 +222,20 @@ public class ControllerItinerario
             if(intent.getData() != null)
             {
                 singolaFoto = intent.getData();
-                if(!controlloUriDoppio(imageItinerario, singolaFoto))
+                Immagine immagine = new Immagine(singolaFoto, singolaKey);
+
+                if(!controlloUriDoppio(mapKeyURI, immagine))
                 {
-                    imageItinerario.add(singolaFoto);
-                    imageAdapter.notifyItemInserted(imageItinerario.indexOf(singolaFoto));
-                    uploadOnS3Bucket(singolaFoto, singolaKey, imageItinerario.indexOf(singolaFoto));
+                    mapKeyURI.add(immagine);
+                    imageAdapter.notifyItemInserted(mapKeyURI.indexOf(immagine));
+                    uploadOnS3Bucket(immagine.getUri(), immagine.getKey(), mapKeyURI.indexOf(immagine));
                 }
             }
-            /* Inserimento multiplo di un immagine*//*
-            else if (intent.getClipData() != null)
-            {
-                ClipData clipData = intent.getClipData();
-                ClipData.Item item;
-                int i;
-                for(i = 0; i < clipData.getItemCount(); i++)
-                {
-                    multipleKey.add(UUID.randomUUID().toString());
-                    item = clipData.getItemAt(i);
-                    if(!controlloUriDoppio(imageItinerario, item.getUri()))
-                    {
-                        imageItinerario.add(item.getUri());
-                        uploadOnS3Bucket(item.getUri(), multipleKey.get(i), imageItinerario.indexOf(item.getUri()));
-                    }
-
-                }
-                imageAdapter.notifyItemRangeInserted(imageItinerario.indexOf(clipData.getItemAt(0)), clipData.getItemCount());
-
-            }*/
-
-
         }
     }
-    public boolean controlloUriDoppio(List<Uri> uri, Uri findUri)
+    public boolean controlloUriDoppio(List<Immagine> immagini, Immagine findUri)
     {
-        return uri.contains(findUri);
+        return immagini.contains(findUri);
     }
 
 
@@ -294,7 +271,6 @@ public class ControllerItinerario
                                                         if(imageResult.getBoolean("is_save"))
                                                         {
                                                             Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
-                                                            keyStringImage.add(key);
                                                         }
 
                                                         else
@@ -326,7 +302,7 @@ public class ControllerItinerario
     public void removeImageFromS3Bucket(String key, int positionImage)
     {
         /* Rimozione dalla Lista e poi dal Bucket S3 */
-        imageItinerario.remove(positionImage);
+        mapKeyURI.remove(positionImage);
         imageAdapter.notifyItemRemoved(positionImage);
 
         /* Rimozione da S3 */
@@ -349,13 +325,12 @@ public class ControllerItinerario
 
     public void removeOnBackPressedImage()
     {
-        for(String key : keyStringImage)
+        for(Immagine img : mapKeyURI)
         {
-            removeImageFromS3Bucket(key);
+            removeImageFromS3Bucket(img.getKey());
         }
-        imageItinerario.clear();
-        keyStringImage.clear();
-
+        mapKeyURI.clear();
+        inserimentoItinerarioActivity.finish();
     }
 
 

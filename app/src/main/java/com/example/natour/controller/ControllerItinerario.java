@@ -32,6 +32,7 @@ import com.example.natour.view.dialog.ErrorDialog;
 
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Marker;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -56,6 +58,10 @@ public class ControllerItinerario
     private String descrizioneItnerario;
     private static final int PICKFILE_REQUEST_CODE = 100;
     private ImageAdapter imageAdapter;
+
+    //informazioni della mappa
+    private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
+    private LinkedList<GeoPoint> listPhotoPoints;
 
     /* Coppia valore Key = URI */
     private List<Immagine> mapKeyURI;
@@ -124,10 +130,8 @@ public class ControllerItinerario
     {
         if (fragment.requireView().findViewById(viewId) != null)
         {
-            mappaFragment = new MappaFragment(this);
+            mappaFragment = new MappaFragment(this, listPhotoPoints, waypoints);
             FragmentTransaction ft = fragmentManager.beginTransaction();
-
-
             ft.add(viewId, mappaFragment);
             ft.commit();
 
@@ -141,7 +145,7 @@ public class ControllerItinerario
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.remove(mappaFragment);
 
-            mappaFragment = new MappaFragment(this);
+            mappaFragment = new MappaFragment(this,listPhotoPoints, waypoints);
 
             mappaFragment.setEditTextMappa(ipf.getInizioPercorso(), ipf.getFinePercorso(),
                     ipf.getDeleteMarkerInizio(), ipf.getDeleteMarkerFine());
@@ -159,21 +163,17 @@ public class ControllerItinerario
         List<Address> addresses;
         geocoder = new Geocoder(inserimentoItinerarioActivity, Locale.getDefault());
         String address = null;
-        String city = null;
-        String postalCode = null;
         try
         {
             addresses = geocoder.getFromLocation(point.getLatitude(), point.getLongitude(), 1);
             address = addresses.get(0).getAddressLine(0);
-            city = addresses.get(0).getLocality();
-            postalCode = addresses.get(0).getPostalCode();
         } catch (IOException e)
         {
             e.printStackTrace();
         }
 
 
-        return address + city + postalCode;
+        return address;
     }
 
     public GeoPoint getLocationFromAddress(String strAddress)
@@ -233,7 +233,7 @@ public class ControllerItinerario
                 {
                     mapKeyURI.add(immagine);
                     imageAdapter.notifyItemInserted(mapKeyURI.indexOf(immagine));
-                    uploadOnS3Bucket(immagine.getUri(), immagine.getKey(), mapKeyURI.indexOf(immagine));
+                    uploadOnS3Bucket(immagine, mapKeyURI.indexOf(immagine));
                 }
             }
         }
@@ -243,13 +243,13 @@ public class ControllerItinerario
         return immagini.contains(findUri);
     }
 
-    public void uploadOnS3Bucket(Uri uriImage, String key, int positionImage)
+    public void uploadOnS3Bucket(Immagine immagine, int positionImage)
     {
         try
         {
-            InputStream exampleInputStream = inserimentoItinerarioActivity.getContentResolver().openInputStream(uriImage);
+            InputStream exampleInputStream = inserimentoItinerarioActivity.getContentResolver().openInputStream(immagine.getUri());
             RxStorageBinding.RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
-                    RxAmplify.Storage.uploadInputStream(key, exampleInputStream);
+                    RxAmplify.Storage.uploadInputStream(immagine.getKey(), exampleInputStream);
 
 
             rxUploadOperation
@@ -258,7 +258,7 @@ public class ControllerItinerario
                             result ->
                             {
                                 Log.i("MyAmplifyApp", "Successfully uploaded: ");
-                                RxAmplify.Storage.getUrl(key).subscribe(
+                                RxAmplify.Storage.getUrl(immagine.getKey()).subscribe(
                                         risultato -> {
                                             Log.i("MyAmplifyApp", "Successfully generated: " + risultato.getUrl());
                                             String URL = "https://besimsoft.com/.natour21/uq6PMpSfiZ/api/itinerary/nfws";
@@ -276,18 +276,18 @@ public class ControllerItinerario
                                                         {
                                                             Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
                                                             /* recupero metadati */
-                                                            getMetadatiImage(exampleInputStream, uriImage);
+                                                            getMetadatiImage(exampleInputStream, immagine);
                                                         }
 
                                                         else
                                                         {
-                                                            removeImageFromS3Bucket(key, positionImage);
+                                                            removeImageFromS3Bucket(immagine, positionImage);
                                                             new ErrorDialog("L'immagine che hai inserito è esplicità, è stata rimossa!").show(fragmentManager, null);
                                                         }
                                                     },
                                                     imageError ->
                                                     {
-                                                        removeImageFromS3Bucket(key, positionImage);
+                                                        removeImageFromS3Bucket(immagine, positionImage);
                                                         new ErrorDialog("Errore nel caricamento dell'ìmmagine, riprova con un'altra immagine!").show(fragmentManager, null);
                                                     }
                                             );
@@ -305,26 +305,36 @@ public class ControllerItinerario
         }
     }
 
-    public void removeImageFromS3Bucket(String key, int positionImage)
+    public void removeImageFromS3Bucket(Immagine img, int positionImage)
     {
         /* Rimozione dalla Lista e poi dal Bucket S3 */
         mapKeyURI.remove(positionImage);
         imageAdapter.notifyItemRemoved(positionImage);
 
         /* Rimozione da S3 */
-        RxAmplify.Storage.remove(key)
+        RxAmplify.Storage.remove(img.getKey())
                 .subscribe(
-                        onRemove -> Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey()),
+                        onRemove ->
+                        {
+                            Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
+                            mappaFragment.removePhotoMarker(img.getMarker().getPosition());
+                        },
                         error -> Log.e("MyAmplifyApp", "Remove failure", error)
                 );
     }
 
-    public void removeImageFromS3Bucket(String key)
+    public void removeImageFromS3Bucket(Immagine img)
     {
+
+
         /* Rimozione da S3 */
-        RxAmplify.Storage.remove(key)
+        RxAmplify.Storage.remove(img.getKey())
                 .subscribe(
-                        onRemove -> Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey()),
+                        onRemove ->
+                        {
+                            Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
+                            mappaFragment.removePhotoMarker(img.getMarker().getPosition());
+                        },
                         error -> Log.e("MyAmplifyApp", "Remove failure", error)
                 );
     }
@@ -333,10 +343,10 @@ public class ControllerItinerario
     {
         for(Immagine img : mapKeyURI)
         {
-            removeImageFromS3Bucket(img.getKey());
+            mappaFragment.removePhotoMarker(img.getMarker().getPosition());
+            removeImageFromS3Bucket(img);
         }
         mapKeyURI.clear();
-        inserimentoItinerarioActivity.finish();
     }
 
     public void updateScrollViewImage(RecyclerView mRecyclerView)
@@ -348,20 +358,22 @@ public class ControllerItinerario
 
     }
 
-    public void getMetadatiImage(InputStream immagine, Uri uriImage)
+    public void getMetadatiImage(InputStream immagine, Immagine uriImage)
     {
         /* Se la posizione dell'immagine è presente */
         try
         {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
             {
-                immagine = inserimentoItinerarioActivity.getContentResolver().openInputStream(uriImage);
+                immagine = inserimentoItinerarioActivity.getContentResolver().openInputStream(uriImage.getUri());
                 ExifInterface metadati = new ExifInterface(immagine);
                 float[] latLong = new float[2];
                 if(metadati.getLatLong(latLong))
                 {
                     Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
-
+                    uriImage.setMarker(mappaFragment.createPhotoMarker(new GeoPoint(latLong[0], latLong[1])));
+                    /*mappaFragment.addPhotoMarker(uriImage.getMarker());*/
+                    mappaFragment.addPhotoPoint(new GeoPoint(latLong[0], latLong[1]));
                 }
             }
         }

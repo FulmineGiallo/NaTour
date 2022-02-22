@@ -74,6 +74,8 @@ public class ControllerItinerario
         Itinerario itinerarioInserito = new Itinerario();
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
         /* Chiamato all'ItinerarioDAO */
+
+
         return itinerarioInserito;
     }
 

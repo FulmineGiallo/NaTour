@@ -1,12 +1,16 @@
 package com.example.natour.model;
 
 import android.net.Uri;
+import android.util.Log;
+
+import org.osmdroid.views.overlay.Marker;
 
 
 public class Immagine
 {
     private Uri uri;
     private String key;
+    private Marker marker;
 
     public Immagine(Uri uri, String key)
     {
@@ -32,5 +36,16 @@ public class Immagine
     public void setKey(String key)
     {
         this.key = key;
+    }
+
+    public Marker getMarker()
+    {
+        return marker;
+    }
+
+    public void setMarker(Marker marker)
+    {
+        Log.i("Immagine", " marker associato all'immagine " + marker.toString());
+        this.marker = marker;
     }
 }

@@ -54,7 +54,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
                     public void actionConferma()
                     {
                         //Remove dalla lista
-                        controllerItinerario.removeImageFromS3Bucket(imageList.get(holder.getAdapterPosition()).getKey());
+                        controllerItinerario.removeImageFromS3Bucket(imageList.get(holder.getAdapterPosition()));
                         imageList.remove(holder.getAdapterPosition());
 
                         //Aggiorna l'interfaccia

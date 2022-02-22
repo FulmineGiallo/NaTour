@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
+import com.example.natour.model.Immagine;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.osmdroid.api.IMapController;
@@ -38,6 +39,9 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class MappaFragment extends Fragment implements MapEventsReceiver, LocationListener
 {
@@ -51,12 +55,14 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     private EditText edtFine;
     private ImageButton deleteMarkerInizio;
     private ImageButton deleteMarkerFine;
-    private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
+    private ArrayList<GeoPoint> waypoints;
+    private LinkedList<GeoPoint> puntiImmagine = new LinkedList<>();
     private Road road;
     private RoadManager roadManager;
     private Polyline roadOverlay;
     private ControllerItinerario controllerItinerario;
     private boolean isInizioMarkerDeleted = false;
+    private boolean isWaypointsInitialized = false;
 
 
     public MappaFragment()
@@ -64,8 +70,12 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
     }
 
-    public MappaFragment(ControllerItinerario controllerItinerario)
+    public MappaFragment(ControllerItinerario controllerItinerario, LinkedList<GeoPoint> listPhotoPoints, ArrayList<GeoPoint> waypoints)
     {
+
+        this.waypoints = waypoints;
+        puntiImmagine = listPhotoPoints;
+        if(!this.waypoints.isEmpty()) isWaypointsInitialized = true;
         this.controllerItinerario = controllerItinerario;
     }
 
@@ -128,11 +138,29 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
                 puntoIniziale -> inizializzaPunto(puntoIniziale, inizioPercorso, R.drawable.ic_baseline_location_on_24, "Punto Iniziale", edtInizio, deleteMarkerInizio)
         );
         model.getFine().observe(getViewLifecycleOwner(),
-                puntoFinale ->
-                    inizializzaPunto(puntoFinale, finePercorso, R.drawable.ic_finepercorso, "Punto Finale", edtFine, deleteMarkerFine)
+                puntoFinale ->{
+                    inizializzaPunto(puntoFinale, finePercorso, R.drawable.ic_finepercorso, "Punto Finale", edtFine, deleteMarkerFine);
+                    if(isWaypointsInitialized) isWaypointsInitialized = false;
+                }
         );
+        model.getListPhoto().observe(getViewLifecycleOwner(),
+                this::inizializzaPuntoImmagine
+                );
 
 
+    }
+
+    private void inizializzaPuntoImmagine(List<GeoPoint> lista)
+    {
+        for(GeoPoint photo : lista){
+            Marker newPhoto = new Marker(map);
+            newPhoto.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_insert_photo_24));
+            newPhoto.setPosition(photo);
+            newPhoto.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            if(!map.getOverlays().contains(newPhoto))
+                map.getOverlays().add(newPhoto);
+        }
+        map.invalidate();
     }
 
     /*Metodo che gestisce l'impostazione dei marker nella mappa*/
@@ -162,7 +190,8 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         }
         //viene aggiunto il punto come waypoint per fare il tracciato
 
-        waypoints.add(punto);
+        if(!isWaypointsInitialized)
+            waypoints.add(punto);
 
         //nel caso sono presenti entrambi i marker viene tracciato il percorso
         if(map.getOverlays().contains(inizioPercorso) && map.getOverlays().contains(finePercorso))
@@ -180,6 +209,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
                 requireActivity().runOnUiThread(() -> map.invalidate());
             });
             percorso.start();
+
 
             /* Calcolo media tra due punti */
             double latInizio, lonInizio, latFine, lonFine;
@@ -344,5 +374,39 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     public void onStatusChanged(String provider, int status, Bundle extras)
     {
         Log.i("MappaFragment", "something happened");
+    }
+
+    public void addPhotoMarker(Marker photoMarker)
+    {
+
+        map.getOverlays().add(photoMarker);
+        map.invalidate();
+
+    }
+
+    public void removePhotoMarker(GeoPoint temp){
+        try
+        {
+            Objects.requireNonNull(model.getListPhoto().getValue()).remove(temp);
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public Marker createPhotoMarker(GeoPoint geoPoint)
+    {
+        Marker photoMarker = new Marker(map);
+        photoMarker.setPosition(geoPoint);
+        photoMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        photoMarker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_insert_photo_24));
+        photoMarker.setTitle("photo");
+        return photoMarker;
+    }
+
+    public void addPhotoPoint(GeoPoint geoPoint)
+    {
+        model.addPhoto(geoPoint);
     }
 }

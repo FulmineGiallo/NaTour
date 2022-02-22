@@ -56,6 +56,8 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     private RoadManager roadManager;
     private Polyline roadOverlay;
     private ControllerItinerario controllerItinerario;
+    private boolean isInizioMarkerDeleted = false;
+
 
     public MappaFragment()
     {
@@ -123,8 +125,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
         //Observers per i cambiamenti al viewmodel
         model.getInizio().observe(getViewLifecycleOwner(),
-                puntoIniziale ->
-                    inizializzaPunto(puntoIniziale, inizioPercorso, R.drawable.ic_baseline_location_on_24, "Punto Iniziale", edtInizio, deleteMarkerInizio)
+                puntoIniziale -> inizializzaPunto(puntoIniziale, inizioPercorso, R.drawable.ic_baseline_location_on_24, "Punto Iniziale", edtInizio, deleteMarkerInizio)
         );
         model.getFine().observe(getViewLifecycleOwner(),
                 puntoFinale ->
@@ -160,6 +161,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             deleteButton.setVisibility(View.VISIBLE);
         }
         //viene aggiunto il punto come waypoint per fare il tracciato
+
         waypoints.add(punto);
 
         //nel caso sono presenti entrambi i marker viene tracciato il percorso
@@ -172,7 +174,8 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             {
                 road = roadManager.getRoad(waypoints);
                 roadOverlay = RoadManager.buildRoadOverlay(road);
-                map.getOverlays().add(roadOverlay);
+                if(!map.getOverlays().contains(roadOverlay))
+                    map.getOverlays().add(roadOverlay);
                 //per aggiornare l'UI della mappa è necessario farlo nel main thread
                 requireActivity().runOnUiThread(() -> map.invalidate());
             });
@@ -212,10 +215,24 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         {
             model.setFine(p);
         }
+        else
+        {
+            setNextRoute(p);
+        }
         map.invalidate();
         return true;
     }
 
+    private void setNextRoute(GeoPoint p)
+    {
+        map.getOverlays().remove(finePercorso);
+        map.getOverlays().remove(roadOverlay);
+        if(isInizioMarkerDeleted){
+            waypoints.remove(finePercorso.getPosition());
+            isInizioMarkerDeleted = false;
+        }
+        model.setFine(p);
+    }
 
 
     public void setEditTextMappa(EditText edtInizioPercorso, EditText edtFinePercorso, ImageButton deleteMarkerInizio, ImageButton deleteMarkerFine)
@@ -225,11 +242,10 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         this.deleteMarkerInizio = deleteMarkerInizio;
         this.deleteMarkerFine = deleteMarkerFine;
 
-        deleteMarkerInizio.setOnClickListener(view ->
-            eliminaMarker(deleteMarkerInizio, edtInizio, inizioPercorso)
+        deleteMarkerInizio.setOnClickListener(view -> eliminaMarker(deleteMarkerInizio, edtInizio, inizioPercorso, finePercorso)
         );
         deleteMarkerFine.setOnClickListener(view ->
-            eliminaMarker(deleteMarkerFine, edtFine, finePercorso)
+            eliminaMarker(deleteMarkerFine, edtFine, finePercorso, inizioPercorso)
         );
 
         //listener per poter aggiungere un marker partendo da un indirizzo inserito manualmente
@@ -262,12 +278,18 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     }
 
     //metodo per l'eliminazione dei marker dall'apposito bottone
-    private void eliminaMarker(@NonNull ImageButton deleteMarker, @NonNull EditText edtInizio, Marker marker)
+    private void eliminaMarker(@NonNull ImageButton deleteMarker, @NonNull EditText edtInizio, Marker marker, Marker altroMarker)
     {
         edtInizio.setText("");
         map.getOverlays().remove(marker);
+        waypoints.clear();
+        if((map.getOverlays().contains(marker) || map.getOverlays().contains(altroMarker))){
+            if(altroMarker == finePercorso){
+                isInizioMarkerDeleted = true;
+            }
+            waypoints.add(altroMarker.getPosition());
+        }
         deleteMarker.setVisibility(View.INVISIBLE);
-        waypoints.remove(marker.getPosition());
         map.getOverlays().remove(roadOverlay);
         map.invalidate();
     }

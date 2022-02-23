@@ -32,6 +32,7 @@ import com.example.natour.view.dialog.ErrorDialog;
 
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
+import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -318,7 +319,6 @@ public class ControllerItinerario
                         onRemove ->
                         {
                             Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
-                            mappaFragment.removePhotoMarker(img.getMarker().getPosition());
                         },
                         error ->
                         {
@@ -420,7 +420,7 @@ public class ControllerItinerario
                         InputStream in = inserimentoItinerarioActivity.getContentResolver().openInputStream(intent.getData());
                         parsedGpx = parser.parse(in);
                     }
-                    catch (IOException | XmlPullParserException e)
+                    catch (IOException  | XmlPullParserException e)
                     {
                         new ErrorDialog("Errore nel caricamento del file .gpx").show(fragmentManager, null);
                         e.printStackTrace();

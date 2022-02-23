@@ -25,7 +25,11 @@ public class InserimentoItinerario extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
         super.onActivityResult(requestCode, resultCode, intent);
-        controllerItinerario.fileInserito(resultCode, resultCode, intent);
+        if(requestCode == 100)
+            controllerItinerario.fileInserito(resultCode, resultCode, intent);
+
+        if(requestCode == 20)
+            controllerItinerario.insertGPX(requestCode, resultCode, intent);
     }
 
     @Override

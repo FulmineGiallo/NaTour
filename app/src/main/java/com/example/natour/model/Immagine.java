@@ -11,6 +11,17 @@ public class Immagine
     private Uri uri;
     private String key;
     private Marker marker;
+    private String URL;
+
+    public String getURL()
+    {
+        return URL;
+    }
+
+    public void setURL(String URL)
+    {
+        this.URL = URL;
+    }
 
     public Immagine(Uri uri, String key)
     {

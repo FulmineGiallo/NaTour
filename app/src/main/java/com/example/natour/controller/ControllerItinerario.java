@@ -77,11 +77,13 @@ public class ControllerItinerario
     private MappaFragment mappaFragment;
 
 
-    public Itinerario inserisciItinerario(String nome, String durata, boolean disabili, File gpx, String descrizione, List<String> immagini)
+    public Itinerario inserisciItinerario(String nome, String durata, boolean disabili, String descrizione)
     {
         Itinerario itinerarioInserito = new Itinerario();
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
         /* Chiamato all'ItinerarioDAO */
+
+
         return itinerarioInserito;
     }
 
@@ -134,7 +136,6 @@ public class ControllerItinerario
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.add(viewId, mappaFragment);
             ft.commit();
-
         }
     }
 
@@ -276,6 +277,7 @@ public class ControllerItinerario
                                                         if(imageResult.getBoolean("is_save"))
                                                         {
                                                             Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
+                                                            immagine.setURL(URLImage);
                                                             /* recupero metadati */
                                                             getMetadatiImage(exampleInputStream, immagine);
                                                         }

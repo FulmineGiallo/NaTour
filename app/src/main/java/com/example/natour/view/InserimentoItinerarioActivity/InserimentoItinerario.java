@@ -21,6 +21,7 @@ public class InserimentoItinerario extends AppCompatActivity
         controllerItinerario.inizializzaInterfaccia();
 
 
+
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent)
     {

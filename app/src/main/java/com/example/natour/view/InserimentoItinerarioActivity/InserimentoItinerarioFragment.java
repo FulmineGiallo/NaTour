@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.fragment.app.Fragment;
@@ -35,10 +37,12 @@ public class InserimentoItinerarioFragment extends Fragment
     private EditText edtNome;
     private EditText edtDurata;
     private EditText edtDescrizione;
+    private SwitchCompat selectDisabili;
+    private boolean stateDisabili = false;
     private static final int PICKFILE_REQUEST_CODE = 100;
     private Button addImage;
     private RecyclerView mRecyclerView;
-
+    private Button confermaInserimentoItinerario;
 
     public InserimentoItinerarioFragment(ControllerItinerario controllerItinerario)
     {
@@ -108,6 +112,8 @@ public class InserimentoItinerarioFragment extends Fragment
 
 
         ImageView buttonNascosto = requireView().findViewById(R.id.btn_nascoto);
+        confermaInserimentoItinerario = requireView().findViewById(R.id.btn_confermaItinerario);
+        selectDisabili = requireView().findViewById(R.id.switch_disabili);
         addImage = requireView().findViewById(R.id.btn_addimg);
         ImageButton backToTabActivity = requireView().findViewById(R.id.btn_indietroInsItineraio);
         edtNome = requireView().findViewById(R.id.nomeItinerario);
@@ -143,6 +149,28 @@ public class InserimentoItinerarioFragment extends Fragment
         });
 
         buttonNascosto.setOnClickListener(view16 -> controllerItinerario.gotoPercorsoFragment(mapContainer));
+
+
+        selectDisabili.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+        {
+            if (isChecked)
+                stateDisabili = true;
+        }
+        });
+
+        confermaInserimentoItinerario.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !edtDescrizione.getText().toString().isEmpty())
+                    controllerItinerario.inserisciItinerario(edtNome.getTransitionName(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString());
+            }
+        });
+
+
     }
 
 

@@ -1,8 +1,10 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -38,10 +40,11 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class MappaFragment extends Fragment implements MapEventsReceiver, LocationListener
 {
@@ -56,11 +59,12 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     private ImageButton deleteMarkerInizio;
     private ImageButton deleteMarkerFine;
     private ArrayList<GeoPoint> waypoints;
-    private LinkedList<GeoPoint> puntiImmagine = new LinkedList<>();
+    private LinkedList<Immagine> puntiImmagine;
     private Road road;
     private RoadManager roadManager;
     private Polyline roadOverlay;
     private ControllerItinerario controllerItinerario;
+
     private boolean isInizioMarkerDeleted = false;
     private boolean isWaypointsInitialized = false;
 
@@ -70,11 +74,11 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
     }
 
-    public MappaFragment(ControllerItinerario controllerItinerario, LinkedList<GeoPoint> listPhotoPoints, ArrayList<GeoPoint> waypoints)
+    public MappaFragment(ControllerItinerario controllerItinerario, LinkedList<Immagine> puntiImmagine, ArrayList<GeoPoint> waypoints)
     {
 
         this.waypoints = waypoints;
-        puntiImmagine = listPhotoPoints;
+        this.puntiImmagine = puntiImmagine;
         if(!this.waypoints.isEmpty()) isWaypointsInitialized = true;
         this.controllerItinerario = controllerItinerario;
     }
@@ -123,6 +127,11 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         mapController.setCenter(currentPositionPhone());
         Log.i("CURRENT", String.valueOf(currentPositionPhone()));
 
+        //aggiunge lista preesistente di immagini
+        if(!this.puntiImmagine.isEmpty()){
+            for(Immagine img : this.puntiImmagine) regeneratePhotoMarker(img);
+        }
+
         //comando usato per aggiornare la mappa
         map.invalidate();
 
@@ -143,11 +152,27 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
                     if(isWaypointsInitialized) isWaypointsInitialized = false;
                 }
         );
-        model.getListPhoto().observe(getViewLifecycleOwner(),
-                this::inizializzaPuntoImmagine
-                );
 
 
+    }
+
+    private void regeneratePhotoMarker(Immagine img)
+    {
+        Marker newMarker = new Marker(map);
+        newMarker.setPosition(img.getMarker().getPosition());
+        newMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        newMarker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_photo_location));
+        ContentResolver cr = requireActivity().getContentResolver();
+        try
+        {
+            InputStream is = cr.openInputStream(img.getUri());
+            newMarker.setImage(Drawable.createFromStream(is, img.getUri().toString()));
+        } catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        addPhotoMarker(newMarker);
+        img.setMarker(newMarker);
     }
 
     private void inizializzaPuntoImmagine(List<GeoPoint> lista)
@@ -379,34 +404,45 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     public void addPhotoMarker(Marker photoMarker)
     {
 
+        Log.e("MAPPA FRAGMENT", String.valueOf(photoMarker.getPosition().getLatitude()));
         map.getOverlays().add(photoMarker);
         map.invalidate();
 
     }
 
-    public void removePhotoMarker(GeoPoint temp){
-        try
-        {
-            Objects.requireNonNull(model.getListPhoto().getValue()).remove(temp);
+    public void removePhotoMarker(Immagine img){
+        if(img.getMarker() != null){
+            map.getOverlays().remove(img.getMarker());
+            map.invalidate();
         }
-        catch (NullPointerException e){
-            e.printStackTrace();
-        }
+        puntiImmagine.remove(img);
+
 
     }
 
-    public Marker createPhotoMarker(GeoPoint geoPoint)
+    public Marker createPhotoMarker(GeoPoint geoPoint, Immagine img)
     {
         Marker photoMarker = new Marker(map);
         photoMarker.setPosition(geoPoint);
         photoMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        photoMarker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_insert_photo_24));
+        photoMarker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_photo_location));
         photoMarker.setTitle("photo");
+        ContentResolver cr = requireActivity().getContentResolver();
+        try
+        {
+            InputStream is = cr.openInputStream(img.getUri());
+            photoMarker.setImage(Drawable.createFromStream(is, img.getUri().toString()));
+        } catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
         return photoMarker;
     }
 
-    public void addPhotoPoint(GeoPoint geoPoint)
+    public void addPhotoPoint(Immagine img)
     {
-        model.addPhoto(geoPoint);
+        puntiImmagine.add(img);
+        addPhotoMarker(img.getMarker());
     }
 }

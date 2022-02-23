@@ -32,6 +32,13 @@ public class InserimentoItinerario extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
         controllerItinerario.removeOnBackPressedImage();
     }
 }

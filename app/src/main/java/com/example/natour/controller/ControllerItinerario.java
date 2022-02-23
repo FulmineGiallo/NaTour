@@ -32,7 +32,6 @@ import com.example.natour.view.dialog.ErrorDialog;
 
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.Marker;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,7 +60,7 @@ public class ControllerItinerario
 
     //informazioni della mappa
     private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
-    private LinkedList<GeoPoint> listPhotoPoints;
+    private final LinkedList<Immagine> listPhotoPoints = new LinkedList<>();
 
     /* Coppia valore Key = URI */
     private List<Immagine> mapKeyURI;
@@ -308,6 +307,7 @@ public class ControllerItinerario
         /* Rimozione dalla Lista e poi dal Bucket S3 */
         mapKeyURI.remove(positionImage);
         imageAdapter.notifyItemRemoved(positionImage);
+        mappaFragment.removePhotoMarker(img);
 
         /* Rimozione da S3 */
         RxAmplify.Storage.remove(img.getKey())
@@ -315,15 +315,19 @@ public class ControllerItinerario
                         onRemove ->
                         {
                             Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
-                            mappaFragment.removePhotoMarker(img.getMarker().getPosition());
                         },
-                        error -> Log.e("MyAmplifyApp", "Remove failure", error)
+                        error ->
+                        {
+                            Log.e("MyAmplifyApp", "Remove failure", error);
+                            mappaFragment.addPhotoPoint(img);
+                        }
                 );
     }
 
     public void removeImageFromS3Bucket(Immagine img)
     {
 
+        mappaFragment.removePhotoMarker(img);
 
         /* Rimozione da S3 */
         RxAmplify.Storage.remove(img.getKey())
@@ -331,9 +335,13 @@ public class ControllerItinerario
                         onRemove ->
                         {
                             Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
-                            mappaFragment.removePhotoMarker(img.getMarker().getPosition());
+
                         },
-                        error -> Log.e("MyAmplifyApp", "Remove failure", error)
+                        error ->
+                        {
+                            mappaFragment.addPhotoPoint(img);
+                            Log.e("MyAmplifyApp", "Remove failure", error);
+                        }
                 );
     }
 
@@ -341,7 +349,6 @@ public class ControllerItinerario
     {
         for(Immagine img : mapKeyURI)
         {
-            mappaFragment.removePhotoMarker(img.getMarker().getPosition());
             removeImageFromS3Bucket(img);
         }
         mapKeyURI.clear();
@@ -369,9 +376,9 @@ public class ControllerItinerario
                 if(metadati.getLatLong(latLong))
                 {
                     Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
-                    uriImage.setMarker(mappaFragment.createPhotoMarker(new GeoPoint(latLong[0], latLong[1])));
+                    uriImage.setMarker(mappaFragment.createPhotoMarker(new GeoPoint(latLong[0], latLong[1]), uriImage));
                     /*mappaFragment.addPhotoMarker(uriImage.getMarker());*/
-                    mappaFragment.addPhotoPoint(new GeoPoint(latLong[0], latLong[1]));
+                    mappaFragment.addPhotoPoint(uriImage);
                 }
             }
         }
@@ -382,4 +389,6 @@ public class ControllerItinerario
 
 
     }
+
+
 }

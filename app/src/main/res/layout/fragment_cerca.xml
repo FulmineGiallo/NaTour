@@ -228,7 +228,6 @@
                 android:id="@+id/cardDurata"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
-
                 android:layout_height="wrap_content"
                 app:endIconDrawable="@drawable/ic_baseline_watch_later_24"
                 app:endIconMode="custom"
@@ -242,6 +241,7 @@
                     android:layout_width="180dp"
                     android:layout_height="match_parent"
                     android:ems="10"
+                    android:hint="in minuti"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 

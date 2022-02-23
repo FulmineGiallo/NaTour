@@ -25,7 +25,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
-import com.example.natour.model.Immagine;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.osmdroid.api.IMapController;
@@ -445,4 +444,20 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
         puntiImmagine.add(img);
         addPhotoMarker(img.getMarker());
     }
+
+    public void setGPXPercorso(ArrayList<GeoPoint> track)
+    {
+        Thread percorso = new Thread(() ->
+        {
+            road = roadManager.getRoad(track);
+            roadOverlay = RoadManager.buildRoadOverlay(road);
+            if(!map.getOverlays().contains(roadOverlay))
+                map.getOverlays().add(roadOverlay);
+            //per aggiornare l'UI della mappa è necessario farlo nel main thread
+            requireActivity().runOnUiThread(() -> map.invalidate());
+        });
+        percorso.start();
+    }
+
+
 }

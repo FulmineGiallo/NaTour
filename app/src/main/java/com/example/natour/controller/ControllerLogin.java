@@ -184,9 +184,9 @@ public class ControllerLogin
 
     public void terminaLogin()
     {
-        contexController.finish();
+        /*contexController.finish();
         loginDisposable.dispose();
         userInfoDisposable.dispose();
-        setDataDiNascitaDisposable.dispose();
+        setDataDiNascitaDisposable.dispose();*/
     }
 }

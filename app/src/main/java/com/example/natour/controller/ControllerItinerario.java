@@ -46,6 +46,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.ticofab.androidgpxparser.parser.GPXParser;
+import io.ticofab.androidgpxparser.parser.domain.Gpx;
 
 public class ControllerItinerario
 {
@@ -193,7 +195,8 @@ public class ControllerItinerario
             p1 = new GeoPoint(location.getLatitude(), location.getLongitude());
 
             return p1;
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -315,6 +318,7 @@ public class ControllerItinerario
                         onRemove ->
                         {
                             Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
+                            mappaFragment.removePhotoMarker(img.getMarker().getPosition());
                         },
                         error ->
                         {
@@ -390,5 +394,61 @@ public class ControllerItinerario
 
     }
 
+    public void getGPXFromDevice()
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("gpx/*");
+        Log.i("LANCIO", "GPX");
+        if (intent.resolveActivity(inserimentoItinerarioActivity.getPackageManager()) != null)
+            inserimentoItinerarioActivity.startActivityForResult(intent, 20);
 
+    }
+    public void insertGPX(int requestCode, int resultCode, Intent intent)
+    {
+        if(requestCode == 20)
+            if (resultCode == RESULT_OK)
+            {
+                String FileName = intent.getData().getLastPathSegment();
+                // Inserito il file dal File Explorer viene effettuato un controllo per garantire che il file sia del tipo .gpx
+                if (FileName.contains("gpx"))
+                {
+                    // Essendo il file di tipo .gpx vengono presi dall'intent le informazioni per gestire l'itinerario
+                    GPXParser parser = new GPXParser();
+                    Gpx parsedGpx = null;
+                    try
+                    {
+                        InputStream in = inserimentoItinerarioActivity.getContentResolver().openInputStream(intent.getData());
+                        parsedGpx = parser.parse(in);
+                    }
+                    catch (IOException | XmlPullParserException e)
+                    {
+                        new ErrorDialog("Errore nel caricamento del file .gpx").show(fragmentManager, null);
+                        e.printStackTrace();
+                    }
+                    if (parsedGpx == null)
+                    {
+                        new ErrorDialog("Errore nel caricamento del file .gpx").show(fragmentManager, null);
+                    }
+                    else
+                    {
+                        /*
+                            Nei casi precedenti viene controllato che il file gpx sia stato correttamente  analizzato dal parser
+                            Ed entra in questo else solamente se vengono passati tutti i controlli procedendo poi a recuperare eventuali routes e waypoint
+                        */
+                        if(parsedGpx.getTracks() != null)
+                        {
+                            for(int i = 0; i < parsedGpx.getTracks().size(); i++)
+                                waypoints.add(new GeoPoint(parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(i).getLatitude(), parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(i).getLongitude()));
+                            /* Creare Route nel mappaFragment */
+                            mappaFragment.setGPXPercorso(waypoints);
+                        }
+
+                    }
+                }
+                else
+                {
+                    new ErrorDialog("Il file inserito non è di tipo .gpx").show(fragmentManager, null);
+                }
+            }
+    }
 }

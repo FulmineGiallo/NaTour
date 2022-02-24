@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
@@ -49,7 +50,6 @@ import java.util.List;
 public class MappaFragment extends Fragment implements MapEventsReceiver, LocationListener
 {
     private MapView map;
-    private OverlayViewModel model;
     private Marker inizioPercorso;
     private Marker finePercorso;
     private LocationManager locManager;
@@ -64,9 +64,12 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     private RoadManager roadManager;
     private Polyline roadOverlay;
     private ControllerItinerario controllerItinerario;
+    private GeoPoint puntoInizio;
+    private GeoPoint puntoFine;
 
     private boolean isInizioMarkerDeleted = false;
     private boolean isWaypointsInitialized = false;
+    private Boolean isFromGPX;
 
 
     public MappaFragment()
@@ -74,13 +77,20 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
     }
 
-    public MappaFragment(ControllerItinerario controllerItinerario, LinkedList<Immagine> puntiImmagine, ArrayList<GeoPoint> waypoints)
+    public MappaFragment(ControllerItinerario controllerItinerario,
+                         LinkedList<Immagine> puntiImmagine,
+                         ArrayList<GeoPoint> waypoints,
+                         Boolean gpxInserted,
+                         GeoPoint puntoInizio,
+                         GeoPoint puntoFine)
     {
-
+        isFromGPX = gpxInserted;
         this.waypoints = waypoints;
         this.puntiImmagine = puntiImmagine;
         if(!this.waypoints.isEmpty()) isWaypointsInitialized = true;
         this.controllerItinerario = controllerItinerario;
+        this.puntoInizio = puntoInizio;
+        this.puntoFine = puntoFine;
     }
 
 
@@ -123,7 +133,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
         //si setta lo stato UI iniziale per la mappa
         mapController = map.getController();
-        mapController.setZoom(10.5);
+        mapController.setZoom(15);
         mapController.setCenter(currentPositionPhone());
         Log.i("CURRENT", String.valueOf(currentPositionPhone()));
 
@@ -132,26 +142,16 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             for(Immagine img : this.puntiImmagine) regeneratePhotoMarker(img);
         }
 
+        if(edtInizio != null){
+            if(puntoInizio != null) inizializzaPunto(puntoInizio,inizioPercorso,R.drawable.ic_baseline_location_on_24,"inizio",edtInizio,deleteMarkerInizio);
+            if(puntoFine != null) inizializzaPunto(puntoFine, finePercorso, R.drawable.ic_finepercorso,"fine",edtFine,deleteMarkerFine);
+        }
+
         //comando usato per aggiornare la mappa
         map.invalidate();
 
         //viene aggiutno l'overlay per permettere eventi come il tocco
         map.getOverlays().add(0, mapEventsOverlay);
-
-
-        //inizializzazione del viewmodel per gestire i marker
-        model = new ViewModelProvider(requireActivity()).get(OverlayViewModel.class);
-
-        //Observers per i cambiamenti al viewmodel
-        model.getInizio().observe(getViewLifecycleOwner(),
-                puntoIniziale -> inizializzaPunto(puntoIniziale, inizioPercorso, R.drawable.ic_baseline_location_on_24, "Punto Iniziale", edtInizio, deleteMarkerInizio)
-        );
-        model.getFine().observe(getViewLifecycleOwner(),
-                puntoFinale ->{
-                    inizializzaPunto(puntoFinale, finePercorso, R.drawable.ic_finepercorso, "Punto Finale", edtFine, deleteMarkerFine);
-                    if(isWaypointsInitialized) isWaypointsInitialized = false;
-                }
-        );
 
 
     }
@@ -191,32 +191,41 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     /*Metodo che gestisce l'impostazione dei marker nella mappa*/
     public void inizializzaPunto(GeoPoint punto, Marker marker, int p, String s, EditText edtPunto, ImageButton deleteButton)
     {
-        //viene deciso il punto per cui il marker deve posizionarsi
-        marker.setPosition(punto);
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        new Thread(()->{
+            //viene deciso il punto per cui il marker deve posizionarsi
+            marker.setPosition(punto);
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
-        //se il marker è stato già aggiunto allora è necessario modificarlo solamente
-        if (!map.getOverlays().contains(marker))
-            map.getOverlays().add(marker);
+            //se il marker è stato già aggiunto allora è necessario modificarlo solamente
+            if (!map.getOverlays().contains(marker))
+                map.getOverlays().add(marker);
 
-        //viene messo come centro il punto in cui preme l'utente
-        mapController.setCenter(punto);
-        map.invalidate();
+            //viene messo come centro il punto in cui preme l'utente
+            requireActivity().runOnUiThread(()->mapController.setCenter(punto));
 
-        //viene messa l'icona e il titolo adatti al tipo di marker
-        marker.setIcon(AppCompatResources.getDrawable(requireContext(), p));
-        marker.setTitle(s);
 
-        //viene modificato il testo che mostra l'indirizzo
-        if (edtPunto != null)
-        {
-            edtPunto.setText(getAddress(punto));
-            deleteButton.setVisibility(View.VISIBLE);
-        }
-        //viene aggiunto il punto come waypoint per fare il tracciato
+            //viene messa l'icona e il titolo adatti al tipo di marker
+            marker.setIcon(AppCompatResources.getDrawable(requireContext(), p));
+            marker.setTitle(s);
 
-        if(!isWaypointsInitialized)
-            waypoints.add(punto);
+            String indirizzo = getAddress(punto);
+
+            requireActivity().runOnUiThread(()->{
+                //viene modificato il testo che mostra l'indirizzo
+                if (edtPunto != null)
+                {
+                    edtPunto.setText(indirizzo);
+                    deleteButton.setVisibility(View.VISIBLE);
+                }
+            });
+
+            //viene aggiunto il punto come waypoint per fare il tracciato
+
+            if(!isWaypointsInitialized && !isFromGPX)
+                waypoints.add(punto);
+        }).start();
+
+
 
         //nel caso sono presenti entrambi i marker viene tracciato il percorso
         if(map.getOverlays().contains(inizioPercorso) && map.getOverlays().contains(finePercorso))
@@ -248,6 +257,8 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             //viene messo come centro della mappa il punto medio tra i marker
             mapController.setCenter(puntoMedio);
         }
+
+        map.invalidate();
     }
 
     /*questo metodo, ottenuto implementando MapEventsReceiver
@@ -257,18 +268,18 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     public boolean singleTapConfirmedHelper(GeoPoint p)
     {
         //Toast.makeText(getContext(), "Tapped", Toast.LENGTH_SHORT).show();
-
-
         /* INSERISCO IL MARKER PER IL PUNTO INIZIALE */
         if (!map.getOverlays().contains(inizioPercorso))
         {
-            model.setInizio(p);
-
+            inizializzaPunto(p,inizioPercorso,R.drawable.ic_baseline_location_on_24,"inizio", edtInizio, deleteMarkerInizio);
+            controllerItinerario.conservaInizio(p);
         }
         /* INSERISCO IL MARKER PER IL PUNTO FINALE */
         else if (!map.getOverlays().contains(finePercorso))
         {
-            model.setFine(p);
+            inizializzaPunto(p,finePercorso,R.drawable.ic_finepercorso,"fine",edtFine,deleteMarkerFine);
+            controllerItinerario.conservaFine(p);
+            if(isWaypointsInitialized) isWaypointsInitialized = false;
         }
         else
         {
@@ -280,13 +291,15 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
     private void setNextRoute(GeoPoint p)
     {
+        isFromGPX = Boolean.FALSE;
         map.getOverlays().remove(finePercorso);
         map.getOverlays().remove(roadOverlay);
         if(isInizioMarkerDeleted){
             waypoints.remove(finePercorso.getPosition());
             isInizioMarkerDeleted = false;
         }
-        model.setFine(p);
+        inizializzaPunto(p, finePercorso,R.drawable.ic_finepercorso,"fine",edtFine,deleteMarkerFine);
+        controllerItinerario.conservaFine(p);
     }
 
 
@@ -310,8 +323,10 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             if(!edtInizioPercorso.getText().toString().isEmpty()){
                 map.getOverlays().remove(inizioPercorso);
                 GeoPoint newMarker = getLocationFromAddress(edtInizioPercorso.getText().toString());
-                if (newMarker != null)
-                    model.setInizio(newMarker);
+                if (newMarker != null){
+                    inizializzaPunto(newMarker,inizioPercorso,R.drawable.ic_baseline_location_on_24,"inizio",edtInizio,deleteMarkerInizio);
+                    controllerItinerario.conservaInizio(newMarker);
+                }
             }
 
         });
@@ -321,8 +336,10 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             if(!edtFinePercorso.getText().toString().isEmpty()){
                 map.getOverlays().remove(finePercorso);
                 GeoPoint newMarker = getLocationFromAddress(edtFinePercorso.getText().toString());
-                if (newMarker != null)
-                    model.setFine(newMarker);
+                if (newMarker != null){
+                    inizializzaPunto(newMarker,finePercorso,R.drawable.ic_finepercorso,"fine",edtFine,deleteMarkerFine);
+                    controllerItinerario.conservaFine(newMarker);
+                }
             }
 
         });
@@ -336,6 +353,7 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
     private void eliminaMarker(@NonNull ImageButton deleteMarker, @NonNull EditText edtInizio, Marker marker, Marker altroMarker)
     {
         edtInizio.setText("");
+        isFromGPX = Boolean.FALSE;
         map.getOverlays().remove(marker);
         waypoints.clear();
         if((map.getOverlays().contains(marker) || map.getOverlays().contains(altroMarker))){
@@ -344,6 +362,8 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             }
             waypoints.add(altroMarker.getPosition());
         }
+        else
+            waypoints.clear();
         deleteMarker.setVisibility(View.INVISIBLE);
         map.getOverlays().remove(roadOverlay);
         map.invalidate();
@@ -448,7 +468,16 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
 
     public void setGPXPercorso(ArrayList<GeoPoint> track)
     {
-        Thread percorso = new Thread(() ->
+        map.getOverlays().remove(roadOverlay);
+        map.getOverlays().remove(inizioPercorso);
+        map.getOverlays().remove(finePercorso);
+        isFromGPX = Boolean.TRUE;
+        waypoints = track;
+        inizializzaPunto(track.get(0),inizioPercorso,R.drawable.ic_baseline_location_on_24,"inizio",edtInizio,deleteMarkerInizio);
+        controllerItinerario.conservaInizio(track.get(0));
+        inizializzaPunto(track.get(track.size()-1),finePercorso,R.drawable.ic_finepercorso,"fine", edtFine,deleteMarkerFine);
+        controllerItinerario.conservaFine(track.get(track.size()-1));
+        /*Thread percorso = new Thread(() ->
         {
             road = roadManager.getRoad(track);
             roadOverlay = RoadManager.buildRoadOverlay(road);
@@ -457,8 +486,6 @@ public class MappaFragment extends Fragment implements MapEventsReceiver, Locati
             //per aggiornare l'UI della mappa è necessario farlo nel main thread
             requireActivity().runOnUiThread(() -> map.invalidate());
         });
-        percorso.start();
+        percorso.start();*/
     }
-
-
 }

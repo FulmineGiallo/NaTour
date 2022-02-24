@@ -17,11 +17,11 @@ public class OverlayViewModel extends ViewModel
 
     public void setInizio(GeoPoint marker)
     {
-        puntoInizio.setValue(marker);
+        puntoInizio.postValue(marker);
     }
     public void setFine(GeoPoint marker)
     {
-        puntoFine.setValue(marker);
+        puntoFine.postValue(marker);
     }
     public LiveData<GeoPoint> getInizio()
     {

@@ -60,10 +60,13 @@ public class ControllerItinerario
     private String descrizioneItnerario;
     private static final int PICKFILE_REQUEST_CODE = 100;
     private ImageAdapter imageAdapter;
+    private Boolean gpxInserted = Boolean.FALSE;
 
     //informazioni della mappa
     private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
     private final LinkedList<Immagine> listPhotoPoints = new LinkedList<>();
+    private GeoPoint inizioPercorso;
+    private GeoPoint finePercorso;
 
     /* Coppia valore Key = URI */
     private List<Immagine> mapKeyURI;
@@ -132,7 +135,7 @@ public class ControllerItinerario
     {
         if (fragment.requireView().findViewById(viewId) != null)
         {
-            mappaFragment = new MappaFragment(this, listPhotoPoints, waypoints);
+            mappaFragment = new MappaFragment(this, listPhotoPoints, waypoints, gpxInserted, inizioPercorso, finePercorso);
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.add(viewId, mappaFragment);
             ft.commit();
@@ -146,7 +149,7 @@ public class ControllerItinerario
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.remove(mappaFragment);
 
-            mappaFragment = new MappaFragment(this,listPhotoPoints, waypoints);
+            mappaFragment = new MappaFragment(this,listPhotoPoints, waypoints, gpxInserted, inizioPercorso, finePercorso);
 
             mappaFragment.setEditTextMappa(ipf.getInizioPercorso(), ipf.getFinePercorso(),
                     ipf.getDeleteMarkerInizio(), ipf.getDeleteMarkerFine());
@@ -399,7 +402,7 @@ public class ControllerItinerario
     public void getGPXFromDevice()
     {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType(".xml");
+        intent.setType("text/xml");
         Log.i("LANCIO", "GPX");
         if (intent.resolveActivity(inserimentoItinerarioActivity.getPackageManager()) != null)
             inserimentoItinerarioActivity.startActivityForResult(intent, 20);
@@ -410,9 +413,10 @@ public class ControllerItinerario
         if(requestCode == 20)
             if (resultCode == RESULT_OK)
             {
-                String FileName = intent.getData().getLastPathSegment();
+                String fileName = inserimentoItinerarioActivity.getContentResolver().getType(intent.getData());
+                Log.e("FILENAME", fileName);
                 // Inserito il file dal File Explorer viene effettuato un controllo per garantire che il file sia del tipo .gpx
-                if (FileName.contains("gpx"))
+                if (fileName.contains("xml"))
                 {
                     // Essendo il file di tipo .gpx vengono presi dall'intent le informazioni per gestire l'itinerario
                     GPXParser parser = new GPXParser();
@@ -439,9 +443,16 @@ public class ControllerItinerario
                         */
                         if(parsedGpx.getTracks() != null)
                         {
-                            for(int i = 0; i < parsedGpx.getTracks().size(); i++)
-                                waypoints.add(new GeoPoint(parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(i).getLatitude(), parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(i).getLongitude()));
+                            waypoints.clear();
+                            gpxInserted = Boolean.TRUE;
+                            for(int i = 0; i < parsedGpx.getTracks().size(); i++){
+                                for(int j = 0; j < parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().size(); j++){
+                                    waypoints.add(new GeoPoint(parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(j).getLatitude(), parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(j).getLongitude()));
+                                    Log.i("WAYPOINTS", waypoints.get(j).getLatitude() + "    " + waypoints.get(j).getLongitude());
+                                }
+                            }
                             /* Creare Route nel mappaFragment */
+                            Log.e("WAYPOINTS SIZE", String.valueOf(waypoints.size()));
                             mappaFragment.setGPXPercorso(waypoints);
                         }
 
@@ -452,5 +463,15 @@ public class ControllerItinerario
                     new ErrorDialog("Il file inserito non è di tipo .gpx").show(fragmentManager, null);
                 }
             }
+    }
+
+    public void conservaInizio(GeoPoint p)
+    {
+        inizioPercorso = p;
+    }
+
+    public void conservaFine(GeoPoint p)
+    {
+        finePercorso = p;
     }
 }

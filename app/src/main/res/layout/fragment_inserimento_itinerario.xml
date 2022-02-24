@@ -227,26 +227,13 @@
                 </com.google.android.material.card.MaterialCardView>
 
 
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="match_parent"
-                    android:id="@+id/btn_gpx"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/cardMap"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginHorizontal="90dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Inserisci GPX"
-                    app:backgroundTint="@color/colorebottone"
-                    app:cornerRadius="10dp"
-                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txt_descrizione"
-                    app:layout_constraintTop_toBottomOf="@id/btn_gpx"
-
+                    app:layout_constraintTop_toBottomOf="@id/cardMap"
+                    android:layout_marginTop="5dp"
                     app:layout_constraintLeft_toLeftOf="@id/edt_descrizione"
                     android:text="Descrizione"
                     android:textColor="@color/black"

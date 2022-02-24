@@ -97,9 +97,10 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     app:srcCompat="@drawable/ic_disabili"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="90dp"
                     app:layout_constraintTop_toTopOf="@id/edt_timeItinerario"
-                    app:layout_constraintLeft_toRightOf="@id/textView4"
+                    app:layout_constraintLeft_toRightOf="@id/edt_timeItinerario"
+                    app:layout_constraintBottom_toBottomOf="@id/edt_timeItinerario"
                     />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -112,6 +113,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="10dp"
                     >
 
                     <EditText
@@ -313,16 +315,7 @@
                     app:backgroundTint="@color/colorebottone"
                     app:cornerRadius="10dp" />
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="in minuti"
-                    android:textSize="18sp"
-                    app:layout_constraintLeft_toRightOf="@id/edt_timeItinerario"
-                    app:layout_constraintTop_toTopOf="@id/edt_timeItinerario"
-                    app:layout_constraintBottom_toBottomOf="@id/edt_timeItinerario"
-                    app:layout_constraintVertical_bias="0.661" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

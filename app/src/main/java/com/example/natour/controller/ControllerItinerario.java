@@ -399,7 +399,7 @@ public class ControllerItinerario
     public void getGPXFromDevice()
     {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType(".xml");
+        intent.setType("text/xml");
         Log.i("LANCIO", "GPX");
         if (intent.resolveActivity(inserimentoItinerarioActivity.getPackageManager()) != null)
             inserimentoItinerarioActivity.startActivityForResult(intent, 20);

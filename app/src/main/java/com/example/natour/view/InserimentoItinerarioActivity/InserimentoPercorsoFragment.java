@@ -1,7 +1,6 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -12,17 +11,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.fragment.app.Fragment;
-import androidx.transition.Transition;
 import androidx.transition.TransitionInflater;
 
 import com.example.natour.R;
@@ -41,7 +39,7 @@ public class InserimentoPercorsoFragment extends Fragment
     private EditText finePercorso;
     private ImageButton deleteMarkerFine;
     private ImageButton deleteMarkerInizio;
-
+    private Button  inserisciGPX;
 
     public InserimentoPercorsoFragment()
     {
@@ -87,7 +85,7 @@ public class InserimentoPercorsoFragment extends Fragment
         indietro = requireView().findViewById(R.id.btn_indietro);
         deleteMarkerInizio = requireView().findViewById(R.id.btn_deletemarkerInizio);
         deleteMarkerFine = requireView().findViewById(R.id.btn_deletemarkerFine);
-
+        inserisciGPX = requireView().findViewById(R.id.btn_gpx);
         //Inizialmente i bottoni per aggiungere marker dal testo devono essere nascosti
         TextInputLayout til_inizio = (TextInputLayout) inizioPercorso.getParent().getParent();
         til_inizio.setEndIconVisible(false);
@@ -135,7 +133,14 @@ public class InserimentoPercorsoFragment extends Fragment
             finePercorso.requestFocus();
             ((InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(finePercorso, 0);
         });
-
+        inserisciGPX.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                controllerItinerario.getGPXFromDevice();
+            }
+        });
 
         /*
         * Qui viene cambiata l'istanza di MappaFragment

@@ -29,6 +29,8 @@ import com.example.natour.controller.ControllerItinerario;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 
+import org.osmdroid.views.MapView;
+
 
 public class InserimentoItinerarioFragment extends Fragment
 {
@@ -43,6 +45,7 @@ public class InserimentoItinerarioFragment extends Fragment
     private Button addImage;
     private RecyclerView mRecyclerView;
     private Button confermaInserimentoItinerario;
+    private MapView mapView;
 
     public InserimentoItinerarioFragment(ControllerItinerario controllerItinerario)
     {
@@ -78,7 +81,7 @@ public class InserimentoItinerarioFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        FrameLayout mapContainer = view.findViewById(R.id.containerMappa);
+        MapView mapContainer = view.findViewById(R.id.containerMappa);
         ViewGroupCompat.setTransitionGroup(mapContainer,true);
         ViewCompat.setTransitionName(mapContainer, "tiny_map");
 

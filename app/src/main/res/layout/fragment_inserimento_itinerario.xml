@@ -194,22 +194,8 @@
                     android:elevation="10dp"
                     android:clickable="true"
                     android:focusable="true"
+                    android:contentDescription="@string/bottonenascosto" />
 
-                    />
-                <!--<ImageView
-                    android:id="@+id/img_mapIconItinerario"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="@drawable/ic_mapicon"
-                    android:scaleType="center"
-                    android:elevation="10dp"
-                    map:layout_constraintTop_toTopOf="@id/cardMap"
-                    map:layout_constraintBottom_toBottomOf="@id/cardMap"
-                    map:layout_constraintLeft_toLeftOf="@id/cardMap"
-                    map:layout_constraintRight_toRightOf="@id/cardMap"
-                    android:background="@color/quantum_grey"
-                    android:transitionName="small_map"
-                    />-->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:id="@+id/cardMap"
@@ -228,18 +214,13 @@
                     >
 
 
-                    <FrameLayout
+                    <org.osmdroid.views.MapView
                         android:id="@+id/containerMappa"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/ic_mapicon"
-                        android:clickable="true"
                         android:clipChildren="false"
-                        android:focusable="false"
                         map:layout_constraintLeft_toLeftOf="parent"
-
-
                         map:layout_constraintTop_toTopOf="parent"
                         tools:context=".view.MapsActivity"
                         tools:layout_editor_absoluteX="0dp" />

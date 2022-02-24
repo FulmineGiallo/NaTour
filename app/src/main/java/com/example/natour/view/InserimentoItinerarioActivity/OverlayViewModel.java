@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.natour.model.Immagine;
+
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
@@ -14,7 +16,13 @@ public class OverlayViewModel extends ViewModel
 {
     private final MutableLiveData<GeoPoint> puntoInizio = new MutableLiveData<>();
     private final MutableLiveData<GeoPoint> puntoFine = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<GeoPoint>> waypoints = new MutableLiveData<>();
+    private final MutableLiveData<LinkedList<Immagine>> imgList = new MutableLiveData<>();
 
+
+    public void setWaypoints(ArrayList<GeoPoint> waypoints){
+        this.waypoints.postValue(waypoints);
+    }
     public void setInizio(GeoPoint marker)
     {
         puntoInizio.postValue(marker);
@@ -23,6 +31,12 @@ public class OverlayViewModel extends ViewModel
     {
         puntoFine.postValue(marker);
     }
+    public void setImgList(LinkedList<Immagine> imgList){
+        this.imgList.postValue(imgList);
+    }
+    public LiveData<LinkedList<Immagine>> getImgList(){
+        return imgList;
+    }
     public LiveData<GeoPoint> getInizio()
     {
         return puntoInizio;
@@ -30,5 +44,8 @@ public class OverlayViewModel extends ViewModel
     public LiveData<GeoPoint> getFine()
     {
         return puntoFine;
+    }
+    public LiveData<ArrayList<GeoPoint>> getWaypoints(){
+        return waypoints;
     }
 }

@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.fragment.app.Fragment;
@@ -26,12 +27,12 @@ import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
-import com.example.natour.view.InserimentoItinerarioActivity.MappaFragment;
 import com.example.natour.view.adapter.ImageAdapter;
 import com.example.natour.view.dialog.ErrorDialog;
 
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
@@ -77,7 +78,6 @@ public class ControllerItinerario
     private final InserimentoItinerario inserimentoItinerarioActivity;
     private InserimentoPercorsoFragment percorsoFragment;
     private InserimentoItinerarioFragment inserimentoItinerarioFragment;
-    private MappaFragment mappaFragment;
 
 
     public Itinerario inserisciItinerario(String nome, String durata, boolean disabili, String descrizione)
@@ -111,7 +111,7 @@ public class ControllerItinerario
         }
     }
 
-    public void gotoPercorsoFragment(FrameLayout imageView)
+    public void gotoPercorsoFragment(MapView imageView)
     {
         if (percorsoFragment == null)
             percorsoFragment = new InserimentoPercorsoFragment(this);
@@ -133,31 +133,12 @@ public class ControllerItinerario
 
     public void setMapView(Fragment fragment, int viewId)
     {
-        if (fragment.requireView().findViewById(viewId) != null)
-        {
-            mappaFragment = new MappaFragment(this, listPhotoPoints, waypoints, gpxInserted, inizioPercorso, finePercorso);
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.add(viewId, mappaFragment);
-            ft.commit();
-        }
+
     }
 
     public void resetMapView(InserimentoPercorsoFragment ipf, int map)
     {
-        if (percorsoFragment.requireView().findViewById(map) != null)
-        {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.remove(mappaFragment);
 
-            mappaFragment = new MappaFragment(this,listPhotoPoints, waypoints, gpxInserted, inizioPercorso, finePercorso);
-
-            mappaFragment.setEditTextMappa(ipf.getInizioPercorso(), ipf.getFinePercorso(),
-                    ipf.getDeleteMarkerInizio(), ipf.getDeleteMarkerFine());
-            ft.add(map, mappaFragment);
-            ft.commit();
-
-
-        }
     }
 
 
@@ -316,7 +297,6 @@ public class ControllerItinerario
         /* Rimozione dalla Lista e poi dal Bucket S3 */
         mapKeyURI.remove(positionImage);
         imageAdapter.notifyItemRemoved(positionImage);
-        mappaFragment.removePhotoMarker(img);
 
         /* Rimozione da S3 */
         RxAmplify.Storage.remove(img.getKey())
@@ -328,7 +308,6 @@ public class ControllerItinerario
                         error ->
                         {
                             Log.e("MyAmplifyApp", "Remove failure", error);
-                            mappaFragment.addPhotoPoint(img);
                         }
                 );
     }
@@ -336,7 +315,6 @@ public class ControllerItinerario
     public void removeImageFromS3Bucket(Immagine img)
     {
 
-        mappaFragment.removePhotoMarker(img);
 
         /* Rimozione da S3 */
         RxAmplify.Storage.remove(img.getKey())
@@ -348,7 +326,6 @@ public class ControllerItinerario
                         },
                         error ->
                         {
-                            mappaFragment.addPhotoPoint(img);
                             Log.e("MyAmplifyApp", "Remove failure", error);
                         }
                 );
@@ -385,9 +362,7 @@ public class ControllerItinerario
                 if(metadati.getLatLong(latLong))
                 {
                     Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
-                    uriImage.setMarker(mappaFragment.createPhotoMarker(new GeoPoint(latLong[0], latLong[1]), uriImage));
                     /*mappaFragment.addPhotoMarker(uriImage.getMarker());*/
-                    mappaFragment.addPhotoPoint(uriImage);
                 }
             }
         }
@@ -453,7 +428,6 @@ public class ControllerItinerario
                             }
                             /* Creare Route nel mappaFragment */
                             Log.e("WAYPOINTS SIZE", String.valueOf(waypoints.size()));
-                            mappaFragment.setGPXPercorso(waypoints);
                         }
 
                     }

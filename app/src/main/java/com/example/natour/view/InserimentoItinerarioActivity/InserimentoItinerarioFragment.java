@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
 import com.example.natour.model.Immagine;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 
 import org.osmdroid.api.IMapController;
@@ -219,13 +218,7 @@ public class InserimentoItinerarioFragment extends Fragment
         edtNome = requireView().findViewById(R.id.nomeItinerario);
         edtDurata = requireView().findViewById(R.id.edt_durata);
         edtDescrizione = requireView().findViewById(R.id.descrizioneEditText);
-        MaterialButton btn_gpx = requireView().findViewById(R.id.btn_gpx);
         mRecyclerView = requireView().findViewById(R.id.rec_view_images);
-
-        btn_gpx.setOnClickListener(view1 ->
-        {
-            controllerItinerario.getGPXFromDevice();
-        });
 
         backToTabActivity.setOnClickListener(view12 -> controllerItinerario.goBack());
 

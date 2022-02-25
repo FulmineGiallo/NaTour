@@ -75,14 +75,14 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/comandiFrame"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="65dp"
             map:layout_constraintTop_toTopOf="parent"
             map:layout_constraintLeft_toLeftOf="parent"
             android:background="#b0b0b0"
             map:strokeColor="@color/black"
             map:cardCornerRadius="20dp"
             map:strokeWidth="1dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="5dp"
             >
 
@@ -115,13 +115,24 @@
                     android:id="@+id/btn_deletemarkerFine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:background="@null"
                     android:src="@drawable/ic_deletemarker2"
                     map:layout_constraintLeft_toRightOf="@id/removeroad"
+                    map:layout_constraintRight_toRightOf="@id/btn_filegpx"
+                    android:visibility="visible"
+                    map:layout_constraintTop_toTopOf="parent"
+                    />
+                <ImageButton
+                    android:id="@+id/btn_filegpx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@drawable/ic_gpx_file"
+                    map:layout_constraintLeft_toRightOf="@id/btn_deletemarkerFine"
                     map:layout_constraintRight_toRightOf="parent"
                     android:visibility="visible"
                     map:layout_constraintTop_toTopOf="parent"
+                    map:layout_constraintBottom_toBottomOf="parent"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

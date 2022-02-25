@@ -73,6 +73,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     private ImageButton deleteMarkerFine;
     private ImageButton deleteMarkerInizio;
     private ImageButton deleteRoad;
+    private ImageButton insertGPX;
 
 
     private boolean inizio = false;
@@ -158,7 +159,13 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                         marker.setTitle("inizio");
                         mrk_inizioPercorso = marker;
 
+                        new Thread(()->{
+                            String address = controllerItinerario.getAddress(p);
+                            requireActivity().runOnUiThread(()->edt_inizioPercorso.setText(address));
+                        }).start();
+
                         mapView.getOverlays().add(mrk_inizioPercorso);
+                        mapController.setCenter(p);
                         mapView.invalidate();
 
                         deleteMarkerInizio.setClickable(true);
@@ -174,6 +181,13 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                         marker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_finepercorso));
                         marker.setTitle("fine");
                         mrk_finePercorso = marker;
+
+                        new Thread(()->{
+                            String address = controllerItinerario.getAddress(p);
+                            requireActivity().runOnUiThread(()->edt_finePercorso.setText(address));
+                        }).start();
+
+
 
                         mapView.getOverlays().add(mrk_finePercorso);
                         mapView.invalidate();
@@ -228,6 +242,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         deleteMarkerInizio = requireView().findViewById(R.id.btn_deletemarkerInizio);
         deleteMarkerFine = requireView().findViewById(R.id.btn_deletemarkerFine);
         deleteRoad = requireView().findViewById(R.id.removeroad);
+        insertGPX = requireView().findViewById(R.id.btn_filegpx);
 
         if(!inizio){
             deleteMarkerInizio.setImageAlpha(66);
@@ -251,6 +266,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
             mapView.invalidate();
             deleteMarkerInizio.setImageAlpha(66);
             deleteMarkerInizio.setClickable(false);
+            edt_inizioPercorso.setText("");
             inizio = false;
         });
         deleteMarkerFine.setOnClickListener(deleteMarkerEnd ->
@@ -262,6 +278,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
             mapView.invalidate();
             deleteMarkerFine.setImageAlpha(66);
             deleteMarkerFine.setClickable(false);
+            edt_finePercorso.setText("");
             fine = false;
         });
         deleteRoad.setOnClickListener(deleteStrada ->
@@ -280,8 +297,14 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
             deleteMarkerFine.setClickable(false);
             deleteMarkerInizio.setImageAlpha(66);
             deleteMarkerInizio.setClickable(false);
+            edt_inizioPercorso.setText("");
+            edt_finePercorso.setText("");
             inizio = false;
             fine = false;
+        });
+        insertGPX.setOnClickListener( btn ->
+        {
+            controllerItinerario.getGPXFromDevice();
         });
 
 
@@ -290,6 +313,41 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         til_inizio.setEndIconVisible(false);
         TextInputLayout til_fine = (TextInputLayout) edt_finePercorso.getParent().getParent();
         til_fine.setEndIconVisible(false);
+
+        //listener per poter aggiungere un marker partendo da un indirizzo inserito manualmente
+        til_inizio = (TextInputLayout) edt_inizioPercorso.getParent().getParent();
+        til_inizio.setEndIconOnClickListener(til ->
+        {
+            if(!edt_inizioPercorso.getText().toString().isEmpty()){
+
+                GeoPoint p = controllerItinerario.getLocationFromAddress(edt_inizioPercorso.getText().toString());
+                if (p != null){
+                    waypoints.add(0,p);
+                    model.setWaypoints(waypoints);
+                    model.setInizio(p);
+                }
+            }
+
+        });
+        til_fine = (TextInputLayout) edt_finePercorso.getParent().getParent();
+        til_fine.setEndIconOnClickListener(til ->
+        {
+            if(!edt_finePercorso.getText().toString().isEmpty()){
+
+                GeoPoint p = controllerItinerario.getLocationFromAddress(edt_finePercorso.getText().toString());
+                if (p != null){
+                    waypoints.add(p);
+                    model.setWaypoints(waypoints);
+                    model.setFine(p);
+                }
+            }
+
+        });
+
+        TextInputLayout finalTil_inizio = til_inizio;
+        edt_inizioPercorso.setOnFocusChangeListener((til, b) -> finalTil_inizio.setEndIconVisible(b));
+        TextInputLayout finalTil_fine = til_fine;
+        edt_finePercorso.setOnFocusChangeListener((til, b) -> finalTil_fine.setEndIconVisible(b));
 
         //questo listener contiene l'azione e l'animazione per tornare indietro
         backContainer.setOnClickListener(view1 ->

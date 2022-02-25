@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +37,7 @@ import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
+import com.example.natour.view.InserimentoItinerarioActivity.OverlayViewModel;
 import com.example.natour.view.adapter.ImageAdapter;
 import com.example.natour.view.dialog.ErrorDialog;
 
@@ -48,6 +50,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -82,6 +85,7 @@ public class ControllerItinerario implements LocationListener
     private List<Immagine> mapKeyURI;
 
 
+    private OverlayViewModel model;
 
     private final FragmentManager fragmentManager;
     private final InserimentoItinerario inserimentoItinerarioActivity;
@@ -105,7 +109,6 @@ public class ControllerItinerario implements LocationListener
         this.inserimentoItinerarioActivity = inserimentoItinerarioActivity;
         this.mapKeyURI = new ArrayList<>();
         this.imageAdapter = new ImageAdapter(mapKeyURI, fragmentManager, this);
-
     }
 
     public void inizializzaInterfaccia()
@@ -499,6 +502,11 @@ public class ControllerItinerario implements LocationListener
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras)
     {
-        LocationListener.super.onStatusChanged(provider, status, extras);
+        try{
+            LocationListener.super.onStatusChanged(provider, status, extras);
+        }
+        catch (AbstractMethodError e){
+            Log.e("ControllerItinerario", e.getLocalizedMessage());
+        }
     }
 }

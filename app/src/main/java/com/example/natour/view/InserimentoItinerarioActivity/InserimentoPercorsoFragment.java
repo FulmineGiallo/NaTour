@@ -186,7 +186,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                 });
         model.getWaypoints().observe(getViewLifecycleOwner(),
                 newWaypoints ->{
-                    if(newWaypoints.size()>1){
+                    if(newWaypoints.size()>=1){
                         new Thread(()->{
                             mapView.getOverlays().remove(roadOverlay);
                             road = roadManager.getRoad(waypoints);

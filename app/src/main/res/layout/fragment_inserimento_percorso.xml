@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
-    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/transition_content"
+
         >
 
         <FrameLayout
@@ -58,17 +56,88 @@
             tools:layout_editor_absoluteX="0dp"
             tools:context=".view.MapsActivity" />
 
+
+
+
+       <ScrollView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           map:layout_constraintTop_toBottomOf="@id/map"
+           map:layout_constraintBottom_toBottomOf="parent"
+           map:layout_constraintLeft_toLeftOf="parent"
+           >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/comandiFrame"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintLeft_toLeftOf="parent"
+            android:background="#b0b0b0"
+            map:strokeColor="@color/black"
+            map:cardCornerRadius="20dp"
+            map:strokeWidth="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <ImageButton
+                    android:id="@+id/btn_deletemarkerInizio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@drawable/ic_deletemarker"
+                    map:layout_constraintLeft_toLeftOf="parent"
+                    map:layout_constraintRight_toLeftOf="@id/removeroad"
+                    map:layout_constraintTop_toTopOf="parent"
+                    android:visibility="visible"
+                    />
+                <ImageButton
+                    android:id="@+id/removeroad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_remove_road_24"
+                    android:background="none"
+                    map:layout_constraintLeft_toRightOf="@id/btn_deletemarkerInizio"
+                    map:layout_constraintRight_toLeftOf="@id/btn_deletemarkerFine"
+                    map:layout_constraintTop_toTopOf="parent"
+                    />
+                <ImageButton
+                    android:id="@+id/btn_deletemarkerFine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_deletemarker2"
+                    map:layout_constraintLeft_toRightOf="@id/removeroad"
+                    map:layout_constraintRight_toRightOf="parent"
+                    android:visibility="visible"
+                    map:layout_constraintTop_toTopOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_inizioPercorso"
-            android:layout_width="match_parent"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:hint="Inizio Percorso"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            map:layout_constraintTop_toBottomOf="@id/map"
+            map:layout_constraintTop_toBottomOf="@id/comandiFrame"
             map:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginEnd="60dp"
-            android:layout_marginStart="35dp"
+            map:layout_constraintRight_toRightOf="parent"
             map:endIconMode="custom"
             map:endIconDrawable="@drawable/ic_add_location"
 
@@ -84,21 +153,16 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_finePercorso"
-            android:layout_width="match_parent"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
-
             android:hint="Fine Percorso"
-
-            android:layout_marginRight="60dp"
-            android:layout_marginLeft="35dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="10dp"
             map:layout_constraintTop_toBottomOf="@id/til_inizioPercorso"
             map:layout_constraintLeft_toLeftOf="parent"
-
+            map:layout_constraintRight_toRightOf="parent"
             map:endIconMode="custom"
             map:endIconDrawable="@drawable/ic_add_location"
-
             >
 
             <EditText
@@ -128,33 +192,6 @@
             tools:ignore="MissingConstraints"
 
             />
-
-        <ImageButton
-            android:id="@+id/btn_deletemarkerInizio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@null"
-            android:src="@drawable/ic_deletemarker"
-            map:layout_constraintBottom_toBottomOf="@id/til_inizioPercorso"
-            map:layout_constraintLeft_toRightOf="@id/til_inizioPercorso"
-            map:layout_constraintTop_toTopOf="@id/til_inizioPercorso"
-            android:visibility="invisible"
-            android:padding="10dp"
-            />
-        <ImageButton
-            android:id="@+id/btn_deletemarkerFine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@null"
-            android:src="@drawable/ic_deletemarker2"
-            map:layout_constraintBottom_toBottomOf="@id/til_finePercorso"
-            map:layout_constraintLeft_toRightOf="@id/til_finePercorso"
-            map:layout_constraintTop_toTopOf="@id/til_finePercorso"
-            android:visibility="invisible"
-            android:padding="10dp"
-            />
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+       </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

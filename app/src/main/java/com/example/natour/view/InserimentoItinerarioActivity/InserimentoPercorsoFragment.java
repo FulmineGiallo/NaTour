@@ -3,7 +3,6 @@ package com.example.natour.view.InserimentoItinerarioActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
@@ -91,6 +89,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         super.onCreate(savedInstanceState);
         setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(R.transition.shared_image));
         setEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.fade));
+
     }
 
     @Override
@@ -104,6 +103,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
+
         super.onViewCreated(view, savedInstanceState);
         controllerMappaEditabile = new ControllerMappaEditabile();
 
@@ -199,12 +199,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         edt_inizioPercorso.setFocusable(false);
         edt_inizioPercorso.setOnClickListener(view12 ->
         {
-
-            edt_inizioPercorso.setFocusable(true);
-            edt_inizioPercorso.setFocusableInTouchMode(true);
-            edt_inizioPercorso.setEnabled(true);
-            edt_inizioPercorso.requestFocus();
-            ((InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(edt_inizioPercorso, 0);
+            clickEditText(edt_inizioPercorso);
         });
 
         /*codice necessario per impedire che sia attivato il focus per il campo di testo
@@ -213,12 +208,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         edt_finePercorso.setFocusable(false);
         edt_finePercorso.setOnClickListener(view13 ->
         {
-
-            edt_finePercorso.setFocusable(true);
-            edt_finePercorso.setFocusableInTouchMode(true);
-            edt_finePercorso.setEnabled(true);
-            edt_finePercorso.requestFocus();
-            ((InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(edt_finePercorso, 0);
+            clickEditText(edt_finePercorso);
         });
 
 
@@ -306,7 +296,14 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         }
         return false;
     }
-
+    private void clickEditText(EditText edt)
+    {
+        edt.setFocusable(true);
+        edt.setFocusableInTouchMode(true);
+        edt.setEnabled(true);
+        edt.requestFocus();
+        ((InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(edt, 0);
+    }
     @Override
     public boolean longPressHelper(GeoPoint p)
     {

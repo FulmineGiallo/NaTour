@@ -2,15 +2,24 @@ package com.example.natour.controller;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -51,7 +60,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.ticofab.androidgpxparser.parser.GPXParser;
 import io.ticofab.androidgpxparser.parser.domain.Gpx;
 
-public class ControllerItinerario
+public class ControllerItinerario implements LocationListener
 {
     private String nomeItinerario;
     private String durataItinerario;
@@ -159,6 +168,26 @@ public class ControllerItinerario
 
 
         return address;
+    }
+
+    public GeoPoint currentPositionPhone()
+    {
+        LocationManager locManager = (LocationManager) inserimentoItinerarioActivity.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(inserimentoItinerarioActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(inserimentoItinerarioActivity,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, this);
+            Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            double longitude;
+            double latitude;
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
+            return new GeoPoint(latitude, longitude);
+        } else
+            return new GeoPoint(40.839326626673405, 14.185227261143826);
     }
 
     public GeoPoint getLocationFromAddress(String strAddress)
@@ -447,5 +476,29 @@ public class ControllerItinerario
     public void conservaFine(GeoPoint p)
     {
         finePercorso = p;
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location)
+    {
+
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider)
+    {
+        LocationListener.super.onProviderEnabled(provider);
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider)
+    {
+        LocationListener.super.onProviderDisabled(provider);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
+        LocationListener.super.onStatusChanged(provider, status, extras);
     }
 }

@@ -1,6 +1,9 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -27,6 +30,7 @@ import androidx.transition.TransitionInflater;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
 import com.example.natour.controller.ControllerMappaEditabile;
+import com.example.natour.model.Immagine;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.osmdroid.api.IMapController;
@@ -41,7 +45,10 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class InserimentoPercorsoFragment extends Fragment implements MapEventsReceiver
@@ -57,6 +64,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     private Marker mrk_inizioPercorso;
     private Marker mrk_finePercorso;
     private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
+    private final LinkedList<Immagine> imgList = new LinkedList<>();
     private Road road;
     private Polyline roadOverlay;
 
@@ -64,6 +72,8 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     private EditText edt_finePercorso;
     private ImageButton deleteMarkerFine;
     private ImageButton deleteMarkerInizio;
+    private ImageButton deleteRoad;
+
 
     private boolean inizio = false;
     private boolean fine = false;
@@ -79,7 +89,6 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     {
         this.controllerItinerario = controllerItinerario;
     }
-
 
 
 
@@ -108,6 +117,8 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         controllerMappaEditabile = new ControllerMappaEditabile();
 
 
+
+
         OSRMRoadManager roadManager = new OSRMRoadManager(requireContext(), "MyOwnUserAgent/1.0");
         roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT);
 
@@ -124,8 +135,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         //si setta lo stato UI iniziale per la mappa
         IMapController mapController = mapView.getController();
         mapController.setZoom(13.5);
-        /*mapController.setCenter(currentPositionPhone());
-        Log.i("CURRENT", String.valueOf(currentPositionPhone()));*/
+        mapController.setCenter(controllerItinerario.currentPositionPhone());
 
         //comando usato per aggiornare la mappa
         mapView.invalidate();
@@ -140,29 +150,74 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
 
         model.getInizio().observe(getViewLifecycleOwner(),
                 p ->{
-                    waypoints.add(p);
-                    model.setWaypoints(waypoints);
-                    mapView.getOverlays().add(mrk_inizioPercorso);
-                    mapView.invalidate();
+                    if(p != null){
+                        inizio = true;
+                        Marker marker = new Marker(mapView);
+                        marker.setPosition(p);
+                        marker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_24));
+                        marker.setTitle("inizio");
+                        mrk_inizioPercorso = marker;
+
+                        mapView.getOverlays().add(mrk_inizioPercorso);
+                        mapView.invalidate();
+
+                        deleteMarkerInizio.setClickable(true);
+                        deleteMarkerInizio.setImageAlpha(255);
+                    }
                 });
         model.getFine().observe(getViewLifecycleOwner(),
                 p->{
-                        waypoints.add(p);
-                        model.setWaypoints(waypoints);
+                    if(p != null){
+                        fine = true;
+                        Marker marker = new Marker(mapView);
+                        marker.setPosition(p);
+                        marker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_finepercorso));
+                        marker.setTitle("fine");
+                        mrk_finePercorso = marker;
+
                         mapView.getOverlays().add(mrk_finePercorso);
                         mapView.invalidate();
+
+                        deleteMarkerFine.setClickable(true);
+                        deleteMarkerFine.setImageAlpha(255);
+                    }
+
+
                 });
         model.getWaypoints().observe(getViewLifecycleOwner(),
                 newWaypoints ->{
                     if(newWaypoints.size()>1){
                         new Thread(()->{
+                            mapView.getOverlays().remove(roadOverlay);
                             road = roadManager.getRoad(waypoints);
                             roadOverlay = RoadManager.buildRoadOverlay(road);
-                            if(!mapView.getOverlays().contains(roadOverlay))
-                                mapView.getOverlays().add(roadOverlay);
+                            mapView.getOverlays().add(roadOverlay);
                             //per aggiornare l'UI della mappa è necessario farlo nel main thread
                             requireActivity().runOnUiThread(() -> mapView.invalidate());
                         }).start();
+                        deleteRoad.setClickable(true);
+                        deleteRoad.setImageAlpha(255);
+                    }
+                });
+        model.getImgList().observe(getViewLifecycleOwner(),
+                newImgList ->{
+                    for (Immagine img:
+                         newImgList)
+                    {
+                        Marker imgMarker = new Marker(mapView);
+                        imgMarker.setPosition(img.getMarker().getPosition());
+                        imgMarker.setIcon(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_photo_location));
+                        try
+                        {
+                            InputStream is = requireActivity().getContentResolver().openInputStream(img.getUri());
+                            imgMarker.setImage(Drawable.createFromStream(is, img.getUri().toString()));
+                        } catch (FileNotFoundException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        img.setMarker(imgMarker);
+                        mapView.getOverlays().add(imgMarker);
+                        mapView.invalidate();
                     }
                 });
 
@@ -172,6 +227,63 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         indietro = requireView().findViewById(R.id.btn_indietro);
         deleteMarkerInizio = requireView().findViewById(R.id.btn_deletemarkerInizio);
         deleteMarkerFine = requireView().findViewById(R.id.btn_deletemarkerFine);
+        deleteRoad = requireView().findViewById(R.id.removeroad);
+
+        if(!inizio){
+            deleteMarkerInizio.setImageAlpha(66);
+            deleteMarkerInizio.setClickable(false);
+        }
+        if(!fine){
+            deleteMarkerFine.setImageAlpha(66);
+            deleteMarkerFine.setClickable(false);
+        }
+        if(!inizio || !fine){
+            deleteRoad.setImageAlpha(66);
+            deleteRoad.setClickable(false);
+        }
+
+        deleteMarkerInizio.setOnClickListener(deleteMarkerStart ->
+        {
+            mapView.getOverlays().remove(mrk_inizioPercorso);
+            waypoints.remove(0);
+            model.setWaypoints(waypoints);
+            model.setInizio(null);
+            mapView.invalidate();
+            deleteMarkerInizio.setImageAlpha(66);
+            deleteMarkerInizio.setClickable(false);
+            inizio = false;
+        });
+        deleteMarkerFine.setOnClickListener(deleteMarkerEnd ->
+        {
+            mapView.getOverlays().remove(mrk_finePercorso);
+            waypoints.remove(mrk_finePercorso.getPosition());
+            model.setWaypoints(waypoints);
+            model.setFine(null);
+            mapView.invalidate();
+            deleteMarkerFine.setImageAlpha(66);
+            deleteMarkerFine.setClickable(false);
+            fine = false;
+        });
+        deleteRoad.setOnClickListener(deleteStrada ->
+        {
+            mapView.getOverlays().remove(mrk_inizioPercorso);
+            mapView.getOverlays().remove(mrk_finePercorso);
+            mapView.getOverlays().remove(roadOverlay);
+            waypoints.clear();
+            model.setInizio(null);
+            model.setFine(null);
+            model.setWaypoints(waypoints);
+            mapView.invalidate();
+            deleteRoad.setImageAlpha(66);
+            deleteRoad.setClickable(false);
+            deleteMarkerFine.setImageAlpha(66);
+            deleteMarkerFine.setClickable(false);
+            deleteMarkerInizio.setImageAlpha(66);
+            deleteMarkerInizio.setClickable(false);
+            inizio = false;
+            fine = false;
+        });
+
 
         //Inizialmente i bottoni per aggiungere marker dal testo devono essere nascosti
         TextInputLayout til_inizio = (TextInputLayout) edt_inizioPercorso.getParent().getParent();
@@ -271,27 +383,21 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p)
     {
-        Marker marker = new Marker(mapView);
-        marker.setPosition(p);
+        
         if(!inizio){
-            marker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_24));
-            marker.setTitle("inizio");
-            mrk_inizioPercorso = marker;
+            waypoints.add(0,p);
+            model.setWaypoints(waypoints);
             model.setInizio(p);
-            inizio = true;
         }
         else if(!fine){
-            marker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_finepercorso));
-            marker.setTitle("fine");
-            mrk_finePercorso = marker;
+            waypoints.add(p);
+            model.setWaypoints(waypoints);
             model.setFine(p);
-            fine = true;
         }
         else{
-            marker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_finepercorso));
-            marker.setTitle("fine");
             mapView.getOverlays().remove(mrk_finePercorso);
-            mrk_finePercorso = marker;
+            waypoints.add(p);
+            model.setWaypoints(waypoints);
             model.setFine(p);
         }
         return false;
@@ -302,11 +408,32 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         edt.setFocusableInTouchMode(true);
         edt.setEnabled(true);
         edt.requestFocus();
-        ((InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(edt, 0);
+        //((InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(edt, 0);
     }
     @Override
     public boolean longPressHelper(GeoPoint p)
     {
         return false;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        mapView.onDetach();
     }
 }

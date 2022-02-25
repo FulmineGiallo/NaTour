@@ -61,7 +61,7 @@
 
        <ScrollView
            android:layout_width="match_parent"
-           android:layout_height="match_parent"
+           android:layout_height="wrap_content"
            map:layout_constraintTop_toBottomOf="@id/map"
            map:layout_constraintBottom_toBottomOf="parent"
            map:layout_constraintLeft_toLeftOf="parent"
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_remove_road_24"
-                    android:background="none"
+                    android:background="@color/design_default_color_background"
                     map:layout_constraintLeft_toRightOf="@id/btn_deletemarkerInizio"
                     map:layout_constraintRight_toLeftOf="@id/btn_deletemarkerFine"
                     map:layout_constraintTop_toTopOf="parent"
@@ -115,7 +115,7 @@
                     android:id="@+id/btn_deletemarkerFine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:background="@null"
                     android:src="@drawable/ic_deletemarker2"
                     map:layout_constraintLeft_toRightOf="@id/removeroad"

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class OverlayViewModel extends ViewModel
 {
-    private final MutableLiveData<GeoPoint> puntoInizio = new MutableLiveData<>();
+    private MutableLiveData<GeoPoint> puntoInizio = new MutableLiveData<>();
     private final MutableLiveData<GeoPoint> puntoFine = new MutableLiveData<>();
     private final MutableLiveData<ArrayList<GeoPoint>> waypoints = new MutableLiveData<>();
     private final MutableLiveData<LinkedList<Immagine>> imgList = new MutableLiveData<>();
@@ -34,6 +34,7 @@ public class OverlayViewModel extends ViewModel
     public void setImgList(LinkedList<Immagine> imgList){
         this.imgList.postValue(imgList);
     }
+
     public LiveData<LinkedList<Immagine>> getImgList(){
         return imgList;
     }

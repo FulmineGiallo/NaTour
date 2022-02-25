@@ -15,8 +15,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -50,7 +48,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -294,11 +291,11 @@ public class ControllerItinerario implements LocationListener
                                                         if(imageResult.getBoolean("is_save"))
                                                         {
                                                             Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
-                                                            immagine.setURL(URLImage);
                                                             /* recupero metadati */
+                                                            immagine.setURL(URLImage);
                                                             getMetadatiImage(exampleInputStream, immagine);
-                                                        }
 
+                                                        }
                                                         else
                                                         {
                                                             removeImageFromS3Bucket(immagine, positionImage);
@@ -307,7 +304,7 @@ public class ControllerItinerario implements LocationListener
                                                     },
                                                     imageError ->
                                                     {
-                                                        removeImageFromS3Bucket(immagine, positionImage);
+                                                        Log.e("ERRORIMG", imageError.getLocalizedMessage());
                                                         new ErrorDialog("Errore nel caricamento dell'ìmmagine, riprova con un'altra immagine!").show(fragmentManager, null);
                                                     }
                                             );
@@ -330,7 +327,7 @@ public class ControllerItinerario implements LocationListener
         /* Rimozione dalla Lista e poi dal Bucket S3 */
         mapKeyURI.remove(positionImage);
         imageAdapter.notifyItemRemoved(positionImage);
-
+        inserimentoItinerarioFragment.removeImage(img);
         /* Rimozione da S3 */
         RxAmplify.Storage.remove(img.getKey())
                 .subscribe(
@@ -351,6 +348,7 @@ public class ControllerItinerario implements LocationListener
 
 
         /* Rimozione da S3 */
+        inserimentoItinerarioFragment.removeImage(img);
         RxAmplify.Storage.remove(img.getKey())
                 .subscribe(
                         onRemove ->
@@ -396,7 +394,7 @@ public class ControllerItinerario implements LocationListener
                 if(metadati.getLatLong(latLong))
                 {
                     Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
-                    percorsoFragment.addPhotoMarker(uriImage, latLong);
+                    inserimentoItinerarioFragment.addPhotoMarker(uriImage, latLong);
                 }
             }
         }

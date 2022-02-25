@@ -1,9 +1,6 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
-import android.content.ContentResolver;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,7 +10,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -48,7 +44,6 @@ import org.osmdroid.views.overlay.Polyline;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 
 public class InserimentoPercorsoFragment extends Fragment implements MapEventsReceiver
@@ -64,7 +59,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     private Marker mrk_inizioPercorso;
     private Marker mrk_finePercorso;
     private ArrayList<GeoPoint> waypoints = new ArrayList<>();
-    private final LinkedList<Immagine> imgList = new LinkedList<>();
+
     private Road road;
     private Polyline roadOverlay;
 
@@ -214,9 +209,9 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                     }
                 });
         model.getImgList().observe(getViewLifecycleOwner(),
-                newImgList ->{
-                    for (Immagine img:
-                         newImgList)
+                newImgList ->
+                {
+                    for (Immagine img: newImgList)
                     {
                         Marker imgMarker = new Marker(mapView);
                         imgMarker.setPosition(img.getMarker().getPosition());
@@ -505,19 +500,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         model.setWaypoints(this.waypoints);
     }
 
-    public void addPhotoMarker(Immagine uriImage, float[] latLong)
-    {
-        Marker photoMarker = new Marker(mapView);
-        photoMarker.setPosition(new GeoPoint(latLong[0], latLong[1]));
-        uriImage.setMarker(photoMarker);
-        imgList.add(uriImage);
-        model.setImgList(imgList);
-    }
 
-    public void removeImage(Immagine img)
-    {
-        mapView.getOverlays().remove(img.getMarker());
-        imgList.remove(img);
-        model.setImgList(imgList);
-    }
+
+
 }

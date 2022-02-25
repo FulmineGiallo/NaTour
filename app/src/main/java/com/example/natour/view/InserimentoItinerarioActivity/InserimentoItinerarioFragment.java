@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -38,13 +37,13 @@ import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.LinkedList;
 
 
 public class InserimentoItinerarioFragment extends Fragment
@@ -62,7 +61,7 @@ public class InserimentoItinerarioFragment extends Fragment
     private Button confermaInserimentoItinerario;
     private MapView mapView;
     private OverlayViewModel model;
-
+    private final LinkedList<Immagine> imgList = new LinkedList<>();
     private Road road;
     private Polyline roadOverlay;
 
@@ -162,9 +161,9 @@ public class InserimentoItinerarioFragment extends Fragment
 
                 });
         model.getImgList().observe(getViewLifecycleOwner(),
-                newImgList ->{
-                    for (Immagine img:
-                            newImgList)
+                newImgList ->
+                {
+                    for (Immagine img: newImgList)
                     {
                         Marker imgMarker = new Marker(mapView);
                         imgMarker.setPosition(img.getMarker().getPosition());
@@ -245,7 +244,6 @@ public class InserimentoItinerarioFragment extends Fragment
             public void onClick(View view)
             {
                 controllerItinerario.uploadFile();
-
             }
         });
 
@@ -274,7 +272,22 @@ public class InserimentoItinerarioFragment extends Fragment
 
     }
 
+    public void addPhotoMarker(Immagine uriImage, float[] latLong)
+    {
+        Marker photoMarker = new Marker(mapView);
+        photoMarker.setPosition(new GeoPoint(latLong[0], latLong[1]));
+        uriImage.setMarker(photoMarker);
+        imgList.add(uriImage);
+        model.setImgList(imgList);
 
+    }
+    public void removeImage(Immagine img)
+    {
+        mapView.getOverlays().remove(img.getMarker());
+        imgList.remove(img);
+        model.setImgList(imgList);
+        mapView.invalidate();
+    }
     public void initEditText(EditText editText)
     {
         editText.setFocusable(true);

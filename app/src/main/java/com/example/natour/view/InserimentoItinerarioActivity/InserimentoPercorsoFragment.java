@@ -63,7 +63,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
 
     private Marker mrk_inizioPercorso;
     private Marker mrk_finePercorso;
-    private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
+    private ArrayList<GeoPoint> waypoints = new ArrayList<>();
     private final LinkedList<Immagine> imgList = new LinkedList<>();
     private Road road;
     private Polyline roadOverlay;
@@ -493,5 +493,31 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     {
         super.onDestroyView();
         mapView.onDetach();
+    }
+
+    public void setPointsFromGPX(ArrayList<GeoPoint> waypoints)
+    {
+        mapView.getOverlays().remove(mrk_inizioPercorso);
+        mapView.getOverlays().remove(mrk_finePercorso);
+        model.setInizio(waypoints.get(0));
+        model.setFine(waypoints.get(waypoints.size()-1));
+        this.waypoints = waypoints;
+        model.setWaypoints(this.waypoints);
+    }
+
+    public void addPhotoMarker(Immagine uriImage, float[] latLong)
+    {
+        Marker photoMarker = new Marker(mapView);
+        photoMarker.setPosition(new GeoPoint(latLong[0], latLong[1]));
+        uriImage.setMarker(photoMarker);
+        imgList.add(uriImage);
+        model.setImgList(imgList);
+    }
+
+    public void removeImage(Immagine img)
+    {
+        mapView.getOverlays().remove(img.getMarker());
+        imgList.remove(img);
+        model.setImgList(imgList);
     }
 }

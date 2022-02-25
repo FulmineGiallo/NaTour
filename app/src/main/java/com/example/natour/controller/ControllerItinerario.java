@@ -109,6 +109,7 @@ public class ControllerItinerario implements LocationListener
         this.inserimentoItinerarioActivity = inserimentoItinerarioActivity;
         this.mapKeyURI = new ArrayList<>();
         this.imageAdapter = new ImageAdapter(mapKeyURI, fragmentManager, this);
+        model = new ViewModelProvider(inserimentoItinerarioActivity).get(OverlayViewModel.class);
     }
 
     public void inizializzaInterfaccia()
@@ -336,6 +337,7 @@ public class ControllerItinerario implements LocationListener
                         onRemove ->
                         {
                             Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
+
                         },
                         error ->
                         {
@@ -394,7 +396,7 @@ public class ControllerItinerario implements LocationListener
                 if(metadati.getLatLong(latLong))
                 {
                     Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
-                    /*mappaFragment.addPhotoMarker(uriImage.getMarker());*/
+                    percorsoFragment.addPhotoMarker(uriImage, latLong);
                 }
             }
         }
@@ -458,6 +460,7 @@ public class ControllerItinerario implements LocationListener
                                     Log.i("WAYPOINTS", waypoints.get(j).getLatitude() + "    " + waypoints.get(j).getLongitude());
                                 }
                             }
+                            percorsoFragment.setPointsFromGPX(waypoints);
                             /* Creare Route nel mappaFragment */
                             Log.e("WAYPOINTS SIZE", String.valueOf(waypoints.size()));
                         }

@@ -2,6 +2,7 @@ package com.example.natour.view.InserimentoItinerarioActivity;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
@@ -18,18 +19,32 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
+import com.example.natour.model.Immagine;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 
+import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 
 public class InserimentoItinerarioFragment extends Fragment
@@ -46,6 +61,10 @@ public class InserimentoItinerarioFragment extends Fragment
     private RecyclerView mRecyclerView;
     private Button confermaInserimentoItinerario;
     private MapView mapView;
+    private OverlayViewModel model;
+
+    private Road road;
+    private Polyline roadOverlay;
 
     public InserimentoItinerarioFragment(ControllerItinerario controllerItinerario)
     {
@@ -81,9 +100,88 @@ public class InserimentoItinerarioFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        MapView mapContainer = view.findViewById(R.id.containerMappa);
-        ViewGroupCompat.setTransitionGroup(mapContainer,true);
-        ViewCompat.setTransitionName(mapContainer, "tiny_map");
+        mapView = view.findViewById(R.id.containerMappa);
+        ViewGroupCompat.setTransitionGroup(mapView,true);
+        ViewCompat.setTransitionName(mapView, "tiny_map");
+        IMapController mapController = mapView.getController();
+        mapController.setZoom(13.5);
+        mapController.setCenter(controllerItinerario.currentPositionPhone());
+        mapView.invalidate();
+
+        OSRMRoadManager roadManager = new OSRMRoadManager(requireContext(), "MyOwnUserAgent/1.0");
+        roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT);
+
+        model = new ViewModelProvider(requireActivity()).get(OverlayViewModel.class);
+
+        model.getInizio().observe(getViewLifecycleOwner(),
+                p ->{
+                    if(p != null){
+                        Marker marker = new Marker(mapView);
+                        marker.setPosition(p);
+                        marker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_24));
+                        mapView.getOverlays().add(marker);
+                        mapController.setCenter(p);
+                        mapView.invalidate();
+                    }
+                });
+        model.getFine().observe(getViewLifecycleOwner(),
+                p->{
+                    if(p != null){
+                        Marker marker = new Marker(mapView);
+                        marker.setPosition(p);
+                        marker.setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_finepercorso));
+
+                        mapView.getOverlays().add(marker);
+                        mapView.invalidate();
+                    }
+                });
+        model.getWaypoints().observe(getViewLifecycleOwner(),
+                newWaypoints ->{
+                    if(newWaypoints.size()>=1){
+                        new Thread(()->{
+                            mapView.getOverlays().remove(roadOverlay);
+                            road = roadManager.getRoad(newWaypoints);
+                            roadOverlay = RoadManager.buildRoadOverlay(road);
+                            mapView.getOverlays().add(roadOverlay);
+                            //per aggiornare l'UI della mappa è necessario farlo nel main thread
+                            requireActivity().runOnUiThread(() -> mapView.invalidate());
+                        }).start();
+                    }
+
+                    /* Calcolo media tra due punti */
+                    double latInizio, lonInizio, latFine, lonFine;
+                    latInizio = newWaypoints.get(0).getLatitude();
+                    lonInizio = newWaypoints.get(0).getLongitude();
+                    latFine   = newWaypoints.get(newWaypoints.size()-1).getLatitude();
+                    lonFine   = newWaypoints.get(newWaypoints.size()-1).getLongitude();
+
+                    GeoPoint puntoMedio = new GeoPoint((latInizio + latFine) / 2, (lonInizio + lonFine) / 2);
+
+                    //viene messo come centro della mappa il punto medio tra i marker
+                    mapController.setCenter(puntoMedio);
+
+                });
+        model.getImgList().observe(getViewLifecycleOwner(),
+                newImgList ->{
+                    for (Immagine img:
+                            newImgList)
+                    {
+                        Marker imgMarker = new Marker(mapView);
+                        imgMarker.setPosition(img.getMarker().getPosition());
+                        imgMarker.setIcon(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_photo_location));
+                        try
+                        {
+                            InputStream is = requireActivity().getContentResolver().openInputStream(img.getUri());
+                            imgMarker.setImage(Drawable.createFromStream(is, img.getUri().toString()));
+                        } catch (FileNotFoundException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        img.setMarker(imgMarker);
+                        mapView.getOverlays().add(imgMarker);
+                        mapView.invalidate();
+                    }
+                });
 
         Slider difficolta = requireView().findViewById(R.id.slider_difficoltà);
         difficolta.addOnChangeListener((slider, value, fromUser) ->
@@ -151,7 +249,7 @@ public class InserimentoItinerarioFragment extends Fragment
             }
         });
 
-        buttonNascosto.setOnClickListener(view16 -> controllerItinerario.gotoPercorsoFragment(mapContainer));
+        buttonNascosto.setOnClickListener(view16 -> controllerItinerario.gotoPercorsoFragment(mapView));
 
 
         selectDisabili.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()

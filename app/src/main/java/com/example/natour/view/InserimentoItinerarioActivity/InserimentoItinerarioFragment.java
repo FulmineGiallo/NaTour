@@ -41,6 +41,7 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
@@ -173,9 +174,13 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
                             lonFine   = newWaypoints.get(newWaypoints.size()-1).getLongitude();
 
                             GeoPoint puntoMedio = new GeoPoint((latInizio + latFine) / 2, (lonInizio + lonFine) / 2);
-
+                            BoundingBox boundingBox = BoundingBox.fromGeoPoints(newWaypoints);
                             //viene messo come centro della mappa il punto medio tra i marker
-                            requireActivity().runOnUiThread(() -> mapController.setCenter(puntoMedio));
+                            requireActivity().runOnUiThread(() ->
+                            {
+                                mapController.setCenter(puntoMedio);
+                                mapView.zoomToBoundingBox(boundingBox,true);
+                            });
                         }).start();
                     }
 

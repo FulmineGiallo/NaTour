@@ -1,12 +1,17 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -15,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +51,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 
 
-public class InserimentoItinerarioFragment extends Fragment
+public class InserimentoItinerarioFragment extends Fragment implements LocationListener
 {
     private ControllerItinerario controllerItinerario;
 
@@ -63,6 +69,8 @@ public class InserimentoItinerarioFragment extends Fragment
     private final LinkedList<Immagine> imgList = new LinkedList<>();
     private Road road;
     private Polyline roadOverlay;
+    private ProgressBar progMapLoading;
+    private ImageView buttonNascosto;
 
     public InserimentoItinerarioFragment(ControllerItinerario controllerItinerario)
     {
@@ -103,8 +111,20 @@ public class InserimentoItinerarioFragment extends Fragment
         ViewCompat.setTransitionName(mapView, "tiny_map");
         IMapController mapController = mapView.getController();
         mapController.setZoom(13.5);
-        mapController.setCenter(controllerItinerario.currentPositionPhone());
+        mapController.setCenter(controllerItinerario.currentPositionPhone(this));
         mapView.invalidate();
+
+        progMapLoading = requireView().findViewById(R.id.prog_map_loading);
+        buttonNascosto = requireView().findViewById(R.id.btn_nascoto);
+        confermaInserimentoItinerario = requireView().findViewById(R.id.btn_confermaItinerario);
+        selectDisabili = requireView().findViewById(R.id.switch_disabili);
+        addImage = requireView().findViewById(R.id.btn_addimg);
+        ImageButton backToTabActivity = requireView().findViewById(R.id.btn_indietroInsItineraio);
+        edtNome = requireView().findViewById(R.id.nomeItinerario);
+        edtDurata = requireView().findViewById(R.id.edt_durata);
+        edtDescrizione = requireView().findViewById(R.id.descrizioneEditText);
+        mRecyclerView = requireView().findViewById(R.id.rec_view_images);
+
 
         OSRMRoadManager roadManager = new OSRMRoadManager(requireContext(), "MyOwnUserAgent/1.0");
         roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT);
@@ -137,12 +157,14 @@ public class InserimentoItinerarioFragment extends Fragment
                 newWaypoints ->{
                     if(newWaypoints.size()>=1){
                         new Thread(()->{
+
                             mapView.getOverlays().remove(roadOverlay);
                             road = roadManager.getRoad(newWaypoints);
                             roadOverlay = RoadManager.buildRoadOverlay(road);
                             mapView.getOverlays().add(roadOverlay);
                             //per aggiornare l'UI della mappa è necessario farlo nel main thread
                             requireActivity().runOnUiThread(() -> mapView.invalidate());
+
                         }).start();
                     }
 
@@ -162,6 +184,8 @@ public class InserimentoItinerarioFragment extends Fragment
         model.getImgList().observe(getViewLifecycleOwner(),
                 newImgList ->
                 {
+
+
                     for (Immagine img: newImgList)
                     {
                         Marker imgMarker = new Marker(mapView);
@@ -179,6 +203,8 @@ public class InserimentoItinerarioFragment extends Fragment
                         mapView.getOverlays().add(imgMarker);
                         mapView.invalidate();
                     }
+
+
                 });
 
         Slider difficolta = requireView().findViewById(R.id.slider_difficoltà);
@@ -209,16 +235,10 @@ public class InserimentoItinerarioFragment extends Fragment
             }
         });
 
+        mapView.setOnTouchListener((v, event) -> true);
 
-        ImageView buttonNascosto = requireView().findViewById(R.id.btn_nascoto);
-        confermaInserimentoItinerario = requireView().findViewById(R.id.btn_confermaItinerario);
-        selectDisabili = requireView().findViewById(R.id.switch_disabili);
-        addImage = requireView().findViewById(R.id.btn_addimg);
-        ImageButton backToTabActivity = requireView().findViewById(R.id.btn_indietroInsItineraio);
-        edtNome = requireView().findViewById(R.id.nomeItinerario);
-        edtDurata = requireView().findViewById(R.id.edt_durata);
-        edtDescrizione = requireView().findViewById(R.id.descrizioneEditText);
-        mRecyclerView = requireView().findViewById(R.id.rec_view_images);
+
+
 
         backToTabActivity.setOnClickListener(view12 -> controllerItinerario.goBack());
 
@@ -247,8 +267,7 @@ public class InserimentoItinerarioFragment extends Fragment
         {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
         {
-            if (isChecked)
-                stateDisabili = true;
+            stateDisabili = isChecked;
         }
         });
 
@@ -290,4 +309,38 @@ public class InserimentoItinerarioFragment extends Fragment
         ((InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(edtNome, 0);
     }
 
+    public void startMapLoading()
+    {
+        buttonNascosto.setClickable(false);
+        buttonNascosto.setAlpha(0.25f);
+        progMapLoading.setVisibility(View.VISIBLE);
+    }
+
+    public void stopMapLoading()
+    {
+        buttonNascosto.setClickable(true);
+        buttonNascosto.setAlpha(0f);
+        progMapLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location)
+    {
+
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
 }

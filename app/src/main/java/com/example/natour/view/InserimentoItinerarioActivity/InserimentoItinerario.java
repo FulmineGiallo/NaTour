@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
+import com.example.natour.view.SplashScreen;
 
+import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.views.MapView;
 
 public class InserimentoItinerario extends AppCompatActivity
@@ -19,6 +21,7 @@ public class InserimentoItinerario extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inserimento_itinerario);
+
 
 
         controllerItinerario = new ControllerItinerario(getSupportFragmentManager(), this);
@@ -41,7 +44,6 @@ public class InserimentoItinerario extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
-
     }
 
     @Override

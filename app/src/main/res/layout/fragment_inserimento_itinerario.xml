@@ -180,20 +180,7 @@
 
                     />
 
-                <ImageView
 
-                    android:id="@+id/btn_nascoto"
-                    app:layout_constraintLeft_toLeftOf="@id/cardMap"
-                    app:layout_constraintRight_toRightOf="@id/cardMap"
-                    app:layout_constraintTop_toTopOf="@id/cardMap"
-                    app:layout_constraintBottom_toBottomOf="@id/cardMap"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="#00000000"
-                    android:elevation="10dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:contentDescription="@string/bottonenascosto" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -211,6 +198,25 @@
                     android:focusable="true"
                     android:clipChildren="false"
                     >
+                    <ImageView
+
+                        android:id="@+id/btn_nascoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="#000000"
+                        android:alpha="0"
+                        android:elevation="10dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="@string/bottonenascosto" />
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/prog_map_loading"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:indeterminate="true"
+                        android:layout_gravity="center"
+                        android:elevation="20dp"
+                        android:visibility="invisible"/>
 
 
                     <org.osmdroid.views.MapView
@@ -219,6 +225,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clipChildren="false"
+                        android:clickable="false"
                         map:layout_constraintLeft_toLeftOf="parent"
                         map:layout_constraintTop_toTopOf="parent"
                         tools:context=".view.MapsActivity"

@@ -60,7 +60,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.ticofab.androidgpxparser.parser.GPXParser;
 import io.ticofab.androidgpxparser.parser.domain.Gpx;
 
-public class ControllerItinerario implements LocationListener
+public class ControllerItinerario
 {
     private String nomeItinerario;
     private String durataItinerario;
@@ -81,8 +81,6 @@ public class ControllerItinerario implements LocationListener
     /* Coppia valore Key = URI */
     private List<Immagine> mapKeyURI;
 
-
-    private OverlayViewModel model;
 
     private final FragmentManager fragmentManager;
     private final InserimentoItinerario inserimentoItinerarioActivity;
@@ -106,7 +104,6 @@ public class ControllerItinerario implements LocationListener
         this.inserimentoItinerarioActivity = inserimentoItinerarioActivity;
         this.mapKeyURI = new ArrayList<>();
         this.imageAdapter = new ImageAdapter(mapKeyURI, fragmentManager, this);
-        model = new ViewModelProvider(inserimentoItinerarioActivity).get(OverlayViewModel.class);
     }
 
     public void inizializzaInterfaccia()
@@ -137,8 +134,8 @@ public class ControllerItinerario implements LocationListener
 
     public void goBack()
     {
-        inserimentoItinerarioActivity.onBackPressed();
         imageAdapter.notifyDataSetChanged();
+        inserimentoItinerarioActivity.onBackPressed();
     }
 
     public void setMapView(Fragment fragment, int viewId)
@@ -152,26 +149,9 @@ public class ControllerItinerario implements LocationListener
     }
 
 
-    public String getAddress(GeoPoint point)
-    {
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(inserimentoItinerarioActivity, Locale.getDefault());
-        String address = null;
-        try
-        {
-            addresses = geocoder.getFromLocation(point.getLatitude(), point.getLongitude(), 1);
-            address = addresses.get(0).getAddressLine(0);
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
 
 
-        return address;
-    }
-
-    public GeoPoint currentPositionPhone()
+    public GeoPoint currentPositionPhone( LocationListener locationListener)
     {
         LocationManager locManager = (LocationManager) inserimentoItinerarioActivity.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(inserimentoItinerarioActivity,
@@ -179,7 +159,7 @@ public class ControllerItinerario implements LocationListener
                 ActivityCompat.checkSelfPermission(inserimentoItinerarioActivity,
                         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
-            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, this);
+            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, locationListener);
             Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             double longitude;
             double latitude;
@@ -267,7 +247,7 @@ public class ControllerItinerario implements LocationListener
             RxStorageBinding.RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
                     RxAmplify.Storage.uploadInputStream(immagine.getKey(), exampleInputStream);
 
-
+            inserimentoItinerarioFragment.startMapLoading();
             rxUploadOperation
                     .observeResult()
                     .subscribe(
@@ -294,7 +274,7 @@ public class ControllerItinerario implements LocationListener
                                                             /* recupero metadati */
                                                             immagine.setURL(URLImage);
                                                             getMetadatiImage(exampleInputStream, immagine);
-
+                                                            inserimentoItinerarioFragment.stopMapLoading();
                                                         }
                                                         else
                                                         {
@@ -482,32 +462,5 @@ public class ControllerItinerario implements LocationListener
         finePercorso = p;
     }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location)
-    {
 
-    }
-
-    @Override
-    public void onProviderEnabled(@NonNull String provider)
-    {
-        LocationListener.super.onProviderEnabled(provider);
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider)
-    {
-        LocationListener.super.onProviderDisabled(provider);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras)
-    {
-        try{
-            LocationListener.super.onStatusChanged(provider, status, extras);
-        }
-        catch (AbstractMethodError e){
-            Log.e("ControllerItinerario", e.getLocalizedMessage());
-        }
-    }
 }

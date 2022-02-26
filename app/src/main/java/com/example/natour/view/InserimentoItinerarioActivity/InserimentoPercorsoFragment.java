@@ -1,8 +1,15 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +37,7 @@ import com.example.natour.model.Immagine;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
@@ -42,11 +50,14 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
-public class InserimentoPercorsoFragment extends Fragment implements MapEventsReceiver
+public class InserimentoPercorsoFragment extends Fragment implements MapEventsReceiver, LocationListener
 {
     private ControllerMappaEditabile controllerMappaEditabile;
     private MapView mapView;
@@ -131,7 +142,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         //si setta lo stato UI iniziale per la mappa
         IMapController mapController = mapView.getController();
         mapController.setZoom(13.5);
-        mapController.setCenter(controllerItinerario.currentPositionPhone());
+        mapController.setCenter(controllerItinerario.currentPositionPhone(this));
 
         //comando usato per aggiornare la mappa
         mapView.invalidate();
@@ -155,7 +166,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                         mrk_inizioPercorso = marker;
 
                         new Thread(()->{
-                            String address = controllerItinerario.getAddress(p);
+                            String address = getAddress(p);
                             requireActivity().runOnUiThread(()->edt_inizioPercorso.setText(address));
                         }).start();
 
@@ -178,7 +189,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                         mrk_finePercorso = marker;
 
                         new Thread(()->{
-                            String address = controllerItinerario.getAddress(p);
+                            String address = getAddress(p);
                             requireActivity().runOnUiThread(()->edt_finePercorso.setText(address));
                         }).start();
 
@@ -195,6 +206,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                 });
         model.getWaypoints().observe(getViewLifecycleOwner(),
                 newWaypoints ->{
+
                     if(newWaypoints.size()>=1){
                         new Thread(()->{
                             mapView.getOverlays().remove(roadOverlay);
@@ -317,6 +329,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
 
                 GeoPoint p = controllerItinerario.getLocationFromAddress(edt_inizioPercorso.getText().toString());
                 if (p != null){
+                    mapView.getOverlays().remove(mrk_inizioPercorso);
                     waypoints.add(0,p);
                     model.setWaypoints(waypoints);
                     model.setInizio(p);
@@ -331,6 +344,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
 
                 GeoPoint p = controllerItinerario.getLocationFromAddress(edt_finePercorso.getText().toString());
                 if (p != null){
+                    mapView.getOverlays().remove(mrk_finePercorso);
                     waypoints.add(p);
                     model.setWaypoints(waypoints);
                     model.setFine(p);
@@ -490,6 +504,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         mapView.onDetach();
     }
 
+
     public void setPointsFromGPX(ArrayList<GeoPoint> waypoints)
     {
         mapView.getOverlays().remove(mrk_inizioPercorso);
@@ -501,6 +516,43 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     }
 
 
+    @Override
+    public void onLocationChanged(@NonNull Location location)
+    {
+
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    public String getAddress(GeoPoint point)
+    {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(requireActivity(), Locale.getDefault());
+        String address = null;
+        try
+        {
+            addresses = geocoder.getFromLocation(point.getLatitude(), point.getLongitude(), 1);
+            address = addresses.get(0).getAddressLine(0);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
 
+        return address;
+    }
 }

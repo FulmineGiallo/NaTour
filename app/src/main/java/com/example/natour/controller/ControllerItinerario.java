@@ -278,22 +278,32 @@ public class ControllerItinerario
                                                         }
                                                         else
                                                         {
+                                                            inserimentoItinerarioFragment.stopMapLoading();
                                                             removeImageFromS3Bucket(immagine, positionImage);
                                                             new ErrorDialog("L'immagine che hai inserito è esplicità, è stata rimossa!").show(fragmentManager, null);
                                                         }
                                                     },
                                                     imageError ->
                                                     {
+                                                        inserimentoItinerarioFragment.stopMapLoading();
                                                         Log.e("ERRORIMG", imageError.getLocalizedMessage());
                                                         new ErrorDialog("Errore nel caricamento dell'ìmmagine, riprova con un'altra immagine!").show(fragmentManager, null);
                                                     }
                                             );
                                         },
-                                        error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+                                        error ->
+                                        {
+                                            Log.e("MyAmplifyApp", "URL generation failure", error);
+                                            inserimentoItinerarioFragment.stopMapLoading();
+                                        }
                                 );
 
                             },
-                            error -> Log.e("MyAmplifyApp", "Upload failed", error)
+                            error ->
+                            {
+                                Log.e("MyAmplifyApp", "Upload failed", error);
+                                inserimentoItinerarioFragment.stopMapLoading();
+                            }
                     );
         }
         catch (FileNotFoundException error)

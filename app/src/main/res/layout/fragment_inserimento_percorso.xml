@@ -100,7 +100,7 @@
                         android:id="@+id/removeroad"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/design_default_color_background"
+                        android:background="@null"
                         android:src="@drawable/ic_baseline_remove_road_24"
                         map:layout_constraintLeft_toRightOf="@id/btn_deletemarkerInizio"
                         map:layout_constraintRight_toLeftOf="@id/btn_deletemarkerFine"

@@ -174,7 +174,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                         mapController.setCenter(p);
                         mapView.invalidate();
 
-                        deleteMarkerInizio.setClickable(true);
+                        deleteMarkerInizio.setEnabled(true);
                         deleteMarkerInizio.setImageAlpha(255);
                     }
                 });
@@ -198,7 +198,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                         mapView.getOverlays().add(mrk_finePercorso);
                         mapView.invalidate();
 
-                        deleteMarkerFine.setClickable(true);
+                        deleteMarkerFine.setEnabled(true);
                         deleteMarkerFine.setImageAlpha(255);
                     }
 
@@ -216,7 +216,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
                             //per aggiornare l'UI della mappa è necessario farlo nel main thread
                             requireActivity().runOnUiThread(() -> mapView.invalidate());
                         }).start();
-                        deleteRoad.setClickable(true);
+                        deleteRoad.setEnabled(true);
                         deleteRoad.setImageAlpha(255);
                     }
                 });
@@ -253,15 +253,15 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
 
         if(!inizio){
             deleteMarkerInizio.setImageAlpha(66);
-            deleteMarkerInizio.setClickable(false);
+            deleteMarkerInizio.setEnabled(false);
         }
         if(!fine){
             deleteMarkerFine.setImageAlpha(66);
-            deleteMarkerFine.setClickable(false);
+            deleteMarkerFine.setEnabled(false);
         }
         if(!inizio || !fine){
             deleteRoad.setImageAlpha(66);
-            deleteRoad.setClickable(false);
+            deleteRoad.setEnabled(false);
         }
 
         deleteMarkerInizio.setOnClickListener(deleteMarkerStart ->
@@ -272,7 +272,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
             model.setInizio(null);
             mapView.invalidate();
             deleteMarkerInizio.setImageAlpha(66);
-            deleteMarkerInizio.setClickable(false);
+            deleteMarkerInizio.setEnabled(false);
             edt_inizioPercorso.setText("");
             inizio = false;
         });
@@ -284,7 +284,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
             model.setFine(null);
             mapView.invalidate();
             deleteMarkerFine.setImageAlpha(66);
-            deleteMarkerFine.setClickable(false);
+            deleteMarkerFine.setEnabled(false);
             edt_finePercorso.setText("");
             fine = false;
         });
@@ -299,11 +299,11 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
             model.setWaypoints(waypoints);
             mapView.invalidate();
             deleteRoad.setImageAlpha(66);
-            deleteRoad.setClickable(false);
+            deleteRoad.setEnabled(false);
             deleteMarkerFine.setImageAlpha(66);
-            deleteMarkerFine.setClickable(false);
+            deleteMarkerFine.setEnabled(false);
             deleteMarkerInizio.setImageAlpha(66);
-            deleteMarkerInizio.setClickable(false);
+            deleteMarkerInizio.setEnabled(false);
             edt_inizioPercorso.setText("");
             edt_finePercorso.setText("");
             inizio = false;

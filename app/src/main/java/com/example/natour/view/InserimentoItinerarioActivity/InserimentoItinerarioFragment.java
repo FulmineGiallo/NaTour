@@ -165,20 +165,20 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
                             //per aggiornare l'UI della mappa è necessario farlo nel main thread
                             requireActivity().runOnUiThread(() -> mapView.invalidate());
 
+                            /* Calcolo media tra due punti */
+                            double latInizio, lonInizio, latFine, lonFine;
+                            latInizio = newWaypoints.get(0).getLatitude();
+                            lonInizio = newWaypoints.get(0).getLongitude();
+                            latFine   = newWaypoints.get(newWaypoints.size()-1).getLatitude();
+                            lonFine   = newWaypoints.get(newWaypoints.size()-1).getLongitude();
+
+                            GeoPoint puntoMedio = new GeoPoint((latInizio + latFine) / 2, (lonInizio + lonFine) / 2);
+
+                            //viene messo come centro della mappa il punto medio tra i marker
+                            requireActivity().runOnUiThread(() -> mapController.setCenter(puntoMedio));
                         }).start();
                     }
 
-                    /* Calcolo media tra due punti */
-                    double latInizio, lonInizio, latFine, lonFine;
-                    latInizio = newWaypoints.get(0).getLatitude();
-                    lonInizio = newWaypoints.get(0).getLongitude();
-                    latFine   = newWaypoints.get(newWaypoints.size()-1).getLatitude();
-                    lonFine   = newWaypoints.get(newWaypoints.size()-1).getLongitude();
-
-                    GeoPoint puntoMedio = new GeoPoint((latInizio + latFine) / 2, (lonInizio + lonFine) / 2);
-
-                    //viene messo come centro della mappa il punto medio tra i marker
-                    mapController.setCenter(puntoMedio);
 
                 });
         model.getImgList().observe(getViewLifecycleOwner(),

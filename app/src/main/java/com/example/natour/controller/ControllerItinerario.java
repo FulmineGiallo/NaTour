@@ -1,6 +1,7 @@
 package com.example.natour.controller;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
 import android.content.Context;
@@ -13,15 +14,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,7 +33,6 @@ import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
-import com.example.natour.view.InserimentoItinerarioActivity.OverlayViewModel;
 import com.example.natour.view.adapter.ImageAdapter;
 import com.example.natour.view.dialog.ErrorDialog;
 
@@ -46,13 +43,14 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -70,13 +68,10 @@ public class ControllerItinerario
     private String descrizioneItnerario;
     private static final int PICKFILE_REQUEST_CODE = 100;
     private ImageAdapter imageAdapter;
-    private Boolean gpxInserted = Boolean.FALSE;
+    private String token;
 
     //informazioni della mappa
     private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
-    private final LinkedList<Immagine> listPhotoPoints = new LinkedList<>();
-    private GeoPoint inizioPercorso;
-    private GeoPoint finePercorso;
 
     /* Coppia valore Key = URI */
     private List<Immagine> mapKeyURI;
@@ -88,22 +83,59 @@ public class ControllerItinerario
     private InserimentoItinerarioFragment inserimentoItinerarioFragment;
 
 
-    public Itinerario inserisciItinerario(String nome, String durata, boolean disabili, String descrizione)
+    public Itinerario inserisciItinerario(String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, LinkedList<Immagine> imgList, Context context)
     {
         Itinerario itinerarioInserito = new Itinerario();
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
         /* Chiamato all'ItinerarioDAO */
+        try
+        {
+            FileOutputStream geoToGPX = createFileGPX(waypoints);
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
 
 
         return itinerarioInserito;
     }
 
-    public ControllerItinerario(FragmentManager fragmentManager, InserimentoItinerario inserimentoItinerarioActivity)
+    private FileOutputStream createFileGPX(ArrayList<GeoPoint> waypoints) throws IOException
+    {
+        // open file handle
+        StringBuffer buffer = new StringBuffer();
+        String chiave = UUID.randomUUID().toString();
+
+        for(GeoPoint p : waypoints)
+        {
+            buffer.append(p.getLatitude() + "," + p.getLongitude() + ":");
+        }
+        buffer.append(";");
+
+        FileOutputStream fOut = inserimentoItinerarioActivity.openFileOutput("waypoints"+ chiave +".txt", MODE_PRIVATE);
+        OutputStreamWriter osw = new OutputStreamWriter(fOut);
+
+        // Write the string to the file
+        osw.write(String.valueOf(buffer));
+        /* ensure that everything is
+         * really written out and close */
+        osw.flush();
+        osw.close();
+
+        // close file, cleanup, etc
+        return fOut;
+    }
+
+    public ControllerItinerario(FragmentManager fragmentManager, InserimentoItinerario inserimentoItinerarioActivity, String token)
     {
         this.fragmentManager = fragmentManager;
         this.inserimentoItinerarioActivity = inserimentoItinerarioActivity;
         this.mapKeyURI = new ArrayList<>();
         this.imageAdapter = new ImageAdapter(mapKeyURI, fragmentManager, this);
+        this.token = token;
     }
 
     public void inizializzaInterfaccia()
@@ -441,7 +473,6 @@ public class ControllerItinerario
                         if(parsedGpx.getTracks() != null)
                         {
                             waypoints.clear();
-                            gpxInserted = Boolean.TRUE;
                             for(int i = 0; i < parsedGpx.getTracks().size(); i++){
                                 for(int j = 0; j < parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().size(); j++){
                                     waypoints.add(new GeoPoint(parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(j).getLatitude(), parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(j).getLongitude()));
@@ -462,15 +493,6 @@ public class ControllerItinerario
             }
     }
 
-    public void conservaInizio(GeoPoint p)
-    {
-        inizioPercorso = p;
-    }
-
-    public void conservaFine(GeoPoint p)
-    {
-        finePercorso = p;
-    }
 
 
 }

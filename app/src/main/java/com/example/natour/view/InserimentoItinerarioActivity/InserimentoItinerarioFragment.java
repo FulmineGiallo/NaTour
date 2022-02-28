@@ -1,17 +1,14 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -49,6 +46,7 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -72,6 +70,7 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
     private Polyline roadOverlay;
     private ProgressBar progMapLoading;
     private ImageView buttonNascosto;
+    private ArrayList<GeoPoint> waypoints;
 
     public InserimentoItinerarioFragment(ControllerItinerario controllerItinerario)
     {
@@ -183,14 +182,11 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
                             });
                         }).start();
                     }
-
-
+                    waypoints = newWaypoints;
                 });
         model.getImgList().observe(getViewLifecycleOwner(),
                 newImgList ->
                 {
-
-
                     for (Immagine img: newImgList)
                     {
                         Marker imgMarker = new Marker(mapView);
@@ -281,8 +277,8 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
             @Override
             public void onClick(View view)
             {
-                if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !edtDescrizione.getText().toString().isEmpty())
-                    controllerItinerario.inserisciItinerario(edtNome.getTransitionName(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString());
+                if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !edtDescrizione.getText().toString().isEmpty() && !waypoints.isEmpty())
+                    controllerItinerario.inserisciItinerario(edtNome.getTransitionName(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString(), waypoints, imgList, getContext());
             }
         });
 

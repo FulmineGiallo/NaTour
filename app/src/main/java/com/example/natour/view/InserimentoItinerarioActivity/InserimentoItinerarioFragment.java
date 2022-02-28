@@ -347,4 +347,10 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
+
+    public void resetListImage()
+    {
+        imgList.clear();
+        model.setImgList(imgList);
+    }
 }

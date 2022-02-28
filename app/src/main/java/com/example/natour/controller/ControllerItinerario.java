@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageUploadFileResult;
@@ -116,7 +117,9 @@ public class ControllerItinerario
                             /* INSERT FALLITO */
                             new ErrorDialog("Caricamento dell'itinerario fallito, controlla la tua connessione e riprova :(").show(fragmentManager, null);
                             //TODO: eliminare il file da S3
-                        }
+                            removeOnBackPressedImage();
+                            removeGPXFromS3Bucket(chiaveItinerario);
+                            }
                     },
                     error ->
                     {
@@ -165,10 +168,7 @@ public class ControllerItinerario
             File root = new File(inserimentoItinerarioActivity.getCacheDir(),"filetmp");
             if (!root.exists())
             {
-                if(root.mkdirs())
-                    Log.i("CREATE DIR", "SUCCESSO");
-                else
-                    Log.e("CREATE DIR", "FALLITO");
+                root.mkdirs();
             }
             gpxfile = new File(root, "waypoints"+ chiave +".txt");
             FileWriter writer = new FileWriter(gpxfile);
@@ -417,6 +417,23 @@ public class ControllerItinerario
         /* Rimozione da S3 */
         inserimentoItinerarioFragment.removeImage(img);
         RxAmplify.Storage.remove(img.getKey())
+                .subscribe(
+                        onRemove ->
+                        {
+                            Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
+
+                        },
+                        error ->
+                        {
+                            Log.e("MyAmplifyApp", "Remove failure", error);
+                        }
+                );
+    }
+
+    public void removeGPXFromS3Bucket(String keyIt)
+    {
+        /* Rimozione da S3 */
+        RxAmplify.Storage.remove(keyIt)
                 .subscribe(
                         onRemove ->
                         {

@@ -1,6 +1,5 @@
 package com.example.natour.view.InserimentoItinerarioActivity;
 
-import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -8,8 +7,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +34,6 @@ import com.example.natour.model.Immagine;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
@@ -391,10 +387,7 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
         });
 
 
-        /*
-        * Qui viene cambiata l'istanza di MappaFragment
-        * */
-        controllerItinerario.resetMapView(this, R.id.map);
+
 
     }
 

@@ -249,7 +249,6 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
         edtDurata.setOnClickListener(view14 -> initEditText(edtDurata));
         edtDescrizione.setFocusable(false);
         edtDescrizione.setOnClickListener(view15 -> initEditText(edtDescrizione));
-        controllerItinerario.setMapView(this, R.id.containerMappa);
         controllerItinerario.updateScrollViewImage(mRecyclerView);
 
         addImage.setOnClickListener(new View.OnClickListener()
@@ -277,8 +276,8 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
             @Override
             public void onClick(View view)
             {
-                //if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !edtDescrizione.getText().toString().isEmpty() && !waypoints.isEmpty())
-                    controllerItinerario.inserisciItinerario(edtNome.getTransitionName(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString(), waypoints, imgList, getContext());
+                if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !edtDescrizione.getText().toString().isEmpty() && !waypoints.isEmpty())
+                    controllerItinerario.inserisciItinerario(edtNome.getText().toString(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString(), waypoints, imgList, getContext());
             }
         });
 

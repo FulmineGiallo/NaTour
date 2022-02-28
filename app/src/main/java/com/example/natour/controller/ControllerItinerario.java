@@ -18,7 +18,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,11 +25,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
+import com.amplifyframework.storage.result.StorageUploadFileResult;
 import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
 import com.example.natour.R;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
@@ -86,11 +87,19 @@ public class ControllerItinerario
     public Itinerario inserisciItinerario(String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, LinkedList<Immagine> imgList, Context context)
     {
         Itinerario itinerarioInserito = new Itinerario();
+        String chiave = UUID.randomUUID().toString();;
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
         /* Chiamato all'ItinerarioDAO */
         try
         {
-            File geoToGPX = createFileGPX(waypoints);
+            File gpx = createFileGPX(waypoints, chiave);
+
+            /* UPLOAD FILE SU S3 */
+            uploadFileGPXOnS3(gpx, chiave);
+            ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
+            itinerarioDAO.insertItinerario(chiave,nome, durata, disabili, difficoltàItinerario, descrizione, context, token, chiave);
+            /*  Se INSERT dell'itinerario è andato a buon fine, allora gli associo le immagini */
+
 
         }
         catch (IOException e)
@@ -103,11 +112,24 @@ public class ControllerItinerario
         return itinerarioInserito;
     }
 
-    private File createFileGPX(ArrayList<GeoPoint> waypoints) throws IOException
+    private void uploadFileGPXOnS3(File gpx, String chiave)
+    {
+
+        RxStorageBinding.RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+                RxAmplify.Storage.uploadFile(chiave, gpx);
+
+        rxUploadOperation
+                .observeResult()
+                .subscribe(
+                        result -> Log.i("File Posizione", "Successfully uploaded: " + result.getKey()),
+                        error -> Log.e("MyAmplifyApp", "Upload failed", error)
+                );
+    }
+
+    private File createFileGPX(ArrayList<GeoPoint> waypoints, String chiave) throws IOException
     {
         // open file handle
         StringBuffer buffer = new StringBuffer();
-        String chiave = UUID.randomUUID().toString();
         File gpxfile = null;
         for(GeoPoint p : waypoints)
         {
@@ -117,7 +139,7 @@ public class ControllerItinerario
         Environment.getExternalStorageState();
         try
         {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+            File root = new File(inserimentoItinerarioActivity.getCacheDir(),"filetmp");
             if (!root.exists())
             {
                 root.mkdirs();
@@ -127,7 +149,8 @@ public class ControllerItinerario
             writer.append(buffer.toString());
             writer.flush();
             writer.close();
-            Toast.makeText(inserimentoItinerarioActivity, "Saved", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(inserimentoItinerarioActivity, inserimentoItinerarioActivity.getCacheDir().toString(), Toast.LENGTH_SHORT).show();
         }
         catch (IOException e)
         {
@@ -177,18 +200,6 @@ public class ControllerItinerario
         imageAdapter.notifyDataSetChanged();
         inserimentoItinerarioActivity.onBackPressed();
     }
-
-    public void setMapView(Fragment fragment, int viewId)
-    {
-
-    }
-
-    public void resetMapView(InserimentoPercorsoFragment ipf, int map)
-    {
-
-    }
-
-
 
 
     public GeoPoint currentPositionPhone( LocationListener locationListener)

@@ -31,6 +31,7 @@ import com.example.natour.R;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
@@ -84,7 +85,7 @@ public class ControllerItinerario
     private InserimentoItinerarioFragment inserimentoItinerarioFragment;
 
 
-    public Itinerario inserisciItinerario(String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, LinkedList<Immagine> imgList, Context context)
+    public void inserisciItinerario(float value, String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, LinkedList<Immagine> imgList, Context context)
     {
         Itinerario itinerarioInserito = new Itinerario();
         String chiave = UUID.randomUUID().toString();;
@@ -97,9 +98,29 @@ public class ControllerItinerario
             /* UPLOAD FILE SU S3 */
             uploadFileGPXOnS3(gpx, chiave);
             ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
-            itinerarioDAO.insertItinerario(chiave,nome, durata, disabili, difficoltàItinerario, descrizione, context, token, chiave);
-            /*  Se INSERT dell'itinerario è andato a buon fine, allora gli associo le immagini */
+            PublishSubject<JSONObject> risultato = itinerarioDAO.insertItinerario(chiave, nome, durata, disabili,(int) value, descrizione, context, token, chiave);
+            risultato.subscribe(
+                    data ->
+                    {
+                        if(data.getBoolean("risultato"))
+                        {
+                            /*  Se INSERT dell'itinerario è andato a buon fine, allora gli associo le immagini */
+                            ImmagineDAO insertImmagineItinerario = new ImmagineDAO();
 
+                        }
+                        else
+                        {
+                            /* INSERT FALLITO */
+                            new ErrorDialog("Caricamento dell'itinerario fallito, controlla la tua connessione e riprova :(").show(fragmentManager, null);
+                            //TODO: eliminare il file da S3
+                        }
+                    },
+                    error ->
+                    {
+
+
+                    }
+            );
 
         }
         catch (IOException e)
@@ -109,7 +130,6 @@ public class ControllerItinerario
 
 
 
-        return itinerarioInserito;
     }
 
     private void uploadFileGPXOnS3(File gpx, String chiave)

@@ -29,7 +29,6 @@ import com.amplifyframework.storage.result.StorageUploadFileResult;
 import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
 import com.example.natour.R;
 import com.example.natour.model.Immagine;
-import com.example.natour.model.Itinerario;
 import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
@@ -87,8 +86,8 @@ public class ControllerItinerario
 
     public void inserisciItinerario(float value, String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, LinkedList<Immagine> imgList, Context context)
     {
-        Itinerario itinerarioInserito = new Itinerario();
-        String chiaveItinerario = UUID.randomUUID().toString();;
+        String chiaveItinerario = UUID.randomUUID().toString();
+
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
         /* Chiamato all'ItinerarioDAO */
         try
@@ -113,6 +112,7 @@ public class ControllerItinerario
                         {
                             /* INSERT FALLITO */
                             new ErrorDialog("Caricamento dell'itinerario fallito, controlla la tua connessione e riprova :(").show(fragmentManager, null);
+                            removeOnBackPressedImage();
                             //TODO: eliminare il file da S3
                         }
                     },
@@ -407,8 +407,6 @@ public class ControllerItinerario
 
     public void removeImageFromS3Bucket(Immagine img)
     {
-
-
         /* Rimozione da S3 */
         inserimentoItinerarioFragment.removeImage(img);
         RxAmplify.Storage.remove(img.getKey())

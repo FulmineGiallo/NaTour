@@ -277,7 +277,7 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
             @Override
             public void onClick(View view)
             {
-                if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !edtDescrizione.getText().toString().isEmpty() && !waypoints.isEmpty())
+                //if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !edtDescrizione.getText().toString().isEmpty() && !waypoints.isEmpty())
                     controllerItinerario.inserisciItinerario(edtNome.getTransitionName(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString(), waypoints, imgList, getContext());
             }
         });

@@ -1,7 +1,6 @@
 package com.example.natour.controller;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
 import android.content.Context;
@@ -14,7 +13,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -43,10 +44,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -90,7 +90,7 @@ public class ControllerItinerario
         /* Chiamato all'ItinerarioDAO */
         try
         {
-            FileOutputStream geoToGPX = createFileGPX(waypoints);
+            File geoToGPX = createFileGPX(waypoints);
 
         }
         catch (IOException e)
@@ -103,30 +103,38 @@ public class ControllerItinerario
         return itinerarioInserito;
     }
 
-    private FileOutputStream createFileGPX(ArrayList<GeoPoint> waypoints) throws IOException
+    private File createFileGPX(ArrayList<GeoPoint> waypoints) throws IOException
     {
         // open file handle
         StringBuffer buffer = new StringBuffer();
         String chiave = UUID.randomUUID().toString();
-
+        File gpxfile = null;
         for(GeoPoint p : waypoints)
         {
             buffer.append(p.getLatitude() + "," + p.getLongitude() + ":");
         }
         buffer.append(";");
+        Environment.getExternalStorageState();
+        try
+        {
+            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+            if (!root.exists())
+            {
+                root.mkdirs();
+            }
+            gpxfile = new File(root, "waypoints"+ chiave +".txt");
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(buffer.toString());
+            writer.flush();
+            writer.close();
+            Toast.makeText(inserimentoItinerarioActivity, "Saved", Toast.LENGTH_SHORT).show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-        FileOutputStream fOut = inserimentoItinerarioActivity.openFileOutput("waypoints"+ chiave +".txt", MODE_PRIVATE);
-        OutputStreamWriter osw = new OutputStreamWriter(fOut);
-
-        // Write the string to the file
-        osw.write(String.valueOf(buffer));
-        /* ensure that everything is
-         * really written out and close */
-        osw.flush();
-        osw.close();
-
-        // close file, cleanup, etc
-        return fOut;
+        return gpxfile;
     }
 
     public ControllerItinerario(FragmentManager fragmentManager, InserimentoItinerario inserimentoItinerarioActivity, String token)

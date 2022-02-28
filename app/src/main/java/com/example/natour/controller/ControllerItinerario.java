@@ -36,6 +36,7 @@ import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
+import com.example.natour.view.InserimentoItinerarioActivity.ItinerarioInseritoTransition;
 import com.example.natour.view.adapter.ImageAdapter;
 import com.example.natour.view.dialog.ErrorDialog;
 
@@ -108,6 +109,7 @@ public class ControllerItinerario
                             ImmagineDAO immagineDAO = new ImmagineDAO();
                             for(Immagine img : imgList)
                                 immagineDAO.insertImmagine(img, chiaveItinerario, img.getMarker().getPosition().getLatitude(), img.getMarker().getPosition().getLongitude(), context);
+                            inserimentoItinerarioActivity.startActivity(new Intent(inserimentoItinerarioActivity, ItinerarioInseritoTransition.class));
                         }
                         else
                         {
@@ -163,7 +165,10 @@ public class ControllerItinerario
             File root = new File(inserimentoItinerarioActivity.getCacheDir(),"filetmp");
             if (!root.exists())
             {
-                root.mkdirs();
+                if(root.mkdirs())
+                    Log.i("CREATE DIR", "SUCCESSO");
+                else
+                    Log.e("CREATE DIR", "FALLITO");
             }
             gpxfile = new File(root, "waypoints"+ chiave +".txt");
             FileWriter writer = new FileWriter(gpxfile);

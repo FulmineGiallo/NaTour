@@ -25,12 +25,14 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
+import com.example.natour.databinding.FragmentInserimentoItinerarioBinding;
 import com.example.natour.model.Immagine;
 import com.google.android.material.slider.Slider;
 
@@ -72,6 +74,8 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
     private ImageView buttonNascosto;
     private ArrayList<GeoPoint> waypoints;
 
+    private FragmentInserimentoItinerarioBinding mBinding;
+
     public InserimentoItinerarioFragment(ControllerItinerario controllerItinerario)
     {
         this.controllerItinerario = controllerItinerario;
@@ -98,7 +102,6 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_inserimento_itinerario, container, false);
     }
 
@@ -113,6 +116,7 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
         mapController.setZoom(13.5);
         mapController.setCenter(controllerItinerario.currentPositionPhone(this));
         mapView.invalidate();
+
 
         progMapLoading = requireView().findViewById(R.id.prog_map_loading);
         buttonNascosto = requireView().findViewById(R.id.btn_nascoto);

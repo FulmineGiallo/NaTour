@@ -88,25 +88,26 @@ public class ControllerItinerario
     public void inserisciItinerario(float value, String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, LinkedList<Immagine> imgList, Context context)
     {
         Itinerario itinerarioInserito = new Itinerario();
-        String chiave = UUID.randomUUID().toString();;
+        String chiaveItinerario = UUID.randomUUID().toString();;
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
         /* Chiamato all'ItinerarioDAO */
         try
         {
-            File gpx = createFileGPX(waypoints, chiave);
+            File gpx = createFileGPX(waypoints, chiaveItinerario);
 
             /* UPLOAD FILE SU S3 */
-            uploadFileGPXOnS3(gpx, chiave);
+            uploadFileGPXOnS3(gpx, chiaveItinerario);
             ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
-            PublishSubject<JSONObject> risultato = itinerarioDAO.insertItinerario(chiave, nome, durata, disabili,(int) value, descrizione, context, token, chiave);
+            PublishSubject<JSONObject> risultato = itinerarioDAO.insertItinerario(chiaveItinerario, nome, durata, disabili,(int) value, descrizione, context, token, chiaveItinerario);
             risultato.subscribe(
                     data ->
                     {
                         if(data.getBoolean("risultato"))
                         {
                             /*  Se INSERT dell'itinerario è andato a buon fine, allora gli associo le immagini */
-                            ImmagineDAO insertImmagineItinerario = new ImmagineDAO();
-
+                            ImmagineDAO immagineDAO = new ImmagineDAO();
+                            for(Immagine img : imgList)
+                                immagineDAO.insertImmagine(img, chiaveItinerario, img.getMarker().getPosition().getLatitude(), img.getMarker().getPosition().getLongitude(), context);
                         }
                         else
                         {

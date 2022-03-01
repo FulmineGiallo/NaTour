@@ -1,6 +1,8 @@
 package com.example.natour.view.VisualizzaItinerario;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +12,7 @@ import com.example.natour.R;
 import com.example.natour.controller.ControllerVisualizzaItinerario;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.UtenteDAO;
+import com.example.natour.view.Tab.TabActivity;
 
 import org.json.JSONObject;
 import org.osmdroid.views.MapView;
@@ -25,6 +28,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
     private TextView durata;
     private TextView descrizione;
     private MapView mappa;
+    private ImageButton btn_indietro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,6 +45,9 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
         descrizione = findViewById(R.id.txt_descrizione);
         durata = findViewById(R.id.txt_durata);
         mappa = findViewById(R.id.img_mappaitinerario);
+        btn_indietro = findViewById(R.id.btn_indietro);
+        btn_indietro.setOnClickListener(view -> back());
+
         ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(this, itinerario);
         controllerVisualizzaItinerario.getWaypointsFromItinerario();
 
@@ -81,4 +88,15 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
 
     }
 
+    private void back()
+    {
+        startActivity(new Intent(this, TabActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        back();
+    }
 }

@@ -9,14 +9,12 @@
         android:id="@+id/btn_indietro"
         android:layout_width="57dp"
         android:layout_height="57dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.375"
+        app:layout_constraintBottom_toTopOf="@id/scrollView2"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:background="@color/design_default_color_background"
-        app:srcCompat="@drawable/ic_icon_undo" />
+        app:srcCompat="@drawable/ic_icon_undo"
+
+        />
 
     <TextView
         android:id="@+id/txt_nomecognome"
@@ -134,7 +132,7 @@
                     android:layout_marginLeft="20dp"
                     />
 
-                <ImageView
+                <org.osmdroid.views.MapView
                     android:id="@+id/img_mappaitinerario"
                     android:layout_width="match_parent"
                     android:layout_height="267dp"

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,21 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.natour.R;
-import com.example.natour.model.Utente;
+import com.example.natour.controller.ControllerHomePage;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
-import com.example.natour.view.adapter.MasonryAdapter;
-import com.example.natour.view.adapter.SpacesItemDecoration;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 public class HomePageFragment extends Fragment
 {
-    RecyclerView mRecyclerView;
-    ExtendedFloatingActionButton fab;
-    Intent intentInserimentoItinerario;
-    TextView tokenLogin;
-    Utente utente;
-    String token;
-
+    private RecyclerView mRecyclerView;
+    private ExtendedFloatingActionButton fab;
+    private Intent intentInserimentoItinerario;
+    private String token;
+    private ControllerHomePage controllerHomePage;
     public HomePageFragment() {
 
 
@@ -42,7 +37,6 @@ public class HomePageFragment extends Fragment
 
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,6 +45,9 @@ public class HomePageFragment extends Fragment
     }
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
+        if(controllerHomePage == null)
+            controllerHomePage = new ControllerHomePage(getParentFragmentManager(), this);
+
         SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         model.getUtente().observe(getViewLifecycleOwner(),
                 utente ->
@@ -65,10 +62,8 @@ public class HomePageFragment extends Fragment
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.rec_view);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        MasonryAdapter adapter = new MasonryAdapter(getActivity());
-        mRecyclerView.setAdapter(adapter);
-        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
-        mRecyclerView.addItemDecoration(decoration);
+        controllerHomePage.setAdapter(mRecyclerView);
+
 
         fab.setOnClickListener(view1 ->
         {
@@ -77,4 +72,7 @@ public class HomePageFragment extends Fragment
 
         });
     }
+
+
+
 }

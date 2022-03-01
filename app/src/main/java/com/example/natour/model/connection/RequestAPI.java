@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +26,8 @@ public class RequestAPI
     private JSONObject respObj;
     private Map<String, String> params = null;
     private PublishSubject<JSONObject> risposta;
-
+    private JSONArray respArr;
+    private PublishSubject<JSONArray> rispostArr;
     public RequestAPI(String path, Context context, Map<String, String> paramsBody)
     {
         this.path = path;
@@ -75,7 +77,45 @@ public class RequestAPI
 
         return risposta;
     }
+    public PublishSubject<JSONArray> getMultipleRows()
+    {
+        rispostArr = PublishSubject.create();
 
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest request = new StringRequest(Request.Method.POST, endpoint + path, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response)
+            {
+                try
+                {
+                    respArr = new JSONArray(response);
+                    rispostArr.onNext(respArr);
+
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Log.e("ERROR", error.toString());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                return params;
+            }
+        };
+
+        queue.add(request);
+
+
+        return rispostArr;
+    }
     public void setEndpoint(String endpoint)
     {
         this.endpoint = endpoint;

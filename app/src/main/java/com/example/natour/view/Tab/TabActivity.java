@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
@@ -26,7 +25,11 @@ public class TabActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private Utente utente;
     private String TAG = "tab activity";
-
+    private HomePageFragment homepage = null;
+    private ProfileFragment profile = null;
+    private CercaFragment cerca = null;
+    private MessaggioFragment messaggio = null;
+    private NotificaFragment notifica = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,33 +57,42 @@ public class TabActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
-            Fragment fragment = null;
 
             switch (item.getItemId())
             {
                 case R.id.home:
-                    fragment = new HomePageFragment();
+                    if(homepage == null)
+                        homepage = new HomePageFragment();
                     bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barrahomepage));
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, homepage).commit();
                     break;
                 case R.id.profile:
-                    fragment = new ProfileFragment();
+                    if(profile == null)
+                        profile = new ProfileFragment();
                     bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barraprofilo));
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, profile).commit();
                     break;
                 case R.id.cerca:
-                    fragment = new CercaFragment();
+                    if(cerca == null)
+                        cerca = new CercaFragment();
                     bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barraricerca));
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, cerca).commit();
                     break;
                 case R.id.messaggio:
-                    fragment = new MessaggioFragment();
+                    if(messaggio == null)
+                        messaggio = new MessaggioFragment();
                     bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barrachat));
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, messaggio).commit();
                     break;
                 case R.id.notifica:
-                    fragment = new NotificaFragment();
+                    if(notifica == null)
+                        notifica = new NotificaFragment();
                     bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barranotifiche));
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, notifica).commit();
                     break;
 
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+
 
 
             return true;

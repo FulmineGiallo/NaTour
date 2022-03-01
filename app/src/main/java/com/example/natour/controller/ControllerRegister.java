@@ -1,7 +1,5 @@
 package com.example.natour.controller;
 
-import static org.apache.commons.lang3.StringUtils.join;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -56,7 +54,7 @@ public class ControllerRegister
                     Log.i("AUTH USER", result.getUser().getUserId());
                     UtenteDAO utenteDAO = new UtenteDAO();
                     Log.i("DATA DI NASCITA", dataDiNascita);
-                    utenteDAO.setTokenUtente(result.getUser().getUserId(), dataDiNascita, activity);
+                    utenteDAO.setTokenUtente(result.getUser().getUserId(), dataDiNascita, nome, cognome, activity);
                 },
                 error -> Log.e("AuthQuickStart", "Sign up failed", error)
                 // TODO: Fare schermata sign up failed

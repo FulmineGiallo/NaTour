@@ -25,13 +25,15 @@ public class UtenteDAO
 {
 
 
-    public void setTokenUtente(String idUtente, String dataDiNascita, Context activityPrec)
+    public void setTokenUtente(String idUtente, String dataDiNascita, String nome, String cognome, Context activityPrec)
     {
         Map<String, String> parmasAPI = new HashMap<String, String>();
          //L'idea è di creare Un hashMap e passarla a volley per metterla nel body
         String path = "utente/insertToken.php";
 
          //Insert Token e Data Di Nascita nella registrazione
+        parmasAPI.put("nome", nome);
+        parmasAPI.put("cognome", cognome);
         parmasAPI.put("token", idUtente);
         parmasAPI.put("data_di_nascita", dataDiNascita);
 
@@ -41,16 +43,7 @@ public class UtenteDAO
 
 
     }
-    public void existUtente(String token, Context context)
-    {
-        /*Map<String, String> parmasAPI = new HashMap<String, String>();
-        String path = "utente/existUtente.php";
-        parmasAPI.put("token", token);
-        JSONObject response;
 
-        RequestAPI requestExistUtente = new RequestAPI(path, context, parmasAPI);*/
-
-    }
     public PublishSubject<JSONObject> getBirthdate(String token, Context context)
     {
 

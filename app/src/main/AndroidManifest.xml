@@ -41,6 +41,9 @@
         android:theme="@style/Theme.NaTour"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".view.VisualizzaItinerario.VisualizzaItinerarioActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.InserimentoItinerarioActivity.ItinerarioInseritoTransition"
             android:exported="false" />
         <!--

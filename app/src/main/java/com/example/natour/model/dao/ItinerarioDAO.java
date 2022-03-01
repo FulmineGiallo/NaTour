@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.natour.model.connection.RequestAPI;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,6 +33,12 @@ public class ItinerarioDAO
 
 
     }
+    public PublishSubject<JSONArray> getItinerari(Context context)
+    {
+        RequestAPI request = new RequestAPI("itinerario/get_itinerario.php", context,null);
+        return  request.getMultipleRows();
 
+
+    }
 
 }

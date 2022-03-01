@@ -105,6 +105,7 @@ public class SplashScreen extends AppCompatActivity
                                                         new Handler(Looper.getMainLooper()).postDelayed(() ->
                                                                 startActivity(new Intent(this,
                                                                         Login.class)), 1200);
+                                                        finish();
                                                     }
                                                     , 2000);
                                         },
@@ -127,6 +128,7 @@ public class SplashScreen extends AppCompatActivity
                                                 startActivity(intent);
                                                 }
                                                 , 2000);
+                                            finish();
                                         }
                                 );
                     }
@@ -138,6 +140,7 @@ public class SplashScreen extends AppCompatActivity
                                     new Handler(Looper.getMainLooper()).postDelayed(() ->
                                             startActivity(new Intent(this,
                                                     Login.class)), 1200);
+                                    finish();
                                 }
                                 , 2000);
                     }

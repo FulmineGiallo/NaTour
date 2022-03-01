@@ -23,7 +23,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amplifyframework.core.Amplify;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageUploadFileResult;
@@ -159,7 +158,7 @@ public class ControllerItinerario
         File gpxfile = null;
         for(GeoPoint p : waypoints)
         {
-            buffer.append(p.getLatitude() + "," + p.getLongitude() + ":");
+            buffer.append(p.getLatitude() + "," + p.getLongitude() + "\n");
         }
         buffer.append(";");
         Environment.getExternalStorageState();

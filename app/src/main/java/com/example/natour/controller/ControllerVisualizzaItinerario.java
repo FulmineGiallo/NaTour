@@ -10,10 +10,13 @@ import com.amplifyframework.storage.result.StorageDownloadFileResult;
 import com.example.natour.model.Itinerario;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ControllerVisualizzaItinerario
 {
@@ -54,7 +57,6 @@ public class ControllerVisualizzaItinerario
                                 while ((line = br.readLine()) != null)
                                 {
                                     text.append(line);
-                                    text.append('\n');
                                 }
                                 br.close();
                             }
@@ -63,6 +65,19 @@ public class ControllerVisualizzaItinerario
                                 //You'll need to add proper error handling here
                             }
                             Log.i("COORDINATE", String.valueOf(text));
+
+                            StringBuffer punti = new StringBuffer(text);
+
+
+
+
+                            ArrayList<GeoPoint> waypoints = new ArrayList<>();
+
+                            /*waypoints.add(new GeoPoint())
+
+                            itinerario.setWaypoints();*/
+
+
                         },
                         error -> Log.e("MyAmplifyApp",  "Download Failure", error)
                 );

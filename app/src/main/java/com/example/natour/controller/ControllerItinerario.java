@@ -2,47 +2,59 @@ package com.example.natour.controller;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
-import android.widget.FrameLayout;
+import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
+import com.amplifyframework.storage.result.StorageUploadFileResult;
 import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
 import com.example.natour.R;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.ImmagineDAO;
+import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
-import com.example.natour.view.InserimentoItinerarioActivity.MappaFragment;
+import com.example.natour.view.InserimentoItinerarioActivity.ItinerarioInseritoTransition;
 import com.example.natour.view.adapter.ImageAdapter;
 import com.example.natour.view.dialog.ErrorDialog;
 
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -60,40 +72,127 @@ public class ControllerItinerario
     private String descrizioneItnerario;
     private static final int PICKFILE_REQUEST_CODE = 100;
     private ImageAdapter imageAdapter;
+    private String token;
 
     //informazioni della mappa
     private final ArrayList<GeoPoint> waypoints = new ArrayList<>();
-    private final LinkedList<Immagine> listPhotoPoints = new LinkedList<>();
 
     /* Coppia valore Key = URI */
     private List<Immagine> mapKeyURI;
-
 
 
     private final FragmentManager fragmentManager;
     private final InserimentoItinerario inserimentoItinerarioActivity;
     private InserimentoPercorsoFragment percorsoFragment;
     private InserimentoItinerarioFragment inserimentoItinerarioFragment;
-    private MappaFragment mappaFragment;
 
 
-    public Itinerario inserisciItinerario(String nome, String durata, boolean disabili, String descrizione)
+    public void inserisciItinerario(float value, String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, LinkedList<Immagine> imgList, Context context)
     {
         Itinerario itinerarioInserito = new Itinerario();
+        String chiaveItinerario = UUID.randomUUID().toString();;
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
         /* Chiamato all'ItinerarioDAO */
+        try
+        {
+            File gpx = createFileGPX(waypoints, chiaveItinerario);
+
+            /* UPLOAD FILE SU S3 */
+            uploadFileGPXOnS3(gpx, chiaveItinerario);
+            ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
+            PublishSubject<JSONObject> risultato = itinerarioDAO.insertItinerario(chiaveItinerario, nome, durata, disabili,(int) value, descrizione, context, token, chiaveItinerario);
+            risultato.subscribe(
+                    data ->
+                    {
+                        if(data.getBoolean("risultato"))
+                        {
+                            /*  Se INSERT dell'itinerario è andato a buon fine, allora gli associo le immagini */
+                            ImmagineDAO immagineDAO = new ImmagineDAO();
+                            for(Immagine img : imgList)
+                                immagineDAO.insertImmagine(img, chiaveItinerario, img.getMarker().getPosition().getLatitude(), img.getMarker().getPosition().getLongitude(), context);
+                            inserimentoItinerarioActivity.startActivity(new Intent(inserimentoItinerarioActivity, ItinerarioInseritoTransition.class));
+                        }
+                        else
+                        {
+                            /* INSERT FALLITO */
+                            new ErrorDialog("Caricamento dell'itinerario fallito, controlla la tua connessione e riprova :(").show(fragmentManager, null);
+                            //TODO: eliminare il file da S3
+                            removeOnBackPressedImage();
+                            removeGPXFromS3Bucket(chiaveItinerario);
+                            }
+                    },
+                    error ->
+                    {
 
 
-        return itinerarioInserito;
+                    }
+            );
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+
+
     }
 
-    public ControllerItinerario(FragmentManager fragmentManager, InserimentoItinerario inserimentoItinerarioActivity)
+    private void uploadFileGPXOnS3(File gpx, String chiave)
+    {
+
+        RxStorageBinding.RxProgressAwareSingleOperation<StorageUploadFileResult> rxUploadOperation =
+                RxAmplify.Storage.uploadFile(chiave, gpx);
+
+        rxUploadOperation
+                .observeResult()
+                .subscribe(
+                        result -> Log.i("File Posizione", "Successfully uploaded: " + result.getKey()),
+                        error -> Log.e("MyAmplifyApp", "Upload failed", error)
+                );
+    }
+
+    private File createFileGPX(ArrayList<GeoPoint> waypoints, String chiave) throws IOException
+    {
+        // open file handle
+        StringBuffer buffer = new StringBuffer();
+        File gpxfile = null;
+        for(GeoPoint p : waypoints)
+        {
+            buffer.append(p.getLatitude() + "," + p.getLongitude() + ":");
+        }
+        buffer.append(";");
+        Environment.getExternalStorageState();
+        try
+        {
+            File root = new File(inserimentoItinerarioActivity.getCacheDir(),"filetmp");
+            if (!root.exists())
+            {
+                root.mkdirs();
+            }
+            gpxfile = new File(root, "waypoints"+ chiave +".txt");
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(buffer.toString());
+            writer.flush();
+            writer.close();
+
+            Toast.makeText(inserimentoItinerarioActivity, inserimentoItinerarioActivity.getCacheDir().toString(), Toast.LENGTH_SHORT).show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return gpxfile;
+    }
+
+    public ControllerItinerario(FragmentManager fragmentManager, InserimentoItinerario inserimentoItinerarioActivity, String token)
     {
         this.fragmentManager = fragmentManager;
         this.inserimentoItinerarioActivity = inserimentoItinerarioActivity;
         this.mapKeyURI = new ArrayList<>();
         this.imageAdapter = new ImageAdapter(mapKeyURI, fragmentManager, this);
-
+        this.token = token;
     }
 
     public void inizializzaInterfaccia()
@@ -108,7 +207,7 @@ public class ControllerItinerario
         }
     }
 
-    public void gotoPercorsoFragment(FrameLayout imageView)
+    public void gotoPercorsoFragment(MapView imageView)
     {
         if (percorsoFragment == null)
             percorsoFragment = new InserimentoPercorsoFragment(this);
@@ -124,57 +223,29 @@ public class ControllerItinerario
 
     public void goBack()
     {
-        inserimentoItinerarioActivity.onBackPressed();
         imageAdapter.notifyDataSetChanged();
-    }
-
-    public void setMapView(Fragment fragment, int viewId)
-    {
-        if (fragment.requireView().findViewById(viewId) != null)
-        {
-            mappaFragment = new MappaFragment(this, listPhotoPoints, waypoints);
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.add(viewId, mappaFragment);
-            ft.commit();
-        }
-    }
-
-    public void resetMapView(InserimentoPercorsoFragment ipf, int map)
-    {
-        if (percorsoFragment.requireView().findViewById(map) != null)
-        {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.remove(mappaFragment);
-
-            mappaFragment = new MappaFragment(this,listPhotoPoints, waypoints);
-
-            mappaFragment.setEditTextMappa(ipf.getInizioPercorso(), ipf.getFinePercorso(),
-                    ipf.getDeleteMarkerInizio(), ipf.getDeleteMarkerFine());
-            ft.add(map, mappaFragment);
-            ft.commit();
-
-
-        }
+        inserimentoItinerarioActivity.onBackPressed();
     }
 
 
-    public String getAddress(GeoPoint point)
+    public GeoPoint currentPositionPhone( LocationListener locationListener)
     {
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(inserimentoItinerarioActivity, Locale.getDefault());
-        String address = null;
-        try
+        LocationManager locManager = (LocationManager) inserimentoItinerarioActivity.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(inserimentoItinerarioActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(inserimentoItinerarioActivity,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
-            addresses = geocoder.getFromLocation(point.getLatitude(), point.getLongitude(), 1);
-            address = addresses.get(0).getAddressLine(0);
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, locationListener);
+            Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            double longitude;
+            double latitude;
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
 
-
-        return address;
+            return new GeoPoint(latitude, longitude);
+        } else
+            return new GeoPoint(40.839326626673405, 14.185227261143826);
     }
 
     public GeoPoint getLocationFromAddress(String strAddress)
@@ -253,7 +324,7 @@ public class ControllerItinerario
             RxStorageBinding.RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
                     RxAmplify.Storage.uploadInputStream(immagine.getKey(), exampleInputStream);
 
-
+            inserimentoItinerarioFragment.startMapLoading();
             rxUploadOperation
                     .observeResult()
                     .subscribe(
@@ -277,29 +348,39 @@ public class ControllerItinerario
                                                         if(imageResult.getBoolean("is_save"))
                                                         {
                                                             Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
-                                                            immagine.setURL(URLImage);
                                                             /* recupero metadati */
+                                                            immagine.setURL(URLImage);
                                                             getMetadatiImage(exampleInputStream, immagine);
+                                                            inserimentoItinerarioFragment.stopMapLoading();
                                                         }
-
                                                         else
                                                         {
+                                                            inserimentoItinerarioFragment.stopMapLoading();
                                                             removeImageFromS3Bucket(immagine, positionImage);
                                                             new ErrorDialog("L'immagine che hai inserito è esplicità, è stata rimossa!").show(fragmentManager, null);
                                                         }
                                                     },
                                                     imageError ->
                                                     {
-                                                        removeImageFromS3Bucket(immagine, positionImage);
+                                                        inserimentoItinerarioFragment.stopMapLoading();
+                                                        Log.e("ERRORIMG", imageError.getLocalizedMessage());
                                                         new ErrorDialog("Errore nel caricamento dell'ìmmagine, riprova con un'altra immagine!").show(fragmentManager, null);
                                                     }
                                             );
                                         },
-                                        error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+                                        error ->
+                                        {
+                                            Log.e("MyAmplifyApp", "URL generation failure", error);
+                                            inserimentoItinerarioFragment.stopMapLoading();
+                                        }
                                 );
 
                             },
-                            error -> Log.e("MyAmplifyApp", "Upload failed", error)
+                            error ->
+                            {
+                                Log.e("MyAmplifyApp", "Upload failed", error);
+                                inserimentoItinerarioFragment.stopMapLoading();
+                            }
                     );
         }
         catch (FileNotFoundException error)
@@ -313,19 +394,18 @@ public class ControllerItinerario
         /* Rimozione dalla Lista e poi dal Bucket S3 */
         mapKeyURI.remove(positionImage);
         imageAdapter.notifyItemRemoved(positionImage);
-        mappaFragment.removePhotoMarker(img);
-
+        inserimentoItinerarioFragment.removeImage(img);
         /* Rimozione da S3 */
         RxAmplify.Storage.remove(img.getKey())
                 .subscribe(
                         onRemove ->
                         {
                             Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
+
                         },
                         error ->
                         {
                             Log.e("MyAmplifyApp", "Remove failure", error);
-                            mappaFragment.addPhotoPoint(img);
                         }
                 );
     }
@@ -333,9 +413,9 @@ public class ControllerItinerario
     public void removeImageFromS3Bucket(Immagine img)
     {
 
-        mappaFragment.removePhotoMarker(img);
 
         /* Rimozione da S3 */
+        inserimentoItinerarioFragment.removeImage(img);
         RxAmplify.Storage.remove(img.getKey())
                 .subscribe(
                         onRemove ->
@@ -345,7 +425,23 @@ public class ControllerItinerario
                         },
                         error ->
                         {
-                            mappaFragment.addPhotoPoint(img);
+                            Log.e("MyAmplifyApp", "Remove failure", error);
+                        }
+                );
+    }
+
+    public void removeGPXFromS3Bucket(String keyIt)
+    {
+        /* Rimozione da S3 */
+        RxAmplify.Storage.remove(keyIt)
+                .subscribe(
+                        onRemove ->
+                        {
+                            Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
+
+                        },
+                        error ->
+                        {
                             Log.e("MyAmplifyApp", "Remove failure", error);
                         }
                 );
@@ -382,9 +478,7 @@ public class ControllerItinerario
                 if(metadati.getLatLong(latLong))
                 {
                     Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
-                    uriImage.setMarker(mappaFragment.createPhotoMarker(new GeoPoint(latLong[0], latLong[1]), uriImage));
-                    /*mappaFragment.addPhotoMarker(uriImage.getMarker());*/
-                    mappaFragment.addPhotoPoint(uriImage);
+                    inserimentoItinerarioFragment.addPhotoMarker(uriImage, latLong);
                 }
             }
         }
@@ -410,9 +504,10 @@ public class ControllerItinerario
         if(requestCode == 20)
             if (resultCode == RESULT_OK)
             {
-                String FileName = intent.getData().getLastPathSegment();
+                String fileName = inserimentoItinerarioActivity.getContentResolver().getType(intent.getData());
+                Log.e("FILENAME", fileName);
                 // Inserito il file dal File Explorer viene effettuato un controllo per garantire che il file sia del tipo .gpx
-                if (FileName.contains("gpx"))
+                if (fileName.contains("xml"))
                 {
                     // Essendo il file di tipo .gpx vengono presi dall'intent le informazioni per gestire l'itinerario
                     GPXParser parser = new GPXParser();
@@ -439,10 +534,16 @@ public class ControllerItinerario
                         */
                         if(parsedGpx.getTracks() != null)
                         {
-                            for(int i = 0; i < parsedGpx.getTracks().size(); i++)
-                                waypoints.add(new GeoPoint(parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(i).getLatitude(), parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(i).getLongitude()));
+                            waypoints.clear();
+                            for(int i = 0; i < parsedGpx.getTracks().size(); i++){
+                                for(int j = 0; j < parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().size(); j++){
+                                    waypoints.add(new GeoPoint(parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(j).getLatitude(), parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(j).getLongitude()));
+                                    Log.i("WAYPOINTS", waypoints.get(j).getLatitude() + "    " + waypoints.get(j).getLongitude());
+                                }
+                            }
+                            percorsoFragment.setPointsFromGPX(waypoints);
                             /* Creare Route nel mappaFragment */
-                            mappaFragment.setGPXPercorso(waypoints);
+                            Log.e("WAYPOINTS SIZE", String.valueOf(waypoints.size()));
                         }
 
                     }
@@ -453,4 +554,7 @@ public class ControllerItinerario
                 }
             }
     }
+
+
+
 }

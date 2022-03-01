@@ -8,17 +8,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
 
+import org.osmdroid.views.MapView;
+
 public class InserimentoItinerario extends AppCompatActivity
 {
     private ControllerItinerario controllerItinerario;
+    private MapView mapView;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        String token = getIntent().getStringExtra("token");
         setContentView(R.layout.activity_inserimento_itinerario);
-
-        controllerItinerario = new ControllerItinerario(getSupportFragmentManager(), this);
+        controllerItinerario = new ControllerItinerario(getSupportFragmentManager(), this, token);
         controllerItinerario.inizializzaInterfaccia();
+
+
 
 
 
@@ -37,7 +42,6 @@ public class InserimentoItinerario extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
-
     }
 
     @Override

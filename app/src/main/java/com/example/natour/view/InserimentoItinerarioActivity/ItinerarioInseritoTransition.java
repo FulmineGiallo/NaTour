@@ -2,6 +2,7 @@ package com.example.natour.view.InserimentoItinerarioActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,10 @@ public class ItinerarioInseritoTransition extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itinerario_inserito_transition);
 
-        new Handler().postDelayed(() -> startActivity(new Intent(this, TabActivity.class)),5000);
+        new Handler().postDelayed(() ->
+        {
+            Intent intent = new Intent(this,TabActivity.class);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        },5000);
     }
 }

@@ -15,6 +15,17 @@ public class Itinerario implements Serializable
     private String descrizione;
     private List<GeoPoint> waypoints; //Percorso
     private String fk_utente; //Chi ha creato l'itinerario
+    private String nomeFile;
+
+    public String getNomeFile()
+    {
+        return nomeFile;
+    }
+
+    public void setNomeFile(String nomeFile)
+    {
+        this.nomeFile = nomeFile;
+    }
 
     public String getIdItinerario()
     {

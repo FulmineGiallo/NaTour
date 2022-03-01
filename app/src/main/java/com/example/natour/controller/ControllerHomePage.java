@@ -57,10 +57,7 @@ public class ControllerHomePage
                         itinerario.setDifficoltà(Integer.parseInt(String.valueOf(result.getJSONObject(i).get("difficolta"))));
                         itinerario.setDurata(String.valueOf(result.getJSONObject(i).get("durata")));
                         itinerario.setFk_utente(String.valueOf(result.getJSONObject(i).get("fk_utente")));
-
-/*
-                        itinerari.get(i).setWaypoints(getWaypointsFromFile(result.getJSONObject(i).getString("nomefile")));
-*/
+                        itinerario.setNomeFile(String.valueOf(result.getJSONObject(i).get("nomefile")));
                         itinerario.setAccessibilitaDisabili(Boolean.parseBoolean(String.valueOf(result.getJSONObject(i).get("disabile"))));
                         itinerari.add(itinerario);
                         Log.i("TEST", "FINE");

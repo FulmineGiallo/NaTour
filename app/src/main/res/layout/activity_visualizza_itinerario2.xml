@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/txt_nomecognome"
-        android:layout_width="149dp"
+        android:layout_width="0dp"
         android:layout_height="34dp"
 
         android:text="Nome Utente"
@@ -28,6 +28,8 @@
         app:layout_constraintLeft_toRightOf="@id/cardView"
         app:layout_constraintBottom_toBottomOf="@id/cardView"
         app:layout_constraintTop_toTopOf="@id/cardView"
+        app:layout_constraintRight_toRightOf="parent"
+
 
         />
 
@@ -155,7 +157,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/img_mappaitinerario"
                     app:layout_constraintVertical_bias="0.021"
-                    app:srcCompat="@drawable/ic_ellipse_155" />
+                    app:srcCompat="@drawable/ic_ellipse_155"
+                    />
 
                 <ImageView
                     android:id="@+id/imageView5"
@@ -220,17 +223,6 @@
                     app:layout_constraintTop_toBottomOf="@id/img_mappaitinerario"
                     />
 
-                <TextView
-                    android:id="@+id/txt_distanza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="numero KM"
-                    android:fontFamily="@font/robotoregular"
-                    app:layout_constraintTop_toBottomOf="@id/img_mappaitinerario"
-                    app:layout_constraintRight_toLeftOf="@id/txt_durata"
-                    android:layout_marginRight="30dp"
-
-                    />
 
                 <TextView
                     android:id="@+id/txt_foto"

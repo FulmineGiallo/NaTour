@@ -40,9 +40,17 @@ public class UtenteDAO
 
         RequestAPI request = new RequestAPI(path, activityPrec, parmasAPI);
         request.sendRequest();
-
-
     }
+    public PublishSubject<JSONObject> getNomeCognomeUtente(String token, Context activityPrec)
+    {
+        Map<String, String> parmasAPI = new HashMap<String, String>();
+        String path = "utente/getNomeUtente.php";
+
+        parmasAPI.put("token", token);
+        RequestAPI request = new RequestAPI(path, activityPrec, parmasAPI);
+        return request.sendRequest();
+    }
+
 
     public PublishSubject<JSONObject> getBirthdate(String token, Context context)
     {

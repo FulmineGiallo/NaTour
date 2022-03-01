@@ -10,6 +10,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
@@ -20,6 +21,8 @@ import com.example.natour.model.Utente;
 import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.Tab.TabActivity;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+
+import org.osmdroid.bonuspack.location.GeocoderNominatim;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -36,6 +39,7 @@ public class SplashScreen extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
@@ -101,6 +105,7 @@ public class SplashScreen extends AppCompatActivity
                                                         new Handler(Looper.getMainLooper()).postDelayed(() ->
                                                                 startActivity(new Intent(this,
                                                                         Login.class)), 1200);
+                                                        finish();
                                                     }
                                                     , 2000);
                                         },
@@ -123,6 +128,7 @@ public class SplashScreen extends AppCompatActivity
                                                 startActivity(intent);
                                                 }
                                                 , 2000);
+                                            finish();
                                         }
                                 );
                     }
@@ -134,6 +140,7 @@ public class SplashScreen extends AppCompatActivity
                                     new Handler(Looper.getMainLooper()).postDelayed(() ->
                                             startActivity(new Intent(this,
                                                     Login.class)), 1200);
+                                    finish();
                                 }
                                 , 2000);
                     }

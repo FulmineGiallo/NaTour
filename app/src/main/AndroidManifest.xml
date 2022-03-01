@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.natour">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -21,14 +20,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
-
 
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <data android:scheme="https" />
         </intent>
         <intent>
@@ -44,7 +40,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NaTour"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".view.InserimentoItinerarioActivity.ItinerarioInseritoTransition"
+            android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -93,15 +91,15 @@
             android:exported="false" />
         <activity
             android:name=".view.LoginActivity.Login"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".view.PannelloAdmin.VisualizzaItinerario"
             android:exported="false" />
         <activity
             android:name=".view.Tab.TabActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -112,11 +110,11 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="natour" />
+                <data android:scheme="natour" />
             </intent-filter>
         </activity>
         <activity

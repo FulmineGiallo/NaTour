@@ -103,9 +103,11 @@ public class SplashScreen extends AppCompatActivity
                                             new Handler(Looper.getMainLooper()).postDelayed(() ->{
                                                         progress_bar.setProgressCompat(100, true);
                                                         new Handler(Looper.getMainLooper()).postDelayed(() ->
-                                                                startActivity(new Intent(this,
-                                                                        Login.class)), 1200);
-                                                        finish();
+                                                        {
+                                                            startActivity(new Intent(this,
+                                                                    Login.class));
+                                                            finish();
+                                                        }, 1200);
                                                     }
                                                     , 2000);
                                         },
@@ -126,9 +128,9 @@ public class SplashScreen extends AppCompatActivity
                                                 intent.putExtra("utente",utenteLoggato);
                                                 progress_bar.setProgressCompat(100, true);
                                                 startActivity(intent);
-                                                }
-                                                , 2000);
-                                            finish();
+                                                finish();
+                                            }
+                                            , 2000);
                                         }
                                 );
                     }
@@ -138,9 +140,12 @@ public class SplashScreen extends AppCompatActivity
                         new Handler(Looper.getMainLooper()).postDelayed(() ->{
                                     progress_bar.setProgressCompat(100, true);
                                     new Handler(Looper.getMainLooper()).postDelayed(() ->
-                                            startActivity(new Intent(this,
-                                                    Login.class)), 1200);
-                                    finish();
+                                    {
+                                        startActivity(new Intent(this,
+                                                Login.class));
+                                        finish();
+                                    }, 1200);
+
                                 }
                                 , 2000);
                     }

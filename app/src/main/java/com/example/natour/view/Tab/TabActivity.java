@@ -3,7 +3,11 @@ package com.example.natour.view.Tab;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowAnimationFrameStats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,12 +31,13 @@ public class TabActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
+        getWindow().setEnterTransition(new Explode());
         super.onCreate(savedInstanceState);
         SharedViewModel model = new ViewModelProvider(this).get(SharedViewModel.class);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
+        {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-
+        }
         model.setUtente((Utente) getIntent().getSerializableExtra("utente"));
         //TODO: eliminare la classe singleton e ogni suo utilizzo
         setContentView(R.layout.activity_tab);

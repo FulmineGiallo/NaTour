@@ -6,11 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".view.InserimentoItinerarioActivity.ItinerarioInseritoTransition">
 
+    <TextView
+        android:id="@+id/txt_itinerario_inserito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/amatic_sc"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/itinerario_inserito"
+        android:textSize="60sp"
+        android:layout_marginTop="50dp"
+        />
+
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:lottie_rawRes="@raw/anim_itinerario_inserito"
         app:lottie_autoPlay="true"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_itinerario_inserito"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

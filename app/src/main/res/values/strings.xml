@@ -25,4 +25,5 @@
     <string name="cerca_qui">Cerca qui</string>
     <string name="additinerariobutton">addItinerarioButton</string>
     <string name="bottonenascosto">bottoneNascosto</string>
+    <string name="itinerario_inserito">Itinerario inserito</string>
 </resources>

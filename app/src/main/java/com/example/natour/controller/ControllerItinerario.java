@@ -157,7 +157,7 @@ public class ControllerItinerario
         File gpxfile = null;
         for(GeoPoint p : waypoints)
         {
-            buffer.append(p.getLatitude() + "," + p.getLongitude() + "\n");
+            buffer.append(p.getLatitude() + "," + p.getLongitude() + ":");
         }
         buffer.append(";");
         Environment.getExternalStorageState();

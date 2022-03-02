@@ -5,12 +5,14 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -178,12 +180,14 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
                             lonFine   = newWaypoints.get(newWaypoints.size()-1).getLongitude();
 
                             GeoPoint puntoMedio = new GeoPoint((latInizio + latFine) / 2, (lonInizio + lonFine) / 2);
-                            BoundingBox boundingBox = BoundingBox.fromGeoPoints(newWaypoints);
+                            BoundingBox boundingBox = BoundingBox.fromGeoPointsSafe(newWaypoints);
+
                             //viene messo come centro della mappa il punto medio tra i marker
                             requireActivity().runOnUiThread(() ->
                             {
                                 mapController.setCenter(puntoMedio);
-                                mapView.zoomToBoundingBox(boundingBox,true);
+                                zoomToBounds(boundingBox);
+
                             });
                         }).start();
                     }
@@ -289,6 +293,24 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
         });
 
 
+    }
+
+    public void zoomToBounds(final BoundingBox box) {
+        if (mapView.getHeight() > 0) {
+            mapView.zoomToBoundingBox(box, true);
+
+        } else {
+            ViewTreeObserver vto = mapView.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    mapView.zoomToBoundingBox(box, true);
+                    ViewTreeObserver vto2 = mapView.getViewTreeObserver();
+                    vto2.removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
     }
 
     public void addPhotoMarker(Immagine uriImage, float[] latLong)

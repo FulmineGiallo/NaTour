@@ -35,7 +35,7 @@ public class ControllerVisualizzaItinerario
     {
         String key = itinerario.getNomeFile();
         StringBuilder text = new StringBuilder();
-        File file = new File(getApplicationContext().getFilesDir() + "/" + key +".txt");
+        File file = new File(getApplicationContext().getFilesDir() + "/" + key + ".txt");
         if (!file.exists())
         {
             file.mkdirs();

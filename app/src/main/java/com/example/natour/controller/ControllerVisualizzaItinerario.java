@@ -2,6 +2,8 @@ package com.example.natour.controller;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+import android.Manifest;
+import android.os.Environment;
 import android.util.Log;
 
 import com.amplifyframework.rx.RxAmplify;

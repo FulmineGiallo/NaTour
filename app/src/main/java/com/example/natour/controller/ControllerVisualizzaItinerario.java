@@ -1,9 +1,5 @@
 package com.example.natour.controller;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
-import android.Manifest;
-import android.os.Environment;
 import android.util.Log;
 
 import com.amplifyframework.rx.RxAmplify;
@@ -19,6 +15,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class ControllerVisualizzaItinerario
 {
@@ -35,16 +32,15 @@ public class ControllerVisualizzaItinerario
     {
         String key = itinerario.getNomeFile();
         StringBuilder text = new StringBuilder();
-        File file = new File(getApplicationContext().getFilesDir() + "/" + key + ".txt");
-        if (!file.exists())
-        {
-            file.mkdirs();
-        }
+        LinkedList<Float> lat = new LinkedList<>();
+        LinkedList<Float> longitudine = new LinkedList<>();
+
         RxStorageBinding.RxProgressAwareSingleOperation<StorageDownloadFileResult> download =
                 RxAmplify.Storage.downloadFile(
                         key,
-                        file
+                        new File(activity.getApplicationContext().getFilesDir() + "/download.txt")
                 );
+
         download
                 .observeResult()
                 .subscribe(
@@ -53,33 +49,37 @@ public class ControllerVisualizzaItinerario
                             Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getAbsolutePath());
                             try
                             {
-                                BufferedReader br = new BufferedReader(new FileReader(file));
+                                BufferedReader br = new BufferedReader(new FileReader(result.getFile()));
                                 String line;
-
+                                int i = 0;
                                 while ((line = br.readLine()) != null)
                                 {
-                                    text.append(line);
+                                    if(i % 2 == 0)
+                                    {
+                                        lat.add(Float.parseFloat(line));
+                                    }
+                                    else
+                                    {
+                                        longitudine.add(Float.parseFloat(line));
+                                    }
+                                    i++;
                                 }
                                 br.close();
                             }
                             catch (IOException e)
                             {
-                                //You'll need to add proper error handling here
+                                Log.e("ERROR DOWNLOAD FILE", e.getLocalizedMessage());
                             }
-                            Log.i("COORDINATE", String.valueOf(text));
-
-                            StringBuffer punti = new StringBuffer(text);
-
-
-
-
                             ArrayList<GeoPoint> waypoints = new ArrayList<>();
+                            for(int j = 0; j < lat.size(); j++)
+                            {
+                                waypoints.add(new GeoPoint(lat.get(j), longitudine.get(j)));
+                            }
+                            itinerario.setWaypoints(waypoints);
+                            for(GeoPoint p : waypoints)
+                                Log.i("WAYPOINTS in LISTA", p.getLatitude() + " " + p.getLongitude());
 
-                            /*waypoints.add(new GeoPoint())
-
-                            itinerario.setWaypoints();*/
-
-
+                            activity.setMappa();
                         },
                         error -> Log.e("MyAmplifyApp",  "Download Failure", error)
                 );

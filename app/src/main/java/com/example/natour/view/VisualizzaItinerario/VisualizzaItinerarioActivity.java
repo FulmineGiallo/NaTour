@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.natour.BuildConfig;
 import com.example.natour.R;
@@ -17,8 +18,15 @@ import com.example.natour.view.Tab.TabActivity;
 
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
@@ -32,6 +40,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
     private TextView descrizione;
     private MapView mappa;
     private ImageButton btn_indietro;
+    private Itinerario itinerario;
+    private IMapController mapController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,7 +49,9 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizza_itinerario2);
 
-        Itinerario itinerario;
+
+
+
         itinerario = (Itinerario) getIntent().getSerializableExtra("itinerarioselezionato");
         nomeUtente = findViewById(R.id.txt_nomecognome);
         nomeItinerario = findViewById(R.id.txt_nomeitinerario);
@@ -50,9 +62,9 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
 
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         mappa = findViewById(R.id.img_mappaitinerario);
-        IMapController mapController = mappa.getController();
-        mapController.setZoom(13.5);
+        mapController = mappa.getController();
 
+        mapController.setZoom(11.3);
 
         mappa.invalidate();
 
@@ -61,6 +73,10 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
 
         ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(this, itinerario);
         controllerVisualizzaItinerario.getWaypointsFromItinerario();
+
+        /* Set MAPPA */
+
+
 
         UtenteDAO utenteDAO = new UtenteDAO();
         PublishSubject<JSONObject> risposta = utenteDAO.getNomeCognomeUtente(itinerario.getFk_utente(), this);
@@ -109,5 +125,53 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
     public void onBackPressed()
     {
         back();
+    }
+
+    public void setMappa()
+    {
+        Marker inizio = new Marker(mappa);
+        Marker fine = new Marker(mappa);
+
+        inizio.setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_baseline_location_on_24));
+        fine.setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_finepercorso));
+        inizio.setPosition(itinerario.getWaypoints().get(0));
+        fine.setPosition(itinerario.getWaypoints().get(itinerario.getWaypoints().size() - 1));
+
+        mappa.getOverlays().add(inizio);
+        mappa.getOverlays().add(fine);
+        mapController.setCenter(inizio.getPosition());
+        OSRMRoadManager roadManager = new OSRMRoadManager(this , "MyOwnUserAgent/1.0");
+        roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT);
+
+        new Thread(()->
+        {
+            Road road;
+            Polyline roadOverlay = null;
+
+            mappa.getOverlays().remove(roadOverlay);
+            road = roadManager.getRoad(itinerario.getWaypoints());
+            roadOverlay = RoadManager.buildRoadOverlay(road);
+            mappa.getOverlays().add(roadOverlay);
+            //per aggiornare l'UI della mappa è necessario farlo nel main thread
+            this.runOnUiThread(() -> mappa.invalidate());
+
+            /* Calcolo media tra due punti */
+            double latInizio, lonInizio, latFine, lonFine;
+            latInizio = itinerario.getWaypoints().get(0).getLatitude();
+            lonInizio = itinerario.getWaypoints().get(0).getLongitude();
+            latFine   = itinerario.getWaypoints().get(itinerario.getWaypoints().size()-1).getLatitude();
+            lonFine   = itinerario.getWaypoints().get(itinerario.getWaypoints().size()-1).getLongitude();
+
+            GeoPoint puntoMedio = new GeoPoint((latInizio + latFine) / 2, (lonInizio + lonFine) / 2);
+            BoundingBox boundingBox = BoundingBox.fromGeoPointsSafe(itinerario.getWaypoints());
+
+            //viene messo come centro della mappa il punto medio tra i marker
+            runOnUiThread(() ->
+            {
+                mapController.setCenter(puntoMedio);
+                mappa.zoomToBoundingBox(boundingBox, true);
+
+            });
+        }).start();
     }
 }

@@ -3,7 +3,8 @@ package com.example.natour.model;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Itinerario implements Serializable
 {
@@ -13,9 +14,20 @@ public class Itinerario implements Serializable
     private boolean accessibilitaDisabili;
     private int difficoltà; //va da 1 a 5
     private String descrizione;
-    private List<GeoPoint> waypoints; //Percorso
+    private ArrayList<GeoPoint> waypoints; //Percorso
     private String fk_utente; //Chi ha creato l'itinerario
     private String nomeFile;
+    private LinkedList<Immagine> immagini;
+
+    public LinkedList<Immagine> getImmagini()
+    {
+        return immagini;
+    }
+
+    public void setImmagini(LinkedList<Immagine> immagini)
+    {
+        this.immagini = immagini;
+    }
 
     public String getNomeFile()
     {
@@ -102,12 +114,12 @@ public class Itinerario implements Serializable
         this.descrizione = descrizione;
     }
 
-    public List<GeoPoint> getWaypoints()
+    public ArrayList<GeoPoint> getWaypoints()
     {
         return waypoints;
     }
 
-    public void setWaypoints(List<GeoPoint> waypoints)
+    public void setWaypoints(ArrayList<GeoPoint> waypoints)
     {
         this.waypoints = waypoints;
     }

@@ -30,7 +30,6 @@ import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
 import com.example.natour.R;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
-import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
@@ -51,10 +50,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -157,9 +154,11 @@ public class ControllerItinerario
         File gpxfile = null;
         for(GeoPoint p : waypoints)
         {
-            buffer.append(p.getLatitude() + "," + p.getLongitude() + ":");
+            buffer.append(p.getLatitude());
+            buffer.append("\n");
+            buffer.append(p.getLongitude());
+            buffer.append("\n");
         }
-        buffer.append(";");
         Environment.getExternalStorageState();
         try
         {
@@ -335,22 +334,27 @@ public class ControllerItinerario
                                             String URL = "https://besimsoft.com/.natour21/uq6PMpSfiZ/api/itinerary/nfws";
                                             String URLImage = risultato.getUrl().toString();
                                             //Controllo effettuata sulla singola aggiunta
-                                            Map<String, String> paramsUrl = new HashMap<>();
+                                            /*Map<String, String> paramsUrl = new HashMap<>();
                                             paramsUrl.put("image_url", URLImage);
                                             RequestAPI requestImage = new RequestAPI("", inserimentoItinerarioActivity, paramsUrl);
-                                            requestImage.setEndpoint(URL);
-                                            PublishSubject<JSONObject> response = requestImage.sendRequest();
-                                            response.subscribe(
+                                            requestImage.setEndpoint(URL);*/
+                                            /*PublishSubject<JSONObject> response = requestImage.sendRequest();*/
+                                            /*response.subscribe(
                                                     imageResult ->
                                                     {
                                                         if(imageResult.getBoolean("is_save"))
-                                                        {
+                                                        {*/
                                                             Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
                                                             /* recupero metadati */
                                                             immagine.setURL(URLImage);
-                                                            getMetadatiImage(exampleInputStream, immagine);
-                                                            inserimentoItinerarioFragment.stopMapLoading();
-                                                        }
+
+                                                            inserimentoItinerarioActivity.runOnUiThread(()->
+                                                            {
+                                                                getMetadatiImage(exampleInputStream, immagine);
+                                                                inserimentoItinerarioFragment.stopMapLoading();
+                                                            });
+
+                                                      /*  }
                                                         else
                                                         {
                                                             inserimentoItinerarioFragment.stopMapLoading();
@@ -363,8 +367,8 @@ public class ControllerItinerario
                                                         inserimentoItinerarioFragment.stopMapLoading();
                                                         Log.e("ERRORIMG", imageError.getLocalizedMessage());
                                                         new ErrorDialog("Errore nel caricamento dell'ìmmagine, riprova con un'altra immagine!").show(fragmentManager, null);
-                                                    }
-                                            );
+                                                    }*/
+                                            //);
                                         },
                                         error ->
                                         {

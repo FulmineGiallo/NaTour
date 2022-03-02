@@ -113,6 +113,11 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
         durata.setText("Durata" + " " + itinerario.getDurata() + " " + "min");
         descrizione.setText(itinerario.getDescrizione());
 
+        /* OTTENGO LA LISTA DI IMMAGINI DI QUELL' ITINERARIO SE CI SONO */
+        controllerVisualizzaItinerario.getImageItinerario();
+
+
+
     }
 
     private void back()

@@ -1,12 +1,18 @@
 package com.example.natour.model.dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.natour.model.Immagine;
+import com.example.natour.model.Itinerario;
 import com.example.natour.model.connection.RequestAPI;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ImmagineDAO
 {
@@ -26,7 +32,14 @@ public class ImmagineDAO
 
         RequestAPI request = new RequestAPI(path, context, parmasAPI);
         request.sendRequest();
+    }
 
-
+    public PublishSubject<JSONObject> getImageOfItinerario(Itinerario itinerario, Context context)
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("fk_itinerario", itinerario.getIdItinerario());
+        Log.i("ITINERARIO ID", itinerario.getIdItinerario());
+        RequestAPI requestAPI = new RequestAPI("immagine/getImages.php", context, params);
+        return requestAPI.sendRequest();
     }
 }

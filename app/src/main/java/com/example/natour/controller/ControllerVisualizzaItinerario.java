@@ -6,8 +6,10 @@ import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
 import com.example.natour.model.Itinerario;
+import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 
+import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.BufferedReader;
@@ -16,6 +18,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ControllerVisualizzaItinerario
 {
@@ -88,6 +92,26 @@ public class ControllerVisualizzaItinerario
 
     }
 
+    public void getImageItinerario()
+    {
+        /* Per caricare le foto si deve ottnere l'image view corrispondente */
+        ImmagineDAO immagineDAO = new ImmagineDAO();
 
+        PublishSubject<JSONObject> response = immagineDAO.getImageOfItinerario(itinerario, this.activity.getApplicationContext());
+        response.subscribe(
+                result ->
+                {
+                    Log.d("TEST IMG Itinerario", String.valueOf(result.get("id_key")));
+                },
+                error ->
+                {
+
+                }
+        );
+
+
+
+
+    }
 
 }

@@ -34,6 +34,7 @@ import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
 import com.example.natour.databinding.FragmentInserimentoItinerarioBinding;
 import com.example.natour.model.Immagine;
+import com.example.natour.view.dialog.ErrorDialog;
 import com.google.android.material.slider.Slider;
 
 import org.osmdroid.api.IMapController;
@@ -282,6 +283,8 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
             {
                 if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !waypoints.isEmpty())
                     controllerItinerario.inserisciItinerario(difficolta.getValue(),edtNome.getText().toString(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString(), waypoints, imgList, getContext());
+                else
+                    new ErrorDialog("Itinerario non inserito correttamente").show(getParentFragmentManager(),null);
             }
         });
 

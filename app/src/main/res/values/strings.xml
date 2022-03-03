@@ -26,4 +26,11 @@
     <string name="additinerariobutton">addItinerarioButton</string>
     <string name="bottonenascosto">bottoneNascosto</string>
     <string name="itinerario_inserito">Itinerario inserito</string>
+    <string name="string_facile">facile</string>
+    <string name="string_facile">facile</string>
+    <string name="string_dilettante">dilettante</string>
+    <string name="string_intermedio">intermedio</string>
+    <string name="string_intermedio">intermedio</string>
+    <string name="string_difficile">difficile</string>
+    <string name="string_esperto">esperto</string>
 </resources>

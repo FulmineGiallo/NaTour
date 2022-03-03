@@ -107,22 +107,28 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
                 }
         );
 
+        TextView text = findViewById(R.id.txt_difficolta);
         switch (itinerario.getDifficoltà())
         {
             case 1:
                 pallinoDifficolta.setColorFilter(this.getResources().getColor(R.color.facile));
+                text.setText(R.string.string_facile);
                 break;
             case 2:
                 pallinoDifficolta.setColorFilter(this.getResources().getColor(R.color.dilettante));
+                text.setText(R.string.string_dilettante);
                 break;
             case 3:
                 pallinoDifficolta.setColorFilter(this.getResources().getColor(R.color.intermedio));
+                text.setText(R.string.string_intermedio);
                 break;
             case 4:
                 pallinoDifficolta.setColorFilter(this.getResources().getColor(R.color.difficile));
+                text.setText(R.string.string_difficile);
                 break;
             case 5:
                 pallinoDifficolta.setColorFilter(this.getResources().getColor(R.color.esperto));
+                text.setText(R.string.string_esperto);
                 break;
         }
 

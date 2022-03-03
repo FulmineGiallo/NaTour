@@ -71,22 +71,21 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
                 .into(holder.imageView);
         if(!itinerari.isEmpty()){
             holder.textView.setText(itinerari.get(position).getNome());
-            holder.difficolta.setAlpha(0.80f);
             switch (itinerari.get(position).getDifficoltà()){
                 case 1:
-                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.facile), PorterDuff.Mode.ADD);
+                    holder.difficolta.setColorFilter(fragment.requireContext().getResources().getColor(R.color.facile));
                     break;
                 case 2:
-                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.dilettante), PorterDuff.Mode.ADD);
+                    holder.difficolta.setColorFilter(fragment.requireContext().getResources().getColor(R.color.dilettante));
                     break;
                 case 3:
-                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.intermedio), PorterDuff.Mode.ADD);
+                    holder.difficolta.setColorFilter(fragment.requireContext().getResources().getColor(R.color.intermedio));
                     break;
                 case 4:
-                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.difficile), PorterDuff.Mode.ADD);
+                    holder.difficolta.setColorFilter(fragment.requireContext().getResources().getColor(R.color.difficile));
                     break;
                 case 5:
-                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.esperto), PorterDuff.Mode.ADD);
+                    holder.difficolta.setColorFilter(fragment.requireContext().getResources().getColor(R.color.esperto));
                     break;
             }
         }

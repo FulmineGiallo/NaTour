@@ -5,12 +5,15 @@ import android.util.Log;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
+import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Marker;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,7 +38,6 @@ public class ControllerVisualizzaItinerario
     public void getWaypointsFromItinerario()
     {
         String key = itinerario.getNomeFile();
-        StringBuilder text = new StringBuilder();
         LinkedList<Float> lat = new LinkedList<>();
         LinkedList<Float> longitudine = new LinkedList<>();
 
@@ -97,21 +99,41 @@ public class ControllerVisualizzaItinerario
         /* Per caricare le foto si deve ottnere l'image view corrispondente */
         ImmagineDAO immagineDAO = new ImmagineDAO();
 
-        PublishSubject<JSONObject> response = immagineDAO.getImageOfItinerario(itinerario, this.activity.getApplicationContext());
+        PublishSubject<JSONArray> response = immagineDAO.getImageOfItinerario(itinerario, this.activity.getApplicationContext());
         response.subscribe(
                 result ->
                 {
-                    Log.d("TEST IMG Itinerario", String.valueOf(result.get("id_key")));
+                    LinkedList<Immagine> listImmagine = new LinkedList<>();
+                    for(int i = 0; i < result.length(); i++){
+                        JSONObject jsonObject = result.getJSONObject(i);
+                        Immagine immagine = new Immagine(null, jsonObject.getString("id_key"));
+                        immagine.setLatitude(Float.parseFloat(jsonObject.getString("lat_posizione")));
+                        immagine.setLongitude(Float.parseFloat(jsonObject.getString("long_posizione")));
+                        listImmagine.add(immagine);
+
+                    }
+                    itinerario.setImmagini(listImmagine);
+
                 },
                 error ->
                 {
 
                 }
         );
+    }
 
-
-
-
+    public void setURLImmagine(){
+        for(Immagine img: itinerario.getImmagini()){
+            RxAmplify.Storage.getUrl(img.getKey()).subscribe(
+                    urlResult ->
+                    {
+                        Log.i("MyAmplifyApp", "Successfully generated: " + urlResult.getUrl());
+                        img.setURL(urlResult.getUrl().toString());
+                        activity.setImage(img);
+                    },
+                    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+            );
+        }
     }
 
 }

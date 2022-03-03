@@ -7,6 +7,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.connection.RequestAPI;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -34,12 +35,12 @@ public class ImmagineDAO
         request.sendRequest();
     }
 
-    public PublishSubject<JSONObject> getImageOfItinerario(Itinerario itinerario, Context context)
+    public PublishSubject<JSONArray> getImageOfItinerario(Itinerario itinerario, Context context)
     {
         HashMap<String, String> params = new HashMap<>();
         params.put("fk_itinerario", itinerario.getIdItinerario());
         Log.i("ITINERARIO ID", itinerario.getIdItinerario());
         RequestAPI requestAPI = new RequestAPI("immagine/getImages.php", context, params);
-        return requestAPI.sendRequest();
+        return requestAPI.getMultipleRows();
     }
 }

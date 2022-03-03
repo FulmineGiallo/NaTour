@@ -12,6 +12,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import com.example.natour.BuildConfig;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerVisualizzaItinerario;
+import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.Tab.TabActivity;
@@ -178,5 +179,14 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
 
             });
         }).start();
+    }
+
+    public void setImage(Immagine img)
+    {
+        Marker imgMarker = new Marker(mappa);
+        imgMarker.setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_photo_location));
+        imgMarker.setPosition(new GeoPoint(img.getLatitude(),img.getLongitude()));
+        mappa.getOverlays().add(imgMarker);
+        runOnUiThread(()-> mappa.invalidate());
     }
 }

@@ -106,9 +106,10 @@ public class ControllerVisualizzaItinerario
                     LinkedList<Immagine> listImmagine = new LinkedList<>();
                     for(int i = 0; i < result.length(); i++){
                         JSONObject jsonObject = result.getJSONObject(i);
-                        Immagine immagine = new Immagine(null, jsonObject.getString("id_key"));
-                        immagine.setLatitude(Float.parseFloat(jsonObject.getString("lat_posizione")));
-                        immagine.setLongitude(Float.parseFloat(jsonObject.getString("long_posizione")));
+
+                        Immagine immagine = new Immagine(null, String.valueOf(jsonObject.get("id_key")));
+                        immagine.setLatitude(Float.parseFloat(String.valueOf(jsonObject.get("lat_posizione"))));
+                        immagine.setLongitude(Float.parseFloat(String.valueOf(jsonObject.get("long_posizione"))));
                         listImmagine.add(immagine);
 
                     }

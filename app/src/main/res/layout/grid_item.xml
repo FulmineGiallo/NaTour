@@ -33,5 +33,15 @@
             android:padding="7dp" />
     </com.google.android.material.card.MaterialCardView>
 
+    <ImageView
+        android:id="@+id/homepage_difficolta"
+        android:layout_width= "15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/ic_ellipse_155"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="14dp"
+        />
+
 
 </androidx.cardview.widget.CardView>

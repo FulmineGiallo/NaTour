@@ -1,5 +1,7 @@
 package com.example.natour.view.adapter;
 
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,8 +69,27 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
                 .centerCrop()
                 .placeholder(android.R.drawable.spinner_background)
                 .into(holder.imageView);
-        if(!itinerari.isEmpty())
+        if(!itinerari.isEmpty()){
             holder.textView.setText(itinerari.get(position).getNome());
+            holder.difficolta.setAlpha(0.80f);
+            switch (itinerari.get(position).getDifficoltà()){
+                case 1:
+                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.facile), PorterDuff.Mode.ADD);
+                    break;
+                case 2:
+                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.dilettante), PorterDuff.Mode.ADD);
+                    break;
+                case 3:
+                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.intermedio), PorterDuff.Mode.ADD);
+                    break;
+                case 4:
+                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.difficile), PorterDuff.Mode.ADD);
+                    break;
+                case 5:
+                    holder.difficolta.getBackground().setColorFilter(fragment.requireContext().getResources().getColor(R.color.esperto), PorterDuff.Mode.ADD);
+                    break;
+            }
+        }
 
         holder.imageView.setOnClickListener(new View.OnClickListener()
         {
@@ -93,12 +114,14 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     {
         ImageView imageView;
         TextView textView;
+        ImageView difficolta;
 
         public MasonryView(@NonNull View itemView)
         {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             textView = (TextView) itemView.findViewById(R.id.textView);
+            difficolta = (ImageView) itemView.findViewById(R.id.homepage_difficolta);
         }
     }
 }

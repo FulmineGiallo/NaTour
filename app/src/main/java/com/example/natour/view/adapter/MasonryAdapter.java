@@ -1,6 +1,5 @@
 package com.example.natour.view.adapter;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +8,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerHomePage;
+import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.view.Tab.HomePageFragment;
 
 import java.util.List;
 
 public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView>
 {
-    private Context context;
+    private Fragment fragment;
     private List<Itinerario> itinerari;
+    private List<Immagine> immagineList;
     private FragmentManager manager;
     private ControllerHomePage controllerHomePage;
 
@@ -34,9 +38,11 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
 
 
-    public MasonryAdapter(List<Itinerario> itinerari, FragmentManager fragmentManager, ControllerHomePage controllerHomePage)
+    public MasonryAdapter(HomePageFragment fragment, List<Itinerario> itinerari, FragmentManager fragmentManager, ControllerHomePage controllerHomePage, List<Immagine> immagineList)
     {
+        this.fragment = fragment;
         this.itinerari = itinerari;
+        this.immagineList = immagineList;
         this.manager = fragmentManager;
         this.controllerHomePage = controllerHomePage;
     }
@@ -54,6 +60,13 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     {
 
         holder.imageView.setImageResource(imgList[position]);
+        if(!immagineList.isEmpty())
+            Glide
+                .with(fragment)
+                .load(immagineList.get(position).getURL())
+                .centerCrop()
+                .placeholder(android.R.drawable.spinner_background)
+                .into(holder.imageView);
         if(!itinerari.isEmpty())
             holder.textView.setText(itinerari.get(position).getNome());
 

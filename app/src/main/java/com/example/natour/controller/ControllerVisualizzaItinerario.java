@@ -2,6 +2,9 @@ package com.example.natour.controller;
 
 import android.util.Log;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
@@ -9,6 +12,10 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
+import com.example.natour.view.adapter.ImageAdapter;
+import com.example.natour.view.adapter.MasonryAdapter;
+import com.example.natour.view.adapter.NotDeletableImageAdapter;
+import com.example.natour.view.adapter.SpacesItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,12 +33,15 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ControllerVisualizzaItinerario
 {
+    private NotDeletableImageAdapter imageAdapter;
     private VisualizzaItinerarioActivity activity;
     private Itinerario itinerario;
     public ControllerVisualizzaItinerario(VisualizzaItinerarioActivity activity, Itinerario itinerario)
     {
         this.activity = activity;
         this.itinerario = itinerario;
+        LinkedList<Immagine> listImmagine = new LinkedList<>();
+        itinerario.setImmagini(listImmagine);
     }
 
 
@@ -103,18 +113,16 @@ public class ControllerVisualizzaItinerario
         response.subscribe(
                 result ->
                 {
-                    LinkedList<Immagine> listImmagine = new LinkedList<>();
+
                     for(int i = 0; i < result.length(); i++){
                         JSONObject jsonObject = result.getJSONObject(i);
-
-                        Immagine immagine = new Immagine(null, String.valueOf(jsonObject.get("id_key")));
-                        immagine.setLatitude(Float.parseFloat(String.valueOf(jsonObject.get("lat_posizione"))));
-                        immagine.setLongitude(Float.parseFloat(String.valueOf(jsonObject.get("long_posizione"))));
-                        listImmagine.add(immagine);
-
+                        Immagine immagine = new Immagine(null, jsonObject.getString("id_key"));
+                        immagine.setLatitude(Float.parseFloat(jsonObject.getString("lat_posizione")));
+                        immagine.setLongitude(Float.parseFloat(jsonObject.getString("long_posizione")));
+                        itinerario.getImmagini().add(immagine);
+                        Log.i("IN FOR", immagine.toString());
                     }
-                    itinerario.setImmagini(listImmagine);
-
+                    setURLImmagine();
                 },
                 error ->
                 {
@@ -131,10 +139,22 @@ public class ControllerVisualizzaItinerario
                         Log.i("MyAmplifyApp", "Successfully generated: " + urlResult.getUrl());
                         img.setURL(urlResult.getUrl().toString());
                         activity.setImage(img);
+                        activity.runOnUiThread(()->imageAdapter.notifyItemChanged(itinerario.getImmagini().indexOf(img)));
                     },
                     error -> Log.e("MyAmplifyApp", "URL generation failure", error)
             );
         }
+    }
+
+    public void setAdapter(RecyclerView mRecyclerView)
+    {
+        imageAdapter = new NotDeletableImageAdapter(itinerario.getImmagini(), activity.getSupportFragmentManager(), this, activity);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(linearLayout);
+        mRecyclerView.setAdapter(imageAdapter);
+        /*SpacesItemDecoration decoration = new SpacesItemDecoration(16);
+        mRecyclerView.addItemDecoration(decoration);*/
+
     }
 
 }

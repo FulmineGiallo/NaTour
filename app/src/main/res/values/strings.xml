@@ -9,7 +9,6 @@
     <string name="edt_nome">Nome</string>
     <string name="edt_cognome">Cognome</string>
     <string name="txt_iMieiItinerari"> <u>I miei itinerari</u></string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="inserisci_il_codice">Inserisci il codice</string>
     <string name="codice_di_conferma">Codice di conferma</string>
@@ -31,6 +30,7 @@
     <string name="string_intermedio">intermedio</string>
     <string name="string_difficile">difficile</string>
     <string name="string_esperto">esperto</string>
+    <string name="no_itinerari">Non hai inserito nessun itinerario</string>
     <string name="inserisci_recensione">inserisci recensione</string>
     <string name="invia">invia</string>
 </resources>

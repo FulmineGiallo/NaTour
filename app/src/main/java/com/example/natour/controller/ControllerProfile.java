@@ -23,7 +23,6 @@ public class ControllerProfile
     public void signOut()
     {
         contexController.startActivity(intentLogin);
-
-
     }
+
 }

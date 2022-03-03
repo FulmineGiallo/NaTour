@@ -35,5 +35,7 @@
     <color name="colore_barrahomepage_dark">#3a5d71</color>
     <color name="colore_barrachat_dark">#455187</color>
     <color name="colore_barranotifiche_dark">#524587</color>
+    <color name="recensione">#5998d8fa</color>
+    <color name="stella">#e6bb22</color>
 
 </resources>

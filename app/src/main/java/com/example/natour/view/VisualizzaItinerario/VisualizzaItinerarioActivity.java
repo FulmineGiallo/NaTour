@@ -23,6 +23,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.Tab.TabActivity;
+import com.example.natour.view.dialog.RecensioneBottomSheet;
 
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
@@ -43,7 +44,7 @@ import java.net.URL;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class VisualizzaItinerarioActivity extends AppCompatActivity
+public class VisualizzaItinerarioActivity extends AppCompatActivity implements RecensioneBottomSheet.CallbackRecensione
 {
     private TextView nomeUtente;
     private TextView nomeItinerario;
@@ -53,8 +54,10 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
     private TextView descrizione;
     private MapView mappa;
     private ImageButton btn_indietro;
+    private ImageButton btn_addRecensione;
     private Itinerario itinerario;
     private IMapController mapController;
+    private RecensioneBottomSheet bottom_sheet_recensione;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,7 +67,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
 
 
 
-
+        btn_addRecensione = findViewById(R.id.btn_addrecensione);
         itinerario = (Itinerario) getIntent().getSerializableExtra("itinerarioselezionato");
         nomeUtente = findViewById(R.id.txt_nomecognome);
         nomeItinerario = findViewById(R.id.txt_nomeitinerario);
@@ -138,6 +141,10 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
         /* OTTENGO LA LISTA DI IMMAGINI DI QUELL' ITINERARIO SE CI SONO */
         controllerVisualizzaItinerario.getImageItinerario();
 
+        btn_addRecensione.setOnClickListener(v -> {
+            bottom_sheet_recensione = new RecensioneBottomSheet();
+            bottom_sheet_recensione.show(getSupportFragmentManager(),null);
+        });
 
 
     }
@@ -231,5 +238,12 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
         }
 
         return new BitmapDrawable(Resources.getSystem(), x);
+    }
+
+    @Override
+    public void callback(int rate, String recensione)
+    {
+        bottom_sheet_recensione.dismiss();
+        Log.i("CALLBACK RECENSIONE", "bisogna inviare informazioni al database");
     }
 }

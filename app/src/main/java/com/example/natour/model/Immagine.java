@@ -3,6 +3,8 @@ package com.example.natour.model;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.views.overlay.Marker;
 
 
@@ -15,6 +17,14 @@ public class Immagine
 
     private float latitude;
     private float longitude;
+
+    @NonNull
+    @Override
+    public String toString()
+    {
+        return "lat = " + getLatitude() + ", long = " + getLongitude() +
+            ", url = "+ getURL() + ", key = "+ getKey();
+    }
 
     public String getURL()
     {

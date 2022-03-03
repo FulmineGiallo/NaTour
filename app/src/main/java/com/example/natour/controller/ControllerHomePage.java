@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.Tab.HomePageFragment;
@@ -16,6 +17,7 @@ import com.example.natour.view.adapter.SpacesItemDecoration;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -26,6 +28,7 @@ public class ControllerHomePage
     private HomePageFragment fragment;
     private MasonryAdapter adapter;
     private List<Itinerario> itinerari = new ArrayList<>();
+    private List<Immagine> immagineList = new LinkedList<>();
 
     public ControllerHomePage(FragmentManager fragmentManager, HomePageFragment fragment)
     {
@@ -83,7 +86,7 @@ public class ControllerHomePage
 
     public void setAdapter(RecyclerView mRecyclerView)
     {
-        adapter = new MasonryAdapter(itinerari, fragmentManager, this);
+        adapter = new MasonryAdapter(fragment, itinerari, fragmentManager, this, immagineList);
         mRecyclerView.setAdapter(adapter);
         SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         mRecyclerView.addItemDecoration(decoration);

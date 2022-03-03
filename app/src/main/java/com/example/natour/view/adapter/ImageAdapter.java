@@ -23,6 +23,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
     private List<Immagine> imageList;
     private FragmentManager manager;
     private ControllerItinerario controllerItinerario;
+
     public ImageAdapter(List<Immagine> uriList, FragmentManager fragmentManager, ControllerItinerario controllerItinerario)
     {
         imageList = uriList;

@@ -1,13 +1,20 @@
 package com.example.natour.view.VisualizzaItinerario;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.BuildConfig;
 import com.example.natour.R;
@@ -28,6 +35,11 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
@@ -74,6 +86,9 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
 
         ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(this, itinerario);
         controllerVisualizzaItinerario.getWaypointsFromItinerario();
+
+        RecyclerView recyclerView = findViewById(R.id.rec_view_show_images);
+        controllerVisualizzaItinerario.setAdapter(recyclerView);
 
         /* Set MAPPA */
 
@@ -142,6 +157,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
         fine.setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_finepercorso));
         inizio.setPosition(itinerario.getWaypoints().get(0));
         fine.setPosition(itinerario.getWaypoints().get(itinerario.getWaypoints().size() - 1));
+        inizio.setTitle("inizio");
+        fine.setTitle("fine");
 
         mappa.getOverlays().add(inizio);
         mappa.getOverlays().add(fine);
@@ -183,10 +200,30 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity
 
     public void setImage(Immagine img)
     {
+        Log.i("IMG IN ACTIVITY", img.toString());
         Marker imgMarker = new Marker(mappa);
         imgMarker.setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_photo_location));
         imgMarker.setPosition(new GeoPoint(img.getLatitude(),img.getLongitude()));
+        imgMarker.setImage(drawableFromUrl(img.getURL()));
         mappa.getOverlays().add(imgMarker);
         runOnUiThread(()-> mappa.invalidate());
+    }
+
+    public Drawable drawableFromUrl(String url)
+    {
+        Bitmap x = null;
+
+        try
+        {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            x = BitmapFactory.decodeStream(input);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return new BitmapDrawable(Resources.getSystem(), x);
     }
 }

@@ -15,6 +15,8 @@ import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.RecensioneDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
+import com.example.natour.view.adapter.SpacesItemDecoration;
+import com.example.natour.view.dialog.SegnalazioneBottomSheet;
 import com.example.natour.view.adapter.RecensioniAdapter;
 
 import org.json.JSONArray;
@@ -160,6 +162,11 @@ public class ControllerVisualizzaItinerario
         /*SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         mRecyclerView.addItemDecoration(decoration);*/
 
+    }
+
+    public void showSegnalazioni()
+    {
+        //todo: mostrare il bottom sheet con le info delle segnalazioni
     }
 
     public void setRecensioniAdapter(RecyclerView mRec)

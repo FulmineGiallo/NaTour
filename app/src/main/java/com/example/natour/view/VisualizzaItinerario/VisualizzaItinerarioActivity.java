@@ -55,6 +55,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private MapView mappa;
     private ImageButton btn_indietro;
     private ImageButton btn_addRecensione;
+    private ImageButton btn_addSegnalazione;
     private Itinerario itinerario;
     private String token;
     private IMapController mapController;
@@ -67,6 +68,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
 
         btn_addRecensione = findViewById(R.id.btn_addrecensione);
+        btn_addSegnalazione= findViewById(R.id.btn_segnala);
         itinerario = (Itinerario) getIntent().getSerializableExtra("itinerarioselezionato");
         token = (String) getIntent().getSerializableExtra("token");
 
@@ -145,6 +147,11 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         btn_addRecensione.setOnClickListener(v -> {
             new RecensioneBottomSheet().show(getSupportFragmentManager(),null);
         });
+        btn_addSegnalazione.setOnClickListener(v -> {
+            controllerVisualizzaItinerario.showSegnalazioni();
+        });
+
+
 
         RecyclerView recyclerRecensioni = findViewById(R.id.frame_recensioni);
         controllerVisualizzaItinerario.setRecensioniAdapter(recyclerRecensioni);
@@ -244,7 +251,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     }
 
     @Override
-    public void callback(int rate, String recensione)
+    public void callbackRecensione(int rate, String recensione)
     {
         Log.i("CALLBACK RECENSIONE", "bisogna inviare informazioni al database");
 

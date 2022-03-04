@@ -85,7 +85,7 @@
                     />
 
                 <ImageButton
-                    android:id="@+id/btn_segnala"
+                    android:id="@+id/btn_segnala1"
                     android:layout_width="29dp"
                     android:layout_height="29dp"
                     android:background="@drawable/ic_small"

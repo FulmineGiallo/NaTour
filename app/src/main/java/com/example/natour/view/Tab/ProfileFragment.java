@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,12 +15,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerProfile;
+import com.example.natour.model.Itinerario;
+import com.example.natour.view.adapter.ProfileAdapter;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProfileFragment extends Fragment
@@ -29,18 +36,21 @@ public class ProfileFragment extends Fragment
     private TextView txtUtente;
     private NavigationView menuView;
     private MaterialCardView cardMenu;
+    private LottieAnimationView animationView;
+    private TextView noItinerario;
+    private List<Itinerario> itinerari = new ArrayList<>();
+    private String tokenUtente;
+    public ProfileFragment profileFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
@@ -48,16 +58,25 @@ public class ProfileFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
-        controllerProfile = new ControllerProfile(getParentFragmentManager(), getActivity());
+        controllerProfile = new ControllerProfile(getParentFragmentManager(), getActivity(), tokenUtente, itinerari);
         SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        controllerProfile.getItinerariProfile();
+        if(!itinerari.isEmpty()){
+            noItinerario.findViewById(R.id.txt_noItinerario).setVisibility(View.INVISIBLE);
+            animationView.findViewById(R.id.animationView).setVisibility(View.INVISIBLE);
+
+            //TODO settare itinerari utente in layout (Chiedi aiuto a Lorenzo :P)
+        }
         txtUtente = requireView().findViewById(R.id.utente);
         menuView = requireView().findViewById(R.id.menuview);
         cardMenu = requireView().findViewById(R.id.cardMenu);
+
 
         model.getUtente().observe(getViewLifecycleOwner(),
                 utente ->
                 {
                     txtUtente.setText(utente.getNome() +" "+ utente.getCognome());
+                    tokenUtente = utente.getToken();
 
                 }
         );

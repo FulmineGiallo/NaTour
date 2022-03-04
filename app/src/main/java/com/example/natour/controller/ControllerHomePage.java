@@ -90,7 +90,6 @@ public class ControllerHomePage
         mRecyclerView.setAdapter(adapter);
         SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         mRecyclerView.addItemDecoration(decoration);
-
     }
 
     public void visualizzaItinerario(Itinerario itinerario)

@@ -40,5 +40,13 @@ public class ItinerarioDAO
 
 
     }
+    public PublishSubject<JSONArray> getItinerariFromUtente(Context context, String token)
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("fk_utente",token);
+
+        RequestAPI request = new RequestAPI("itinerario/get_itinerario.php", context,params);
+        return  request.getMultipleRows();
+    }
 
 }

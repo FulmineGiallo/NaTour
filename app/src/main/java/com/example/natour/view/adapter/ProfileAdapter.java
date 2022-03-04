@@ -1,7 +1,6 @@
 package com.example.natour.view.adapter;
 
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
+import android.text.NoCopySpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,54 +16,53 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerHomePage;
+import com.example.natour.controller.ControllerProfile;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.view.Tab.HomePageFragment;
+import com.example.natour.view.Tab.ProfileFragment;
 
 import java.util.List;
 
-public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView>
+
+public class ProfileAdapter
 {
     private Fragment fragment;
     private List<Itinerario> itinerari;
     private List<Immagine> immagineList;
     private FragmentManager manager;
+    private ControllerProfile controllerProfile;
     private ControllerHomePage controllerHomePage;
 
-    //TODO: trovare un modo per aggiungere dinamicamente le immagini e aggiornarle
-
     int[] imgList = {R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6,
-                     R.drawable.img7, R.drawable.img8};
+            R.drawable.img7, R.drawable.img8};
 
-    public MasonryAdapter(HomePageFragment fragment, List<Itinerario> itinerari, FragmentManager fragmentManager, ControllerHomePage controllerHomePage, List<Immagine> immagineList)
+    public ProfileAdapter(ProfileFragment fragment, List<Itinerario> itinerari, FragmentManager fragmentManager, ControllerProfile controllerProfile, List<Immagine> immagineList)
     {
         this.fragment = fragment;
         this.itinerari = itinerari;
         this.immagineList = immagineList;
         this.manager = fragmentManager;
-        this.controllerHomePage = controllerHomePage;
+        this.controllerProfile = controllerProfile;
     }
 
-    @Override
-    public MasonryAdapter.MasonryView onCreateViewHolder(ViewGroup parent, int viewType)
+    public ProfileAdapter.ProfileView onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item, parent, false);
-        MasonryView masonryView = new MasonryView(layoutView);
-        return masonryView;
+        ProfileAdapter.ProfileView profileView = new ProfileAdapter.ProfileView(layoutView);
+        return profileView;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MasonryAdapter.MasonryView holder, int position)
+    public void onBindViewHolder(@NonNull ProfileAdapter.ProfileView holder, int position)
     {
-
         holder.imageView.setImageResource(imgList[position]);
         if(!immagineList.isEmpty())
             Glide
-                .with(fragment)
-                .load(immagineList.get(position).getURL())
-                .centerCrop()
-                .placeholder(android.R.drawable.spinner_background)
-                .into(holder.imageView);
+                    .with(fragment)
+                    .load(immagineList.get(position).getURL())
+                    .centerCrop()
+                    .placeholder(android.R.drawable.spinner_background)
+                    .into(holder.imageView);
         if(!itinerari.isEmpty()){
             holder.textView.setText(itinerari.get(position).getNome());
             switch (itinerari.get(position).getDifficoltà()){
@@ -98,20 +96,19 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
         });
     }
 
-
-    @Override
     public int getItemCount()
     {
         return itinerari.size();
     }
 
-    class MasonryView extends RecyclerView.ViewHolder
+
+    class ProfileView extends RecyclerView.ViewHolder
     {
         ImageView imageView;
         TextView textView;
         ImageView difficolta;
 
-        public MasonryView(@NonNull View itemView)
+        public ProfileView(@NonNull View itemView)
         {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
@@ -120,4 +117,3 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
         }
     }
 }
-

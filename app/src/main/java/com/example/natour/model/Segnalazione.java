@@ -6,7 +6,6 @@ public class Segnalazione
     private String descrizione;
     private String utente;
 
-
     public String getUtente()
     {
         return utente;

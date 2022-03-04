@@ -12,12 +12,16 @@ import com.amplifyframework.storage.result.StorageDownloadFileResult;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Recensione;
+import com.example.natour.model.Segnalazione;
+import com.example.natour.model.Utente;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.RecensioneDAO;
+import com.example.natour.model.dao.SegnalazioneDAO;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
 import com.example.natour.view.adapter.RecensioniAdapter;
+import com.example.natour.view.dialog.SegnalazioneBottomSheet;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,6 +33,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
@@ -76,36 +81,33 @@ public class ControllerVisualizzaItinerario
                                 int i = 0;
                                 while ((line = br.readLine()) != null)
                                 {
-                                    if(i % 2 == 0)
+                                    if (i % 2 == 0)
                                     {
                                         lat.add(Float.parseFloat(line));
-                                    }
-                                    else
+                                    } else
                                     {
                                         longitudine.add(Float.parseFloat(line));
                                     }
                                     i++;
                                 }
                                 br.close();
-                            }
-                            catch (IOException e)
+                            } catch (IOException e)
                             {
                                 Log.e("ERROR DOWNLOAD FILE", e.getLocalizedMessage());
                             }
                             ArrayList<GeoPoint> waypoints = new ArrayList<>();
-                            for(int j = 0; j < lat.size(); j++)
+                            for (int j = 0; j < lat.size(); j++)
                             {
                                 waypoints.add(new GeoPoint(lat.get(j), longitudine.get(j)));
                             }
                             itinerario.setWaypoints(waypoints);
-                            for(GeoPoint p : waypoints)
+                            for (GeoPoint p : waypoints)
                                 Log.i("WAYPOINTS in LISTA", p.getLatitude() + " " + p.getLongitude());
 
                             activity.setMappa();
                         },
-                        error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+                        error -> Log.e("MyAmplifyApp", "Download Failure", error)
                 );
-
 
 
     }
@@ -120,7 +122,7 @@ public class ControllerVisualizzaItinerario
                 result ->
                 {
 
-                    for(int i = 0; i < result.length(); i++)
+                    for (int i = 0; i < result.length(); i++)
                     {
                         JSONObject jsonObject = result.getJSONObject(i);
                         Immagine immagine = new Immagine(null, jsonObject.getString("id_key"));
@@ -140,14 +142,15 @@ public class ControllerVisualizzaItinerario
 
     public void setURLImmagine()
     {
-        for(Immagine img: itinerario.getImmagini()){
+        for (Immagine img : itinerario.getImmagini())
+        {
             RxAmplify.Storage.getUrl(img.getKey()).subscribe(
                     urlResult ->
                     {
                         Log.i("MyAmplifyApp", "Successfully generated: " + urlResult.getUrl());
                         img.setURL(urlResult.getUrl().toString());
                         activity.setImage(img);
-                        activity.runOnUiThread(()->imageAdapter.notifyItemChanged(itinerario.getImmagini().indexOf(img)));
+                        activity.runOnUiThread(() -> imageAdapter.notifyItemChanged(itinerario.getImmagini().indexOf(img)));
                     },
                     error -> Log.e("MyAmplifyApp", "URL generation failure", error)
             );
@@ -166,7 +169,41 @@ public class ControllerVisualizzaItinerario
 
     public void showSegnalazioni()
     {
-        //todo: mostrare il bottom sheet con le info delle segnalazioni
+        SegnalazioneDAO segnalazioneDAO = new SegnalazioneDAO();
+        List<Segnalazione> criminalRecord = new LinkedList<>();
+        segnalazioneDAO.getSegnalazioni(activity, itinerario.getIdItinerario()).subscribe(
+                results ->
+                {
+                    for (int i = 0; i < results.length(); i++)
+                    {
+                        JSONObject result = results.getJSONObject(i);
+                        Segnalazione segnalazione = new Segnalazione();
+                        segnalazione.setTitolo(String.valueOf(result.get("titolo")));
+                        segnalazione.setDescrizione(String.valueOf(result.get("descrizione")));
+                        int finalI = i;
+                        new UtenteDAO().getNomeCognomeUtente(String.valueOf(result.get("fk_utente")), activity).subscribe(
+                                utente ->
+                                {
+
+                                    segnalazione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
+                                    criminalRecord.add(segnalazione);
+                                    if(finalI == results.length()-1)
+                                        activity.showBottomSheetSegnalazione(criminalRecord);
+                                },
+                                error ->
+                                {
+
+                                }
+                        );
+                    }
+
+                },
+                error ->
+                {
+                    activity.showBottomSheetSegnalazione(new LinkedList<>());
+
+                }
+        );
     }
 
     public void setRecensioniAdapter(RecyclerView mRec)
@@ -181,6 +218,22 @@ public class ControllerVisualizzaItinerario
     {
         RecensioneDAO recensioneDAO = new RecensioneDAO();
         recensioneDAO.insertRecensione(rate, testoRecensione, tokenUtenteLoggato, itinerario.getIdItinerario(), activity);
+        Recensione recensione = new Recensione();
+        recensione.setTesto(testoRecensione);
+        recensione.setValutazione(rate);
+        new UtenteDAO().getNomeCognomeUtente(tokenUtenteLoggato, activity).subscribe(
+                result ->
+                {
+                    recensione.setUtente(result.getString("nome") + " " + result.getString("cognome"));
+                    recensione.setFk_itinerario(itinerario.getIdItinerario());
+                    recensioni.add(recensione);
+                    recensioneAdapter.notifyItemInserted(recensioni.indexOf(recensione));
+                },
+                error ->
+                {
+
+                }
+        );
     }
 
     public void getRecensioneItinerario(TextView mediaTotale)
@@ -193,7 +246,7 @@ public class ControllerVisualizzaItinerario
         result.subscribe(
                 onResult ->
                 {
-                    for(int i = 0; i < onResult.length(); i++)
+                    for (int i = 0; i < onResult.length(); i++)
                     {
                         JSONObject jsonObject = onResult.getJSONObject(i);
                         Recensione recensione = new Recensione();
@@ -206,7 +259,7 @@ public class ControllerVisualizzaItinerario
                                     recensione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
                                     recensione.setFk_itinerario(itinerario.getIdItinerario());
 
-                                    activity.runOnUiThread(()->recensioneAdapter.notifyItemChanged(recensioni.indexOf(recensione)));
+                                    activity.runOnUiThread(() -> recensioneAdapter.notifyItemChanged(recensioni.indexOf(recensione)));
                                 },
                                 errorUtente ->
                                 {
@@ -227,11 +280,12 @@ public class ControllerVisualizzaItinerario
         );
 
     }
+
     public void calcoloMediaRecensioni(TextView mediaTotale)
     {
         int sommaTotale = 0;
         float media = 0;
-        for(Recensione r : recensioni)
+        for (Recensione r : recensioni)
         {
             sommaTotale = sommaTotale + r.getValutazione();
         }
@@ -242,4 +296,9 @@ public class ControllerVisualizzaItinerario
 
     }
 
+    public void insertSegnalazione(String segnalazione, String titolo)
+    {
+        SegnalazioneDAO segnalazioneDAO = new SegnalazioneDAO();
+        segnalazioneDAO.insertSegnalazione(titolo, segnalazione, tokenUtenteLoggato, itinerario.getIdItinerario(), activity);
+    }
 }

@@ -3,12 +3,12 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardCornerRadius="20dp"
     android:layout_marginTop="5dp"
     android:backgroundTint="@color/segnalazione"
-
+    android:layout_marginEnd="10dp"
     android:clickable="true"
     android:focusable="true">
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,19 +24,34 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/robotoregular"
             android:text="Nome Utente"
             />
         <TextView
             android:id="@+id/txt_testo_segnalazione"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/txt_utente_segnalazione"
+            app:layout_constraintTop_toBottomOf="@id/txt_titolo_segnalazione"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent
+"
+            android:fontFamily="@font/robotoregular"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
             android:paddingBottom="10dp"
             android:text="Questo è un placeHolder per la segnalazione"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_titolo_segnalazione"
+            android:fontFamily="@font/robotobold"
+            android:text="Titolo esempio"
+            app:layout_constraintLeft_toLeftOf="@id/txt_testo_segnalazione"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintTop_toBottomOf="@id/txt_utente_segnalazione"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

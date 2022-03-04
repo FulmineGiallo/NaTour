@@ -21,9 +21,11 @@ import com.example.natour.R;
 import com.example.natour.controller.ControllerVisualizzaItinerario;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.model.Segnalazione;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.dialog.RecensioneBottomSheet;
+import com.example.natour.view.dialog.SegnalazioneBottomSheet;
 
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
@@ -41,10 +43,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class VisualizzaItinerarioActivity extends AppCompatActivity implements RecensioneBottomSheet.CallbackRecensione
+public class VisualizzaItinerarioActivity extends AppCompatActivity implements RecensioneBottomSheet.CallbackRecensione, SegnalazioneBottomSheet.CallbackSegnalazione
 {
     private TextView nomeUtente;
     private TextView nomeItinerario;
@@ -260,5 +263,16 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     {
         Log.i("CALLBACK RECENSIONE", "bisogna inviare informazioni al database");
         controllerVisualizzaItinerario.insertRecensione(rate, recensione);
+    }
+
+    @Override
+    public void callbackSegnalazione(String segnalazione, String titolo)
+    {
+        Log.i("CALLBACK Segnalazione", "bisogna inviare informazioni al database");
+        controllerVisualizzaItinerario.insertSegnalazione(segnalazione,titolo);
+    }
+
+    public void showBottomSheetSegnalazione(List<Segnalazione> criminalRecord){
+        new SegnalazioneBottomSheet(criminalRecord, controllerVisualizzaItinerario).show(getSupportFragmentManager(), null);
     }
 }

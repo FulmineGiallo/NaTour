@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerVisualizzaItinerario;
@@ -23,17 +25,11 @@ public class SegnalazioneBottomSheet extends BottomSheetDialogFragment
     CallbackSegnalazione listener;
     SegnalazioniAdapter segnalazioniAdapter;
     ControllerVisualizzaItinerario controller;
+    List<Segnalazione> segnalazioneList;
 
     public SegnalazioneBottomSheet(List<Segnalazione> segnalazioneList, ControllerVisualizzaItinerario controller){
         this.controller = controller;
-        segnalazioniAdapter = new SegnalazioniAdapter(segnalazioneList, getParentFragmentManager(), controller, requireContext());
-        getSegnalazioni();
-    }
-
-    private void getSegnalazioni()
-    {
-        //todo: query per le segnalazioni e aggiornamento adapter
-
+        this.segnalazioneList = segnalazioneList;
     }
 
     @Nullable
@@ -42,13 +38,20 @@ public class SegnalazioneBottomSheet extends BottomSheetDialogFragment
     {
         View v = inflater.inflate(R.layout.segnalazione_bottom_sheet, container);
         v.findViewById(R.id.btn_invia_segnalazione).setOnClickListener(view -> {
-            listener.callbackSegnalazione(((EditText)v.findViewById(R.id.edt_testo_segnalazione)).getText().toString());
+            listener.callbackSegnalazione(((EditText)v.findViewById(R.id.edt_testo_segnalazione)).getText().toString(),
+                    ((EditText)v.findViewById(R.id.edt_titolo_segnalazione)).getText().toString());
+            dismiss();
         });
+        segnalazioniAdapter = new SegnalazioniAdapter(segnalazioneList, getParentFragmentManager(), controller, requireContext());
+        RecyclerView recyclerView = v.findViewById(R.id.rec_view_segnalazioni);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayout);
+        recyclerView.setAdapter(segnalazioniAdapter);
         return v;
     }
 
     public interface CallbackSegnalazione{
-        void callbackSegnalazione(String segnalazione);
+        void callbackSegnalazione(String segnalazione, String titolo);
     }
 
     @Override

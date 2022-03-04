@@ -18,17 +18,11 @@ import java.util.List;
 
 public class SegnalazioniAdapter extends RecyclerView.Adapter<SegnalazioniAdapter.ViewHolder>
 {
-    private List<Segnalazione> segnalazioneList;
-    private FragmentManager manager;
-    private ControllerVisualizzaItinerario controllerVisualizzaItinerario;
-    private Context context;
+    private final List<Segnalazione> segnalazioneList;
 
     public SegnalazioniAdapter(List<Segnalazione> segnalazioneList, FragmentManager manager,
                                ControllerVisualizzaItinerario controllerVisualizzaItinerario, Context context){
         this.segnalazioneList = segnalazioneList;
-        this.manager = manager;
-        this.controllerVisualizzaItinerario = controllerVisualizzaItinerario;
-        this.context = context;
     }
 
     @NonNull
@@ -45,25 +39,28 @@ public class SegnalazioniAdapter extends RecyclerView.Adapter<SegnalazioniAdapte
         if(!segnalazioneList.isEmpty()){
             holder.txt_utente.setText(segnalazioneList.get(position).getUtente());
             holder.txt_testo.setText(segnalazioneList.get(position).getDescrizione());
+            holder.txt_titolo.setText(segnalazioneList.get(position).getTitolo());
         }
     }
 
     @Override
     public int getItemCount()
     {
-        return 0;
+        return segnalazioneList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
         TextView txt_utente;
         TextView txt_testo;
+        TextView txt_titolo;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             txt_testo = itemView.findViewById(R.id.txt_testo_segnalazione);
             txt_utente = itemView.findViewById(R.id.txt_utente_segnalazione);
+            txt_titolo = itemView.findViewById(R.id.txt_titolo_segnalazione);
         }
     }
 }

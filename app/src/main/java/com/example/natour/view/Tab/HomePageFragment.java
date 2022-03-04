@@ -62,7 +62,7 @@ public class HomePageFragment extends Fragment
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.rec_view);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        controllerHomePage.setAdapter(mRecyclerView);
+        controllerHomePage.setAdapter(mRecyclerView, token);
 
 
         fab.setOnClickListener(view1 ->

@@ -56,8 +56,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private ImageButton btn_indietro;
     private ImageButton btn_addRecensione;
     private Itinerario itinerario;
+    private String token;
     private IMapController mapController;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -68,6 +68,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
         btn_addRecensione = findViewById(R.id.btn_addrecensione);
         itinerario = (Itinerario) getIntent().getSerializableExtra("itinerarioselezionato");
+        token = (String) getIntent().getSerializableExtra("token");
+
         nomeUtente = findViewById(R.id.txt_nomecognome);
         nomeItinerario = findViewById(R.id.txt_nomeitinerario);
         nomeItinerario.setText(itinerario.getNome());
@@ -86,7 +88,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         btn_indietro = findViewById(R.id.btn_indietro);
         btn_indietro.setOnClickListener(view -> back());
 
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(this, itinerario);
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(this, itinerario, token);
         controllerVisualizzaItinerario.getWaypointsFromItinerario();
 
         RecyclerView recyclerView = findViewById(R.id.rec_view_show_images);
@@ -144,6 +146,9 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
             new RecensioneBottomSheet().show(getSupportFragmentManager(),null);
         });
 
+        RecyclerView recyclerRecensioni = findViewById(R.id.frame_recensioni);
+        controllerVisualizzaItinerario.setRecensioniAdapter(recyclerRecensioni);
+        controllerVisualizzaItinerario.getRecensioneItinerario();
 
     }
 
@@ -242,5 +247,6 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     public void callback(int rate, String recensione)
     {
         Log.i("CALLBACK RECENSIONE", "bisogna inviare informazioni al database");
+
     }
 }

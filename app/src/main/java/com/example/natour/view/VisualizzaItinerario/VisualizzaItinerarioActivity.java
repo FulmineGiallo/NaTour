@@ -57,7 +57,6 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private ImageButton btn_addRecensione;
     private Itinerario itinerario;
     private IMapController mapController;
-    private RecensioneBottomSheet bottom_sheet_recensione;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -142,8 +141,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         controllerVisualizzaItinerario.getImageItinerario();
 
         btn_addRecensione.setOnClickListener(v -> {
-            bottom_sheet_recensione = new RecensioneBottomSheet();
-            bottom_sheet_recensione.show(getSupportFragmentManager(),null);
+            new RecensioneBottomSheet().show(getSupportFragmentManager(),null);
         });
 
 
@@ -243,7 +241,6 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     @Override
     public void callback(int rate, String recensione)
     {
-        bottom_sheet_recensione.dismiss();
         Log.i("CALLBACK RECENSIONE", "bisogna inviare informazioni al database");
     }
 }

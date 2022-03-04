@@ -28,8 +28,12 @@ public class RecensioneBottomSheet extends BottomSheetDialogFragment
         View v = inflater.inflate(R.layout.inserisci_recensione_bottom_sheet, container);
         //v.findviewbyid
         Button btn = v.findViewById(R.id.btn_conferma_recensione);
-        btn.setOnClickListener(view -> listener.callback(((RatingBar) v.findViewById(R.id.rate_voto_dato)).getNumStars(),
-                ((EditText)v.findViewById(R.id.edt_testo_recensione)).getText().toString()));
+        btn.setOnClickListener(view ->
+        {
+            listener.callback(((RatingBar) v.findViewById(R.id.rate_voto_dato)).getNumStars(),
+                    ((EditText) v.findViewById(R.id.edt_testo_recensione)).getText().toString());
+            dismiss();
+        });
 
 
         return v;

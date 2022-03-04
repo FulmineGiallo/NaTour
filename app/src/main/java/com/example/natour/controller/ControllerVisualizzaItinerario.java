@@ -10,17 +10,18 @@ import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.model.Recensione;
 import com.example.natour.model.dao.ImmagineDAO;
+import com.example.natour.model.dao.RecensioneDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
-import com.example.natour.view.adapter.ImageAdapter;
-import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
+import com.example.natour.view.dialog.SegnalazioneBottomSheet;
+import com.example.natour.view.adapter.RecensioniAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.Marker;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,12 +37,17 @@ public class ControllerVisualizzaItinerario
     private NotDeletableImageAdapter imageAdapter;
     private VisualizzaItinerarioActivity activity;
     private Itinerario itinerario;
-    public ControllerVisualizzaItinerario(VisualizzaItinerarioActivity activity, Itinerario itinerario)
+    private String tokenUtenteLoggato;
+    private ArrayList<Recensione> recensioni = new ArrayList<>();
+    private RecensioniAdapter recensioneAdapter;
+
+    public ControllerVisualizzaItinerario(VisualizzaItinerarioActivity activity, Itinerario itinerario, String token)
     {
         this.activity = activity;
         this.itinerario = itinerario;
         LinkedList<Immagine> listImmagine = new LinkedList<>();
         itinerario.setImmagini(listImmagine);
+        this.tokenUtenteLoggato = token;
     }
 
 
@@ -114,7 +120,8 @@ public class ControllerVisualizzaItinerario
                 result ->
                 {
 
-                    for(int i = 0; i < result.length(); i++){
+                    for(int i = 0; i < result.length(); i++)
+                    {
                         JSONObject jsonObject = result.getJSONObject(i);
                         Immagine immagine = new Immagine(null, jsonObject.getString("id_key"));
                         immagine.setLatitude(Float.parseFloat(jsonObject.getString("lat_posizione")));
@@ -156,5 +163,56 @@ public class ControllerVisualizzaItinerario
         mRecyclerView.addItemDecoration(decoration);*/
 
     }
+
+    public void showSegnalazioni()
+    {
+        //todo: mostrare il bottom sheet con le info delle segnalazioni
+    }
+
+    public void setRecensioniAdapter(RecyclerView mRec)
+    {
+        recensioneAdapter = new RecensioniAdapter(recensioni, activity.getSupportFragmentManager(), this, activity);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        mRec.setLayoutManager(linearLayout);
+        mRec.setAdapter(imageAdapter);
+    }
+
+    public void insertRecensione(int rate, String testoRecensione)
+    {
+        RecensioneDAO recensioneDAO = new RecensioneDAO();
+        recensioneDAO.insertRecensione(rate, testoRecensione, tokenUtenteLoggato, itinerario.getIdItinerario(), activity);
+    }
+
+    public void getRecensioneItinerario()
+    {
+        RecensioneDAO recensioneDAO = new RecensioneDAO();
+        PublishSubject<JSONArray> result = recensioneDAO.getRecensioni(activity, itinerario.getIdItinerario());
+
+
+        result.subscribe(
+                onResult ->
+                {
+                    for(int i = 0; i < onResult.length(); i++)
+                    {
+                        JSONObject jsonObject = onResult.getJSONObject(i);
+                        Recensione recensione = new Recensione();
+                        recensione.setValutazione(Integer.parseInt(jsonObject.getString("valutazione")));
+                        recensione.setTesto(jsonObject.getString("testo"));
+                        recensione.setUtente(jsonObject.getString("fk_utente"));
+                        recensione.setFk_itinerario(itinerario.getIdItinerario());
+                        recensioni.add(recensione);
+                        activity.runOnUiThread(()->recensioneAdapter.notifyItemChanged(recensioni.indexOf(recensione)));
+                        Log.i("RECENSIONE", recensione.toString());
+                    }
+
+                },
+                onError ->
+                {
+
+                }
+        );
+
+    }
+
 
 }

@@ -29,6 +29,7 @@ public class ControllerHomePage
     private MasonryAdapter adapter;
     private List<Itinerario> itinerari = new ArrayList<>();
     private List<Immagine> immagineList = new LinkedList<>();
+    private String token;
 
     public ControllerHomePage(FragmentManager fragmentManager, HomePageFragment fragment)
     {
@@ -76,20 +77,13 @@ public class ControllerHomePage
 
     }
 
-   /* private List<GeoPoint> getWaypointsFromFile(String nomefile)
-    {
-        //Downlod file, prendere informazioni e metterla dentro alla lista
-
-
-
-    }*/
-
-    public void setAdapter(RecyclerView mRecyclerView)
+    public void setAdapter(RecyclerView mRecyclerView, String tokenUtente)
     {
         adapter = new MasonryAdapter(fragment, itinerari, fragmentManager, this, immagineList);
         mRecyclerView.setAdapter(adapter);
         SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         mRecyclerView.addItemDecoration(decoration);
+        this.token = tokenUtente;
     }
 
     public void visualizzaItinerario(Itinerario itinerario)

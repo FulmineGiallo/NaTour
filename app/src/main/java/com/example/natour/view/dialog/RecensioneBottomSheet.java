@@ -2,14 +2,12 @@ package com.example.natour.view.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +28,7 @@ public class RecensioneBottomSheet extends BottomSheetDialogFragment
         Button btn = v.findViewById(R.id.btn_conferma_recensione);
         btn.setOnClickListener(view ->
         {
-            listener.callback(((RatingBar) v.findViewById(R.id.rate_voto_dato)).getNumStars(),
+            listener.callbackRecensione(((RatingBar) v.findViewById(R.id.rate_voto_dato)).getNumStars(),
                     ((EditText) v.findViewById(R.id.edt_testo_recensione)).getText().toString());
             dismiss();
         });
@@ -53,7 +51,7 @@ public class RecensioneBottomSheet extends BottomSheetDialogFragment
     }
 
     public interface CallbackRecensione{
-        void callback(int rate, String recensione);
+        void callbackRecensione(int rate, String recensione);
 
     }
 }

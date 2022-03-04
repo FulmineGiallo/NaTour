@@ -90,6 +90,7 @@ public class ControllerHomePage
     {
         Intent intent = new Intent(fragment.requireContext(), VisualizzaItinerarioActivity.class);
         intent.putExtra("itinerarioselezionato", itinerario);
+        intent.putExtra("token", token);
         fragment.requireActivity().startActivity(intent);
     }
 }

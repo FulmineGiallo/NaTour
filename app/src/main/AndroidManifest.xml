@@ -97,9 +97,6 @@
             android:name=".view.LoginActivity.Login"
             android:exported="false" />
         <activity
-            android:name=".view.PannelloAdmin.VisualizzaItinerario"
-            android:exported="false" />
-        <activity
             android:name=".view.Tab.TabActivity"
             android:exported="false"
             android:launchMode="singleInstance"

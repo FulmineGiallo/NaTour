@@ -53,8 +53,10 @@ public class HomePageFragment extends Fragment
                 utente ->
                 {
                     token = utente.getToken();
+                    controllerHomePage.setAdapter(mRecyclerView, token);
                 }
         );
+
         fab = requireView().findViewById(R.id.btn_inserimentoItinerario);
         intentInserimentoItinerario = new Intent(HomePageFragment.this.getActivity(), InserimentoItinerario.class);
 
@@ -62,7 +64,7 @@ public class HomePageFragment extends Fragment
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.rec_view);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        controllerHomePage.setAdapter(mRecyclerView, token);
+
 
 
         fab.setOnClickListener(view1 ->

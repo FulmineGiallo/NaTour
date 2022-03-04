@@ -14,10 +14,10 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 public class RecensioneDAO
 {
 
-    public PublishSubject<JSONObject> insertRecensione(int rate, String testoRecensione, String fk_utente, String fk_itinerario, Context context)
+    public PublishSubject<JSONObject> insertRecensione(int valutazione, String testoRecensione, String fk_utente, String fk_itinerario, Context context)
     {
         HashMap<String, String> params = new HashMap<>();
-        params.put("rate", String.valueOf(rate));
+        params.put("valutazione", String.valueOf(valutazione));
         params.put("testo", testoRecensione);
         params.put("fk_utente", fk_utente);
         params.put("fk_itinerario", fk_itinerario);

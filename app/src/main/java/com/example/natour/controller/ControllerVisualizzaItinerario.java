@@ -1,6 +1,7 @@
 package com.example.natour.controller;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,10 +14,9 @@ import com.example.natour.model.Itinerario;
 import com.example.natour.model.Recensione;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.RecensioneDAO;
+import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
-import com.example.natour.view.adapter.SpacesItemDecoration;
-import com.example.natour.view.dialog.SegnalazioneBottomSheet;
 import com.example.natour.view.adapter.RecensioniAdapter;
 
 import org.json.JSONArray;
@@ -138,7 +138,8 @@ public class ControllerVisualizzaItinerario
         );
     }
 
-    public void setURLImmagine(){
+    public void setURLImmagine()
+    {
         for(Immagine img: itinerario.getImmagini()){
             RxAmplify.Storage.getUrl(img.getKey()).subscribe(
                     urlResult ->
@@ -159,8 +160,7 @@ public class ControllerVisualizzaItinerario
         LinearLayoutManager linearLayout = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayout);
         mRecyclerView.setAdapter(imageAdapter);
-        /*SpacesItemDecoration decoration = new SpacesItemDecoration(16);
-        mRecyclerView.addItemDecoration(decoration);*/
+
 
     }
 
@@ -174,7 +174,7 @@ public class ControllerVisualizzaItinerario
         recensioneAdapter = new RecensioniAdapter(recensioni, activity.getSupportFragmentManager(), this, activity);
         LinearLayoutManager linearLayout = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         mRec.setLayoutManager(linearLayout);
-        mRec.setAdapter(imageAdapter);
+        mRec.setAdapter(recensioneAdapter);
     }
 
     public void insertRecensione(int rate, String testoRecensione)
@@ -183,12 +183,13 @@ public class ControllerVisualizzaItinerario
         recensioneDAO.insertRecensione(rate, testoRecensione, tokenUtenteLoggato, itinerario.getIdItinerario(), activity);
     }
 
-    public void getRecensioneItinerario()
+    public void getRecensioneItinerario(TextView mediaTotale)
     {
         RecensioneDAO recensioneDAO = new RecensioneDAO();
+        UtenteDAO utenteDAO = new UtenteDAO();
+
+
         PublishSubject<JSONArray> result = recensioneDAO.getRecensioni(activity, itinerario.getIdItinerario());
-
-
         result.subscribe(
                 onResult ->
                 {
@@ -198,12 +199,25 @@ public class ControllerVisualizzaItinerario
                         Recensione recensione = new Recensione();
                         recensione.setValutazione(Integer.parseInt(jsonObject.getString("valutazione")));
                         recensione.setTesto(jsonObject.getString("testo"));
-                        recensione.setUtente(jsonObject.getString("fk_utente"));
-                        recensione.setFk_itinerario(itinerario.getIdItinerario());
-                        recensioni.add(recensione);
-                        activity.runOnUiThread(()->recensioneAdapter.notifyItemChanged(recensioni.indexOf(recensione)));
+                        PublishSubject<JSONObject> resultUtente = utenteDAO.getNomeCognomeUtente(jsonObject.getString("fk_utente"), activity);
+                        resultUtente.subscribe(
+                                utente ->
+                                {
+                                    recensione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
+                                    recensione.setFk_itinerario(itinerario.getIdItinerario());
+
+                                    activity.runOnUiThread(()->recensioneAdapter.notifyItemChanged(recensioni.indexOf(recensione)));
+                                },
+                                errorUtente ->
+                                {
+
+                                }
+                        );
                         Log.i("RECENSIONE", recensione.toString());
+                        recensioni.add(recensione);
                     }
+
+                    calcoloMediaRecensioni(mediaTotale);
 
                 },
                 onError ->
@@ -213,6 +227,19 @@ public class ControllerVisualizzaItinerario
         );
 
     }
+    public void calcoloMediaRecensioni(TextView mediaTotale)
+    {
+        int sommaTotale = 0;
+        float media = 0;
+        for(Recensione r : recensioni)
+        {
+            sommaTotale = sommaTotale + r.getValutazione();
+        }
+        media = (float) sommaTotale / (float) recensioni.size();
 
+        mediaTotale.setText("MEDIA TOTALE: " + String.valueOf(media));
+
+
+    }
 
 }

@@ -59,13 +59,14 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private Itinerario itinerario;
     private String token;
     private IMapController mapController;
+    private TextView mediaRecensioni;
+    private ControllerVisualizzaItinerario controllerVisualizzaItinerario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizza_itinerario2);
-
-
 
         btn_addRecensione = findViewById(R.id.btn_addrecensione);
         btn_addSegnalazione= findViewById(R.id.btn_segnala);
@@ -78,6 +79,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         pallinoDifficolta = findViewById(R.id.img_difficolta);
         descrizione = findViewById(R.id.txt_descrizione);
         durata = findViewById(R.id.txt_durata);
+        mediaRecensioni = findViewById(R.id.txt_mediarecensioni);
 
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         mappa = findViewById(R.id.img_mappaitinerario);
@@ -90,15 +92,14 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         btn_indietro = findViewById(R.id.btn_indietro);
         btn_indietro.setOnClickListener(view -> back());
 
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(this, itinerario, token);
+        controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(this, itinerario, token);
         controllerVisualizzaItinerario.getWaypointsFromItinerario();
 
         RecyclerView recyclerView = findViewById(R.id.rec_view_show_images);
         controllerVisualizzaItinerario.setAdapter(recyclerView);
 
-        /* Set MAPPA */
-
-
+        RecyclerView recyclerRecensioni = findViewById(R.id.frame_recensioni);
+        controllerVisualizzaItinerario.setRecensioniAdapter(recyclerRecensioni);
 
         UtenteDAO utenteDAO = new UtenteDAO();
         PublishSubject<JSONObject> risposta = utenteDAO.getNomeCognomeUtente(itinerario.getFk_utente(), this);
@@ -143,6 +144,11 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
         /* OTTENGO LA LISTA DI IMMAGINI DI QUELL' ITINERARIO SE CI SONO */
         controllerVisualizzaItinerario.getImageItinerario();
+        controllerVisualizzaItinerario.getRecensioneItinerario(mediaRecensioni);
+
+
+
+
 
         btn_addRecensione.setOnClickListener(v -> {
             new RecensioneBottomSheet().show(getSupportFragmentManager(),null);
@@ -153,9 +159,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
 
 
-        RecyclerView recyclerRecensioni = findViewById(R.id.frame_recensioni);
-        controllerVisualizzaItinerario.setRecensioniAdapter(recyclerRecensioni);
-        controllerVisualizzaItinerario.getRecensioneItinerario();
+
+
 
     }
 
@@ -254,6 +259,6 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     public void callbackRecensione(int rate, String recensione)
     {
         Log.i("CALLBACK RECENSIONE", "bisogna inviare informazioni al database");
-
+        controllerVisualizzaItinerario.insertRecensione(rate, recensione);
     }
 }

@@ -1,10 +1,10 @@
 package com.example.natour.view.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -26,11 +26,12 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Vi
     private Context context;
 
     public RecensioniAdapter(List<Recensione> recensioneList, FragmentManager manager,
-                             ControllerVisualizzaItinerario controllerVisualizzaItinerario, Context context){
+                             ControllerVisualizzaItinerario controller, Context context){
         this.recensioneList = recensioneList;
         this.manager = manager;
-        this.controllerVisualizzaItinerario = controllerVisualizzaItinerario;
+        this.controllerVisualizzaItinerario = controller;
         this.context = context;
+
     }
 
 
@@ -38,7 +39,10 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
+        Log.i("ADPTER RECENSIONI", "CREATA");
+
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_recensione, parent, false);
+
         return new ViewHolder(layoutView);
 
     }
@@ -46,7 +50,9 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        if(!recensioneList.isEmpty()){
+        Log.i("ADPTER RECENSIONI", String.valueOf(holder.getAdapterPosition()));
+        if(!recensioneList.isEmpty())
+        {
             holder.rate_valutazione.setNumStars(recensioneList.get(position).getValutazione());
             holder.txt_utente.setText(recensioneList.get(position).getUtente());
             holder.txt_testo.setText(recensioneList.get(position).getTesto());
@@ -56,7 +62,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Vi
     @Override
     public int getItemCount()
     {
-        return 0;
+        return recensioneList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,11 +20,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.natour.R;
+import com.example.natour.controller.ControllerCerca;
+import com.example.natour.model.Itinerario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
+
+import java.util.ArrayList;
 
 
 public class CercaFragment extends Fragment {
@@ -37,8 +45,11 @@ public class CercaFragment extends Fragment {
     private SwitchCompat disabili;
     private ImageView bottoneNascoto;
     private SearchView searchView;
-
-
+    private SharedViewModel model;
+    private ArrayList<Itinerario> itinerariFiltrati;
+    private ControllerCerca controllerCerca;
+    private LottieAnimationView animationView;
+    private boolean stateDisabili = false;
     public CercaFragment()
     {
 
@@ -72,8 +83,17 @@ public class CercaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         filtro = requireView().findViewById(R.id.btn_filter);
         filtraView = requireView().findViewById(R.id.viewFiltro);
-        bottoneNascoto = requireView().findViewById(R.id.btn_nascotoFiltro);
 
+        model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        model.getItinerari().observe(getViewLifecycleOwner(),
+                itineari ->
+                {
+                    itinerariFiltrati = itineari;
+                    controllerCerca.setListaItinerari(itinerariFiltrati);
+                }
+        );
+
+        bottoneNascoto = requireView().findViewById(R.id.btn_nascotoFiltro);
         searchView = requireView().findViewById(R.id.searchInput);
         TextView txt_cercaQui = requireView().findViewById(R.id.txt_cerca_qui);
         searchView.setOnQueryTextFocusChangeListener((view1, b) ->
@@ -88,6 +108,8 @@ public class CercaFragment extends Fragment {
         FrameLayout viewTop = requireView().findViewById(R.id.viewtop_cerca);
         viewTop.setOnClickListener((banner)->
                 searchView.requestFocus());
+
+        int valuedifficolta;
 
         difficolta = requireView().findViewById(R.id.slider_difficoltà);
         difficolta.addOnChangeListener((slider, value, fromUser) ->
@@ -118,6 +140,16 @@ public class CercaFragment extends Fragment {
         });
 
 
+        disabili.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                stateDisabili = isChecked;
+            }
+        });
+
+
+
 
         filtro.setOnClickListener(new View.OnClickListener()
         {
@@ -140,7 +172,43 @@ public class CercaFragment extends Fragment {
                 bottoneNascoto.setVisibility(View.INVISIBLE);
             }
         });
+        animationView = requireView().findViewById(R.id.animationView);
 
+        controllerCerca = new ControllerCerca(getParentFragmentManager(), this, itinerariFiltrati);
+        RecyclerView recyclerView = requireView().findViewById(R.id.rec_viewSearch);
+        controllerCerca.setAdapter(recyclerView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                controllerCerca.filtraItinerarioWithSearch(query);
+                animationView.setVisibility(View.INVISIBLE);
+                Log.i("QUERY", query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                return false;
+            }
+        });
+
+        posizione = requireView().findViewById(R.id.edt_posizione);
+        durata = requireView().findViewById(R.id.edt_durata);
+
+
+
+        filtro.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                controllerCerca.filtraItinerarioWithFilter(posizione.getText().toString(), (int) difficolta.getValue(), durata.getText().toString(), stateDisabili);
+            }
+        });
     }
 
     @NonNull
@@ -169,6 +237,8 @@ public class CercaFragment extends Fragment {
         animationSet.addAnimation(discesa);
         return animationSet;
     }
+
+
 
 
 }

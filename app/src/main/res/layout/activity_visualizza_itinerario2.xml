@@ -86,9 +86,11 @@
                     app:layout_constraintHorizontal_bias="0.023"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginLeft="5dp"
-
-                    app:srcCompat="@drawable/ic_ellipse_155" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:srcCompat="@drawable/ic_ellipse_155"
+                    android:layout_marginTop="15dp"
+                    />
 
                 <ImageView
                     android:id="@+id/imageView5"
@@ -129,32 +131,58 @@
                     app:layout_constraintHorizontal_bias="0.022"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/img_difficolta"
-                    app:layout_constraintVertical_bias="0.027" />
+                    app:layout_constraintVertical_bias="0.027"
+                    />
 
                 <TextView
                     android:id="@+id/txt_difficolta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:fontFamily="@font/robotoregular"
                     android:text="difficoltà"
-
-                    app:layout_constraintBottom_toTopOf="@id/txt_foto"
-                    app:layout_constraintStart_toEndOf="@id/img_difficolta"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintLeft_toRightOf="@id/img_difficolta"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.434" />
-
+                    />
                 <TextView
                     android:id="@+id/txt_durata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="152dp"
+                    android:layout_marginLeft="30dp"
                     android:fontFamily="@font/robotoregular"
-
+                    android:layout_marginTop="15dp"
                     android:text="Durata: numero minuti"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/txt_difficolta"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+
+
+
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageDisabili"
+                    android:src="@drawable/ic_disabili"
+                    app:layout_constraintLeft_toRightOf="@id/txt_durata"
+                    app:layout_constraintTop_toTopOf="@id/txt_durata"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_durata"
+                    android:layout_marginLeft="40dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_disabili"
+                    android:text="Si"
+                    app:layout_constraintLeft_toRightOf="@id/imageDisabili"
+                    app:layout_constraintTop_toTopOf="@id/imageDisabili"
+                    app:layout_constraintBottom_toBottomOf="@id/imageDisabili"
+                    android:layout_marginLeft="10dp"
+
+
+                    />
 
                 <TextView
                     android:id="@+id/txt_recensioni"

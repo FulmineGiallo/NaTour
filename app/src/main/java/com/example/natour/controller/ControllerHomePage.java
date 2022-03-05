@@ -22,12 +22,12 @@ import java.util.List;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class ControllerHomePage
+public class ControllerHomePage implements ControllerInterface
 {
     private FragmentManager fragmentManager;
     private HomePageFragment fragment;
     private MasonryAdapter adapter;
-    private List<Itinerario> itinerari = new ArrayList<>();
+    private ArrayList<Itinerario> itinerari = new ArrayList<>();
     private List<Immagine> immagineList = new LinkedList<>();
     private String token;
 
@@ -68,6 +68,7 @@ public class ControllerHomePage
                     }
 
                     adapter.notifyItemRangeChanged(0, itinerari.size());
+                    fragment.setModelItinerari(itinerari);
                 },
                 error ->
                 {
@@ -99,4 +100,6 @@ public class ControllerHomePage
         itinerari.add(itinerario);
         adapter.notifyItemInserted(itinerari.indexOf(itinerario));
     }
+
+
 }

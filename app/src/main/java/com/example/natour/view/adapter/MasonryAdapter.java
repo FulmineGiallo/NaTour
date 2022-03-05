@@ -1,7 +1,5 @@
 package com.example.natour.view.adapter;
 
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.natour.R;
-import com.example.natour.controller.ControllerHomePage;
+import com.example.natour.controller.ControllerInterface;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
-import com.example.natour.view.Tab.HomePageFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView>
@@ -29,20 +27,20 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     private List<Itinerario> itinerari;
     private List<Immagine> immagineList;
     private FragmentManager manager;
-    private ControllerHomePage controllerHomePage;
+    private ControllerInterface controllerAdapter;
 
     //TODO: trovare un modo per aggiungere dinamicamente le immagini e aggiornarle
 
     int[] imgList = {R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6,
                      R.drawable.img7, R.drawable.img8};
 
-    public MasonryAdapter(HomePageFragment fragment, List<Itinerario> itinerari, FragmentManager fragmentManager, ControllerHomePage controllerHomePage, List<Immagine> immagineList)
+    public MasonryAdapter(Fragment fragment, ArrayList<Itinerario> itinerari, FragmentManager fragmentManager, ControllerInterface controller, List<Immagine> immagineList)
     {
         this.fragment = fragment;
         this.itinerari = itinerari;
         this.immagineList = immagineList;
         this.manager = fragmentManager;
-        this.controllerHomePage = controllerHomePage;
+        this.controllerAdapter = controller;
     }
 
     @Override
@@ -93,7 +91,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
             {
                 Log.i("position", String.valueOf(holder.getAdapterPosition()));
                 /* Mettere nel put extra l'itinerario e fare l'intent a visualizzaItinerarioActivity */
-                controllerHomePage.visualizzaItinerario(itinerari.get(holder.getAdapterPosition()));
+                controllerAdapter.visualizzaItinerario(itinerari.get(holder.getAdapterPosition()));
             }
         });
     }

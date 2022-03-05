@@ -64,6 +64,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private IMapController mapController;
     private TextView mediaRecensioni;
     private ControllerVisualizzaItinerario controllerVisualizzaItinerario;
+    private TextView txt_disabili;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -144,6 +145,14 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
         durata.setText("Durata" + " " + itinerario.getDurata() + " " + "min");
         descrizione.setText(itinerario.getDescrizione());
+
+        txt_disabili = findViewById(R.id.text_disabili);
+        if(itinerario.isAccessibilitaDisabili())
+            txt_disabili.setText("Si");
+        else
+            txt_disabili.setText("No");
+
+
 
         /* OTTENGO LA LISTA DI IMMAGINI DI QUELL' ITINERARIO SE CI SONO */
         controllerVisualizzaItinerario.getImageItinerario();

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerHomePage;
+import com.example.natour.model.Itinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -73,5 +74,11 @@ public class HomePageFragment extends Fragment
             startActivity(intentInserimentoItinerario);
 
         });
+    }
+
+
+    public void itinerarioAdded(Itinerario itinerario)
+    {
+        controllerHomePage.addItinerario(itinerario);
     }
 }

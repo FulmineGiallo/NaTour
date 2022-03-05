@@ -93,4 +93,10 @@ public class ControllerHomePage
         intent.putExtra("token", token);
         fragment.requireActivity().startActivity(intent);
     }
+
+    public void addItinerario(Itinerario itinerario)
+    {
+        itinerari.add(itinerario);
+        adapter.notifyItemInserted(itinerari.indexOf(itinerario));
+    }
 }

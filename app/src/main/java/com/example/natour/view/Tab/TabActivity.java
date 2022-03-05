@@ -4,10 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.transition.Explode;
-import android.transition.Transition;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowAnimationFrameStats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +13,6 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
-import com.example.natour.model.Itinerario;
 import com.example.natour.model.Utente;
 import com.example.natour.view.MessaggioActivity.MessaggioFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -64,9 +60,9 @@ public class TabActivity extends AppCompatActivity {
                 case R.id.home:
                     if(homepage == null)
                         homepage = new HomePageFragment();
-                    homepage.itinerarioAdded((Itinerario)getIntent().getSerializableExtra("itinerario"));
                     bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barrahomepage));
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, homepage).commit();
+
                     break;
                 case R.id.profile:
                     if(profile == null)

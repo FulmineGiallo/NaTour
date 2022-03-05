@@ -79,6 +79,6 @@ public class HomePageFragment extends Fragment
 
     public void itinerarioAdded(Itinerario itinerario)
     {
-        controllerHomePage.addItinerario(itinerario);
+        //controllerHomePage.addItinerario(itinerario);
     }
 }

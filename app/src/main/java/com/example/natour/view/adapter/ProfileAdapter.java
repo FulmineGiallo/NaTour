@@ -32,7 +32,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     private List<Immagine> immagineList;
     private FragmentManager manager;
     private ControllerProfile controllerProfile;
-    private ControllerHomePage controllerHomePage;
 
     int[] imgList = {R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6,
             R.drawable.img7, R.drawable.img8};
@@ -74,7 +73,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             {
                 Log.i("position", String.valueOf(holder.getAdapterPosition()));
                 /* Mettere nel put extra l'itinerario e fare l'intent a visualizzaItinerarioActivity */
-                controllerHomePage.visualizzaItinerario(itinerari.get(holder.getAdapterPosition()));
+                controllerProfile.visualizzaItinerario(itinerari.get(holder.getAdapterPosition()));
             }
         });
     }

@@ -5,23 +5,19 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
-import androidx.gridlayout.widget.GridLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.ItinerarioDAO;
-import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
 import com.example.natour.view.Signout;
 import com.example.natour.view.Tab.ProfileFragment;
-import com.example.natour.view.adapter.MasonryAdapter;
+import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.ProfileAdapter;
-import com.example.natour.view.adapter.SpacesItemDecoration;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,10 +33,12 @@ public class ControllerProfile
     private List<Itinerario> listIt;
     private List<Immagine> immagineList = new LinkedList<>();
     private ProfileAdapter adapter;
-    Intent intentLogin;
+    private Intent intentLogin;
+    private boolean isViewLoaded = false;
 
-    public ControllerProfile(FragmentManager fragmentManager, Context contexController, String token, List<Itinerario> listIt)
+    public ControllerProfile(ProfileFragment profileFragment, FragmentManager fragmentManager, Context contexController, String token, List<Itinerario> listIt)
     {
+        this.profileFragment = profileFragment;
         this.fragmentManager = fragmentManager;
         this.contexController = contexController;
         intentLogin = new Intent(contexController, Signout.class);
@@ -60,6 +58,7 @@ public class ControllerProfile
         response.subscribe(
                 result ->
                 {
+                    isViewLoaded = true;
                     listIt.clear();
                     for(int i = 0; i < result.length(); i++)
                     {
@@ -82,12 +81,12 @@ public class ControllerProfile
                     }
                     //profileFragment.requireActivity().runOnUiThread(()->adapter.notifyItemRangeChanged(0, result.length()));
                     adapter.notifyItemRangeChanged(0, result.length());
-                    if(!listIt.isEmpty())
-                        profileFragment.hideItems();
+                    if(listIt.isEmpty())
+                        profileFragment.requireActivity().runOnUiThread(()->profileFragment.showItems());
                 },
                 error ->
                 {
-
+                    Log.e("error",error.getLocalizedMessage());
                 }
         );
     }
@@ -102,5 +101,13 @@ public class ControllerProfile
 
     public void setToken(String tokenUtente) {
         token = tokenUtente;
+    }
+
+    public void visualizzaItinerario(Itinerario itinerario)
+    {
+        Intent intent = new Intent(profileFragment.requireContext(), VisualizzaItinerarioActivity.class);
+        intent.putExtra("itinerarioselezionato", itinerario);
+        intent.putExtra("token", token);
+        profileFragment.requireActivity().startActivity(intent);
     }
 }

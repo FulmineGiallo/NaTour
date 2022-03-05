@@ -45,7 +45,6 @@ public class ProfileFragment extends Fragment
     private List<Itinerario> itinerari = new ArrayList<>();
     private String tokenUtente;
     private RecyclerView recView;
-    public ProfileFragment profileFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -63,15 +62,16 @@ public class ProfileFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
+        super.onViewCreated(view, savedInstanceState);
         SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
         txtUtente = requireView().findViewById(R.id.utente);
         menuView = requireView().findViewById(R.id.menuview);
         cardMenu = requireView().findViewById(R.id.cardMenu);
-        //animationView = requireView().findViewById(R.id.animationViewProfile);
-        //noItinerario = requireView().findViewById(R.id.txt_noItinerario);
+        animationView = view.findViewById(R.id.animationViewProfile);
+        noItinerario = view.findViewById(R.id.txt_noItinerario);
 
-        controllerProfile = new ControllerProfile(getParentFragmentManager(), getActivity(), tokenUtente, itinerari);
+        controllerProfile = new ControllerProfile(this, getParentFragmentManager(), getActivity(), tokenUtente, itinerari);
         setInterface();
 
         model.getUtente().observe(getViewLifecycleOwner(),
@@ -146,11 +146,8 @@ public class ProfileFragment extends Fragment
     }
 
 
-    public void hideItems() {
-        animationView = requireView().findViewById(R.id.animationViewProfile);
-        noItinerario = requireView().findViewById(R.id.txt_noItinerario);
-
-        noItinerario.setText("");
-        animationView.setVisibility(View.INVISIBLE);
+    public void showItems() {
+        noItinerario.setVisibility(View.VISIBLE);
+        animationView.setVisibility(View.VISIBLE);
     }
 }

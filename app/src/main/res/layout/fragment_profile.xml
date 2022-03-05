@@ -43,7 +43,7 @@
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="@id/img_profileUtente"
-        app:layout_constraintRight_toRightOf="@+id/img_profileUtente"
+        app:layout_constraintRight_toRightOf="@id/img_profileUtente"
         app:layout_constraintTop_toBottomOf="@id/img_profileUtente" />
 
     <TextView
@@ -72,7 +72,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mieiItinerari"
+        app:layout_constraintTop_toBottomOf="@id/mieiItinerari"
+        android:visibility="invisible"
+
         />
 
     <com.airbnb.lottie.LottieAnimationView
@@ -88,6 +90,7 @@
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/animation_emptyprofile"
         app:lottie_scale="0.3"
+        android:visibility="invisible"
         />
 
     <com.google.android.material.card.MaterialCardView
@@ -117,12 +120,12 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.gridlayout.widget.GridLayout
-        android:layout_width="403dp"
-        android:layout_height="494dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mieiItinerari"
+        app:layout_constraintTop_toBottomOf="@id/mieiItinerari"
         app:layout_constraintVertical_bias="0.061">
 
         <androidx.recyclerview.widget.RecyclerView

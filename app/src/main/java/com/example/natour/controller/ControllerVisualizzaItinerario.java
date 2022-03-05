@@ -13,7 +13,6 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Recensione;
 import com.example.natour.model.Segnalazione;
-import com.example.natour.model.Utente;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.RecensioneDAO;
 import com.example.natour.model.dao.SegnalazioneDAO;
@@ -21,7 +20,6 @@ import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
 import com.example.natour.view.adapter.RecensioniAdapter;
-import com.example.natour.view.dialog.SegnalazioneBottomSheet;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

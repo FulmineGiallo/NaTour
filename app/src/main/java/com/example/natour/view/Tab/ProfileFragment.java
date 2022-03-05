@@ -1,6 +1,7 @@
 package com.example.natour.view.Tab;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.natour.R;
@@ -40,6 +44,7 @@ public class ProfileFragment extends Fragment
     private TextView noItinerario;
     private List<Itinerario> itinerari = new ArrayList<>();
     private String tokenUtente;
+    private RecyclerView recView;
     public ProfileFragment profileFragment;
 
     @Override
@@ -58,29 +63,27 @@ public class ProfileFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
-        controllerProfile = new ControllerProfile(getParentFragmentManager(), getActivity(), tokenUtente, itinerari);
         SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        controllerProfile.getItinerariProfile();
-        if(!itinerari.isEmpty()){
-            noItinerario.findViewById(R.id.txt_noItinerario).setVisibility(View.INVISIBLE);
-            animationView.findViewById(R.id.animationView).setVisibility(View.INVISIBLE);
 
-            //TODO settare itinerari utente in layout (Chiedi aiuto a Lorenzo :P)
-        }
         txtUtente = requireView().findViewById(R.id.utente);
         menuView = requireView().findViewById(R.id.menuview);
         cardMenu = requireView().findViewById(R.id.cardMenu);
+        //animationView = requireView().findViewById(R.id.animationViewProfile);
+        //noItinerario = requireView().findViewById(R.id.txt_noItinerario);
 
+        controllerProfile = new ControllerProfile(getParentFragmentManager(), getActivity(), tokenUtente, itinerari);
+        setInterface();
 
         model.getUtente().observe(getViewLifecycleOwner(),
                 utente ->
                 {
                     txtUtente.setText(utente.getNome() +" "+ utente.getCognome());
                     tokenUtente = utente.getToken();
-
+                    controllerProfile.setToken(tokenUtente);
+                    controllerProfile.getItinerariProfile();
                 }
         );
-        options = getView().findViewById(R.id.btn_optionsProfile);
+        options = requireView().findViewById(R.id.btn_optionsProfile);
         options.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -133,9 +136,21 @@ public class ProfileFragment extends Fragment
                 });
             }
         });
+    }
 
+    public void setInterface(){
+        GridLayoutManager GridLayoutManager = new GridLayoutManager(getContext(), 3);
+        recView = (RecyclerView) getView().findViewById(R.id.rec_view);
+        recView.setLayoutManager(GridLayoutManager);
+        controllerProfile.setAdapter(recView);
     }
 
 
+    public void hideItems() {
+        animationView = requireView().findViewById(R.id.animationViewProfile);
+        noItinerario = requireView().findViewById(R.id.txt_noItinerario);
 
+        noItinerario.setText("");
+        animationView.setVisibility(View.INVISIBLE);
+    }
 }

@@ -72,10 +72,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mieiItinerari" />
+        app:layout_constraintTop_toBottomOf="@+id/mieiItinerari"
+        />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView"
+        android:id="@+id/animationViewProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="220dp"
@@ -86,7 +87,8 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/animation_emptyprofile"
-        app:lottie_scale="0.3" />
+        app:lottie_scale="0.3"
+        />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardMenu"
@@ -124,6 +126,7 @@
         app:layout_constraintVertical_bias="0.061">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_column="0"

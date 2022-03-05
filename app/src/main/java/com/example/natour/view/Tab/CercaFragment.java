@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -140,13 +139,13 @@ public class CercaFragment extends Fragment {
         });
 
 
-        disabili.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+       /* disabili.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 stateDisabili = isChecked;
             }
-        });
+        });*/
 
 
 

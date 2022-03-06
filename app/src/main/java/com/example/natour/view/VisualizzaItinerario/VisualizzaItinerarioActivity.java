@@ -1,6 +1,8 @@
 package com.example.natour.view.VisualizzaItinerario;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -66,9 +68,11 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private ControllerVisualizzaItinerario controllerVisualizzaItinerario;
     private TextView txt_disabili;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizza_itinerario2);
 

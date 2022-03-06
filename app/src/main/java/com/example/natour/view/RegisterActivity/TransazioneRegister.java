@@ -1,6 +1,8 @@
 package com.example.natour.view.RegisterActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.AlphaAnimation;
@@ -20,9 +22,11 @@ import com.example.natour.view.LoginActivity.Login;
 public class TransazioneRegister extends AppCompatActivity
 {
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transazione_register);
         ImageView logo = findViewById(R.id.img_logoReg);

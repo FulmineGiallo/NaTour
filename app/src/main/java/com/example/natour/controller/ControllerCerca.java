@@ -1,6 +1,8 @@
 package com.example.natour.controller;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
@@ -14,6 +16,9 @@ import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity
 import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -77,13 +82,48 @@ public class ControllerCerca implements ControllerInterface
     public void filtraItinerarioWithFilter(String address, int difficolta, String durata, boolean disabili)
     {
         copiaLista.clear();
+        GeoPoint p1;
+        List<Address> addressList = new ArrayList<>();
+
         for (Itinerario i : itinerari)
         {
-            if(i.getDifficoltà() == difficolta || i.getDurata().contains(durata) || i.isAccessibilitaDisabili())
-            {
+            if(i.isAccessibilitaDisabili() == disabili)
+                if(!copiaLista.contains(i))
+                    copiaLista.add(i);
 
+            if(i.getDifficoltà() == difficolta)
+                if(!copiaLista.contains(i))
+                    copiaLista.add(i);
+
+            if(i.getDurata() == durata)
+                if(!copiaLista.contains(i))
+                    copiaLista.add(i);
+
+            if(!address.isEmpty())
+            {
+                Geocoder coder = new Geocoder(fragment.getActivity());
+                try
+                {
+                    addressList = coder.getFromLocationName(address, 5);
+                    Address location = addressList.get(0);
+                    location.getLatitude();
+                    location.getLongitude();
+                    p1 = new GeoPoint(location.getLatitude(), location.getLongitude());
+
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+                if(addressList.contains(address))
+                    if(!copiaLista.contains(i))
+                        copiaLista.add(i);
             }
+
+
         }
+
         Log.i("SIZE COPIA", String.valueOf(copiaLista.size()));
         adapter.notifyItemRangeChanged(0, copiaLista.size() - 1);
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerCerca;
 import com.example.natour.model.Itinerario;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
@@ -49,6 +51,8 @@ public class CercaFragment extends Fragment {
     private ControllerCerca controllerCerca;
     private LottieAnimationView animationView;
     private boolean stateDisabili = false;
+    private MaterialButton filtraItinerario;
+
     public CercaFragment()
     {
 
@@ -138,16 +142,14 @@ public class CercaFragment extends Fragment {
             }
         });
 
-
-       /* disabili.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        disabili = requireView().findViewById(R.id.switch_disabili);
+        disabili.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 stateDisabili = isChecked;
             }
-        });*/
-
-
+        });
 
 
         filtro.setOnClickListener(new View.OnClickListener()
@@ -197,17 +199,17 @@ public class CercaFragment extends Fragment {
 
         posizione = requireView().findViewById(R.id.edt_posizione);
         durata = requireView().findViewById(R.id.edt_durata);
-
-
-
-        filtro.setOnClickListener(new View.OnClickListener()
+        filtraItinerario = requireView().findViewById(R.id.btn_filtra);
+        filtraItinerario.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 controllerCerca.filtraItinerarioWithFilter(posizione.getText().toString(), (int) difficolta.getValue(), durata.getText().toString(), stateDisabili);
+                animationView.setVisibility(View.INVISIBLE);
             }
         });
+
     }
 
     @NonNull

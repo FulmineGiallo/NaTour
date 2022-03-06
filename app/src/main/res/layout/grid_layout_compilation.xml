@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_nomecompilation"
+        android:text="Nome Compilation"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:fontFamily="@font/robotoregular"
+        />
+    <androidx.cardview.widget.CardView
+        android:layout_width="220dp"
+        android:layout_height="100dp"
+        android:id="@+id/cardCompilation"
+        app:layout_constraintTop_toBottomOf="@id/txt_nomecompilation"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/deleteItinerario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:padding="10dp"
+            android:elevation="3dp"
+            />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_descrizionecompilation"
+        android:text="Placeholder descrizione"
+        app:layout_constraintTop_toBottomOf="@id/cardCompilation"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"
+        android:fontFamily="@font/robotoregular"
+        android:layout_marginLeft="10dp"
+        android:padding="10dp"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,8 +15,8 @@ public class Immagine
     private Marker marker;
     private String URL;
 
-    private float latitude;
-    private float longitude;
+    private Float latitude;
+    private Float longitude;
 
     @NonNull
     @Override

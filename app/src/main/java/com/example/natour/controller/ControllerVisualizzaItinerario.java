@@ -1,5 +1,6 @@
 package com.example.natour.controller;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
 import com.example.natour.view.adapter.RecensioniAdapter;
 import com.example.natour.view.dialog.CompilationBottomSheet;
+import com.example.natour.view.dialog.ErrorDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -127,6 +129,7 @@ public class ControllerVisualizzaItinerario
                     {
                         JSONObject jsonObject = result.getJSONObject(i);
                         Immagine immagine = new Immagine(null, jsonObject.getString("id_key"));
+                        //todo: verificare che la latitudine e longitudine siano settati correttamente
                         immagine.setLatitude(Float.parseFloat(jsonObject.getString("lat_posizione")));
                         immagine.setLongitude(Float.parseFloat(jsonObject.getString("long_posizione")));
                         itinerario.getImmagini().add(immagine);
@@ -305,21 +308,41 @@ public class ControllerVisualizzaItinerario
 
     public void addItinerarioToCompilation(Compilation compilation)
     {
-        //todo: inserisci itinerario in compilation anche nel database
+        //todo: inserire messaggio di successo adeguato
+        new CompilationDAO().addItinerarioToCompilation(compilation.getIdCompilation(), itinerario.getIdItinerario(), activity);
+        new ErrorDialog("itinerario inserito con successo").show(activity.getSupportFragmentManager(), null);
         Log.i("ControllerVisItin","inserire itinerario nella compilation anche nel database");
     }
 
     public void showCompilation()
     {
-        new CompilationDAO().getCompilation(activity, tokenUtenteLoggato).subscribe(
+        CompilationDAO compilationDAO = new CompilationDAO();
+        compilationDAO.getCompilation(activity, tokenUtenteLoggato).subscribe(
                 results ->{
+                    LinkedList<Compilation> compilationList = new LinkedList<>();
                     for(int i = 0; i < results.length(); i++){
                         JSONObject jsonObject = results.getJSONObject(i);
                         Compilation compilation = new Compilation();
+                        compilation.setIdCompilation(Integer.parseInt(jsonObject.getString("id_compilation")));
+                        compilation.setNome(jsonObject.getString("nome"));
+                        compilation.setDescrizione(jsonObject.getString("descrizione"));
+                        compilation.setIdUtente(jsonObject.getString("id_utente"));
+                        compilationList.add(compilation);
                     }
+                    new CompilationBottomSheet(compilationList,this).show(activity.getSupportFragmentManager(),null);
                 },
-                error ->{}
+                error -> {}
         );
 
+    }
+
+    public String getToken()
+    {
+        return tokenUtenteLoggato;
+    }
+
+    public Context getContext()
+    {
+        return activity;
     }
 }

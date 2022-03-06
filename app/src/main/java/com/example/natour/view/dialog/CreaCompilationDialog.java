@@ -36,7 +36,7 @@ public class CreaCompilationDialog extends DialogFragment
             callback.creaCompilation(titolo, descrizione);
             dismiss();
         });
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return v;
     }
 
     public interface CompilationCallback{

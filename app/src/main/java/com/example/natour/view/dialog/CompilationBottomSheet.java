@@ -17,16 +17,18 @@ import com.example.natour.R;
 import com.example.natour.controller.ControllerVisualizzaItinerario;
 import com.example.natour.model.Compilation;
 import com.example.natour.model.Segnalazione;
+import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.view.adapter.InsertCompilationAdapter;
 import com.example.natour.view.adapter.SegnalazioniAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class CompilationBottomSheet extends BottomSheetDialogFragment
 {
-    CallbackCompilation listener;
     ControllerVisualizzaItinerario controller;
     List<Compilation> compilationList;
     InsertCompilationAdapter compilationAdapter;
@@ -42,15 +44,34 @@ public class CompilationBottomSheet extends BottomSheetDialogFragment
     {
         View v = inflater.inflate(R.layout.compilation_bottom_sheet, container);
         v.findViewById(R.id.btn_addCompilation).setOnClickListener(view -> {
+            dismiss();
             new CreaCompilationDialog((titolo, descrizione) ->
             {
-                //todo: metti compilation nel database
-                Log.i("CompilationBottomSheet", "compilation da mettere nel database");
-                Compilation newCompilation = new Compilation();
-                newCompilation.setNome(titolo);
-                newCompilation.setDescrizione(descrizione);
-                compilationList.add(newCompilation);
-                compilationAdapter.notifyItemInserted(compilationList.indexOf(newCompilation));
+                if(!titolo.isEmpty()){
+                    Compilation newCompilation = new Compilation();
+                    newCompilation.setNome(titolo);
+                    newCompilation.setDescrizione(descrizione);
+                    CompilationDAO compilationDAO = new CompilationDAO();
+                    compilationDAO.insertCompilation(titolo,descrizione, controller.getToken(), controller.getContext());
+                    compilationList.clear();
+                    compilationDAO.getCompilation(controller.getContext(), controller.getToken()).subscribe(
+                            compilations ->{
+                                for(int i = 0; i < compilations.length(); i++){
+                                    JSONObject jsonObject = compilations.getJSONObject(i);
+                                    Compilation compilation = new Compilation();
+                                    compilation.setIdCompilation(Integer.parseInt(jsonObject.getString("id_compilation")));
+                                    compilation.setNome(jsonObject.getString("nome"));
+                                    compilation.setDescrizione(jsonObject.getString("descrizione"));
+                                    compilation.setIdUtente(jsonObject.getString("id_utente"));
+                                    compilationList.add(compilation);
+                                }
+                                compilationAdapter.notifyItemRangeChanged(0, compilationList.size()-1);
+                            },
+                            error->{}
+                    );
+                }
+                else
+                    new ErrorDialog("Inserisci il titolo della Compilation").show(getParentFragmentManager(),null);
             }).show(getParentFragmentManager(),null);
         });
         compilationAdapter = new InsertCompilationAdapter(compilationList, getParentFragmentManager(), controller, requireContext());
@@ -61,20 +82,5 @@ public class CompilationBottomSheet extends BottomSheetDialogFragment
         return v;
     }
 
-    public interface CallbackCompilation{
-        void callbackCompilation(String segnalazione, String titolo);
-    }
 
-    @Override
-    public void onAttach(@NonNull Context context)
-    {
-        super.onAttach(context);
-        try
-        {
-            listener = (CallbackCompilation) context;
-        }catch (ClassCastException e){
-            throw new ClassCastException(context.toString()+
-                    " must implement CallbackSegnalazione");
-        }
-    }
 }

@@ -7,7 +7,7 @@ public class Compilation
     private String nome;
     private String descrizione;
     private List<Itinerario> itinerariCompilation;
-    private String idItinerario;
+    private String idUtente;
     private int idCompilation;
 
     public String getNome()
@@ -40,14 +40,14 @@ public class Compilation
         this.itinerariCompilation = itinerariCompilation;
     }
 
-    public String getIdItinerario()
+    public String getIdUtente()
     {
-        return idItinerario;
+        return idUtente;
     }
 
-    public void setIdItinerario(String idItinerario)
+    public void setIdUtente(String idUtente)
     {
-        this.idItinerario = idItinerario;
+        this.idUtente = idUtente;
     }
 
     public int getIdCompilation()

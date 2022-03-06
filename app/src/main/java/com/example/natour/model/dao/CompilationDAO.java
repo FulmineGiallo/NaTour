@@ -31,4 +31,21 @@ public class CompilationDAO
         return  request.getMultipleRows();
 
     }
+
+    public PublishSubject<JSONArray> getItinerariFromCompilation(Context context ,String id_compilation)
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id_compilation", id_compilation);
+        RequestAPI request = new RequestAPI("compilation/get_itinerari_from_compilation.php", context, params);
+        return  request.getMultipleRows();
+
+    }
+
+    public void addItinerarioToCompilation(int idCompilation, String idItinerario, Context context)
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id_compilation", String.valueOf(idCompilation));
+        params.put("id_itinerario", idItinerario);
+        new RequestAPI("compilation/add_itinerario.php", context, params).sendRequest();
+    }
 }

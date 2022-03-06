@@ -4,19 +4,33 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.natour.model.Itinerario;
 import com.example.natour.model.Utente;
+
+import java.util.ArrayList;
 
 public class SharedViewModel extends ViewModel
 {
     MutableLiveData<Utente> utenteMutableLiveData = new MutableLiveData<Utente>();
+    private final MutableLiveData<ArrayList<Itinerario>> itinerario = new MutableLiveData<>();
+
 
     public void setUtente(Utente utente)
     {
         utenteMutableLiveData.postValue(utente);
     }
-
     public LiveData<Utente> getUtente()
     {
         return utenteMutableLiveData;
     }
+
+
+    public void setItinerari(ArrayList<Itinerario> itinerario)
+    {
+        this.itinerario.postValue(itinerario);
+    }
+    public LiveData<ArrayList<Itinerario>> getItinerari(){
+        return itinerario;
+    }
+
 }

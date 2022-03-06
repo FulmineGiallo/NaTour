@@ -19,6 +19,8 @@ import com.example.natour.model.Itinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.util.ArrayList;
+
 public class HomePageFragment extends Fragment
 {
     private RecyclerView mRecyclerView;
@@ -26,6 +28,7 @@ public class HomePageFragment extends Fragment
     private Intent intentInserimentoItinerario;
     private String token;
     private ControllerHomePage controllerHomePage;
+    private SharedViewModel model;
     public HomePageFragment() {
 
 
@@ -49,7 +52,7 @@ public class HomePageFragment extends Fragment
         if(controllerHomePage == null)
             controllerHomePage = new ControllerHomePage(getParentFragmentManager(), this);
 
-        SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         model.getUtente().observe(getViewLifecycleOwner(),
                 utente ->
                 {
@@ -60,7 +63,6 @@ public class HomePageFragment extends Fragment
 
         fab = requireView().findViewById(R.id.btn_inserimentoItinerario);
         intentInserimentoItinerario = new Intent(HomePageFragment.this.getActivity(), InserimentoItinerario.class);
-
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.rec_view);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -80,5 +82,10 @@ public class HomePageFragment extends Fragment
     public void itinerarioAdded(Itinerario itinerario)
     {
         //controllerHomePage.addItinerario(itinerario);
+    }
+
+    public void setModelItinerari(ArrayList<Itinerario> itinerari)
+    {
+        model.setItinerari(itinerari);
     }
 }

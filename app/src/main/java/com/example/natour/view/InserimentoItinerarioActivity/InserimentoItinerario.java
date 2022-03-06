@@ -1,6 +1,8 @@
 package com.example.natour.view.InserimentoItinerarioActivity;//package com.example.natour.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +16,11 @@ public class InserimentoItinerario extends AppCompatActivity
 {
     private ControllerItinerario controllerItinerario;
     private MapView mapView;
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         String token = getIntent().getStringExtra("token");
         setContentView(R.layout.activity_inserimento_itinerario);

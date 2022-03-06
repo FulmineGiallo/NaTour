@@ -213,6 +213,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
         mappa.getOverlays().add(inizio);
         mappa.getOverlays().add(fine);
+        mappa.setMultiTouchControls(true);
         mapController.setCenter(inizio.getPosition());
         OSRMRoadManager roadManager = new OSRMRoadManager(this , "MyOwnUserAgent/1.0");
         roadManager.setMean(OSRMRoadManager.MEAN_BY_FOOT);

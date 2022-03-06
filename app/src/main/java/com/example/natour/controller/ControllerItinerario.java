@@ -104,8 +104,13 @@ public class ControllerItinerario
                         {
                             /*  Se INSERT dell'itinerario è andato a buon fine, allora gli associo le immagini */
                             ImmagineDAO immagineDAO = new ImmagineDAO();
-                            for(Immagine img : imgList)
-                                immagineDAO.insertImmagine(img, chiaveItinerario, img.getMarker().getPosition().getLatitude(), img.getMarker().getPosition().getLongitude(), context);
+                            for(Immagine img : imgList) {
+                                if(img.getMarker()!=null){
+                                    immagineDAO.insertImmagine(img, chiaveItinerario, img.getMarker().getPosition().getLatitude(), img.getMarker().getPosition().getLongitude(), context);
+                                }else{
+                                    immagineDAO.insertImmagine(img, chiaveItinerario, null, null, context);
+                                }
+                            }
                             Intent intent = new Intent(inserimentoItinerarioActivity, ItinerarioInseritoTransition.class);
                             intent.putExtra("itinerario", itinerarioInserito);
                             inserimentoItinerarioActivity.startActivity(intent);

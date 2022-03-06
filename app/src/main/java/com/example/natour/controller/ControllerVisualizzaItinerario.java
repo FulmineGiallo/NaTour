@@ -167,8 +167,6 @@ public class ControllerVisualizzaItinerario
         LinearLayoutManager linearLayout = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayout);
         mRecyclerView.setAdapter(imageAdapter);
-
-
     }
 
     public void showSegnalazioni()

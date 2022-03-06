@@ -10,6 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,6 +69,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private TextView mediaRecensioni;
     private ControllerVisualizzaItinerario controllerVisualizzaItinerario;
     private TextView txt_disabili;
+    private Button btn_addCompilation;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -78,6 +81,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
         btn_addRecensione = findViewById(R.id.btn_addrecensione);
         btn_addSegnalazione= findViewById(R.id.btn_segnala);
+        btn_addCompilation = findViewById(R.id.btn_salvaitinerario);
         itinerario = (Itinerario) getIntent().getSerializableExtra("itinerarioselezionato");
         token = (String) getIntent().getSerializableExtra("token");
 
@@ -171,6 +175,9 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         });
         btn_addSegnalazione.setOnClickListener(v -> {
             controllerVisualizzaItinerario.showSegnalazioni();
+        });
+        btn_addCompilation.setOnClickListener(v->{
+            controllerVisualizzaItinerario.showCompilation();
         });
 
 

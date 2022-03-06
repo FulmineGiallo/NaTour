@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
+import com.example.natour.model.Compilation;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Recensione;
 import com.example.natour.model.Segnalazione;
+import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.RecensioneDAO;
 import com.example.natour.model.dao.SegnalazioneDAO;
@@ -20,6 +22,7 @@ import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
 import com.example.natour.view.adapter.RecensioniAdapter;
+import com.example.natour.view.dialog.CompilationBottomSheet;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -298,5 +301,25 @@ public class ControllerVisualizzaItinerario
     {
         SegnalazioneDAO segnalazioneDAO = new SegnalazioneDAO();
         segnalazioneDAO.insertSegnalazione(titolo, segnalazione, tokenUtenteLoggato, itinerario.getIdItinerario(), activity);
+    }
+
+    public void addItinerarioToCompilation(Compilation compilation)
+    {
+        //todo: inserisci itinerario in compilation anche nel database
+        Log.i("ControllerVisItin","inserire itinerario nella compilation anche nel database");
+    }
+
+    public void showCompilation()
+    {
+        new CompilationDAO().getCompilation(activity, tokenUtenteLoggato).subscribe(
+                results ->{
+                    for(int i = 0; i < results.length(); i++){
+                        JSONObject jsonObject = results.getJSONObject(i);
+                        Compilation compilation = new Compilation();
+                    }
+                },
+                error ->{}
+        );
+
     }
 }

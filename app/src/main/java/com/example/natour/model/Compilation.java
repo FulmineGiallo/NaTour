@@ -1,10 +1,62 @@
 package com.example.natour.model;
 
+import java.util.List;
+
 public class Compilation
 {
     private String nome;
     private String descrizione;
-    private int numeroItinerari;
-    private Itinerario[] itinerariCompilation;
+    private List<Itinerario> itinerariCompilation;
+    private String idItinerario;
+    private int idCompilation;
 
+    public String getNome()
+    {
+        return nome;
+    }
+
+    public void setNome(String nome)
+    {
+        this.nome = nome;
+    }
+
+    public String getDescrizione()
+    {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione)
+    {
+        this.descrizione = descrizione;
+    }
+
+    public List<Itinerario> getItinerariCompilation()
+    {
+        return itinerariCompilation;
+    }
+
+    public void setItinerariCompilation(List<Itinerario> itinerariCompilation)
+    {
+        this.itinerariCompilation = itinerariCompilation;
+    }
+
+    public String getIdItinerario()
+    {
+        return idItinerario;
+    }
+
+    public void setIdItinerario(String idItinerario)
+    {
+        this.idItinerario = idItinerario;
+    }
+
+    public int getIdCompilation()
+    {
+        return idCompilation;
+    }
+
+    public void setIdCompilation(int idCompilation)
+    {
+        this.idCompilation = idCompilation;
+    }
 }

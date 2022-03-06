@@ -35,4 +35,8 @@
     <string name="invia">invia</string>
     <string name="inserisci_segnalazione">Inserisci segnalazione</string>
     <string name="titolo">Titolo</string>
+    <string name="salva">salva</string>
+    <string name="aggiungi">Aggiungi</string>
+    <string name="crea_compilation">Crea compilation</string>
+    <string name="titolo_compilation">Titolo Compilation</string>
 </resources>

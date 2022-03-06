@@ -195,7 +195,7 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/robotoregular"
-                    android:text=" MEDIA TOTALE : numero"
+                    android:text=" MEDIA TOTALE : 0"
                     android:textSize="18dp"
                     app:layout_constraintBottom_toTopOf="@id/linearLayout2"
                     app:layout_constraintLeft_toRightOf="@id/txt_recensioni"

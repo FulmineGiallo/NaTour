@@ -1,6 +1,8 @@
 package com.example.natour.view.Tab;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.transition.Explode;
@@ -32,9 +34,11 @@ public class TabActivity extends AppCompatActivity {
     private MessaggioFragment messaggio = null;
     private NotificaFragment notifica = null;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setEnterTransition(new Explode());
         super.onCreate(savedInstanceState);
         SharedViewModel model = new ViewModelProvider(this).get(SharedViewModel.class);

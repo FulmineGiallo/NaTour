@@ -11,8 +11,10 @@ import com.example.natour.view.LoginActivity.Login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -45,10 +47,11 @@ public class Register extends AppCompatActivity implements ConfermaRegistrazione
     private TextView erroreData;
     private String dataN;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_register);

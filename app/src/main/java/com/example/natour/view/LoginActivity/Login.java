@@ -1,6 +1,8 @@
 package com.example.natour.view.LoginActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -36,9 +38,11 @@ public class Login extends AppCompatActivity
     private Disposable sessionDisposable;
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
 
         controllerLogin = new ControllerLogin(fm, this);

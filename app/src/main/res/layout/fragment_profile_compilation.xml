@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="141dp"
         tools:layout_editor_absoluteY="29dp"
-        tools:src="@tools:sample/avatars" />
+        android:src="@drawable/avatat_test" />
 
     <TextView
         android:id="@+id/utente"
@@ -51,9 +51,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
-        android:text="@string/txt_iMieiItinerari"
+        android:text="Le mie compilation"
         android:textColor="#000000"
-        android:textSize="34sp"
+        android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="@id/utente"
         app:layout_constraintRight_toRightOf="@id/utente"
         app:layout_constraintTop_toBottomOf="@id/utente"

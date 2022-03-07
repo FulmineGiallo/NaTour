@@ -1,12 +1,10 @@
-package com.example.natour.view.Tab;
+package com.example.natour.view.Profile;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,13 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerProfile;
 import com.example.natour.model.Itinerario;
-import com.example.natour.view.adapter.ProfileAdapter;
+import com.example.natour.view.Tab.SharedViewModel;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
 import com.google.android.material.card.MaterialCardView;
@@ -103,6 +100,8 @@ public class ProfileFragment extends Fragment
                                 return true;
                             case R.id.option_2:
                                 Toast.makeText(getContext(),"Le mie compilation", Toast.LENGTH_SHORT).show();
+                                ProfileCompilation profileCompilation = new ProfileCompilation();
+                                getParentFragmentManager().beginTransaction().addToBackStack(profileCompilation.toString()).replace(R.id.container, profileCompilation).commit();
                                 return true;
                             case R.id.option_3:
                                 Toast.makeText(getContext(),"Logout", Toast.LENGTH_SHORT).show();

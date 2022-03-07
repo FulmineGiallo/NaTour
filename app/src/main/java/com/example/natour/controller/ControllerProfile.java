@@ -12,7 +12,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.Signout;
-import com.example.natour.view.Tab.ProfileFragment;
+import com.example.natour.view.Profile.ProfileFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.ProfileAdapter;
 

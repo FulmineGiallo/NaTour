@@ -1,6 +1,5 @@
 package com.example.natour.view.adapter;
 
-import android.text.NoCopySpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.natour.R;
-import com.example.natour.controller.ControllerHomePage;
 import com.example.natour.controller.ControllerProfile;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
-import com.example.natour.view.Tab.HomePageFragment;
-import com.example.natour.view.Tab.ProfileFragment;
+import com.example.natour.view.Profile.ProfileFragment;
 
 import java.util.List;
 

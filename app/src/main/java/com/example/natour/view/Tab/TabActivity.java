@@ -6,10 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.transition.Explode;
-import android.transition.Transition;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowAnimationFrameStats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +18,7 @@ import com.example.natour.R;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Utente;
 import com.example.natour.view.MessaggioActivity.MessaggioFragment;
+import com.example.natour.view.Profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TabActivity extends AppCompatActivity {

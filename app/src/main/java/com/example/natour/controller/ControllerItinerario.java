@@ -50,7 +50,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -83,7 +82,7 @@ public class ControllerItinerario
     private InserimentoItinerarioFragment inserimentoItinerarioFragment;
 
 
-    public void inserisciItinerario(float value, String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, LinkedList<Immagine> imgList, Context context)
+    public void inserisciItinerario(float value, String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, Context context)
     {
         Itinerario itinerarioInserito = new Itinerario();
         String chiaveItinerario = UUID.randomUUID().toString();;
@@ -104,7 +103,8 @@ public class ControllerItinerario
                         {
                             /*  Se INSERT dell'itinerario è andato a buon fine, allora gli associo le immagini */
                             ImmagineDAO immagineDAO = new ImmagineDAO();
-                            for(Immagine img : imgList) {
+                            for(Immagine img : mapKeyURI)
+                            {
                                 if(img.getMarker()!=null){
                                     immagineDAO.insertImmagine(img, chiaveItinerario, img.getMarker().getPosition().getLatitude(), img.getMarker().getPosition().getLongitude(), context);
                                 }else{

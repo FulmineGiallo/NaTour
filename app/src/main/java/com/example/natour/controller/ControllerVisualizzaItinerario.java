@@ -124,14 +124,16 @@ public class ControllerVisualizzaItinerario
         response.subscribe(
                 result ->
                 {
-
                     for (int i = 0; i < result.length(); i++)
                     {
                         JSONObject jsonObject = result.getJSONObject(i);
                         Immagine immagine = new Immagine(null, jsonObject.getString("id_key"));
                         //todo: verificare che la latitudine e longitudine siano settati correttamente
-                        immagine.setLatitude(Float.parseFloat(jsonObject.getString("lat_posizione")));
-                        immagine.setLongitude(Float.parseFloat(jsonObject.getString("long_posizione")));
+                        if(!jsonObject.getString("lat_posizione").isEmpty())
+                        {
+                            immagine.setLatitude(Float.parseFloat(jsonObject.getString("lat_posizione")));
+                            immagine.setLongitude(Float.parseFloat(jsonObject.getString("long_posizione")));
+                        }
                         itinerario.getImmagini().add(immagine);
                         Log.i("IN FOR", immagine.toString());
                     }
@@ -153,7 +155,8 @@ public class ControllerVisualizzaItinerario
                     {
                         Log.i("MyAmplifyApp", "Successfully generated: " + urlResult.getUrl());
                         img.setURL(urlResult.getUrl().toString());
-                        activity.setImage(img);
+                        if(img.getLongitude() != null)
+                            activity.setImage(img);
                         activity.runOnUiThread(() -> imageAdapter.notifyItemChanged(itinerario.getImmagini().indexOf(img)));
                     },
                     error -> Log.e("MyAmplifyApp", "URL generation failure", error)

@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
@@ -27,7 +26,6 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -286,7 +284,7 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
             public void onClick(View view)
             {
                 if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !waypoints.isEmpty())
-                    controllerItinerario.inserisciItinerario(difficolta.getValue(),edtNome.getText().toString(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString(), waypoints, imgList, getContext());
+                    controllerItinerario.inserisciItinerario(difficolta.getValue(),edtNome.getText().toString(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString(), waypoints, getContext());
                 else
                     new ErrorDialog("Itinerario non inserito correttamente").show(getParentFragmentManager(),null);
             }

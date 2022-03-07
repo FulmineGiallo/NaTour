@@ -129,7 +129,8 @@ public class ControllerLogin
                                             error -> Log.e("AuthDemo", "Failed to fetch attributes.", error),
                                             () ->
                                             {
-                                                intentHomePage.putExtra("utente",utenteLoggato);
+                                                intentHomePage.putExtra("utente", utenteLoggato);
+                                                utenteDati.insertUtenteSocial(utenteLoggato.getToken(), utenteLoggato.getNome(), utenteLoggato.getCognome(), contexController);
                                                 contexController.startActivity(intentHomePage);
                                                 terminaLogin();
                                             }
@@ -137,9 +138,6 @@ public class ControllerLogin
                         },
                         error -> Log.e("AuthQuickstart", error.toString())
                 );
-
-
-
     }
 
     public void checkLoginGoogle()
@@ -170,6 +168,7 @@ public class ControllerLogin
                                             () ->
                                             {
                                                 intentHomePage.putExtra("utente",utenteLoggato);
+                                                utenteDati.insertUtenteSocial(utenteLoggato.getToken(), utenteLoggato.getNome(), utenteLoggato.getCognome(), contexController);
                                                 contexController.startActivity(intentHomePage);
                                                 terminaLogin();
                                             }

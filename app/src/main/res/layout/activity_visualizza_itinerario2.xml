@@ -44,7 +44,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_mappaitinerario">
+        app:layout_constraintTop_toBottomOf="@id/img_mappaitinerario"
+        android:overScrollMode="never"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -211,7 +214,10 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/frame_recensioni"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+
+                        />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -222,10 +228,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.111"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_foto">
+                    app:layout_constraintTop_toBottomOf="@+id/txt_foto"
+
+                    >
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_view_show_images"
+                        android:overScrollMode="never"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 

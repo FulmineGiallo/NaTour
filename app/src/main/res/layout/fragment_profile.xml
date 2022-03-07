@@ -140,6 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_column="0"
+            android:overScrollMode="never"
             app:layout_row="0" />
     </androidx.gridlayout.widget.GridLayout>
 

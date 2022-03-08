@@ -121,7 +121,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@id/txt_foto"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_foto"
+                    app:layout_constraintTop_toTopOf="@id/txt_foto"
+                    android:src="@drawable/photo"
+                    />
                 <TextView
                     android:id="@+id/txt_foto"
                     android:layout_width="wrap_content"
@@ -207,9 +214,10 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/txt_recensioni">
+                    app:layout_constraintTop_toBottomOf="@id/txt_recensioni"
+                    tools:layout_editor_absoluteX="19dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/frame_recensioni"
@@ -229,8 +237,8 @@
                     app:layout_constraintHorizontal_bias="0.111"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txt_foto"
-
                     >
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_view_show_images"
@@ -241,24 +249,38 @@
                         />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/descrizionetesto"
+                    android:textStyle="bold"
+                    android:text="Descrizione"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotoregular"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+
+                    />
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
+                    app:layout_constraintTop_toBottomOf="@+id/descrizionetesto"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    >
                     <TextView
                         android:id="@+id/txt_descrizione"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/robotoregular"
                         android:text="Descrizione itinerario.." />
-
                 </androidx.cardview.widget.CardView>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

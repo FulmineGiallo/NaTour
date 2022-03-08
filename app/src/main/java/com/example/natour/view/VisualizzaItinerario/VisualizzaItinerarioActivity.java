@@ -10,8 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,6 +67,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private String token;
     private IMapController mapController;
     private TextView mediaRecensioni;
+    private FrameLayout fotoVuote;
     private ControllerVisualizzaItinerario controllerVisualizzaItinerario;
     private TextView txt_disabili;
     private Button btn_addCompilation;
@@ -92,7 +93,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         descrizione = findViewById(R.id.txt_descrizione);
         durata = findViewById(R.id.txt_durata);
         mediaRecensioni = findViewById(R.id.txt_mediarecensioni);
-
+        /*fotoVuote = findViewById(R.id.framephotovuote);*/
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         mappa = findViewById(R.id.img_mappaitinerario);
         mapController = mappa.getController();
@@ -152,7 +153,11 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         }
 
         durata.setText("Durata" + " " + itinerario.getDurata() + " " + "min");
-        descrizione.setText(itinerario.getDescrizione());
+
+        if(itinerario.getDescrizione().isEmpty())
+            descrizione.setText("Descrizione non presente");
+        else
+            descrizione.setText(itinerario.getDescrizione());
 
         txt_disabili = findViewById(R.id.text_disabili);
         if(itinerario.isAccessibilitaDisabili())
@@ -180,7 +185,10 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
             controllerVisualizzaItinerario.showCompilation();
         });
 
-
+        /*if(itinerario.getImmagini().isEmpty())
+        {
+            fotoVuote.setVisibility(View.VISIBLE);
+        }*/
 
 
 

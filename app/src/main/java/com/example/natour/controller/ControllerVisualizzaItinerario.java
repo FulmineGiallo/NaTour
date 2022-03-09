@@ -2,6 +2,8 @@ package com.example.natour.controller;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -211,8 +213,14 @@ public class ControllerVisualizzaItinerario
         );
     }
 
-    public void setRecensioniAdapter(RecyclerView mRec)
+    public void setRecensioniAdapter(RecyclerView mRec, TextView recensioniVuote, ImageView imageView)
     {
+        if(recensioni.isEmpty())
+        {
+            recensioniVuote.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.VISIBLE);
+        }
+
         recensioneAdapter = new RecensioniAdapter(recensioni, activity.getSupportFragmentManager(), this, activity);
         LinearLayoutManager linearLayout = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         mRec.setLayoutManager(linearLayout);

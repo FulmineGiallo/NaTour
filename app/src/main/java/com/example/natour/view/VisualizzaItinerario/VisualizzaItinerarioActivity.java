@@ -71,6 +71,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private ControllerVisualizzaItinerario controllerVisualizzaItinerario;
     private TextView txt_disabili;
     private Button btn_addCompilation;
+    private TextView recensionivuote;
+    ImageView imageInfo;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -97,7 +99,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         mappa = findViewById(R.id.img_mappaitinerario);
         mapController = mappa.getController();
-
+        recensionivuote = findViewById(R.id.txt_recensioninondisponibili);
+        imageInfo = findViewById(R.id.imginfo);
         mapController.setZoom(11.3);
 
         mappa.invalidate();
@@ -112,7 +115,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         controllerVisualizzaItinerario.setAdapter(recyclerView);
 
         RecyclerView recyclerRecensioni = findViewById(R.id.frame_recensioni);
-        controllerVisualizzaItinerario.setRecensioniAdapter(recyclerRecensioni);
+        controllerVisualizzaItinerario.setRecensioniAdapter(recyclerRecensioni, recensionivuote, imageInfo);
 
         UtenteDAO utenteDAO = new UtenteDAO();
         PublishSubject<JSONObject> risposta = utenteDAO.getNomeCognomeUtente(itinerario.getFk_utente(), this);

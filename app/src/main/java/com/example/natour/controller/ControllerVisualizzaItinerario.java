@@ -2,6 +2,9 @@ package com.example.natour.controller;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -115,7 +118,7 @@ public class ControllerVisualizzaItinerario
 
     }
 
-    public void getImageItinerario()
+    public void getImageItinerario(FrameLayout frame)
     {
         /* Per caricare le foto si deve ottnere l'image view corrispondente */
         ImmagineDAO immagineDAO = new ImmagineDAO();
@@ -138,6 +141,10 @@ public class ControllerVisualizzaItinerario
                         Log.i("IN FOR", immagine.toString());
                     }
                     setURLImmagine();
+                    if(!itinerario.getImmagini().isEmpty())
+                    {
+                       frame.setVisibility(View.INVISIBLE);
+                    }
                 },
                 error ->
                 {
@@ -189,7 +196,6 @@ public class ControllerVisualizzaItinerario
                         new UtenteDAO().getNomeCognomeUtente(String.valueOf(result.get("fk_utente")), activity).subscribe(
                                 utente ->
                                 {
-
                                     segnalazione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
                                     criminalRecord.add(segnalazione);
                                     if(finalI == results.length()-1)
@@ -211,8 +217,14 @@ public class ControllerVisualizzaItinerario
         );
     }
 
-    public void setRecensioniAdapter(RecyclerView mRec)
+    public void setRecensioniAdapter(RecyclerView mRec, TextView recensioniVuote, ImageView imageView)
     {
+        if(recensioni.isEmpty())
+        {
+            recensioniVuote.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.VISIBLE);
+        }
+
         recensioneAdapter = new RecensioniAdapter(recensioni, activity.getSupportFragmentManager(), this, activity);
         LinearLayoutManager linearLayout = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         mRec.setLayoutManager(linearLayout);
@@ -241,7 +253,7 @@ public class ControllerVisualizzaItinerario
         );
     }
 
-    public void getRecensioneItinerario(TextView mediaTotale)
+    public void getRecensioneItinerario(TextView mediaTotale, TextView recensioniVuote, ImageView img)
     {
         RecensioneDAO recensioneDAO = new RecensioneDAO();
         UtenteDAO utenteDAO = new UtenteDAO();
@@ -276,7 +288,11 @@ public class ControllerVisualizzaItinerario
                     }
 
                     calcoloMediaRecensioni(mediaTotale);
-
+                    if(!recensioni.isEmpty())
+                    {
+                        recensioniVuote.setVisibility(View.INVISIBLE);
+                        img.setVisibility(View.INVISIBLE);
+                    }
                 },
                 onError ->
                 {

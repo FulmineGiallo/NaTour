@@ -121,14 +121,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toRightOf="@id/txt_foto"
-                    app:layout_constraintBottom_toBottomOf="@id/txt_foto"
-                    app:layout_constraintTop_toTopOf="@id/txt_foto"
-                    android:src="@drawable/photo"
-                    />
+
+
+
                 <TextView
                     android:id="@+id/txt_foto"
                     android:layout_width="wrap_content"
@@ -136,7 +131,8 @@
                     android:fontFamily="@font/robotoregular"
                     android:padding="10dp"
                     android:text="Foto"
-                    android:textSize="16dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="25dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.022"
                     app:layout_constraintStart_toStartOf="parent"
@@ -228,8 +224,40 @@
                         />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <ImageView
+                    android:id="@+id/imginfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/ic_info"
+                    app:layout_constraintBottom_toTopOf="@id/txt_recensioninondisponibili"
+                    app:layout_constraintLeft_toLeftOf="@id/txt_recensioninondisponibili"
+                    app:layout_constraintRight_toRightOf="@id/txt_recensioninondisponibili"
+                    app:layout_constraintTop_toBottomOf="@id/txt_recensioni"
+                    android:visibility="invisible"
+
+                    />
+
+                <TextView
+                    android:id="@+id/txt_recensioninondisponibili"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoregular"
+                    android:text="Non ci sono recensioni"
+                    android:textSize="30dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imginfo"
+
+                    />
+
+
+
+
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/linearLayout"
+                    android:id="@+id/linearFoto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -238,42 +266,68 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txt_foto"
                     >
-
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_view_show_images"
-                        android:overScrollMode="never"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:overScrollMode="never"
 
                         />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:layout_constraintTop_toBottomOf="@id/txt_foto"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/framephotovuote"
+                    android:visibility="visible"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_info"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="45dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:text="Non ci sono foto"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_foto"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_gravity="center"
+                        />
+                </FrameLayout>
+
                 <TextView
+                    android:id="@+id/descrizionetesto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/descrizionetesto"
-                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/robotoregular"
                     android:text="Descrizione"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/robotoregular"
-                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
                     android:textSize="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/framephotovuote"
 
                     />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/descrizionetesto"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="5dp"
-                    >
+                    app:layout_constraintTop_toBottomOf="@+id/descrizionetesto">
+
                     <TextView
                         android:id="@+id/txt_descrizione"
                         android:layout_width="match_parent"

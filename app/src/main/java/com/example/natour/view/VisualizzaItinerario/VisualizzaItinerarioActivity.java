@@ -95,7 +95,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         descrizione = findViewById(R.id.txt_descrizione);
         durata = findViewById(R.id.txt_durata);
         mediaRecensioni = findViewById(R.id.txt_mediarecensioni);
-        /*fotoVuote = findViewById(R.id.framephotovuote);*/
+        fotoVuote = findViewById(R.id.framephotovuote);
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         mappa = findViewById(R.id.img_mappaitinerario);
         mapController = mappa.getController();
@@ -171,11 +171,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
 
         /* OTTENGO LA LISTA DI IMMAGINI DI QUELL' ITINERARIO SE CI SONO */
-        controllerVisualizzaItinerario.getImageItinerario();
-        controllerVisualizzaItinerario.getRecensioneItinerario(mediaRecensioni);
-
-
-
+        controllerVisualizzaItinerario.getImageItinerario(fotoVuote);
+        controllerVisualizzaItinerario.getRecensioneItinerario(mediaRecensioni, recensionivuote, imageInfo);
 
 
         btn_addRecensione.setOnClickListener(v -> {
@@ -187,12 +184,6 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         btn_addCompilation.setOnClickListener(v->{
             controllerVisualizzaItinerario.showCompilation();
         });
-
-        /*if(itinerario.getImmagini().isEmpty())
-        {
-            fotoVuote.setVisibility(View.VISIBLE);
-        }*/
-
 
 
 

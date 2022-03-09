@@ -122,13 +122,7 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/photo"
-                    app:layout_constraintBottom_toBottomOf="@id/txt_foto"
-                    app:layout_constraintLeft_toRightOf="@id/txt_foto"
-                    app:layout_constraintTop_toTopOf="@id/txt_foto" />
+
 
                 <TextView
                     android:id="@+id/txt_foto"
@@ -137,7 +131,8 @@
                     android:fontFamily="@font/robotoregular"
                     android:padding="10dp"
                     android:text="Foto"
-                    android:textSize="16dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="25dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.022"
                     app:layout_constraintStart_toStartOf="parent"
@@ -258,17 +253,19 @@
 
                     />
 
+
+
+
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/linearLayout"
+                    android:id="@+id/linearFoto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.111"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_foto">
-
-
+                    app:layout_constraintTop_toBottomOf="@+id/txt_foto"
+                    >
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_view_show_images"
                         android:layout_width="match_parent"
@@ -277,6 +274,33 @@
 
                         />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:layout_constraintTop_toBottomOf="@id/txt_foto"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/framephotovuote"
+                    android:visibility="visible"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_info"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="45dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:text="Non ci sono foto"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_foto"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_gravity="center"
+                        />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/descrizionetesto"
@@ -290,7 +314,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
+                    app:layout_constraintTop_toBottomOf="@id/framephotovuote"
 
                     />
 

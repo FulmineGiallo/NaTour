@@ -6,8 +6,10 @@ import android.util.Log;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.Tab.HomePageFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
@@ -15,6 +17,7 @@ import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -28,7 +31,7 @@ public class ControllerHomePage implements ControllerInterface
     private HomePageFragment fragment;
     private MasonryAdapter adapter;
     private ArrayList<Itinerario> itinerari = new ArrayList<>();
-    private List<Immagine> immagineList = new LinkedList<>();
+    private List<Immagine> immagineList = new ArrayList<>();
     private String token;
 
     public ControllerHomePage(FragmentManager fragmentManager, HomePageFragment fragment)
@@ -64,11 +67,32 @@ public class ControllerHomePage implements ControllerInterface
                         itinerario.setNomeFile(String.valueOf(result.getJSONObject(i).get("nomefile")));
                         itinerario.setAccessibilitaDisabili(Boolean.parseBoolean(String.valueOf(result.getJSONObject(i).get("disabile"))));
                         itinerari.add(itinerario);
+                        Immagine newImg = new Immagine("");
+                        immagineList.add(newImg);
+                        new ImmagineDAO().getImageOfItinerario(itinerario, fragment.requireContext())
+                                .subscribe(
+                                        immagini -> {
+                                                JSONObject jsonObject = immagini.getJSONObject(0);
+                                                RxAmplify.Storage.getUrl(jsonObject.getString("id_key")).subscribe(
+                                                        urlResult -> {
+
+                                                            newImg.setURL(urlResult.getUrl().toString());
+                                                            fragment.requireActivity().runOnUiThread(()->adapter.notifyItemChanged(itinerari.indexOf(itinerario)));
+                                                        },
+                                                        error -> Log.e("STORAGE ERROR", error.getLocalizedMessage())
+                                                );
+                                        },
+                                        errore -> {
+
+                                        }
+                                );
+
                         Log.i("TEST", "FINE");
                     }
 
                     adapter.notifyItemRangeChanged(0, itinerari.size());
                     fragment.setModelItinerari(itinerari);
+                    fragment.setModelImmagini(immagineList);
                 },
                 error ->
                 {

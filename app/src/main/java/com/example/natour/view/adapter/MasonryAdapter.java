@@ -56,14 +56,16 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     public void onBindViewHolder(@NonNull MasonryAdapter.MasonryView holder, int position)
     {
 
-        holder.imageView.setImageResource(imgList[position]);
-        if(!immagineList.isEmpty())
-            Glide
-                .with(fragment)
-                .load(immagineList.get(position).getURL())
-                .centerCrop()
-                .placeholder(android.R.drawable.spinner_background)
-                .into(holder.imageView);
+
+        if(!immagineList.isEmpty()){
+                Glide
+                        .with(fragment)
+                        .load(immagineList.get(position).getURL())
+                        .error(R.drawable.placeholder)
+                        .centerCrop()
+                        .into(holder.imageView);
+
+        }
         if(!itinerari.isEmpty()){
             holder.textView.setText(itinerari.get(position).getNome());
             switch (itinerari.get(position).getDifficoltà()){

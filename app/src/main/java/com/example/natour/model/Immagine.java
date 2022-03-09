@@ -27,6 +27,10 @@ public class Immagine
         this.URL = URL;
     }
 
+    public Immagine(String URL){
+        this.URL = URL;
+    }
+
     public Immagine(Uri uri, String key)
     {
         this.uri = uri;

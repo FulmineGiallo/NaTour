@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerHomePage;
+import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomePageFragment extends Fragment
 {
@@ -87,5 +89,10 @@ public class HomePageFragment extends Fragment
     public void setModelItinerari(ArrayList<Itinerario> itinerari)
     {
         model.setItinerari(itinerari);
+    }
+
+    public void setModelImmagini(List<Immagine> immagineList)
+    {
+        model.setImmagini(immagineList);
     }
 }

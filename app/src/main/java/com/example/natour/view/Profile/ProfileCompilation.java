@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
+import com.example.natour.controller.ControllerProfile;
 import com.example.natour.view.Tab.SharedViewModel;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
@@ -23,15 +25,21 @@ import com.google.android.material.navigation.NavigationView;
 
 public class ProfileCompilation extends Fragment
 {
+    private ControllerProfile controllerProfile;
     private TextView txtUtente;
     private ImageButton options;
     private NavigationView menuView;
     private MaterialCardView cardMenu;
+    private RecyclerView recyclerView;
+
     public ProfileCompilation()
     {
         // Required empty public constructor
     }
 
+    public  ProfileCompilation(ControllerProfile controllerProfile){
+        this.controllerProfile = controllerProfile;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -55,11 +63,15 @@ public class ProfileCompilation extends Fragment
         txtUtente = requireView().findViewById(R.id.utente);
         menuView = requireView().findViewById(R.id.menuview);
         cardMenu = requireView().findViewById(R.id.cardMenu);
+        recyclerView = requireView().findViewById(R.id.rec_item_compilation);
+
+        controllerProfile.setCompilationAdapter(recyclerView);
 
         SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         model.getUtente().observe(getViewLifecycleOwner(),
                 utente -> {
                         txtUtente.setText(utente.getNome() + " " + utente.getCognome());
+                        controllerProfile.setCompilations(utente);
                 }
         );
         options = requireView().findViewById(R.id.btn_optionsProfile);

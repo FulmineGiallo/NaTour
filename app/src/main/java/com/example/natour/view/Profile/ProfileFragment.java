@@ -100,8 +100,12 @@ public class ProfileFragment extends Fragment
                                 return true;
                             case R.id.option_2:
                                 Toast.makeText(getContext(),"Le mie compilation", Toast.LENGTH_SHORT).show();
-                                ProfileCompilation profileCompilation = new ProfileCompilation();
-                                getParentFragmentManager().beginTransaction().addToBackStack(profileCompilation.toString()).replace(R.id.container, profileCompilation).commit();
+                                ProfileCompilation profileCompilation = new ProfileCompilation(controllerProfile);
+                                getParentFragmentManager()
+                                        .beginTransaction()
+                                        .addToBackStack(profileCompilation.toString())
+                                        .replace(R.id.container, profileCompilation)
+                                        .commit();
                                 return true;
                             case R.id.option_3:
                                 Toast.makeText(getContext(),"Logout", Toast.LENGTH_SHORT).show();

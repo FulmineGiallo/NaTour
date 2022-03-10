@@ -1,12 +1,13 @@
 package com.example.natour.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Compilation
 {
     private String nome;
     private String descrizione;
-    private List<Itinerario> itinerariCompilation;
+    private List<Itinerario> itinerariCompilation = new LinkedList<>();
     private String idUtente;
     private int idCompilation;
 

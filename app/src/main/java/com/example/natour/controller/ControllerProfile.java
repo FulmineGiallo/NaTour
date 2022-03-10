@@ -6,16 +6,22 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.rx.RxAmplify;
+import com.example.natour.model.Compilation;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.model.Utente;
+import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.Signout;
 import com.example.natour.view.Profile.ProfileFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
+import com.example.natour.view.adapter.CompilationAdapter;
+import com.example.natour.view.adapter.ItinerariCompilationAdapter;
 import com.example.natour.view.adapter.ProfileAdapter;
 
 import org.json.JSONArray;
@@ -34,8 +40,12 @@ public class ControllerProfile
     private ProfileFragment profileFragment;
     private String token;
     private List<Itinerario> listIt;
+    private List<Compilation> compilationList = new LinkedList<>();
     private List<Immagine> immagineList = new LinkedList<>();
+
     private ProfileAdapter adapter;
+    private CompilationAdapter compilationAdapter;
+
     private Intent intentLogin;
     private boolean isViewLoaded = false;
 
@@ -134,5 +144,83 @@ public class ControllerProfile
         intent.putExtra("token", token);
         profileFragment.requireActivity().startActivity(intent);
         itinerario.getImmagini().add(immagineSaved);
+    }
+
+    public void setCompilationAdapter(RecyclerView recyclerView)
+    {
+        compilationAdapter = new CompilationAdapter(this, compilationList);
+        LinearLayoutManager layout = new LinearLayoutManager(contexController,LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(layout);
+        recyclerView.setAdapter(compilationAdapter);
+    }
+
+    public void setItinerariCompilationAdapter(RecyclerView recyclerView, Compilation compilation)
+    {
+        ItinerariCompilationAdapter itinerariCompilationAdapter = new ItinerariCompilationAdapter(compilation.getItinerariCompilation(),profileFragment);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(contexController,LinearLayoutManager.HORIZONTAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(itinerariCompilationAdapter);
+        setItinerariCompilations(compilation, itinerariCompilationAdapter);
+    }
+
+    private void setItinerariCompilations(Compilation compilation, ItinerariCompilationAdapter itinerariCompilationAdapter)
+    {
+        new CompilationDAO().getItinerariFromCompilation(contexController, String.valueOf(compilation.getIdCompilation())).subscribe(
+                results -> {
+                    for(int i = 0; i < results.length(); i++){
+                        JSONObject jsonObject = results.getJSONObject(i);
+                        Itinerario itinerario = new Itinerario();
+                        itinerario.setIdItinerario(jsonObject.getString("id_itinerario"));
+                        itinerario.setNome(jsonObject.getString("nome"));
+                        itinerario.setDifficoltà(Integer.parseInt(jsonObject.getString("difficolta")));
+                        compilation.getItinerariCompilation().add(itinerario);
+                        Immagine newImg = new Immagine("");
+                        itinerario.getImmagini().add(newImg);
+                        new ImmagineDAO().getImageOfItinerario(itinerario, profileFragment.requireContext())
+                                .subscribe(
+                                        immagini -> {
+                                            JSONObject jsonObject2 = immagini.getJSONObject(0);
+                                            RxAmplify.Storage.getUrl(jsonObject2.getString("id_key")).subscribe(
+                                                    urlResult -> {
+
+                                                        newImg.setURL(urlResult.getUrl().toString());
+                                                        profileFragment.requireActivity().runOnUiThread(()->
+                                                                itinerariCompilationAdapter
+                                                                        .notifyItemChanged(compilation.getItinerariCompilation().indexOf(itinerario)));
+                                                    },
+                                                    error -> Log.e("STORAGE ERROR", error.getLocalizedMessage())
+                                            );
+                                        },
+                                        errore -> {
+
+                                        }
+                                );
+                        profileFragment.requireActivity().runOnUiThread(() ->
+                                itinerariCompilationAdapter.notifyItemInserted(compilation.getItinerariCompilation().indexOf(itinerario)));
+                    }
+                },
+                error -> {}
+        );
+    }
+
+    public void setCompilations(Utente utente)
+    {
+        new CompilationDAO().getCompilation(contexController, utente.getToken()).subscribe(
+                results->{
+                    for(int i = 0; i < results.length(); i++){
+                        JSONObject jsonObject = results.getJSONObject(i);
+                        Compilation compilation = new Compilation();
+                        compilation.setIdCompilation(Integer.parseInt(jsonObject.getString("id_compilation")));
+                        compilation.setNome(jsonObject.getString("nome"));
+                        compilation.setDescrizione(jsonObject.getString("descrizione"));
+                        compilation.setIdUtente(jsonObject.getString("id_utente"));
+                        compilationList.add(compilation);
+                        profileFragment.requireActivity().runOnUiThread(() ->
+                                compilationAdapter.notifyItemInserted(compilationList.indexOf(compilation)));
+                    }
+                },
+                error -> {}
+        );
+
     }
 }

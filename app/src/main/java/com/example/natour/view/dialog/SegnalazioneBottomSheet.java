@@ -47,6 +47,9 @@ public class SegnalazioneBottomSheet extends BottomSheetDialogFragment
         LinearLayoutManager linearLayout = new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayout);
         recyclerView.setAdapter(segnalazioniAdapter);
+        controller.updateAdapter(segnalazioniAdapter);
+
+
         return v;
     }
 

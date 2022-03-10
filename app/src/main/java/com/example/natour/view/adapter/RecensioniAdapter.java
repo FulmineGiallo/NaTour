@@ -53,7 +53,7 @@ public class RecensioniAdapter extends RecyclerView.Adapter<RecensioniAdapter.Vi
         Log.i("ADPTER RECENSIONI", String.valueOf(holder.getAdapterPosition()));
         if(!recensioneList.isEmpty())
         {
-            holder.rate_valutazione.setNumStars(recensioneList.get(position).getValutazione());
+            holder.rate_valutazione.setRating(recensioneList.get(position).getValutazione());
             holder.txt_utente.setText(recensioneList.get(position).getUtente());
             holder.txt_testo.setText(recensioneList.get(position).getTesto());
         }

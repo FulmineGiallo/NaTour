@@ -35,7 +35,9 @@ public class SharedViewModel extends ViewModel
     public LiveData<ArrayList<Itinerario>> getItinerari(){
         return itinerario;
     }
-
+    public LiveData<List<Immagine>> getImmagini(){
+        return immagineList;
+    }
     public void setImmagini(List<Immagine> immagineList)
     {
         this.immagineList.postValue(immagineList);

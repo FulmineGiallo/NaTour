@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -282,10 +283,12 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     }
 
     @Override
-    public void callbackRecensione(int rate, String recensione)
+    public void callbackRecensione(float rate, String recensione)
     {
         Log.i("CALLBACK RECENSIONE", "bisogna inviare informazioni al database");
-        controllerVisualizzaItinerario.insertRecensione(rate, recensione);
+        controllerVisualizzaItinerario.insertRecensione( rate, recensione, mediaRecensioni);
+        recensionivuote.setVisibility(View.INVISIBLE);
+        imageInfo.setVisibility(View.INVISIBLE);
     }
 
     @Override

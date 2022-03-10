@@ -24,11 +24,11 @@ public class RecensioneBottomSheet extends BottomSheetDialogFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.inserisci_recensione_bottom_sheet, container);
-        //v.findviewbyid
+
         Button btn = v.findViewById(R.id.btn_conferma_recensione);
         btn.setOnClickListener(view ->
         {
-            listener.callbackRecensione(((RatingBar) v.findViewById(R.id.rate_voto_dato)).getNumStars(),
+            listener.callbackRecensione(((RatingBar) v.findViewById(R.id.rate_voto_dato)).getRating(),
                     ((EditText) v.findViewById(R.id.edt_testo_recensione)).getText().toString());
             dismiss();
         });
@@ -50,8 +50,9 @@ public class RecensioneBottomSheet extends BottomSheetDialogFragment
         }
     }
 
-    public interface CallbackRecensione{
-        void callbackRecensione(int rate, String recensione);
+    public interface CallbackRecensione
+    {
+        void callbackRecensione(float rate, String recensione);
 
     }
 }

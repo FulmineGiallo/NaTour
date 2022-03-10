@@ -39,7 +39,7 @@ public class SegnalazioniAdapter extends RecyclerView.Adapter<SegnalazioniAdapte
         if(!segnalazioneList.isEmpty()){
             holder.txt_utente.setText(segnalazioneList.get(position).getUtente());
             holder.txt_testo.setText(segnalazioneList.get(position).getDescrizione());
-            holder.txt_titolo.setText(segnalazioneList.get(position).getTitolo());
+            holder.txt_titolo.setText("Titolo: " + " " + segnalazioneList.get(position).getTitolo());
         }
     }
 

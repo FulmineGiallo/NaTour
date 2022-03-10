@@ -3,7 +3,7 @@ package com.example.natour.model;
 public class Recensione
 {
     private String testo;
-    private int valutazione;
+    private float valutazione;
     private String utente;
     private String fk_itinerario;
 
@@ -37,7 +37,7 @@ public class Recensione
         this.testo = testo;
     }
 
-    public int getValutazione()
+    public float getValutazione()
     {
         return valutazione;
     }
@@ -53,7 +53,7 @@ public class Recensione
                 '}';
     }
 
-    public void setValutazione(int valutazione)
+    public void setValutazione(float valutazione)
     {
         this.valutazione = valutazione;
     }

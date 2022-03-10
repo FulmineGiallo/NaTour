@@ -26,6 +26,7 @@ import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
 import com.example.natour.view.adapter.RecensioniAdapter;
+import com.example.natour.view.adapter.SegnalazioniAdapter;
 import com.example.natour.view.dialog.CompilationBottomSheet;
 import com.example.natour.view.dialog.ErrorDialog;
 
@@ -51,6 +52,7 @@ public class ControllerVisualizzaItinerario
     private String tokenUtenteLoggato;
     private ArrayList<Recensione> recensioni = new ArrayList<>();
     private RecensioniAdapter recensioneAdapter;
+    private List<Segnalazione> criminalRecord;
 
     public ControllerVisualizzaItinerario(VisualizzaItinerarioActivity activity, Itinerario itinerario, String token)
     {
@@ -181,40 +183,9 @@ public class ControllerVisualizzaItinerario
 
     public void showSegnalazioni()
     {
-        SegnalazioneDAO segnalazioneDAO = new SegnalazioneDAO();
-        List<Segnalazione> criminalRecord = new LinkedList<>();
-        segnalazioneDAO.getSegnalazioni(activity, itinerario.getIdItinerario()).subscribe(
-                results ->
-                {
-                    for (int i = 0; i < results.length(); i++)
-                    {
-                        JSONObject result = results.getJSONObject(i);
-                        Segnalazione segnalazione = new Segnalazione();
-                        segnalazione.setTitolo(String.valueOf(result.get("titolo")));
-                        segnalazione.setDescrizione(String.valueOf(result.get("descrizione")));
-                        int finalI = i;
-                        new UtenteDAO().getNomeCognomeUtente(String.valueOf(result.get("fk_utente")), activity).subscribe(
-                                utente ->
-                                {
-                                    segnalazione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
-                                    criminalRecord.add(segnalazione);
-                                    if(finalI == results.length()-1)
-                                        activity.showBottomSheetSegnalazione(criminalRecord);
-                                },
-                                error ->
-                                {
 
-                                }
-                        );
-                    }
-
-                },
-                error ->
-                {
-                    activity.showBottomSheetSegnalazione(new LinkedList<>());
-
-                }
-        );
+        criminalRecord = new LinkedList<>();
+        activity.showBottomSheetSegnalazione(criminalRecord);
     }
 
     public void setRecensioniAdapter(RecyclerView mRec, TextView recensioniVuote, ImageView imageView)
@@ -231,19 +202,28 @@ public class ControllerVisualizzaItinerario
         mRec.setAdapter(recensioneAdapter);
     }
 
-    public void insertRecensione(int rate, String testoRecensione)
+    public void insertRecensione(float rate, String testoRecensione, TextView mediaRecensioni)
     {
         RecensioneDAO recensioneDAO = new RecensioneDAO();
         recensioneDAO.insertRecensione(rate, testoRecensione, tokenUtenteLoggato, itinerario.getIdItinerario(), activity);
         Recensione recensione = new Recensione();
         recensione.setTesto(testoRecensione);
         recensione.setValutazione(rate);
+
         new UtenteDAO().getNomeCognomeUtente(tokenUtenteLoggato, activity).subscribe(
                 result ->
                 {
                     recensione.setUtente(result.getString("nome") + " " + result.getString("cognome"));
                     recensione.setFk_itinerario(itinerario.getIdItinerario());
                     recensioni.add(recensione);
+                    float media = 0;
+                    /* Calcolo media recensione */
+                    for(Recensione r : recensioni)
+                    {
+                        media = media + r.getValutazione();
+                        mediaRecensioni.setText("MEDIA TOTALE: " + String.valueOf(media / recensioni.size()));
+                    }
+
                     recensioneAdapter.notifyItemInserted(recensioni.indexOf(recensione));
                 },
                 error ->
@@ -258,7 +238,6 @@ public class ControllerVisualizzaItinerario
         RecensioneDAO recensioneDAO = new RecensioneDAO();
         UtenteDAO utenteDAO = new UtenteDAO();
 
-
         PublishSubject<JSONArray> result = recensioneDAO.getRecensioni(activity, itinerario.getIdItinerario());
         result.subscribe(
                 onResult ->
@@ -267,7 +246,7 @@ public class ControllerVisualizzaItinerario
                     {
                         JSONObject jsonObject = onResult.getJSONObject(i);
                         Recensione recensione = new Recensione();
-                        recensione.setValutazione(Integer.parseInt(jsonObject.getString("valutazione")));
+                        recensione.setValutazione(Float.parseFloat(jsonObject.getString("valutazione")));
                         recensione.setTesto(jsonObject.getString("testo"));
                         PublishSubject<JSONObject> resultUtente = utenteDAO.getNomeCognomeUtente(jsonObject.getString("fk_utente"), activity);
                         resultUtente.subscribe(
@@ -275,7 +254,6 @@ public class ControllerVisualizzaItinerario
                                 {
                                     recensione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
                                     recensione.setFk_itinerario(itinerario.getIdItinerario());
-
                                     activity.runOnUiThread(() -> recensioneAdapter.notifyItemChanged(recensioni.indexOf(recensione)));
                                 },
                                 errorUtente ->
@@ -286,7 +264,6 @@ public class ControllerVisualizzaItinerario
                         Log.i("RECENSIONE", recensione.toString());
                         recensioni.add(recensione);
                     }
-
                     calcoloMediaRecensioni(mediaTotale);
                     if(!recensioni.isEmpty())
                     {
@@ -304,7 +281,7 @@ public class ControllerVisualizzaItinerario
 
     public void calcoloMediaRecensioni(TextView mediaTotale)
     {
-        int sommaTotale = 0;
+        float sommaTotale = 0;
         float media = 0;
         for (Recensione r : recensioni)
         {
@@ -313,7 +290,6 @@ public class ControllerVisualizzaItinerario
         media = (float) sommaTotale / (float) recensioni.size();
 
         mediaTotale.setText("MEDIA TOTALE: " + String.valueOf(media));
-
 
     }
 
@@ -361,5 +337,42 @@ public class ControllerVisualizzaItinerario
     public Context getContext()
     {
         return activity;
+    }
+
+    public void updateAdapter(SegnalazioniAdapter segnalazioniAdapter)
+    {
+        SegnalazioneDAO segnalazioneDAO = new SegnalazioneDAO();
+        segnalazioneDAO.getSegnalazioni(activity, itinerario.getIdItinerario()).subscribe(
+            results ->
+            {
+                for (int i = 0; i < results.length(); i++)
+                {
+                    JSONObject result = results.getJSONObject(i);
+                    Segnalazione segnalazione = new Segnalazione();
+                    segnalazione.setTitolo(String.valueOf(result.get("titolo")));
+                    segnalazione.setDescrizione(String.valueOf(result.get("descrizione")));
+                    int finalI = i;
+                    new UtenteDAO().getNomeCognomeUtente(String.valueOf(result.get("fk_utente")), activity).subscribe(
+                            utente ->
+                            {
+                                segnalazione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
+                                criminalRecord.add(segnalazione);
+                                segnalazioniAdapter.notifyItemRangeChanged(0, criminalRecord.size() - 1);
+                            },
+                            error ->
+                            {
+
+                            }
+                    );
+                }
+
+            },
+            error ->
+            {
+                activity.showBottomSheetSegnalazione(new LinkedList<>());
+
+            }
+    );
+
     }
 }

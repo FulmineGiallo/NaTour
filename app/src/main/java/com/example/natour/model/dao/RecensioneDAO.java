@@ -14,7 +14,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 public class RecensioneDAO
 {
 
-    public PublishSubject<JSONObject> insertRecensione(int valutazione, String testoRecensione, String fk_utente, String fk_itinerario, Context context)
+    public PublishSubject<JSONObject> insertRecensione(float valutazione, String testoRecensione, String fk_utente, String fk_itinerario, Context context)
     {
         HashMap<String, String> params = new HashMap<>();
         params.put("valutazione", String.valueOf(valutazione));

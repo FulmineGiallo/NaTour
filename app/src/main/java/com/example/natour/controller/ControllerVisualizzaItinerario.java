@@ -202,19 +202,28 @@ public class ControllerVisualizzaItinerario
         mRec.setAdapter(recensioneAdapter);
     }
 
-    public void insertRecensione(int rate, String testoRecensione)
+    public void insertRecensione(float rate, String testoRecensione, TextView mediaRecensioni)
     {
         RecensioneDAO recensioneDAO = new RecensioneDAO();
         recensioneDAO.insertRecensione(rate, testoRecensione, tokenUtenteLoggato, itinerario.getIdItinerario(), activity);
         Recensione recensione = new Recensione();
         recensione.setTesto(testoRecensione);
         recensione.setValutazione(rate);
+
         new UtenteDAO().getNomeCognomeUtente(tokenUtenteLoggato, activity).subscribe(
                 result ->
                 {
                     recensione.setUtente(result.getString("nome") + " " + result.getString("cognome"));
                     recensione.setFk_itinerario(itinerario.getIdItinerario());
                     recensioni.add(recensione);
+                    float media = 0;
+                    /* Calcolo media recensione */
+                    for(Recensione r : recensioni)
+                    {
+                        media = media + r.getValutazione();
+                        mediaRecensioni.setText("MEDIA TOTALE: " + String.valueOf(media / recensioni.size()));
+                    }
+
                     recensioneAdapter.notifyItemInserted(recensioni.indexOf(recensione));
                 },
                 error ->
@@ -229,7 +238,6 @@ public class ControllerVisualizzaItinerario
         RecensioneDAO recensioneDAO = new RecensioneDAO();
         UtenteDAO utenteDAO = new UtenteDAO();
 
-
         PublishSubject<JSONArray> result = recensioneDAO.getRecensioni(activity, itinerario.getIdItinerario());
         result.subscribe(
                 onResult ->
@@ -238,7 +246,7 @@ public class ControllerVisualizzaItinerario
                     {
                         JSONObject jsonObject = onResult.getJSONObject(i);
                         Recensione recensione = new Recensione();
-                        recensione.setValutazione(Integer.parseInt(jsonObject.getString("valutazione")));
+                        recensione.setValutazione(Float.parseFloat(jsonObject.getString("valutazione")));
                         recensione.setTesto(jsonObject.getString("testo"));
                         PublishSubject<JSONObject> resultUtente = utenteDAO.getNomeCognomeUtente(jsonObject.getString("fk_utente"), activity);
                         resultUtente.subscribe(
@@ -246,7 +254,6 @@ public class ControllerVisualizzaItinerario
                                 {
                                     recensione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
                                     recensione.setFk_itinerario(itinerario.getIdItinerario());
-
                                     activity.runOnUiThread(() -> recensioneAdapter.notifyItemChanged(recensioni.indexOf(recensione)));
                                 },
                                 errorUtente ->
@@ -257,7 +264,6 @@ public class ControllerVisualizzaItinerario
                         Log.i("RECENSIONE", recensione.toString());
                         recensioni.add(recensione);
                     }
-
                     calcoloMediaRecensioni(mediaTotale);
                     if(!recensioni.isEmpty())
                     {
@@ -275,7 +281,7 @@ public class ControllerVisualizzaItinerario
 
     public void calcoloMediaRecensioni(TextView mediaTotale)
     {
-        int sommaTotale = 0;
+        float sommaTotale = 0;
         float media = 0;
         for (Recensione r : recensioni)
         {
@@ -284,7 +290,6 @@ public class ControllerVisualizzaItinerario
         media = (float) sommaTotale / (float) recensioni.size();
 
         mediaTotale.setText("MEDIA TOTALE: " + String.valueOf(media));
-
 
     }
 

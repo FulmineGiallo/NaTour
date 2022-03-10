@@ -26,6 +26,7 @@ import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
 import com.example.natour.view.adapter.RecensioniAdapter;
+import com.example.natour.view.adapter.SegnalazioniAdapter;
 import com.example.natour.view.dialog.CompilationBottomSheet;
 import com.example.natour.view.dialog.ErrorDialog;
 
@@ -51,6 +52,7 @@ public class ControllerVisualizzaItinerario
     private String tokenUtenteLoggato;
     private ArrayList<Recensione> recensioni = new ArrayList<>();
     private RecensioniAdapter recensioneAdapter;
+    private List<Segnalazione> criminalRecord;
 
     public ControllerVisualizzaItinerario(VisualizzaItinerarioActivity activity, Itinerario itinerario, String token)
     {
@@ -181,40 +183,9 @@ public class ControllerVisualizzaItinerario
 
     public void showSegnalazioni()
     {
-        SegnalazioneDAO segnalazioneDAO = new SegnalazioneDAO();
-        List<Segnalazione> criminalRecord = new LinkedList<>();
-        segnalazioneDAO.getSegnalazioni(activity, itinerario.getIdItinerario()).subscribe(
-                results ->
-                {
-                    for (int i = 0; i < results.length(); i++)
-                    {
-                        JSONObject result = results.getJSONObject(i);
-                        Segnalazione segnalazione = new Segnalazione();
-                        segnalazione.setTitolo(String.valueOf(result.get("titolo")));
-                        segnalazione.setDescrizione(String.valueOf(result.get("descrizione")));
-                        int finalI = i;
-                        new UtenteDAO().getNomeCognomeUtente(String.valueOf(result.get("fk_utente")), activity).subscribe(
-                                utente ->
-                                {
-                                    segnalazione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
-                                    criminalRecord.add(segnalazione);
-                                    if(finalI == results.length()-1)
-                                        activity.showBottomSheetSegnalazione(criminalRecord);
-                                },
-                                error ->
-                                {
 
-                                }
-                        );
-                    }
-
-                },
-                error ->
-                {
-                    activity.showBottomSheetSegnalazione(new LinkedList<>());
-
-                }
-        );
+        criminalRecord = new LinkedList<>();
+        activity.showBottomSheetSegnalazione(criminalRecord);
     }
 
     public void setRecensioniAdapter(RecyclerView mRec, TextView recensioniVuote, ImageView imageView)
@@ -361,5 +332,42 @@ public class ControllerVisualizzaItinerario
     public Context getContext()
     {
         return activity;
+    }
+
+    public void updateAdapter(SegnalazioniAdapter segnalazioniAdapter)
+    {
+        SegnalazioneDAO segnalazioneDAO = new SegnalazioneDAO();
+        segnalazioneDAO.getSegnalazioni(activity, itinerario.getIdItinerario()).subscribe(
+            results ->
+            {
+                for (int i = 0; i < results.length(); i++)
+                {
+                    JSONObject result = results.getJSONObject(i);
+                    Segnalazione segnalazione = new Segnalazione();
+                    segnalazione.setTitolo(String.valueOf(result.get("titolo")));
+                    segnalazione.setDescrizione(String.valueOf(result.get("descrizione")));
+                    int finalI = i;
+                    new UtenteDAO().getNomeCognomeUtente(String.valueOf(result.get("fk_utente")), activity).subscribe(
+                            utente ->
+                            {
+                                segnalazione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
+                                criminalRecord.add(segnalazione);
+                                segnalazioniAdapter.notifyItemRangeChanged(0, criminalRecord.size() - 1);
+                            },
+                            error ->
+                            {
+
+                            }
+                    );
+                }
+
+            },
+            error ->
+            {
+                activity.showBottomSheetSegnalazione(new LinkedList<>());
+
+            }
+    );
+
     }
 }

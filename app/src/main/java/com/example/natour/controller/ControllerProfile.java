@@ -8,8 +8,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.Signout;
 import com.example.natour.view.Profile.ProfileFragment;
@@ -17,6 +19,7 @@ import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity
 import com.example.natour.view.adapter.ProfileAdapter;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -77,6 +80,25 @@ public class ControllerProfile
                         itinerario.setNomeFile(String.valueOf(result.getJSONObject(i).get("nomefile")));
                         itinerario.setAccessibilitaDisabili(Boolean.parseBoolean(String.valueOf(result.getJSONObject(i).get("disabile"))));
                         listIt.add(itinerario);
+                        Immagine newImg = new Immagine("");
+                        itinerario.getImmagini().add(newImg);
+                        new ImmagineDAO().getImageOfItinerario(itinerario, profileFragment.requireContext())
+                                .subscribe(
+                                        immagini -> {
+                                            JSONObject jsonObject = immagini.getJSONObject(0);
+                                            RxAmplify.Storage.getUrl(jsonObject.getString("id_key")).subscribe(
+                                                    urlResult -> {
+
+                                                        newImg.setURL(urlResult.getUrl().toString());
+                                                        profileFragment.requireActivity().runOnUiThread(()->adapter.notifyItemChanged(listIt.indexOf(itinerario)));
+                                                    },
+                                                    error -> Log.e("STORAGE ERROR", error.getLocalizedMessage())
+                                            );
+                                        },
+                                        errore -> {
+
+                                        }
+                                );
                         Log.i("TEST", "FINE");
                     }
                     //profileFragment.requireActivity().runOnUiThread(()->adapter.notifyItemRangeChanged(0, result.length()));
@@ -106,8 +128,11 @@ public class ControllerProfile
     public void visualizzaItinerario(Itinerario itinerario)
     {
         Intent intent = new Intent(profileFragment.requireContext(), VisualizzaItinerarioActivity.class);
+        Immagine immagineSaved = new Immagine(itinerario.getImmagini().get(0).getURL());
+        itinerario.getImmagini().clear();
         intent.putExtra("itinerarioselezionato", itinerario);
         intent.putExtra("token", token);
         profileFragment.requireActivity().startActivity(intent);
+        itinerario.getImmagini().add(immagineSaved);
     }
 }

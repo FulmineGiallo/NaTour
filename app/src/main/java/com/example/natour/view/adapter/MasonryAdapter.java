@@ -31,15 +31,12 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
     //TODO: trovare un modo per aggiungere dinamicamente le immagini e aggiornarle
 
-    int[] imgList = {R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6,
-                     R.drawable.img7, R.drawable.img8, R.drawable.img9, R.drawable.img10, R.drawable.img11,R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6,
-            R.drawable.img7, R.drawable.img8, R.drawable.img9, R.drawable.img10, R.drawable.img11};
 
-    public MasonryAdapter(Fragment fragment, ArrayList<Itinerario> itinerari, FragmentManager fragmentManager, ControllerInterface controller, List<Immagine> immagineList)
+
+    public MasonryAdapter(Fragment fragment, ArrayList<Itinerario> itinerari, FragmentManager fragmentManager, ControllerInterface controller)
     {
         this.fragment = fragment;
         this.itinerari = itinerari;
-        this.immagineList = immagineList;
         this.manager = fragmentManager;
         this.controllerAdapter = controller;
     }
@@ -57,16 +54,14 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     {
 
 
-        if(!immagineList.isEmpty()){
-                Glide
-                        .with(fragment)
-                        .load(immagineList.get(position).getURL())
-                        .error(R.drawable.placeholder)
-                        .centerCrop()
-                        .into(holder.imageView);
 
-        }
         if(!itinerari.isEmpty()){
+            Glide
+                    .with(fragment)
+                    .load(itinerari.get(position).getImmagini().get(0).getURL())
+                    .error(R.drawable.placeholder)
+                    .centerCrop()
+                    .into(holder.imageView);
             holder.textView.setText(itinerari.get(position).getNome());
             switch (itinerari.get(position).getDifficoltà()){
                 case 1:

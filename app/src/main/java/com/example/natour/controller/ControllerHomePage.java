@@ -68,19 +68,19 @@ public class ControllerHomePage implements ControllerInterface
                         itinerario.setAccessibilitaDisabili(Boolean.parseBoolean(String.valueOf(result.getJSONObject(i).get("disabile"))));
                         itinerari.add(itinerario);
                         Immagine newImg = new Immagine("");
-                        immagineList.add(newImg);
+                        itinerario.getImmagini().add(newImg);
                         new ImmagineDAO().getImageOfItinerario(itinerario, fragment.requireContext())
                                 .subscribe(
                                         immagini -> {
-                                                JSONObject jsonObject = immagini.getJSONObject(0);
-                                                RxAmplify.Storage.getUrl(jsonObject.getString("id_key")).subscribe(
-                                                        urlResult -> {
+                                            JSONObject jsonObject = immagini.getJSONObject(0);
+                                            RxAmplify.Storage.getUrl(jsonObject.getString("id_key")).subscribe(
+                                                    urlResult -> {
 
-                                                            newImg.setURL(urlResult.getUrl().toString());
-                                                            fragment.requireActivity().runOnUiThread(()->adapter.notifyItemChanged(itinerari.indexOf(itinerario)));
-                                                        },
-                                                        error -> Log.e("STORAGE ERROR", error.getLocalizedMessage())
-                                                );
+                                                        newImg.setURL(urlResult.getUrl().toString());
+                                                        fragment.requireActivity().runOnUiThread(()->adapter.notifyItemChanged(itinerari.indexOf(itinerario)));
+                                                    },
+                                                    error -> Log.e("STORAGE ERROR", error.getLocalizedMessage())
+                                            );
                                         },
                                         errore -> {
 
@@ -90,7 +90,7 @@ public class ControllerHomePage implements ControllerInterface
                         Log.i("TEST", "FINE");
                     }
 
-                    adapter.notifyItemRangeChanged(0, itinerari.size());
+                    adapter.notifyItemRangeInserted(0, itinerari.size());
                     fragment.setModelItinerari(itinerari);
                     fragment.setModelImmagini(immagineList);
                 },
@@ -102,21 +102,27 @@ public class ControllerHomePage implements ControllerInterface
 
     }
 
-    public void setAdapter(RecyclerView mRecyclerView, String tokenUtente)
+    public void setAdapter(RecyclerView mRecyclerView)
     {
-        adapter = new MasonryAdapter(fragment, itinerari, fragmentManager, this, immagineList);
+        adapter = new MasonryAdapter(fragment, itinerari, fragmentManager, this);
         mRecyclerView.setAdapter(adapter);
         SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         mRecyclerView.addItemDecoration(decoration);
-        this.token = tokenUtente;
+    }
+
+    public void setToken(String token){
+        this.token = token;
     }
 
     public void visualizzaItinerario(Itinerario itinerario)
     {
         Intent intent = new Intent(fragment.requireContext(), VisualizzaItinerarioActivity.class);
+        Immagine immagineSaved = new Immagine(itinerario.getImmagini().get(0).getURL());
+        itinerario.getImmagini().clear();
         intent.putExtra("itinerarioselezionato", itinerario);
         intent.putExtra("token", token);
         fragment.requireActivity().startActivity(intent);
+        itinerario.getImmagini().add(immagineSaved);
     }
 
     public void addItinerario(Itinerario itinerario)

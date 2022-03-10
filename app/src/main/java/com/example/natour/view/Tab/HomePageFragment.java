@@ -59,7 +59,7 @@ public class HomePageFragment extends Fragment
                 utente ->
                 {
                     token = utente.getToken();
-                    controllerHomePage.setAdapter(mRecyclerView, token);
+                    controllerHomePage.setToken(token);
                 }
         );
 
@@ -67,6 +67,7 @@ public class HomePageFragment extends Fragment
         intentInserimentoItinerario = new Intent(HomePageFragment.this.getActivity(), InserimentoItinerario.class);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.rec_view);
+        controllerHomePage.setAdapter(mRecyclerView);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
 

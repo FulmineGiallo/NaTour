@@ -46,9 +46,12 @@ public class ControllerCerca implements ControllerInterface
     public void visualizzaItinerario(Itinerario itinerario)
     {
         Intent intent = new Intent(fragment.requireContext(), VisualizzaItinerarioActivity.class);
+        Immagine immagineSaved = new Immagine(itinerario.getImmagini().get(0).getURL());
+        itinerario.getImmagini().clear();
         intent.putExtra("itinerarioselezionato", itinerario);
         intent.putExtra("token", token);
         fragment.requireActivity().startActivity(intent);
+        itinerario.getImmagini().add(immagineSaved);
     }
 
     public void filtraItinerarioWithSearch(String query)
@@ -70,7 +73,7 @@ public class ControllerCerca implements ControllerInterface
     }
     public void setAdapter(RecyclerView mRecyclerView)
     {
-        adapter = new MasonryAdapter(fragment, copiaLista, fragmentManager, this, immagineList);
+        adapter = new MasonryAdapter(fragment, copiaLista, fragmentManager, this);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setAdapter(adapter);

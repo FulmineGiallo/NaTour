@@ -17,7 +17,7 @@ public class Itinerario implements Serializable
     private ArrayList<GeoPoint> waypoints; //Percorso
     private String fk_utente; //Chi ha creato l'itinerario
     private String nomeFile;
-    private LinkedList<Immagine> immagini;
+    private LinkedList<Immagine> immagini = new LinkedList<>();
 
     public LinkedList<Immagine> getImmagini()
     {

@@ -156,7 +156,7 @@ public class ControllerProfile
 
     public void setItinerariCompilationAdapter(RecyclerView recyclerView, Compilation compilation)
     {
-        ItinerariCompilationAdapter itinerariCompilationAdapter = new ItinerariCompilationAdapter(compilation.getItinerariCompilation(),profileFragment);
+        ItinerariCompilationAdapter itinerariCompilationAdapter = new ItinerariCompilationAdapter(compilation.getItinerariCompilation(),profileFragment, recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(contexController,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(itinerariCompilationAdapter);

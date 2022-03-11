@@ -25,7 +25,6 @@ public class CompilationAdapter extends RecyclerView.Adapter<CompilationAdapter.
         this.controllerProfile = controllerProfile;
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
@@ -37,7 +36,8 @@ public class CompilationAdapter extends RecyclerView.Adapter<CompilationAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        if(!compilationList.isEmpty()){
+        if(!compilationList.isEmpty())
+        {
             holder.txt_titolo_compilation.setText(compilationList.get(position).getNome());
             holder.txt_descrizione_compilation.setText(compilationList.get(position).getDescrizione());
             controllerProfile.setItinerariCompilationAdapter(holder.recyclerView, compilationList.get(position));

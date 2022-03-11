@@ -4,11 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,13 +18,15 @@ import java.util.List;
 public class ItinerariCompilationAdapter extends RecyclerView.Adapter<ItinerariCompilationAdapter.ViewHolder>
 {
 
-    List<Itinerario> itinerarioList;
-    Fragment fragment;
+    private List<Itinerario> itinerarioList;
+    private Fragment fragment;
+    private RecyclerView recyclerView;
 
-    public ItinerariCompilationAdapter(List<Itinerario> itinerarioList, Fragment fragment)
+    public ItinerariCompilationAdapter(List<Itinerario> itinerarioList, Fragment fragment, RecyclerView recyclerView)
     {
         this.itinerarioList = itinerarioList;
         this.fragment = fragment;
+        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -42,7 +42,7 @@ public class ItinerariCompilationAdapter extends RecyclerView.Adapter<ItinerariC
     {
         if(!itinerarioList.isEmpty()){
             Glide
-                    .with(fragment)
+                    .with(recyclerView)
                     .load(itinerarioList.get(position).getImmagini().get(0).getURL())
                     .error(R.drawable.placeholder)
                     .centerCrop()

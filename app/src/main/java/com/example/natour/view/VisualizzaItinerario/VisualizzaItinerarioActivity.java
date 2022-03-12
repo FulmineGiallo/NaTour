@@ -84,7 +84,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         setContentView(R.layout.activity_visualizza_itinerario2);
 
         btn_addRecensione = findViewById(R.id.btn_addrecensione);
-        btn_addSegnalazione= findViewById(R.id.btn_segnala);
+        btn_addSegnalazione = findViewById(R.id.btn_segnala);
         btn_addCompilation = findViewById(R.id.btn_salvaitinerario);
         itinerario = (Itinerario) getIntent().getSerializableExtra("itinerarioselezionato");
         token = (String) getIntent().getSerializableExtra("token");
@@ -158,10 +158,14 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
         durata.setText("Durata" + " " + itinerario.getDurata() + " " + "min");
 
-        if(itinerario.getDescrizione().isEmpty())
-            descrizione.setText("Descrizione non presente");
-        else
-            descrizione.setText(itinerario.getDescrizione());
+        if (itinerario.getDescrizione() != null)
+        {
+            if(itinerario.getDescrizione().isEmpty())
+                descrizione.setText("Descrizione non presente");
+            else
+                descrizione.setText(itinerario.getDescrizione());
+        }
+
 
         txt_disabili = findViewById(R.id.text_disabili);
         if(itinerario.isAccessibilitaDisabili())

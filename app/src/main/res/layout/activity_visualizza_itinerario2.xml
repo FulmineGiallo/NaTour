@@ -139,6 +139,18 @@
                     app:layout_constraintTop_toBottomOf="@id/img_difficolta"
                     app:layout_constraintVertical_bias="0.027" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addphoto"
+                    app:icon="@drawable/ic_baseline_add_a_photo_24"
+                    app:iconGravity="textEnd"
+                    android:text="Aggiungi"
+                    app:layout_constraintLeft_toRightOf="@id/txt_foto"
+                    app:layout_constraintTop_toTopOf="@id/txt_foto"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_foto"
+                    app:cornerRadius="10dp"
+                    />
                 <TextView
                     android:id="@+id/txt_difficolta"
                     android:layout_width="wrap_content"
@@ -389,6 +401,20 @@
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintTop_toBottomOf="@+id/btn_segnala"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/prog_map_loading2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:elevation="20dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@id/img_mappaitinerario"
+        app:layout_constraintLeft_toLeftOf="@id/img_mappaitinerario"
+        app:layout_constraintRight_toRightOf="@id/img_mappaitinerario"
+        app:layout_constraintBottom_toBottomOf="@id/img_mappaitinerario"
+
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

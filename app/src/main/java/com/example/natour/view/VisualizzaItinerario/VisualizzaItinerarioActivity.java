@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.dialog.RecensioneBottomSheet;
 import com.example.natour.view.dialog.SegnalazioneBottomSheet;
+import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
@@ -44,6 +46,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -73,7 +76,9 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private TextView txt_disabili;
     private Button btn_addCompilation;
     private TextView recensionivuote;
-    ImageView imageInfo;
+    private ImageView imageInfo;
+    private MaterialButton addphoto;
+    private ProgressBar progMapLoading;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -82,13 +87,12 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizza_itinerario2);
-
         btn_addRecensione = findViewById(R.id.btn_addrecensione);
         btn_addSegnalazione = findViewById(R.id.btn_segnala);
         btn_addCompilation = findViewById(R.id.btn_salvaitinerario);
         itinerario = (Itinerario) getIntent().getSerializableExtra("itinerarioselezionato");
         token = (String) getIntent().getSerializableExtra("token");
-
+        addphoto = findViewById(R.id.addphoto);
         nomeUtente = findViewById(R.id.txt_nomecognome);
         nomeItinerario = findViewById(R.id.txt_nomeitinerario);
         nomeItinerario.setText(itinerario.getNome());
@@ -103,7 +107,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         recensionivuote = findViewById(R.id.txt_recensioninondisponibili);
         imageInfo = findViewById(R.id.imginfo);
         mapController.setZoom(11.3);
-
+        progMapLoading = findViewById(R.id.prog_map_loading2);
         mappa.invalidate();
 
         btn_indietro = findViewById(R.id.btn_indietro);
@@ -190,7 +194,14 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
             controllerVisualizzaItinerario.showCompilation();
         });
 
-
+        addphoto.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                controllerVisualizzaItinerario.addPhotoItinerario();
+            }
+        });
 
     }
 
@@ -294,7 +305,10 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         recensionivuote.setVisibility(View.INVISIBLE);
         imageInfo.setVisibility(View.INVISIBLE);
     }
-
+    public void nascondiInfo()
+    {
+        fotoVuote.setVisibility(View.INVISIBLE);
+    }
     @Override
     public void callbackSegnalazione(String segnalazione, String titolo)
     {
@@ -304,5 +318,39 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
 
     public void showBottomSheetSegnalazione(List<Segnalazione> criminalRecord){
         new SegnalazioneBottomSheet(criminalRecord, controllerVisualizzaItinerario).show(getSupportFragmentManager(), null);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if(requestCode == 3)
+            controllerVisualizzaItinerario.fileInserito(resultCode, resultCode, intent);
+
+    }
+    public void startMapLoading()
+    {
+        progMapLoading.setVisibility(View.VISIBLE);
+    }
+
+    public void stopMapLoading()
+    {
+        progMapLoading.setVisibility(View.GONE);
+    }
+
+    public void addPhotoMarker(Immagine uriImage, float[] latLong)
+    {
+        Marker photoMarker = new Marker(mappa);
+        photoMarker.setPosition(new GeoPoint(latLong[0], latLong[1]));
+        uriImage.setMarker(photoMarker);
+        photoMarker.setIcon(AppCompatResources.getDrawable(this,R.drawable.ic_photo_location));
+        try
+        {
+            InputStream is = this.getContentResolver().openInputStream(uriImage.getUri());
+            photoMarker.setImage(Drawable.createFromStream(is, uriImage.getUri().toString()));
+        } catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        mappa.getOverlays().add(photoMarker);
     }
 }

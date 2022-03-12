@@ -1,6 +1,11 @@
 package com.example.natour.controller;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Context;
+import android.content.Intent;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -13,11 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
+import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
 import com.example.natour.model.Compilation;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Recensione;
 import com.example.natour.model.Segnalazione;
+import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.RecensioneDAO;
@@ -36,11 +43,16 @@ import org.osmdroid.util.GeoPoint;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
@@ -375,4 +387,168 @@ public class ControllerVisualizzaItinerario
     );
 
     }
+
+    public void addPhotoItinerario()
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        if (intent.resolveActivity(activity.getPackageManager()) != null)
+            activity.startActivityForResult(intent, 3);
+
+    }
+
+    public void fileInserito(int resultCode, int resultCode1, Intent intent)
+    {
+        Uri singolaFoto;
+        String singolaKey = UUID.randomUUID().toString();
+
+
+        if (resultCode == RESULT_OK)
+        {
+            /* Inserimento singolo di un immagine */
+            if(intent.getData() != null)
+            {
+                singolaFoto = intent.getData();
+                Immagine immagine = new Immagine(singolaFoto, singolaKey);
+                uploadOnS3Bucket(immagine);
+
+            }
+        }
+    }
+    public void uploadOnS3Bucket(Immagine immagine)
+    {
+        try
+        {
+            InputStream exampleInputStream = activity.getContentResolver().openInputStream(immagine.getUri());
+            RxStorageBinding.RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
+                    RxAmplify.Storage.uploadInputStream(immagine.getKey(), exampleInputStream);
+            activity.startMapLoading();
+
+            rxUploadOperation
+                    .observeResult()
+                    .subscribe(
+                            result ->
+                            {
+                                Log.i("MyAmplifyApp", "Successfully uploaded: ");
+                                RxAmplify.Storage.getUrl(immagine.getKey()).subscribe(
+                                        risultato -> {
+                                            Log.i("MyAmplifyApp", "Successfully generated: " + risultato.getUrl());
+                                            String URL = "https://besimsoft.com/.natour21/uq6PMpSfiZ/api/itinerary/nfws";
+                                            String URLImage = risultato.getUrl().toString();
+                                            //Controllo effettuata sulla singola aggiunta
+                                            Map<String, String> paramsUrl = new HashMap<>();
+                                            paramsUrl.put("image_url", URLImage);
+                                            RequestAPI requestImage = new RequestAPI("", activity, paramsUrl);
+                                            requestImage.setEndpoint(URL);
+                                            PublishSubject<JSONObject> response = requestImage.sendRequest();
+                                            response.subscribe(
+                                                    imageResult ->
+                                                    {
+                                                        if(imageResult.getBoolean("is_save"))
+                                                        {
+                                                            Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
+                                                            /* recupero metadati */
+                                                            immagine.setURL(URLImage);
+                                                            itinerario.getImmagini().add(immagine);
+                                                            /* FOTO OK, AGGIUNGERE NEL DATABASE L'IMMAGINE */
+                                                            ImmagineDAO immagineDAO = new ImmagineDAO();
+                                                            for(Immagine img : itinerario.getImmagini())
+                                                            {
+                                                                if(img.getMarker()!=null)
+                                                                {
+                                                                    immagineDAO.insertImmagine(img, itinerario.getIdItinerario(), img.getMarker().getPosition().getLatitude(), img.getMarker().getPosition().getLongitude(), activity);
+                                                                }
+                                                                else
+                                                                {
+                                                                    immagineDAO.insertImmagine(img, itinerario.getIdItinerario(), null, null, activity);
+                                                                }
+                                                            }
+                                                            activity.runOnUiThread(()->
+                                                            {
+                                                                imageAdapter.notifyItemInserted(itinerario.getImmagini().indexOf(immagine));
+                                                                activity.nascondiInfo();
+                                                                getMetadatiImage(exampleInputStream, immagine);
+                                                                activity.stopMapLoading();
+                                                            });
+                                                        }
+                                                        else
+                                                        {
+                                                            activity.stopMapLoading();
+                                                            Log.i("CONFERMA IMG", "Tolta dal bucket");
+                                                            removeImageFromS3Bucket(immagine, itinerario.getImmagini().indexOf(immagine));
+                                                            new ErrorDialog("L'immagine che hai inserito è esplicità, è stata rimossa!").show(activity.getSupportFragmentManager(), null);
+                                                        }
+                                                    },
+                                                    imageError ->
+                                                    {
+                                                        activity.stopMapLoading();
+                                                        Log.e("ERRORIMG", imageError.getLocalizedMessage());
+                                                        new ErrorDialog("Errore nel caricamento dell'ìmmagine, riprova con un'altra immagine!").show(activity.getSupportFragmentManager(), null);
+                                                    }
+                                           );
+                                        },
+                                        error ->
+                                        {
+                                            Log.e("MyAmplifyApp", "URL generation failure", error);
+                                            activity.stopMapLoading();
+                                        }
+                                );
+
+                            },
+                            error ->
+                            {
+                                Log.e("MyAmplifyApp", "Upload failed", error);
+                                activity.stopMapLoading();
+                            }
+                    );
+        }
+        catch (FileNotFoundException error)
+        {
+            Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+        }
+    }
+    public void getMetadatiImage(InputStream immagine, Immagine uriImage)
+    {
+        /* Se la posizione dell'immagine è presente */
+        try
+        {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
+            {
+                immagine = activity.getContentResolver().openInputStream(uriImage.getUri());
+                ExifInterface metadati = new ExifInterface(immagine);
+                float[] latLong = new float[2];
+                if(metadati.getLatLong(latLong))
+                {
+                    Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
+                    activity.addPhotoMarker(uriImage, latLong);
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+
+    }
+    public void removeImageFromS3Bucket(Immagine img, int positionImage)
+    {
+        /* Rimozione dalla Lista e poi dal Bucket S3 */
+        itinerario.getImmagini().remove(positionImage);
+        imageAdapter.notifyItemRemoved(positionImage);
+        /* Rimozione da S3 */
+        RxAmplify.Storage.remove(img.getKey())
+                .subscribe(
+                        onRemove ->
+                        {
+                            Log.i("MyAmplifyApp", "Successfully removed: " + onRemove.getKey());
+
+                        },
+                        error ->
+                        {
+                            Log.e("MyAmplifyApp", "Remove failure", error);
+                        }
+                );
+    }
+
 }

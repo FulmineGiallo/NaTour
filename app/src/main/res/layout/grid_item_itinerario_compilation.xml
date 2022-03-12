@@ -19,7 +19,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:scaleType="centerInside"
             android:id="@+id/img_itinerario_compilation"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"

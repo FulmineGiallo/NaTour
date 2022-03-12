@@ -4,14 +4,17 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Explode;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
@@ -64,28 +67,29 @@ public class TabActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
-
+            Drawable unwrappedDrawable = bottomNavigationView.getBackground();
+            Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable).mutate();
             switch (item.getItemId())
             {
                 case R.id.home:
                     homepage.itinerarioAdded((Itinerario)getIntent().getSerializableExtra("itinerario"));
-                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barrahomepage));
+                    DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barrahomepage));
                     getSupportFragmentManager().beginTransaction().addToBackStack(homepage.toString()).replace(R.id.container, homepage).commit();
                     break;
                 case R.id.profile:
-                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barraprofilo));
+                    DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barraprofilo));
                     getSupportFragmentManager().beginTransaction().addToBackStack(profile.toString()).replace(R.id.container, profile).commit();
                     break;
                 case R.id.cerca:
-                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barraricerca));
+                    DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barraricerca));
                     getSupportFragmentManager().beginTransaction().addToBackStack(cerca.toString()).replace(R.id.container, cerca).commit();
                     break;
                 case R.id.messaggio:
-                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barrachat));
+                    DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barrachat));
                     getSupportFragmentManager().beginTransaction().addToBackStack(messaggio.toString()).replace(R.id.container, messaggio).commit();
                     break;
                 case R.id.notifica:
-                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(TabActivity.this, R.color.colore_barranotifiche));
+                    DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barranotifiche));
                     getSupportFragmentManager().beginTransaction().addToBackStack(notifica.toString()).replace(R.id.container, notifica).commit();
                     break;
 

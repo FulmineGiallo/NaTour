@@ -137,7 +137,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_column="0"
-            app:layout_row="0" />
+            app:layout_row="0"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp"
+            />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 

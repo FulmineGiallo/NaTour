@@ -40,6 +40,8 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="10dp"
                 android:overScrollMode="never"
+                android:clipToPadding="false"
+                android:paddingBottom="130dp"
 
                 />
 
@@ -65,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="90dp"
         android:backgroundTint="@color/colore_barraricerca_dark"
         android:clickable="true"
         android:contentDescription="@string/filtro_per_gli_itinerari"

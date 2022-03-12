@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
+import com.example.natour.R;
 import com.example.natour.model.Compilation;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
@@ -301,9 +302,8 @@ public class ControllerVisualizzaItinerario
 
     public void addItinerarioToCompilation(Compilation compilation)
     {
-        //todo: inserire messaggio di successo adeguato
         new CompilationDAO().addItinerarioToCompilation(compilation.getIdCompilation(), itinerario.getIdItinerario(), activity);
-        new ErrorDialog("itinerario inserito con successo").show(activity.getSupportFragmentManager(), null);
+        new ErrorDialog("itinerario inserito con successo", R.drawable.ic_check_circle).show(activity.getSupportFragmentManager(), null);
         Log.i("ControllerVisItin","inserire itinerario nella compilation anche nel database");
     }
 

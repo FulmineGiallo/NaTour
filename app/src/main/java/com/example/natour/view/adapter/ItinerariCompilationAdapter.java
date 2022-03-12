@@ -45,7 +45,6 @@ public class ItinerariCompilationAdapter extends RecyclerView.Adapter<ItinerariC
                     .with(recyclerView)
                     .load(itinerarioList.get(position).getImmagini().get(0).getURL())
                     .error(R.drawable.placeholder)
-                    .centerCrop()
                     .into(holder.img_itinerario);
         }
     }

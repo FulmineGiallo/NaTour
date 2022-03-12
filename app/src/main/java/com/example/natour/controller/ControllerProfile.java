@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -151,6 +152,9 @@ public class ControllerProfile
         compilationAdapter = new CompilationAdapter(this, compilationList);
         LinearLayoutManager layout = new LinearLayoutManager(contexController,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layout);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layout.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(compilationAdapter);
     }
 

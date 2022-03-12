@@ -1,5 +1,6 @@
 package com.example.natour.view.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.natour.R;
+import com.example.natour.controller.ControllerInterface;
 import com.example.natour.model.Itinerario;
 
 import java.util.List;
@@ -21,12 +23,15 @@ public class ItinerariCompilationAdapter extends RecyclerView.Adapter<ItinerariC
     private List<Itinerario> itinerarioList;
     private Fragment fragment;
     private RecyclerView recyclerView;
+    private ControllerInterface controllerAdapter;
 
-    public ItinerariCompilationAdapter(List<Itinerario> itinerarioList, Fragment fragment, RecyclerView recyclerView)
+
+    public ItinerariCompilationAdapter(List<Itinerario> itinerarioList, Fragment fragment, RecyclerView recyclerView, ControllerInterface controllerAdapter)
     {
         this.itinerarioList = itinerarioList;
         this.fragment = fragment;
         this.recyclerView = recyclerView;
+        this.controllerAdapter = controllerAdapter;
     }
 
     @NonNull
@@ -47,6 +52,16 @@ public class ItinerariCompilationAdapter extends RecyclerView.Adapter<ItinerariC
                     .error(R.drawable.placeholder)
                     .into(holder.img_itinerario);
         }
+        holder.img_itinerario.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Log.i("position", String.valueOf(holder.getAdapterPosition()));
+                /* Mettere nel put extra l'itinerario e fare l'intent a visualizzaItinerarioActivity */
+                controllerAdapter.visualizzaItinerario(itinerarioList.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override

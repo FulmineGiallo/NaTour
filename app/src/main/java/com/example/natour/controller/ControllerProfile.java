@@ -34,7 +34,7 @@ import java.util.List;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 
-public class ControllerProfile
+public class ControllerProfile implements ControllerInterface
 {
     private FragmentManager fragmentManager;
     private Context contexController;
@@ -80,8 +80,6 @@ public class ControllerProfile
                         Itinerario itinerario = new Itinerario();
                         Log.i("SIZE", String.valueOf(result.length()));
                         Log.i("TEST", String.valueOf(result.getJSONObject(i).get("nome")));
-
-
                         itinerario.setIdItinerario(String.valueOf(result.getJSONObject(i).get("id_itinerario")));
                         itinerario.setNome(String.valueOf(result.getJSONObject(i).get("nome")));
                         itinerario.setDescrizione(String.valueOf(result.getJSONObject(i).get("descrizione")));
@@ -147,6 +145,7 @@ public class ControllerProfile
         itinerario.getImmagini().add(immagineSaved);
     }
 
+
     public void setCompilationAdapter(RecyclerView recyclerView)
     {
         compilationAdapter = new CompilationAdapter(this, compilationList);
@@ -160,7 +159,7 @@ public class ControllerProfile
 
     public void setItinerariCompilationAdapter(RecyclerView recyclerView, Compilation compilation)
     {
-        ItinerariCompilationAdapter itinerariCompilationAdapter = new ItinerariCompilationAdapter(compilation.getItinerariCompilation(),profileFragment, recyclerView);
+        ItinerariCompilationAdapter itinerariCompilationAdapter = new ItinerariCompilationAdapter(compilation.getItinerariCompilation(),profileFragment, recyclerView, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(contexController,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(itinerariCompilationAdapter);
@@ -170,13 +169,19 @@ public class ControllerProfile
     private void setItinerariCompilations(Compilation compilation, ItinerariCompilationAdapter itinerariCompilationAdapter)
     {
         new CompilationDAO().getItinerariFromCompilation(contexController, String.valueOf(compilation.getIdCompilation())).subscribe(
-                results -> {
-                    for(int i = 0; i < results.length(); i++){
-                        JSONObject jsonObject = results.getJSONObject(i);
+                result ->
+                {
+                    for(int i = 0; i < result.length(); i++)
+                    {
                         Itinerario itinerario = new Itinerario();
-                        itinerario.setIdItinerario(jsonObject.getString("id_itinerario"));
-                        itinerario.setNome(jsonObject.getString("nome"));
-                        itinerario.setDifficoltà(Integer.parseInt(jsonObject.getString("difficolta")));
+                        itinerario.setIdItinerario(String.valueOf(result.getJSONObject(i).get("id_itinerario")));
+                        itinerario.setNome(String.valueOf(result.getJSONObject(i).get("nome")));
+                        itinerario.setDescrizione(String.valueOf(result.getJSONObject(i).get("descrizione")));
+                        itinerario.setDifficoltà(Integer.parseInt(String.valueOf(result.getJSONObject(i).get("difficolta"))));
+                        itinerario.setDurata(String.valueOf(result.getJSONObject(i).get("durata")));
+                        itinerario.setFk_utente(token);
+                        itinerario.setNomeFile(String.valueOf(result.getJSONObject(i).get("nomefile")));
+                        itinerario.setAccessibilitaDisabili(Boolean.parseBoolean(String.valueOf(result.getJSONObject(i).get("disabile"))));
                         compilation.getItinerariCompilation().add(itinerario);
                         Immagine newImg = new Immagine("");
                         itinerario.getImmagini().add(newImg);

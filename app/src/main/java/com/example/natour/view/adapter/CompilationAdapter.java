@@ -39,7 +39,9 @@ public class CompilationAdapter extends RecyclerView.Adapter<CompilationAdapter.
         if(!compilationList.isEmpty())
         {
             holder.txt_titolo_compilation.setText(compilationList.get(position).getNome());
-            holder.txt_descrizione_compilation.setText(compilationList.get(position).getDescrizione());
+            if(!compilationList.get(position).getDescrizione().isEmpty()){
+                holder.txt_descrizione_compilation.setText(compilationList.get(position).getDescrizione());
+            }
             controllerProfile.setItinerariCompilationAdapter(holder.recyclerView, compilationList.get(position));
         }
     }

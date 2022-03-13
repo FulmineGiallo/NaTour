@@ -18,6 +18,7 @@ import com.example.natour.model.Utente;
 import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
+import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.Signout;
 import com.example.natour.view.Profile.ProfileFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
@@ -231,5 +232,20 @@ public class ControllerProfile implements ControllerInterface
                 error -> {}
         );
 
+    }
+
+    public void isAdmin(String tokenUtente, Utente utente)
+    {
+        UtenteDAO utenteDAO = new UtenteDAO();
+        utenteDAO.isAdmin(tokenUtente, contexController).subscribe(
+                result ->
+                {
+                    utente.setAdmin(Boolean.parseBoolean(result.getString("is_admin")));
+                },
+                error ->
+                {
+                    Log.e("error", error.getLocalizedMessage());
+                }
+        );
     }
 }

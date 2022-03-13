@@ -78,6 +78,7 @@ public class ProfileFragment extends Fragment
                     tokenUtente = utente.getToken();
                     controllerProfile.setToken(tokenUtente);
                     controllerProfile.getItinerariProfile();
+                    controllerProfile.isAdmin(tokenUtente, utente);
                 }
         );
         options = requireView().findViewById(R.id.btn_optionsProfile);
@@ -123,8 +124,6 @@ public class ProfileFragment extends Fragment
 
                                     }
                                 }).show(getParentFragmentManager(), null);
-
-
                                 return true;
                             case R.id.option_4:
                                 Toast.makeText(getContext(),"Chiudo MENU", Toast.LENGTH_SHORT).show();

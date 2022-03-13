@@ -10,6 +10,18 @@ public class Utente implements Serializable
     private String dataDiNascita;
     private String token;
 
+    public boolean isAdmin()
+    {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin)
+    {
+        isAdmin = admin;
+    }
+
+    private boolean isAdmin;
+
     public String getNome() {
         return nome;
     }

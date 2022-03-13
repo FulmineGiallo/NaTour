@@ -85,7 +85,15 @@ public class UtenteDAO
         return infoUtente;
     }
 
+    public PublishSubject<JSONObject> isAdmin(String token, Context context)
+    {
+        HashMap<String,String> parmasAPI = new HashMap<>();
+        String path = "utente/isAdmin.php";
+        parmasAPI.put("token", token);
 
+        RequestAPI request = new RequestAPI(path, context, parmasAPI);
+        return request.sendRequest();
+    }
 
 }
 

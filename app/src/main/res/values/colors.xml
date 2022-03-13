@@ -38,5 +38,6 @@
     <color name="recensione">#5998d8fa</color>
     <color name="segnalazione">#FFACAC</color>
     <color name="stella">#e6bb22</color>
+    <color name="descrizione">#85e6b5</color>
 
 </resources>

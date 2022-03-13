@@ -37,10 +37,17 @@ public class SegnalazioneBottomSheet extends BottomSheetDialogFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.segnalazione_bottom_sheet, container);
+        EditText titolo = v.findViewById(R.id.edt_titolo_segnalazione);
+        EditText descrizione = v.findViewById(R.id.edt_testo_segnalazione);
         v.findViewById(R.id.btn_invia_segnalazione).setOnClickListener(view -> {
-            listener.callbackSegnalazione(((EditText)v.findViewById(R.id.edt_testo_segnalazione)).getText().toString(),
-                    ((EditText)v.findViewById(R.id.edt_titolo_segnalazione)).getText().toString());
-            dismiss();
+            if(descrizione.length() > 140 || titolo.length() > 50){
+                new ErrorDialog("Testo inserito troppo grande, titolo di massimo 50 caratteri e descrizione di 140");
+            }
+            else{
+                listener.callbackSegnalazione(descrizione.getText().toString(),
+                        titolo.getText().toString());
+                dismiss();
+            }
         });
         segnalazioniAdapter = new SegnalazioniAdapter(segnalazioneList, getParentFragmentManager(), controller, requireContext());
         RecyclerView recyclerView = v.findViewById(R.id.rec_view_segnalazioni);

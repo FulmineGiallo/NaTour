@@ -31,4 +31,10 @@ public class SegnalazioneDAO
         RequestAPI request = new RequestAPI("segnalazione/getSegnalazione.php", context,params);
         return  request.getMultipleRows();
     }
+    public PublishSubject<JSONObject> getNumSegnalazioni(Context context, String fk_itinerario){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("fk_itinerario", fk_itinerario);
+        RequestAPI request = new RequestAPI("segnalazione/getCountSegnalazione.php", context, params);
+        return request.sendRequest();
+    }
 }

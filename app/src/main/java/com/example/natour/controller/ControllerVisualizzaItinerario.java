@@ -74,6 +74,22 @@ public class ControllerVisualizzaItinerario
         LinkedList<Immagine> listImmagine = new LinkedList<>();
         itinerario.setImmagini(listImmagine);
         this.tokenUtenteLoggato = token;
+        checkSegnalazioni();
+    }
+
+    private void checkSegnalazioni()
+    {
+        new SegnalazioneDAO().getNumSegnalazioni(activity,itinerario.getIdItinerario()).subscribe(
+                result ->{
+                    int num = result.getInt("numero");
+                    if(num > 0){
+                        activity.runOnUiThread(()->{
+                            activity.showSegnalazioniBadge();
+                        });
+                    }
+                },
+                error -> {}
+        );
     }
 
 
@@ -369,7 +385,7 @@ public class ControllerVisualizzaItinerario
                             {
                                 segnalazione.setUtente(utente.getString("nome") + " " + utente.getString("cognome"));
                                 criminalRecord.add(segnalazione);
-                                segnalazioniAdapter.notifyItemRangeChanged(0, criminalRecord.size() - 1);
+                                segnalazioniAdapter.notifyItemRangeChanged(0, criminalRecord.size());
                             },
                             error ->
                             {

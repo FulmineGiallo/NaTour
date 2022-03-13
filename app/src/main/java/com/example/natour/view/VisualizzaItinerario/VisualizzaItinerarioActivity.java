@@ -353,4 +353,9 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         }
         mappa.getOverlays().add(photoMarker);
     }
+
+    public void showSegnalazioniBadge()
+    {
+        findViewById(R.id.badge_segnalazioni).setVisibility(View.VISIBLE);
+    }
 }

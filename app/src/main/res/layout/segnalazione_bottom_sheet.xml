@@ -46,6 +46,7 @@
         <EditText
             android:id="@+id/edt_testo_segnalazione"
             android:layout_width="match_parent"
+            android:maxLength="140"
             android:layout_height="wrap_content"
             android:hint="@string/inserisci_segnalazione" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -62,6 +63,7 @@
             android:id="@+id/edt_titolo_segnalazione"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="50"
             android:hint="@string/titolo" />
     </com.google.android.material.textfield.TextInputLayout>
 

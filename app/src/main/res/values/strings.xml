@@ -40,4 +40,5 @@
     <string name="aggiungi">Aggiungi</string>
     <string name="crea_compilation">Crea compilation</string>
     <string name="titolo_compilation">Titolo Compilation</string>
+    <string name="descrizione_assente">Descrizione assente</string>
 </resources>

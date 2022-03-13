@@ -78,7 +78,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_small"
-                    android:src="@drawable/ic_chat"
+                    android:src="@drawable/ic_recensione"
                     app:layout_constraintBottom_toBottomOf="@id/txt_mediarecensioni"
                     app:layout_constraintLeft_toRightOf="@id/txt_mediarecensioni"
                     app:layout_constraintRight_toRightOf="parent"
@@ -278,9 +278,6 @@
 
                     />
 
-
-
-
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/linearFoto"
                     android:layout_width="match_parent"
@@ -369,11 +366,8 @@
         android:id="@+id/txt_nomecognome"
         android:layout_width="218dp"
         android:layout_height="39dp"
-
         android:layout_marginTop="16dp"
         android:fontFamily="@font/robotoregular"
-
-
         android:text="Nome Utente"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/btn_indietro"

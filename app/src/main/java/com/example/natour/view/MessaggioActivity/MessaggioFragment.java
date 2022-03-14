@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.natour.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MessaggioFragment extends Fragment
 {
@@ -43,6 +44,8 @@ public class MessaggioFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
         txtMessaggiVuoti = getView().findViewById(R.id.txt_msgRicevuti);
         txtMessaggiVuoti.setVisibility(View.INVISIBLE);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         boolean messaggiRicevuti = false;
 

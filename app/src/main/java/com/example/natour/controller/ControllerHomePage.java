@@ -2,6 +2,7 @@ package com.example.natour.controller;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,17 +10,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.model.Utente;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.Tab.HomePageFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -132,4 +136,19 @@ public class ControllerHomePage implements ControllerInterface
     }
 
 
+    public void addDataToFirestore(Utente utente)
+    {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("firstName", utente.getNome());
+        data.put("lastName", utente.getCognome());
+        database.collection("users")
+                .add(data)
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(fragment.requireActivity().getApplicationContext(), "data inserted", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(exception ->{
+                    Toast.makeText(fragment.requireActivity().getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 }

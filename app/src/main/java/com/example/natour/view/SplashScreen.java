@@ -129,7 +129,7 @@ public class SplashScreen extends AppCompatActivity
 
                                             progress_bar.setProgressCompat(90, true);
                                             new Handler(Looper.getMainLooper()).postDelayed(() ->{
-                                                Intent intent = new Intent(this, AdminPanel.class);
+                                                Intent intent = new Intent(this, TabActivity.class);
                                                 intent.putExtra("utente",utenteLoggato);
                                                 progress_bar.setProgressCompat(100, true);
                                                 startActivity(intent);

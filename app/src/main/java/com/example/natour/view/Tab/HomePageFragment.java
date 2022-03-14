@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +20,12 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class HomePageFragment extends Fragment
 {
@@ -31,6 +35,7 @@ public class HomePageFragment extends Fragment
     private String token;
     private ControllerHomePage controllerHomePage;
     private SharedViewModel model;
+
     public HomePageFragment() {
 
 
@@ -54,12 +59,15 @@ public class HomePageFragment extends Fragment
         if(controllerHomePage == null)
             controllerHomePage = new ControllerHomePage(getParentFragmentManager(), this);
 
+
+
         model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         model.getUtente().observe(getViewLifecycleOwner(),
                 utente ->
                 {
                     token = utente.getToken();
                     controllerHomePage.setToken(token);
+                    controllerHomePage.addDataToFirestore(utente);
                 }
         );
 
@@ -80,6 +88,8 @@ public class HomePageFragment extends Fragment
 
         });
     }
+
+
 
 
     public void itinerarioAdded(Itinerario itinerario)

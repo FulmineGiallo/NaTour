@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "870981568970",
+    "project_id": "chatappnatour",
+    "storage_bucket": "chatappnatour.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870981568970:android:65709a649c138424e32733",
+        "android_client_info": {
+          "package_name": "com.example.natour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870981568970-e6l5c3mbga5ljvgkcrleeceg9tgvughm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.natour",
+            "certificate_hash": "03cc56cd586f5fb6c4ae97dcd6bafa2a80944b71"
+          }
+        },
+        {
+          "client_id": "870981568970-sdkugtlp1364rj5i14hpg7jn3d8fa5a9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEz5sdFCZV9W9V78ZMKwzkGY_jsoDiXXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870981568970-sdkugtlp1364rj5i14hpg7jn3d8fa5a9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

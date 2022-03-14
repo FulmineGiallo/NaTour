@@ -1,7 +1,12 @@
 package com.example.natour.view.Profile;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +25,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerProfile;
 import com.example.natour.model.Itinerario;
+import com.example.natour.view.PannelloAdmin.AdminPanel;
 import com.example.natour.view.Tab.SharedViewModel;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
@@ -125,11 +131,14 @@ public class ProfileFragment extends Fragment
                                     }
                                 }).show(getParentFragmentManager(), null);
                                 return true;
+                            case R.id.option_admin:
+                                Toast.makeText(getContext(),"Pannello admin", Toast.LENGTH_SHORT).show();
+                                requireActivity().startActivity(new Intent(requireActivity(), AdminPanel.class));
+                                return true;
                             case R.id.option_4:
                                 Toast.makeText(getContext(),"Chiudo MENU", Toast.LENGTH_SHORT).show();
                                 menuView.setVisibility(View.INVISIBLE);
                                 cardMenu.setVisibility(View.INVISIBLE);
-
                                 return true;
                             default:
                                 return false;
@@ -151,5 +160,15 @@ public class ProfileFragment extends Fragment
     public void showItems() {
         noItinerario.setVisibility(View.VISIBLE);
         animationView.setVisibility(View.VISIBLE);
+    }
+
+    public void showAdminOption()
+    {
+        Menu menu = menuView.getMenu();
+        MenuItem item = menu.getItem(3);
+        SpannableString s = new SpannableString(getResources().getString(R.string.pannello_admin));
+        s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
+        item.setTitle(s);
+        item.setVisible(true);
     }
 }

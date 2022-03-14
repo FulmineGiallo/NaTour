@@ -41,4 +41,8 @@
     <string name="crea_compilation">Crea compilation</string>
     <string name="titolo_compilation">Titolo Compilation</string>
     <string name="descrizione_assente">Descrizione assente</string>
+    <string name="pannello_admin">Pannello admin</string>
+    <string name="logout">Logout</string>
+    <string name="le_mie_compilation">Le mie compilation</string>
+    <string name="modifica_profilo">Modifica Profilo</string>
 </resources>

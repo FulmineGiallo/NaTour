@@ -80,18 +80,6 @@
             android:name=".view.RegisterActivity.TransazioneRegister"
             android:exported="false" />
         <activity
-            android:name=".view.PannelloAdmin.visualizza_foto_inserite"
-            android:exported="false" />
-        <activity
-            android:name=".view.PannelloAdmin.visualizza_segnalazioni_effettuate"
-            android:exported="false" />
-        <activity
-            android:name=".view.PannelloAdmin.visualizza_itinerari_inseriti"
-            android:exported="false" />
-        <activity
-            android:name=".view.PannelloAdmin.visualizza_recensioni_inserite"
-            android:exported="false" />
-        <activity
             android:name=".view.InserimentoItinerarioActivity.InserimentoItinerario"
             android:exported="false" />
         <activity
@@ -105,7 +93,9 @@
             android:exported="false"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustPan" />
-
+        <activity
+            android:name=".view.PannelloAdmin.AdminPanel"
+            android:exported="false" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

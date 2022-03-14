@@ -21,8 +21,10 @@ import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.view.LoginActivity.Login;
+import com.example.natour.view.PannelloAdmin.AdminPanel;
 import com.example.natour.view.Tab.TabActivity;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.google.android.material.tabs.TabLayout;
 
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
 
@@ -127,7 +129,7 @@ public class SplashScreen extends AppCompatActivity
 
                                             progress_bar.setProgressCompat(90, true);
                                             new Handler(Looper.getMainLooper()).postDelayed(() ->{
-                                                Intent intent = new Intent(this, TabActivity.class);
+                                                Intent intent = new Intent(this, AdminPanel.class);
                                                 intent.putExtra("utente",utenteLoggato);
                                                 progress_bar.setProgressCompat(100, true);
                                                 startActivity(intent);

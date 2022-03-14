@@ -1,0 +1,1014 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment_visualizza_statistiche">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txt_accessi_giorno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di accessi oggi :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_statistiche_descrizione3"
+                        tools:layout_editor_absoluteX="-16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_accessi_giorno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_accessi_giorno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_accessi_giorno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_accessi_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_statistiche_descrizione4"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="Ricerche effettuate"
+                        android:textColor="@color/black"
+                        android:textSize="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_accessi_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_segnalazioni_settimana2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di segnalazioni questa settimana :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="@+id/txt_segnalazioni_giorno2"
+                        app:layout_constraintTop_toBottomOf="@id/txt_segnalazioni_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_segnalazioni_settimana"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_segnalazioni_settimana2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_segnalazioni_settimana2"
+                        app:layout_constraintTop_toTopOf="@id/txt_segnalazioni_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_foto_totale2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di foto in totale :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_foto_anno2"
+                        tools:layout_editor_absoluteX="16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_foto_totale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_foto_totale2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_foto_totale2"
+                        app:layout_constraintTop_toTopOf="@id/txt_foto_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_ricerche_settimana2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di ricerche questa settimana :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_ricerche_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_ricerche_settimana"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_ricerche_settimana2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_ricerche_settimana2"
+                        app:layout_constraintTop_toTopOf="@id/txt_ricerche_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_accessi_anno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di accessi quest'anno :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_accessi_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_accessi_anno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_accessi_anno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_accessi_anno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_accessi_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_recensioni_totale2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di recensioni in totale :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_recensioni_anno2"
+                        tools:layout_editor_absoluteX="16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_recensioni_totale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_recensioni_totale2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_recensioni_totale2"
+                        app:layout_constraintTop_toTopOf="@id/txt_recensioni_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_registrati_mese2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di registrazioni questo mese :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_registrati_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_registrati_mese"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_registrati_mese2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_registrati_mese2"
+                        app:layout_constraintTop_toTopOf="@id/txt_registrati_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_ricerche_mese2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di ricerche questo mese :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_ricerche_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_ricerche_mese"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_ricerche_mese2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_ricerche_mese2"
+                        app:layout_constraintTop_toTopOf="@id/txt_ricerche_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_registrati_anno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di registrazioni quest'anno :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_registrati_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_registrati_anno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_registrati_anno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_registrati_anno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_registrati_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_ricerche_giorno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di ricerche oggi :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_statistiche_descrizione4"
+                        tools:layout_editor_absoluteX="-16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_ricerche_giorno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_ricerche_giorno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_ricerche_giorno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_ricerche_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_ricerche_anno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di ricerche quest'anno :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_ricerche_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_ricerche_anno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_ricerche_anno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_ricerche_anno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_ricerche_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_accessi_mese2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di accessi questo mese :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="@+id/txt_accessi_settimana2"
+                        app:layout_constraintTop_toBottomOf="@id/txt_accessi_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_accessi_mese"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_accessi_mese2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_accessi_mese2"
+                        app:layout_constraintTop_toTopOf="@id/txt_accessi_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_accessi_totale2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di accessi in totale :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="@+id/txt_accessi_anno2"
+                        app:layout_constraintTop_toBottomOf="@id/txt_accessi_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_accessi_totale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_accessi_totale2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_accessi_totale2"
+                        app:layout_constraintTop_toTopOf="@id/txt_accessi_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_itinerari_giorno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di itinerari oggi :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_statistiche_descrizione" />
+
+                    <TextView
+                        android:id="@+id/txt_val_itinerari_giorno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_itinerari_giorno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_itinerari_giorno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_itinerari_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_registrati_giorno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di registrazioni oggi :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_statistiche_descrizione2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_registrati_giorno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_registrati_giorno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_registrati_giorno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_registrati_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_foto_mese2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di foto questo mese :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_foto_settimana2"
+                        tools:layout_editor_absoluteX="27dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_foto_mese"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_foto_mese2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_foto_mese2"
+                        app:layout_constraintTop_toTopOf="@id/txt_foto_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_statistiche_descrizione7"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="Foto caricate "
+                        android:textColor="@color/black"
+                        android:textSize="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_segnalazioni_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_segnalazioni_giorno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di segnalazioni oggi :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_statistiche_descrizione6"
+                        tools:layout_editor_absoluteX="-16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_segnalazioni_giorno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_segnalazioni_giorno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_segnalazioni_giorno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_segnalazioni_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_segnalazioni_totale2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di segnalazioni in totale :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_segnalazioni_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_segnalazioni_totale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_segnalazioni_totale2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_segnalazioni_totale2"
+                        app:layout_constraintTop_toTopOf="@id/txt_segnalazioni_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_accessi_settimana2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di accessi questa settimana :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="@+id/txt_accessi_giorno2"
+                        app:layout_constraintTop_toBottomOf="@id/txt_accessi_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_accessi_settimana"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_accessi_settimana2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_accessi_settimana2"
+                        app:layout_constraintTop_toTopOf="@id/txt_accessi_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_foto_settimana2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di foto questa settimana :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_foto_giorno2"
+                        tools:layout_editor_absoluteX="32dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_foto_settimana"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_foto_settimana2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_foto_settimana2"
+                        app:layout_constraintTop_toTopOf="@id/txt_foto_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_itinerari_totale2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di itinerari in totale :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_itinerari_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_itinerari_totale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_itinerari_totale2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_itinerari_totale2"
+                        app:layout_constraintTop_toTopOf="@id/txt_itinerari_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_itinerari_settimana2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di itinerari questa settimana :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_itinerari_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_itinerari_settimana"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_itinerari_settimana2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_itinerari_settimana2"
+                        app:layout_constraintTop_toTopOf="@id/txt_itinerari_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_itinerari_anno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di itinerari quest'anno :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_itinerari_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_itinerari_anno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_itinerari_anno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_itinerari_anno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_itinerari_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_recensioni_anno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di recensioni quest'anno :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_recensioni_mese2"
+                        tools:layout_editor_absoluteX="16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_recensioni_anno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_recensioni_anno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_recensioni_anno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_recensioni_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_recensioni_mese2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di recensioni questo mese :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_recensioni_settimana2"
+                        tools:layout_editor_absoluteX="27dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_recensioni_mese"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_recensioni_mese2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_recensioni_mese2"
+                        app:layout_constraintTop_toTopOf="@id/txt_recensioni_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_itinerari_mese2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di itinerari questo mese :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_itinerari_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_itinerari_mese"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_itinerari_mese2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_itinerari_mese2"
+                        app:layout_constraintTop_toTopOf="@id/txt_itinerari_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_recensioni_giorno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di recensioni oggi :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_statistiche_descrizione5"
+                        tools:layout_editor_absoluteX="-16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_recensioni_giorno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_recensioni_giorno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_recensioni_giorno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_recensioni_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_statistiche_descrizione6"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="Segnalazioni effettuate"
+                        android:textColor="@color/black"
+                        android:textSize="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_recensioni_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_foto_giorno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di foto oggi :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_statistiche_descrizione7"
+                        tools:layout_editor_absoluteX="-16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_foto_giorno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_foto_giorno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_foto_giorno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_foto_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_segnalazioni_anno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di segnalazioni quest'anno :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_segnalazioni_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_segnalazioni_anno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_segnalazioni_anno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_segnalazioni_anno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_segnalazioni_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_statistiche_descrizione3"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="Accessi effettuati"
+                        android:textColor="@color/black"
+                        android:textSize="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_registrati_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_statistiche_descrizione2"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="Utenti registrati"
+                        android:textColor="@color/black"
+                        android:textSize="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_itinerari_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_ricerche_totale2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di ricerche in totale :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_ricerche_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_ricerche_totale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_ricerche_totale2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_ricerche_totale2"
+                        app:layout_constraintTop_toTopOf="@id/txt_ricerche_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_registrati_settimana2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di registrazioni questa settimana :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_registrati_giorno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_registrati_settimana"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_registrati_settimana2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_registrati_settimana2"
+                        app:layout_constraintTop_toTopOf="@id/txt_registrati_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_registrati_totale2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di registrazioni in totale :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_registrati_anno2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_registrati_totale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_registrati_totale2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_registrati_totale2"
+                        app:layout_constraintTop_toTopOf="@id/txt_registrati_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_recensioni_settimana2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di recensioni questa settimana :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_recensioni_giorno2"
+                        tools:layout_editor_absoluteX="32dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_recensioni_settimana"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_recensioni_settimana2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_recensioni_settimana2"
+                        app:layout_constraintTop_toTopOf="@id/txt_recensioni_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_segnalazioni_mese2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di segnalazioni questo mese :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="@+id/txt_segnalazioni_settimana2"
+                        app:layout_constraintTop_toBottomOf="@id/txt_segnalazioni_settimana2" />
+
+                    <TextView
+                        android:id="@+id/txt_val_segnalazioni_mese"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_segnalazioni_mese2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_segnalazioni_mese2"
+                        app:layout_constraintTop_toTopOf="@id/txt_segnalazioni_mese2" />
+
+                    <TextView
+                        android:id="@+id/txt_statistiche_descrizione5"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="Recensioni effettuate"
+                        android:textColor="@color/black"
+                        android:textSize="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_ricerche_totale2" />
+
+                    <TextView
+                        android:id="@+id/txt_statistiche_descrizione"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="Itinerari inseriti"
+                        android:textColor="@color/black"
+                        android:textSize="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txt_foto_anno2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#f5f3ed"
+                        android:text="Numero di foto quest'anno :"
+                        android:textSize="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_foto_mese2"
+                        tools:layout_editor_absoluteX="16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_val_foto_anno"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#f5f3ed"
+                        android:gravity="right"
+                        android:paddingEnd="8dp"
+                        android:text="val"
+                        android:textSize="18dp"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_foto_anno2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_foto_anno2"
+                        app:layout_constraintTop_toTopOf="@id/txt_foto_anno2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

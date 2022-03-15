@@ -38,11 +38,11 @@ public class CompilationAdapter extends RecyclerView.Adapter<CompilationAdapter.
     {
         if(!compilationList.isEmpty())
         {
-            holder.txt_titolo_compilation.setText(compilationList.get(position).getNome());
-            if(!compilationList.get(position).getDescrizione().isEmpty()){
-                holder.txt_descrizione_compilation.setText(compilationList.get(position).getDescrizione());
+            holder.txt_titolo_compilation.setText(compilationList.get(holder.getAdapterPosition()).getNome());
+            if(!compilationList.get(holder.getAdapterPosition()).getDescrizione().isEmpty()){
+                holder.txt_descrizione_compilation.setText(compilationList.get(holder.getAdapterPosition()).getDescrizione());
             }
-            controllerProfile.setItinerariCompilationAdapter(holder.recyclerView, compilationList.get(position));
+            controllerProfile.setItinerariCompilationAdapter(holder.recyclerView, compilationList.get(holder.getAdapterPosition()));
         }
     }
 

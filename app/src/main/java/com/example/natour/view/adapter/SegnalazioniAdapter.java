@@ -37,9 +37,9 @@ public class SegnalazioniAdapter extends RecyclerView.Adapter<SegnalazioniAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         if(!segnalazioneList.isEmpty()){
-            holder.txt_utente.setText(segnalazioneList.get(position).getUtente());
-            holder.txt_testo.setText(segnalazioneList.get(position).getDescrizione());
-            holder.txt_titolo.setText("Titolo: " + " " + segnalazioneList.get(position).getTitolo());
+            holder.txt_utente.setText(segnalazioneList.get(holder.getAdapterPosition()).getUtente());
+            holder.txt_testo.setText(segnalazioneList.get(holder.getAdapterPosition()).getDescrizione());
+            holder.txt_titolo.setText("Titolo: " + segnalazioneList.get(holder.getAdapterPosition()).getTitolo());
         }
     }
 

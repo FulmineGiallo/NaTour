@@ -135,20 +135,4 @@ public class ControllerHomePage implements ControllerInterface
         adapter.notifyItemInserted(itinerari.indexOf(itinerario));
     }
 
-
-    public void addDataToFirestore(Utente utente)
-    {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("firstName", utente.getNome());
-        data.put("lastName", utente.getCognome());
-        database.collection("users")
-                .add(data)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(fragment.requireActivity().getApplicationContext(), "data inserted", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(exception ->{
-                    Toast.makeText(fragment.requireActivity().getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-    }
 }

@@ -48,7 +48,7 @@ public class ItinerariCompilationAdapter extends RecyclerView.Adapter<ItinerariC
         if(!itinerarioList.isEmpty()){
             Glide
                     .with(recyclerView)
-                    .load(itinerarioList.get(position).getImmagini().get(0).getURL())
+                    .load(itinerarioList.get(holder.getAdapterPosition()).getImmagini().get(0).getURL())
                     .error(R.drawable.placeholder)
                     .into(holder.img_itinerario);
         }

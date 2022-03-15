@@ -43,7 +43,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
 
-        holder.imageView.setImageURI(imageList.get(position).getUri());
+        holder.imageView.setImageURI(imageList.get(holder.getAdapterPosition()).getUri());
         holder.deleteItinerario.setOnClickListener(new View.OnClickListener()
         {
             @Override

@@ -58,12 +58,12 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
         if(!itinerari.isEmpty()){
             Glide
                     .with(fragment)
-                    .load(itinerari.get(position).getImmagini().get(0).getURL())
+                    .load(itinerari.get(holder.getAdapterPosition()).getImmagini().get(0).getURL())
                     .error(R.drawable.placeholder)
                     .centerCrop()
                     .into(holder.imageView);
-            holder.textView.setText(itinerari.get(position).getNome());
-            switch (itinerari.get(position).getDifficoltà()){
+            holder.textView.setText(itinerari.get(holder.getAdapterPosition()).getNome());
+            switch (itinerari.get(holder.getAdapterPosition()).getDifficoltà()){
                 case 1:
                     holder.difficolta.setColorFilter(fragment.requireContext().getResources().getColor(R.color.facile));
                     break;

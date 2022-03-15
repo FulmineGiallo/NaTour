@@ -41,7 +41,7 @@ public class ImageItinerarioAdapter extends RecyclerView.Adapter<ImageItinerario
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
 
-        holder.imageView.setImageURI(imageList.get(position).getUri());
+        holder.imageView.setImageURI(imageList.get(holder.getAdapterPosition()).getUri());
 
     }
 

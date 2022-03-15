@@ -1,4 +1,4 @@
-package com.example.natour.view.MessaggioActivity;
+package com.example.natour.view.adapter;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.databinding.ItemContainerReceivedMessageBinding;
 import com.example.natour.databinding.ItemContainerSentMessageBinding;
+import com.example.natour.view.MessaggioActivity.ChatMessage;
 
 import java.util.List;
 
@@ -48,10 +49,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position)
     {
-        if(getItemViewType(position) == VIEW_TYPE_SENT)
-            ((SentMessageViewHolder) holder).setData(chatMessages.get(position));
+        if(getItemViewType(holder.getAdapterPosition()) == VIEW_TYPE_SENT)
+            ((SentMessageViewHolder) holder).setData(chatMessages.get(holder.getAdapterPosition()));
         else
-            ((ReceivedMessageViewHolder) holder).setData(chatMessages.get(position), receiverProfileImage);
+            ((ReceivedMessageViewHolder) holder).setData(chatMessages.get(holder.getAdapterPosition()), receiverProfileImage);
 
     }
 

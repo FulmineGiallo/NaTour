@@ -41,9 +41,9 @@ public class InsertCompilationAdapter extends RecyclerView.Adapter<InsertCompila
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         if(!compilationList.isEmpty()){
-            holder.txt_titolo.setText(compilationList.get(position).getNome());
+            holder.txt_titolo.setText(compilationList.get(holder.getAdapterPosition()).getNome());
             holder.btn_aggiungi.setOnClickListener(view -> {
-                controllerVisualizzaItinerario.addItinerarioToCompilation(compilationList.get(position));
+                controllerVisualizzaItinerario.addItinerarioToCompilation(compilationList.get(holder.getAdapterPosition()));
             });
         }
         else {

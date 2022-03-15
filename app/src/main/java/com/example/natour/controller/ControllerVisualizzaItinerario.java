@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Recensione;
 import com.example.natour.model.Segnalazione;
+import com.example.natour.model.Utente;
 import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.model.dao.ImmagineDAO;
@@ -37,6 +39,7 @@ import com.example.natour.view.adapter.RecensioniAdapter;
 import com.example.natour.view.adapter.SegnalazioniAdapter;
 import com.example.natour.view.dialog.CompilationBottomSheet;
 import com.example.natour.view.dialog.ErrorDialog;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -565,6 +568,22 @@ public class ControllerVisualizzaItinerario
                             Log.e("MyAmplifyApp", "Remove failure", error);
                         }
                 );
+    }
+
+    public void addDataToFirestore(String recieverToken)
+    {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("sender", tokenUtenteLoggato);
+        data.put("reciever", recieverToken);
+        database.collection("users")
+                .add(data)
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(activity.getApplicationContext(), "Chat aperta", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(exception ->{
+                    Toast.makeText(activity.getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 }

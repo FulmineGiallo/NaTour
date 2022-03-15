@@ -48,7 +48,7 @@ public class NotDeletableImageAdapter extends RecyclerView.Adapter<NotDeletableI
         if(!imageList.isEmpty())
             Glide
                 .with(context)
-                .load(imageList.get(position).getURL())
+                .load(imageList.get(holder.getAdapterPosition()).getURL())
                 .centerCrop()
                 .placeholder(android.R.drawable.spinner_background)
                 .into(holder.imageView);

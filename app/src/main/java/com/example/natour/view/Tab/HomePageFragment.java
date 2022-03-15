@@ -67,7 +67,6 @@ public class HomePageFragment extends Fragment
                 {
                     token = utente.getToken();
                     controllerHomePage.setToken(token);
-                    controllerHomePage.addDataToFirestore(utente);
                 }
         );
 

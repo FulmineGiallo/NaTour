@@ -92,6 +92,9 @@
         <activity
             android:name=".view.InserimentoItinerarioActivity.InserimentoItinerario"
             android:exported="false" />
+        <activity android:name=".view.MessaggioActivity.ChatActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"/>
         <activity
             android:name=".view.RegisterActivity.Register"
             android:exported="false" />

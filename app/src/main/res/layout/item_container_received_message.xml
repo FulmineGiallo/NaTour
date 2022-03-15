@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:padding="4dp">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -25,6 +26,7 @@
         android:background="@drawable/background_recevied_message"
         android:padding="12dp"
         android:textColor="@color/white"
+        app:layout_constraintWidth_max="wrap"
         app:layout_constraintStart_toEndOf="@id/imageprofile"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.75"

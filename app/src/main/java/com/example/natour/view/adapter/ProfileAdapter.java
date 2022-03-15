@@ -52,10 +52,10 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     public void onBindViewHolder(@NonNull ProfileAdapter.ProfileView holder, int position)
     {
         if(!itinerari.isEmpty()){
-            holder.textViewProfile.setText(itinerari.get(position).getNome());
+            holder.textViewProfile.setText(itinerari.get(holder.getAdapterPosition()).getNome());
             Glide
                     .with(fragment)
-                    .load(itinerari.get(position).getImmagini().get(0).getURL())
+                    .load(itinerari.get(holder.getAdapterPosition()).getImmagini().get(0).getURL())
                     .centerCrop()
                     .error(R.drawable.placeholder)
                     .placeholder(android.R.drawable.spinner_background)

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:elevation="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/card_img_avatar_messaggio"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/avatat_test"
+            android:scaleType="centerCrop"
+            android:id="@+id/img_avatar_messaggio"
+            />
+
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/card_img_avatar_messaggio"
+        app:layout_constraintTop_toTopOf="@id/card_img_avatar_messaggio"
+        app:layout_constraintBottom_toBottomOf="@id/card_img_avatar_messaggio"
+        android:text="Nome e Cognome placeholder"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="60dp"
+        android:fontFamily="@font/robotoregular"
+        android:id="@+id/txt_nome_cognome"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/colore_barrachat_dark"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintLeft_toLeftOf="@id/txt_nome_cognome"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_nome_cognome"
+        app:layout_constraintBottom_toBottomOf="@id/card_img_avatar_messaggio"
+        android:layout_marginEnd="10dp"
+        android:elevation="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="placeholder messaggio ricevuto"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/white"
+            />
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

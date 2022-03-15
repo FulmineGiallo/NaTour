@@ -67,6 +67,7 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
     private ImageButton btn_indietro;
     private ImageButton btn_addRecensione;
     private ImageButton btn_addSegnalazione;
+    private ImageButton btn_messaggia;
     private Itinerario itinerario;
     private String token;
     private IMapController mapController;
@@ -109,6 +110,8 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         mapController.setZoom(11.3);
         progMapLoading = findViewById(R.id.prog_map_loading2);
         mappa.invalidate();
+        btn_messaggia = findViewById(R.id.img_mandamex);
+        btn_messaggia.setOnClickListener(view -> controllerVisualizzaItinerario.addDataToFirestore(itinerario.getFk_utente()));
 
         btn_indietro = findViewById(R.id.btn_indietro);
         btn_indietro.setOnClickListener(view -> back());

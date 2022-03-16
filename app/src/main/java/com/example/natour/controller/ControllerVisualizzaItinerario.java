@@ -33,6 +33,7 @@ import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.RecensioneDAO;
 import com.example.natour.model.dao.SegnalazioneDAO;
 import com.example.natour.model.dao.UtenteDAO;
+import com.example.natour.view.MessaggioActivity.Costanti;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
 import com.example.natour.view.adapter.RecensioniAdapter;
@@ -40,6 +41,7 @@ import com.example.natour.view.adapter.SegnalazioniAdapter;
 import com.example.natour.view.dialog.CompilationBottomSheet;
 import com.example.natour.view.dialog.ErrorDialog;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -573,16 +575,40 @@ public class ControllerVisualizzaItinerario
     public void addDataToFirestore(String recieverToken)
     {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection(Costanti.KEY_COLLECTION_PATH)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful() && task.getResult() != null){
+                        boolean isPresent = false;
+                        for (QueryDocumentSnapshot result: task.getResult()){
+                            if(result.getString(Costanti.KEY_RECIEVER).equals(recieverToken)
+                                    && result.getString(Costanti.KEY_SENDER).equals(tokenUtenteLoggato)
+                                    || result.getString(Costanti.KEY_RECIEVER).equals(tokenUtenteLoggato)
+                                    && result.getString(Costanti.KEY_SENDER).equals(recieverToken)){
+                                isPresent = true;
+                            }
+                        }
+                        if(!isPresent){
+                            insertChatToFirestore(database,recieverToken);
+                        }
+                        else
+                            Toast.makeText(activity.getApplicationContext(), "Chat già esistente", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    public void insertChatToFirestore(FirebaseFirestore database, String recieverToken){
         HashMap<String, Object> data = new HashMap<>();
-        data.put("sender", tokenUtenteLoggato);
-        data.put("reciever", recieverToken);
-        database.collection("users")
+        data.put(Costanti.KEY_SENDER, tokenUtenteLoggato);
+        data.put(Costanti.KEY_RECIEVER, recieverToken);
+        database.collection(Costanti.KEY_COLLECTION_PATH)
                 .add(data)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(activity.getApplicationContext(), "Chat aperta", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(exception ->{
-                    Toast.makeText(activity.getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity.getApplicationContext(), "si è verificato un errore", Toast.LENGTH_SHORT).show();
                 });
     }
 

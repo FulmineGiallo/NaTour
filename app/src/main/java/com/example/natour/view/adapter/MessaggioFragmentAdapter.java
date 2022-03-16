@@ -19,6 +19,7 @@ public class MessaggioFragmentAdapter extends RecyclerView.Adapter<MessaggioFrag
     private final List<Utente> utenteList;
     private final UserListener userListener;
 
+
     public MessaggioFragmentAdapter(List<Utente> utenteList, UserListener userListener)
     {
         this.userListener = userListener;

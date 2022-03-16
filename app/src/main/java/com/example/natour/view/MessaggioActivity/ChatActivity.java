@@ -102,7 +102,7 @@ public class ChatActivity extends AppCompatActivity
 
     private void init(){
         chatMessages = new ArrayList<>();
-        chatAdapter = new ChatAdapter(chatMessages, null, Costanti.KEY_SENDER);
+        chatAdapter = new ChatAdapter(chatMessages, null, senderUtente.getToken());
         binding.chatRecyclerView.setAdapter(chatAdapter);
         database = FirebaseFirestore.getInstance();
     }

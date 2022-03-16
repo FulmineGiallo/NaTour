@@ -55,8 +55,6 @@ public class Login extends AppCompatActivity
         /* ---------------------- ACCESSO UTENTE --------------------------------------------- */
         edtEmail = findViewById(R.id.email);
         edtPassword = findViewById(R.id.password);
-        edtEmail.setText("carminefb@live.it");
-        edtPassword.setText("Carmine13-");
 
         sessionDisposable = RxAmplify.Auth.fetchAuthSession()
                 .subscribe(

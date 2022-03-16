@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ChatMessage
 {
-    public String senderId, reciverId, message;
+    public String senderId, reciverId, message, conversationID, conversationName;
     public Date timeStamp;
 
 

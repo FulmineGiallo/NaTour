@@ -25,7 +25,6 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 {
     private Fragment fragment;
     private List<Itinerario> itinerari;
-    private List<Immagine> immagineList;
     private FragmentManager manager;
     private ControllerInterface controllerAdapter;
 

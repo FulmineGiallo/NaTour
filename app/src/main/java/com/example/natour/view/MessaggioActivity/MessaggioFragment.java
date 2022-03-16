@@ -108,8 +108,10 @@ public class MessaggioFragment extends Fragment implements UserListener
                             Utente utente = new Utente();
                             if(Objects.equals(queryDocumentSnapshot.getString(Costanti.KEY_RECIEVER), utenteLoggato.getToken()))
                                 utente.setToken(queryDocumentSnapshot.getString(Costanti.KEY_SENDER));
-                            else
+                            else if (Objects.equals(queryDocumentSnapshot.getString(Costanti.KEY_SENDER), utenteLoggato.getToken()))
                                 utente.setToken(queryDocumentSnapshot.getString(Costanti.KEY_RECIEVER));
+                            else
+                                continue;
                             new UtenteDAO().getNomeCognomeUtente(utente.getToken(), requireContext()).subscribe(
                                     result->{
                                         utente.setNome(result.getString("nome"));

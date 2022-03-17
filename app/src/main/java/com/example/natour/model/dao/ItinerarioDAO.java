@@ -49,4 +49,9 @@ public class ItinerarioDAO
         return  request.getMultipleRows();
     }
 
+    public PublishSubject<JSONObject> getCountItinerari(Context context)
+    {
+        RequestAPI insert = new RequestAPI("itinerario/countItineri.php", context, null);
+        return insert.sendRequest();
+    }
 }

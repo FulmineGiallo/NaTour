@@ -29,6 +29,7 @@
         android:background="@drawable/bottom_navigation_background"
         android:elevation="8dp"
         app:itemIconTint="@drawable/bottom_navigation_color_selector"
+        app:itemTextColor="@color/black"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu"
 

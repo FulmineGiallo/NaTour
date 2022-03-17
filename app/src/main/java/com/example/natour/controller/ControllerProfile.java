@@ -242,7 +242,9 @@ public class ControllerProfile implements ControllerInterface
                 {
                     utente.setAdmin(Boolean.parseBoolean(result.getString("is_admin")));
                     profileFragment.requireActivity().runOnUiThread(()->{
-                        profileFragment.showAdminOption();
+                        if(utente.isAdmin()){
+                            profileFragment.showAdminOption();
+                        }
                     });
                 },
                 error ->

@@ -136,6 +136,7 @@ public class ChatActivity extends AppCompatActivity
         messaggio.put(Costanti.KEY_MESSAGE, binding.edtMessaggio.getText().toString());
         messaggio.put(Costanti.KEY_TIMESTAMP, new Date());
         database.collection(Costanti.KEY_COLLECTION_CHAT).add(messaggio);
+        checkForConversion();
         if(conversionId != null) updateConversation(binding.edtMessaggio.getText().toString());
         else {
             HashMap<String, Object> conversation = new HashMap<>();
@@ -143,7 +144,7 @@ public class ChatActivity extends AppCompatActivity
             conversation.put(Costanti.KEY_RECIEVER, receiverUtente.getToken());
             conversation.put(Costanti.KEY_LAST_MESSAGE, binding.edtMessaggio.getText().toString());
             conversation.put(Costanti.KEY_TIMESTAMP, new Date());
-            addConversation(conversation);
+            //addConversation(conversation);
         }
         binding.edtMessaggio.setText(null);
     }
@@ -161,10 +162,10 @@ public class ChatActivity extends AppCompatActivity
     }
 
     private void checkForConversion(){
-        if(chatMessages.size() != 0){
+
             checkForConversationRemotely(senderUtente.getToken(), receiverUtente.getToken());
             checkForConversationRemotely(receiverUtente.getToken(), senderUtente.getToken());
-        }
+
     }
 
     private final OnCompleteListener<QuerySnapshot> conversationOnCompleteListener = task -> {

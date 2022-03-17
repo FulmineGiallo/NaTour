@@ -283,10 +283,15 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
             @Override
             public void onClick(View view)
             {
-                if(!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && !waypoints.isEmpty())
+                if((!edtNome.getText().toString().isEmpty() && !edtDurata.getText().toString().isEmpty() && waypoints != null) && waypoints.size() > 1)
                     controllerItinerario.inserisciItinerario(difficolta.getValue(),edtNome.getText().toString(), edtDurata.getText().toString(), stateDisabili, edtDescrizione.getText().toString(), waypoints, getContext());
-                else
+                else{
                     new ErrorDialog("Itinerario non inserito correttamente").show(getParentFragmentManager(),null);
+                    if(edtNome.getText().toString().isEmpty())
+                        edtNome.setError("Campo obbligatorio");
+                    if(edtDurata.getText().toString().isEmpty())
+                        edtDurata.setError("Campo obbligatorio");
+                }
             }
         });
 

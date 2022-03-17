@@ -141,7 +141,7 @@ public class ControllerProfile implements ControllerInterface
         Immagine immagineSaved = new Immagine(itinerario.getImmagini().get(0).getURL());
         itinerario.getImmagini().clear();
         intent.putExtra("itinerarioselezionato", itinerario);
-        intent.putExtra("token", token);
+        intent.putExtra("token", itinerario.getFk_utente());
         profileFragment.requireActivity().startActivity(intent);
         itinerario.getImmagini().add(immagineSaved);
     }
@@ -180,7 +180,7 @@ public class ControllerProfile implements ControllerInterface
                         itinerario.setDescrizione(String.valueOf(result.getJSONObject(i).get("descrizione")));
                         itinerario.setDifficoltà(Integer.parseInt(String.valueOf(result.getJSONObject(i).get("difficolta"))));
                         itinerario.setDurata(String.valueOf(result.getJSONObject(i).get("durata")));
-                        itinerario.setFk_utente(token);
+                        itinerario.setFk_utente(String.valueOf(result.getJSONObject(i).get("fk_utente")));
                         itinerario.setNomeFile(String.valueOf(result.getJSONObject(i).get("nomefile")));
                         itinerario.setAccessibilitaDisabili(Boolean.parseBoolean(String.valueOf(result.getJSONObject(i).get("disabile"))));
                         compilation.getItinerariCompilation().add(itinerario);

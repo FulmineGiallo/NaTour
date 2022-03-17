@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Nome Utente"
         android:textSize="30dp"
+        android:fontFamily="@font/robotoregular"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@id/btn_indietroMessaggio"

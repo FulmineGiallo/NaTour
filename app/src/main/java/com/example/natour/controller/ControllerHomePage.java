@@ -2,7 +2,6 @@ package com.example.natour.controller;
 
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,21 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
-import com.example.natour.model.Utente;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.view.Tab.HomePageFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -60,8 +55,6 @@ public class ControllerHomePage implements ControllerInterface
                         Itinerario itinerario = new Itinerario();
                         Log.i("SIZE", String.valueOf(result.length()));
                         Log.i("TEST", String.valueOf(result.getJSONObject(i).get("nome")));
-
-
                         itinerario.setIdItinerario(String.valueOf(result.getJSONObject(i).get("id_itinerario")));
                         itinerario.setNome(String.valueOf(result.getJSONObject(i).get("nome")));
                         itinerario.setDescrizione(String.valueOf(result.getJSONObject(i).get("descrizione")));

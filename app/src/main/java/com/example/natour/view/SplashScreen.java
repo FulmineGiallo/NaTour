@@ -12,7 +12,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
@@ -21,12 +20,8 @@ import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.view.LoginActivity.Login;
-import com.example.natour.view.PannelloAdmin.AdminPanel;
 import com.example.natour.view.Tab.TabActivity;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
-import com.google.android.material.tabs.TabLayout;
-
-import org.osmdroid.bonuspack.location.GeocoderNominatim;
 
 import io.reactivex.rxjava3.core.Observable;
 

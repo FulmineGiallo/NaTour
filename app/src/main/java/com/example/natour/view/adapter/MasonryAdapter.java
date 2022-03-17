@@ -13,9 +13,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerInterface;
-import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 
 import java.util.ArrayList;
@@ -51,15 +51,13 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     @Override
     public void onBindViewHolder(@NonNull MasonryAdapter.MasonryView holder, int position)
     {
-
-
-
         if(!itinerari.isEmpty()){
             Glide
                     .with(fragment)
                     .load(itinerari.get(holder.getAdapterPosition()).getImmagini().get(0).getURL())
                     .error(R.drawable.placeholder)
                     .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.imageView);
             holder.textView.setText(itinerari.get(holder.getAdapterPosition()).getNome());
             switch (itinerari.get(holder.getAdapterPosition()).getDifficoltà()){

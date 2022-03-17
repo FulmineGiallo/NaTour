@@ -12,13 +12,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.natour.R;
-import com.example.natour.fragment_visualizza_statistiche;
-import com.example.natour.view.Profile.ProfileCompilation;
-import com.example.natour.view.dialog.ConfermaDialog;
-import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
+import com.example.natour.view.admin.VisualizzaStatistiche;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,7 +33,7 @@ public class AdminPanel extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_panel);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_statistiche, new fragment_visualizza_statistiche()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_statistiche, new VisualizzaStatistiche()).commit();
 
         menuView = findViewById(R.id.menuviewAdmin);
         cardMenu = findViewById(R.id.cardMenuAdmin);

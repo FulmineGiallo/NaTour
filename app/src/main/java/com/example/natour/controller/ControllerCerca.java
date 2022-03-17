@@ -15,6 +15,7 @@ import com.example.natour.view.Tab.CercaFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
+import com.example.natour.view.dialog.ErrorDialog;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -87,42 +88,62 @@ public class ControllerCerca implements ControllerInterface
         copiaLista.clear();
         GeoPoint p1;
         List<Address> addressList = new ArrayList<>();
-
         for (Itinerario i : itinerari)
         {
-            if(i.isAccessibilitaDisabili() == disabili)
-                if(!copiaLista.contains(i))
-                    copiaLista.add(i);
-
-            if(i.getDifficoltà() == difficolta)
-                if(!copiaLista.contains(i))
-                    copiaLista.add(i);
-
-            if(i.getDurata() == durata)
-                if(!copiaLista.contains(i))
-                    copiaLista.add(i);
-
-            if(!address.isEmpty())
+            if(i.isAccessibilitaDisabili() == disabili && i.getDifficoltà() == difficolta)
             {
-                Geocoder coder = new Geocoder(fragment.getActivity());
-                try
+                if(!address.isEmpty())
                 {
-                    addressList = coder.getFromLocationName(address, 5);
-                    Address location = addressList.get(0);
-                    location.getLatitude();
-                    location.getLongitude();
-                    p1 = new GeoPoint(location.getLatitude(), location.getLongitude());
+                    Geocoder coder = new Geocoder(fragment.getActivity());
+                    try
+                    {
+                        addressList = coder.getFromLocationName(address, 5);
+                        Address location = addressList.get(0);
+                        location.getLatitude();
+                        location.getLongitude();
+                        p1 = new GeoPoint(location.getLatitude(), location.getLongitude());
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
 
+                    if(addressList.contains(address))
+                        if(!copiaLista.contains(i))
+                        {
+                            if(durata.isEmpty())
+                            {
+                                copiaLista.add(i);
+                            }
+                            else if(i.getDurata().contains(durata))
+                            {
+                                copiaLista.add(i);
+                            }
+                        }
                 }
-                catch (IOException e)
+                else
                 {
-                    e.printStackTrace();
-                }
-
-                if(addressList.contains(address))
                     if(!copiaLista.contains(i))
-                        copiaLista.add(i);
+                    {
+                        if(durata.isEmpty())
+                        {
+                            copiaLista.add(i);
+                        }
+                        else if(i.getDurata().contains(durata))
+                        {
+                            copiaLista.add(i);
+                        }
+                    }
+                }
             }
+            else
+            {
+                //Non ci sono itinerari per quel filtro
+                new ErrorDialog("Non ci sono itinerario che rispecchiano questo filtro!").show(fragmentManager, null);
+            }
+
+
+
 
 
         }

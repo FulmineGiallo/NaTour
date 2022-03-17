@@ -602,6 +602,8 @@ public class ControllerVisualizzaItinerario
         HashMap<String, Object> data = new HashMap<>();
         data.put(Costanti.KEY_SENDER, tokenUtenteLoggato);
         data.put(Costanti.KEY_RECIEVER, recieverToken);
+        data.put(Costanti.KEY_TIMESTAMP, null);
+        data.put(Costanti.KEY_LAST_MESSAGE, null);
         database.collection(Costanti.KEY_COLLECTION_PATH)
                 .add(data)
                 .addOnSuccessListener(documentReference -> {

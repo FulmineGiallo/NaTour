@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.databinding.GridItemMessaggiUsersBinding;
 import com.example.natour.model.Utente;
+import com.example.natour.view.MessaggioActivity.ChatMessage;
 import com.example.natour.view.MessaggioActivity.UserListener;
 
 import java.util.List;
@@ -18,12 +19,13 @@ public class MessaggioFragmentAdapter extends RecyclerView.Adapter<MessaggioFrag
 
     private final List<Utente> utenteList;
     private final UserListener userListener;
+    private final List<ChatMessage> chatMessages;
 
-
-    public MessaggioFragmentAdapter(List<Utente> utenteList, UserListener userListener)
+    public MessaggioFragmentAdapter(List<Utente> utenteList, UserListener userListener, List<ChatMessage> chatMessages)
     {
         this.userListener = userListener;
         this.utenteList = utenteList;
+        this.chatMessages = chatMessages;
     }
 
     @NonNull
@@ -42,6 +44,9 @@ public class MessaggioFragmentAdapter extends RecyclerView.Adapter<MessaggioFrag
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         holder.setUserData(utenteList.get(holder.getAdapterPosition()));
+        if(chatMessages != null)
+            if(chatMessages.size() > holder.getAdapterPosition())
+                holder.setData(chatMessages.get(holder.getAdapterPosition()));
     }
 
     @Override
@@ -64,6 +69,13 @@ public class MessaggioFragmentAdapter extends RecyclerView.Adapter<MessaggioFrag
             String nomeCognome = utente.getNome() + " " + utente.getCognome();
             binding.txtNomeCognome.setText(nomeCognome);
             binding.getRoot().setOnClickListener(view -> userListener.onUserClicked(utente));
+        }
+
+        public void setData(ChatMessage chatMessage)
+        {
+            if(chatMessage != null){
+                binding.txtRecentMessage.setText(chatMessage.message);
+            }
         }
     }
 }

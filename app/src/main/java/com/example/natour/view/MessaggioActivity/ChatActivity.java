@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.natour.databinding.ActivityChatBinding;
 import com.example.natour.model.Utente;
 import com.example.natour.view.adapter.ChatAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -33,6 +36,7 @@ public class ChatActivity extends AppCompatActivity
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
     private FirebaseFirestore database;
+    private String conversionId;
 
 
     @Override
@@ -76,7 +80,25 @@ public class ChatActivity extends AppCompatActivity
 
             }
         }
+        if(conversionId == null){
+            checkForConversion();
+        }
     });
+
+    private void addConversation(HashMap<String,Object> conversation){
+        database.collection(Costanti.KEY_COLLECTION_PATH)
+                .add(conversation)
+                .addOnSuccessListener(documentReference ->
+                    conversionId = documentReference.getId()
+                );
+    }
+
+    private void updateConversation(String message){
+        DocumentReference documentReference = database.collection(Costanti.KEY_COLLECTION_PATH)
+                .document(conversionId);
+        documentReference.update(Costanti.KEY_LAST_MESSAGE, message, Costanti.KEY_TIMESTAMP, new Date());
+
+    }
 
     private void listenMessages(){
         database.collection(Costanti.KEY_COLLECTION_CHAT)
@@ -114,11 +136,42 @@ public class ChatActivity extends AppCompatActivity
         messaggio.put(Costanti.KEY_MESSAGE, binding.edtMessaggio.getText().toString());
         messaggio.put(Costanti.KEY_TIMESTAMP, new Date());
         database.collection(Costanti.KEY_COLLECTION_CHAT).add(messaggio);
+        if(conversionId != null) updateConversation(binding.edtMessaggio.getText().toString());
+        else {
+            HashMap<String, Object> conversation = new HashMap<>();
+            conversation.put(Costanti.KEY_SENDER, senderUtente.getToken());
+            conversation.put(Costanti.KEY_RECIEVER, receiverUtente.getToken());
+            conversation.put(Costanti.KEY_LAST_MESSAGE, binding.edtMessaggio.getText().toString());
+            conversation.put(Costanti.KEY_TIMESTAMP, new Date());
+            addConversation(conversation);
+        }
         binding.edtMessaggio.setText(null);
     }
 
     private String getReadableTimeStamp(Date date){
         return new SimpleDateFormat("MMMM dd, yyyy-hh:mm a", Locale.getDefault()).format(date);
     }
+
+    private void checkForConversationRemotely(String senderId, String receiverId){
+        database.collection(Costanti.KEY_COLLECTION_PATH)
+                .whereEqualTo(Costanti.KEY_SENDER, senderId)
+                .whereEqualTo(Costanti.KEY_RECIEVER, receiverId)
+                .get()
+                .addOnCompleteListener(conversationOnCompleteListener);
+    }
+
+    private void checkForConversion(){
+        if(chatMessages.size() != 0){
+            checkForConversationRemotely(senderUtente.getToken(), receiverUtente.getToken());
+            checkForConversationRemotely(receiverUtente.getToken(), senderUtente.getToken());
+        }
+    }
+
+    private final OnCompleteListener<QuerySnapshot> conversationOnCompleteListener = task -> {
+        if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){
+            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+            conversionId = documentSnapshot.getId();
+        }
+    };
 
 }

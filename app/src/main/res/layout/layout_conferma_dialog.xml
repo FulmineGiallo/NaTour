@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".view.dialog.ErrorDialog"
         android:background="@drawable/shape_rounded_corner"
-
+        android:layout_marginHorizontal="20dp"
         >
 
         <ImageView

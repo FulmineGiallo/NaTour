@@ -1,7 +1,12 @@
 package com.example.natour.view.Profile;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerProfile;
+import com.example.natour.view.PannelloAdmin.AdminPanel;
 import com.example.natour.view.Tab.SharedViewModel;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
@@ -66,12 +72,13 @@ public class ProfileCompilation extends Fragment
         recyclerView = requireView().findViewById(R.id.rec_item_compilation);
 
         controllerProfile.setCompilationAdapter(recyclerView);
-
+        controllerProfile.setFragmentController(this);
         SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         model.getUtente().observe(getViewLifecycleOwner(),
                 utente -> {
                         txtUtente.setText(utente.getNome() + " " + utente.getCognome());
                         controllerProfile.setCompilations(utente);
+                        controllerProfile.isAdminCompilation(utente.getToken(), utente);
                 }
         );
         options = requireView().findViewById(R.id.btn_optionsProfile);
@@ -116,6 +123,10 @@ public class ProfileCompilation extends Fragment
 
 
                                 return true;
+                            case R.id.option_admin_compilation:
+                                Toast.makeText(getContext(),"Pannello admin", Toast.LENGTH_SHORT).show();
+                                requireActivity().startActivity(new Intent(requireActivity(), AdminPanel.class));
+                                return true;
                             case R.id.option_4:
                                 Toast.makeText(getContext(),"Chiudo MENU", Toast.LENGTH_SHORT).show();
                                 menuView.setVisibility(View.INVISIBLE);
@@ -129,5 +140,14 @@ public class ProfileCompilation extends Fragment
                 });
             }
         });
+    }
+    public void showAdminOption()
+    {
+        Menu menu = menuView.getMenu();
+        MenuItem item = menu.getItem(3);
+        SpannableString s = new SpannableString(getResources().getString(R.string.pannello_admin));
+        s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
+        item.setTitle(s);
+        item.setVisible(true);
     }
 }

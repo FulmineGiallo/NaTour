@@ -51,7 +51,7 @@ public class ItinerarioDAO
 
     public PublishSubject<JSONObject> getCountItinerari(Context context)
     {
-        RequestAPI insert = new RequestAPI("itinerario/countItineri.php", context, null);
+        RequestAPI insert = new RequestAPI("itinerario/countItinerari.php", context, null);
         return insert.sendRequest();
     }
 }

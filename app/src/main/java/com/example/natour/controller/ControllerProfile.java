@@ -19,6 +19,7 @@ import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.model.dao.UtenteDAO;
+import com.example.natour.view.Profile.ProfileCompilation;
 import com.example.natour.view.Signout;
 import com.example.natour.view.Profile.ProfileFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
@@ -40,6 +41,7 @@ public class ControllerProfile implements ControllerInterface
     private FragmentManager fragmentManager;
     private Context contexController;
     private ProfileFragment profileFragment;
+    private ProfileCompilation profileCompilation;
     private String token;
     private List<Itinerario> listIt;
     private List<Compilation> compilationList = new LinkedList<>();
@@ -66,6 +68,10 @@ public class ControllerProfile implements ControllerInterface
         contexController.startActivity(intentLogin);
     }
 
+    public void setFragmentController(ProfileCompilation profileCompilation)
+    {
+        this.profileCompilation = profileCompilation;
+    }
     public void getItinerariProfile(){
         ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
         Log.i("TOKEN",token);
@@ -244,6 +250,25 @@ public class ControllerProfile implements ControllerInterface
                     profileFragment.requireActivity().runOnUiThread(()->{
                         if(utente.isAdmin()){
                             profileFragment.showAdminOption();
+                        }
+                    });
+                },
+                error ->
+                {
+                    Log.e("error", error.getLocalizedMessage());
+                }
+        );
+    }
+    public void isAdminCompilation(String tokenUtente, Utente utente)
+    {
+        UtenteDAO utenteDAO = new UtenteDAO();
+        utenteDAO.isAdmin(tokenUtente, contexController).subscribe(
+                result ->
+                {
+                    utente.setAdmin(Boolean.parseBoolean(result.getString("is_admin")));
+                    profileCompilation.requireActivity().runOnUiThread(()->{
+                        if(utente.isAdmin()){
+                            profileCompilation.showAdminOption();
                         }
                     });
                 },

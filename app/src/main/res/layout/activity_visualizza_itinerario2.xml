@@ -391,17 +391,15 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_salvaitinerario"
-        android:layout_width="105dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/design_default_color_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/salva"
         app:cornerRadius="10dp"
-
         app:icon="@drawable/ic_icon_bookmarks"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txt_nomecognome"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toRightOf="@id/txt_nomecognome"
+        app:layout_constraintBottom_toBottomOf="@id/txt_nomecognome"
+        app:layout_constraintTop_toTopOf="@id/txt_nomecognome"
+        />
 
     <org.osmdroid.views.MapView
         android:id="@+id/img_mappaitinerario"

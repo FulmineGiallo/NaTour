@@ -28,7 +28,7 @@ public class BackgroundStatistiche extends Worker
     public Result doWork()
     {
         Log.d("periodicWorkRequest","Uploading photos in background");
-        sendNotification("Background Task","Succcessfully done");
+        //sendNotification("Background Task","Succcessfully done");
         return Result.success();
     }
 
@@ -49,7 +49,7 @@ public class BackgroundStatistiche extends Worker
                 .setContentText(message)// message for notification
                 .setAutoCancel(true); // clear notification after click
         Intent intent = new Intent(getApplicationContext(), VisualizzaStatistiche.class);
-        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
         mBuilder.setContentIntent(pi);
         mNotificationManager.notify(0, mBuilder.build());
     }

@@ -17,10 +17,7 @@ import android.widget.Toast;
 
 import com.example.natour.R;
 import com.example.natour.view.admin.VisualizzaStatistiche;
-import com.example.natour.controller.ControllerProfile;
-import com.example.natour.view.Profile.ProfileCompilation;
 import com.example.natour.view.Signout;
-import com.example.natour.view.Tab.HomePageFragment;
 import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;

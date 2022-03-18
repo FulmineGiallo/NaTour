@@ -15,6 +15,7 @@ import androidx.work.WorkManager;
 
 import com.example.natour.controller.ControllerStatistiche;
 import com.example.natour.databinding.FragmentVisualizzaStatisticheBinding;
+import com.example.natour.model.dao.ItinerarioDAO;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +24,10 @@ public class VisualizzaStatistiche extends Fragment
 
     private FragmentVisualizzaStatisticheBinding binding;
     private ControllerStatistiche controllerStatistiche;
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class VisualizzaStatistiche extends Fragment
         controllerStatistiche.aggiornaStatisticheItinerario();
         binding.txtValItinerariTotale.setText("");
 
-        final PeriodicWorkRequest periodicWorkRequest1 = new PeriodicWorkRequest.Builder(BackgroundStatistiche.class,10, TimeUnit.MILLISECONDS)
+        /*final PeriodicWorkRequest periodicWorkRequest1 = new PeriodicWorkRequest.Builder(BackgroundStatistiche.class,1000, TimeUnit.MILLISECONDS)
                 .setInitialDelay(1,TimeUnit.MILLISECONDS)
                 .build();
 
@@ -55,9 +60,26 @@ public class VisualizzaStatistiche extends Fragment
 
                         }
                     }
-                });
+                });*/
 
 
         return binding.getRoot();
+    }
+
+    private void aggiornaUI()
+    {
+
+    }
+
+    public void updateItinerari(String num)
+    {
+        binding.txtValItinerariTotale.setText(num);
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        controllerStatistiche.stopPolling();
     }
 }

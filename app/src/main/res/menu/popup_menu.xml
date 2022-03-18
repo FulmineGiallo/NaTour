@@ -16,5 +16,5 @@
         android:title="@string/pannello_admin"/>
     <item android:id="@+id/option_3"
         android:icon="@drawable/ic_logout"
-        android:title="@string/logout" />
+        android:title="Logout" />
 </menu>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,9 +13,17 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.natour.R;
 import com.example.natour.view.admin.VisualizzaStatistiche;
+import com.example.natour.controller.ControllerProfile;
+import com.example.natour.view.Profile.ProfileCompilation;
+import com.example.natour.view.Signout;
+import com.example.natour.view.Tab.HomePageFragment;
+import com.example.natour.view.Tab.TabActivity;
+import com.example.natour.view.dialog.ConfermaDialog;
+import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -25,6 +34,7 @@ public class AdminPanel extends AppCompatActivity {
     private CardView cardMenuPicture;
     private ImageButton options;
     private FrameLayout fragment;
+    private ImageButton buttonRefresh;
     private TextView textStatistiche;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -41,6 +51,7 @@ public class AdminPanel extends AppCompatActivity {
         cardMenuPicture = findViewById(R.id.cardView3);
         textStatistiche = findViewById(R.id.txt_statistiche);
         fragment = findViewById(R.id.fragment_statistiche);
+        buttonRefresh = findViewById(R.id.btn_refresh_admin);
         options.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -60,7 +71,8 @@ public class AdminPanel extends AppCompatActivity {
                             case R.id.option_2:
                                 textStatistiche.setVisibility(View.VISIBLE);
                                 fragment.setVisibility(View.VISIBLE);
-                                //TODO: STATISTICHE
+                                buttonRefresh.setVisibility(View.VISIBLE);
+                                //TODO: CALL API STATISTICHE
                                 break;
                             default:
                                 return false;
@@ -70,5 +82,32 @@ public class AdminPanel extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public void refresh(View view) {
+        //TODO: CALL API STATISTICHE
+    }
+
+    public void backToHomepage(View view) {
+        Toast.makeText(this,"Homepage", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, TabActivity.class));
+    }
+
+    public void logOutAdmin(View view) {
+        Toast.makeText(this,"Logout", Toast.LENGTH_SHORT).show();
+        new ConfermaDialog("Sei sicuro di voler uscire?", new ConfermaDialogInterfaccia()
+        {
+            @Override
+            public void actionConferma()
+            {
+                startActivity(new Intent(AdminPanel.this, Signout.class));
+            }
+
+            @Override
+            public void actionAnnulla()
+            {
+
+            }
+        }).show(getSupportFragmentManager(), null);
     }
 }

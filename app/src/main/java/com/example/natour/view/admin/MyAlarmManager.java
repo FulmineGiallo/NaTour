@@ -1,28 +1,40 @@
 package com.example.natour.view.admin;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.example.natour.model.dao.ItinerarioDAO;
+import androidx.annotation.NonNull;
+import androidx.work.ListenableWorker;
+import androidx.work.WorkerParameters;
 
-public class MyAlarmManager extends BroadcastReceiver
+import com.example.natour.model.dao.ItinerarioDAO;
+import com.google.common.util.concurrent.ListenableFuture;
+
+public class MyAlarmManager extends ListenableWorker
 {
-    Context context;
-    @Override
-    public void onReceive(Context context, Intent intent)
+    /**
+     * @param appContext   The application {@link Context}
+     * @param workerParams Parameters to setup the internal state of this worker
+     */
+    public MyAlarmManager(@NonNull Context appContext, @NonNull WorkerParameters workerParams)
     {
-        this.context = context;
+        super(appContext, workerParams);
+    }
+
+    @NonNull
+    @Override
+    public ListenableFuture<Result> startWork()
+    {
         //connect to server..
         Log.i("help","me");
         ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
-        itinerarioDAO.getCountItinerari(context).subscribe(
+        itinerarioDAO.getCountItinerari(getApplicationContext()).subscribe(
                 result ->
                 {
                     Log.i("ITINERARI TOTALI", result.getString("numero"));
                 },
-                error -> Log.e("ERROR", error.getLocalizedMessage())
+                error -> Log.e("ERROR", error.getLocalizedMessage() + "ciao")
         );
+        return null;
     }
 }

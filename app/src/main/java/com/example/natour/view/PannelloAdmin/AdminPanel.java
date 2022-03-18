@@ -43,7 +43,7 @@ public class AdminPanel extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_panel);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_statistiche, new VisualizzaStatistiche()).commit();
+
 
         menuView = findViewById(R.id.menuviewAdmin);
         cardMenu = findViewById(R.id.cardMenuAdmin);
@@ -70,7 +70,7 @@ public class AdminPanel extends AppCompatActivity {
                                 break;
                             case R.id.option_2:
                                 textStatistiche.setVisibility(View.VISIBLE);
-                                fragment.setVisibility(View.VISIBLE);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_statistiche, new VisualizzaStatistiche()).commit();
                                 buttonRefresh.setVisibility(View.VISIBLE);
                                 //TODO: CALL API STATISTICHE
                                 break;

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.natour.R;
@@ -23,19 +24,18 @@ public class VisualizzaStatistiche extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         binding = FragmentVisualizzaStatisticheBinding.inflate(getLayoutInflater());
-        getActivity().setContentView(binding.getRoot());
+
         controllerStatistiche = new ControllerStatistiche(this);
 
         controllerStatistiche.aggiornaStatisticheItinerario();
 
-        binding.txtValItinerariTotale.setText("");
+        binding.txtValItinerariTotale.setText("oh yes");
 
 
-
-        return inflater.inflate(R.layout.fragment_visualizza_statistiche, container, false);
+        return binding.getRoot();
     }
 }

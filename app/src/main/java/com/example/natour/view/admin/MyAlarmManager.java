@@ -15,6 +15,7 @@ public class MyAlarmManager extends BroadcastReceiver
     {
         this.context = context;
         //connect to server..
+        Log.i("help","me");
         ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
         itinerarioDAO.getCountItinerari(context).subscribe(
                 result ->

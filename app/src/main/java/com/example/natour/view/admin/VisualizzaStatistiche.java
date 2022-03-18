@@ -1,23 +1,14 @@
 package com.example.natour.view.admin;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
 
 import com.example.natour.controller.ControllerStatistiche;
 import com.example.natour.databinding.FragmentVisualizzaStatisticheBinding;
-import com.example.natour.model.dao.ItinerarioDAO;
-
-import java.util.concurrent.TimeUnit;
 
 public class VisualizzaStatistiche extends Fragment
 {
@@ -81,5 +72,20 @@ public class VisualizzaStatistiche extends Fragment
     {
         super.onDestroy();
         controllerStatistiche.stopPolling();
+    }
+
+    public void updateRecensioni(String num)
+    {
+        binding.txtValRecensioniTotale.setText(num);
+    }
+
+    public void updateSegnalazioni(String num)
+    {
+        binding.txtValSegnalazioniTotale2.setText(num);
+    }
+
+    public void updateImmagini(String num)
+    {
+        binding.txtValFotoTotale.setText(num);
     }
 }

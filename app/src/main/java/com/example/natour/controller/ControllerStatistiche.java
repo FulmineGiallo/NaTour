@@ -1,17 +1,11 @@
 package com.example.natour.controller;
 
-import static android.content.Context.ALARM_SERVICE;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.Handler;
 
-import androidx.fragment.app.Fragment;
-
+import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
-import com.example.natour.model.dao.UtenteDAO;
-import com.example.natour.view.admin.MyAlarmManager;
+import com.example.natour.model.dao.RecensioneDAO;
+import com.example.natour.model.dao.SegnalazioneDAO;
 import com.example.natour.view.admin.VisualizzaStatistiche;
 
 public class ControllerStatistiche
@@ -47,11 +41,6 @@ public class ControllerStatistiche
 
     public void aggiornaStatisticheItinerario()
     {
-        /*Intent intent = new Intent(context.requireActivity(), MyAlarmManager.class);
-        long scTime = 10000; //1mins
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.requireActivity(), 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.requireActivity().getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + scTime, pendingIntent);*/
         new ItinerarioDAO().getCountItinerari(context.requireContext()).subscribe(
                 success->{
                     String num = success.getString("numero");
@@ -61,6 +50,39 @@ public class ControllerStatistiche
                 },
                 error ->{}
         );
+        new RecensioneDAO().getCountRecensioni(context.requireContext()).subscribe(
+                success ->
+                {
+                    String num = success.getString("numero");
+                    context.requireActivity().runOnUiThread(()->{
+                        context.updateRecensioni(num);
+                    });
+                },
+                error ->{}
+        );
+        new SegnalazioneDAO().getCountSegnalazioni(context.requireContext()).subscribe(
+                success ->
+                {
+                    String num = success.getString("numero");
+                    context.requireActivity().runOnUiThread(()->{
+                        context.updateSegnalazioni(num);
+                    });
+                },
+                error ->{}
+        );
+
+        new ImmagineDAO().getCountImmagini(context.requireContext()) .subscribe(
+                success->
+                {
+                    String num = success.getString("numero");
+                    context.requireActivity().runOnUiThread(()->
+                    {
+                        context.updateImmagini(num);
+                    });
+                }
+
+        );
+
     }
 
 

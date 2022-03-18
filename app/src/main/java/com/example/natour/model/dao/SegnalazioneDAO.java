@@ -37,4 +37,9 @@ public class SegnalazioneDAO
         RequestAPI request = new RequestAPI("segnalazione/getCountSegnalazione.php", context, params);
         return request.sendRequest();
     }
+    public PublishSubject<JSONObject> getCountSegnalazioni(Context context)
+    {
+        RequestAPI get = new RequestAPI("segnalazione/countSegnalazioni.php", context, null);
+        return get.sendRequest();
+    }
 }

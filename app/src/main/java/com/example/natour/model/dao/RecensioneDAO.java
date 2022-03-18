@@ -34,4 +34,10 @@ public class RecensioneDAO
 
     }
 
+    public PublishSubject<JSONObject> getCountRecensioni(Context context)
+    {
+        RequestAPI get = new RequestAPI("recensione/countRecensioni.php", context, null);
+        return get.sendRequest();
+    }
+
 }

@@ -50,4 +50,9 @@ public class ImmagineDAO
         RequestAPI requestAPI = new RequestAPI("immagine/getImages.php", context, params);
         return requestAPI.getMultipleRows();
     }
+    public PublishSubject<JSONObject> getCountImmagini(Context context)
+    {
+        RequestAPI get = new RequestAPI("immagine/countImmagini.php", context, null);
+        return get.sendRequest();
+    }
 }

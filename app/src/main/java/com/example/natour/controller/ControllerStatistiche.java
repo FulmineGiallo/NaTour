@@ -6,7 +6,7 @@ import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.model.dao.RecensioneDAO;
 import com.example.natour.model.dao.SegnalazioneDAO;
-import com.example.natour.view.admin.VisualizzaStatistiche;
+import com.example.natour.view.PannelloAdmin.VisualizzaStatistiche;
 
 public class ControllerStatistiche
 {

@@ -1,4 +1,4 @@
-package com.example.natour.view.admin;
+package com.example.natour.view.PannelloAdmin;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.natour.R;
-import com.example.natour.view.admin.VisualizzaStatistiche;
 import com.example.natour.view.Signout;
 import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.dialog.ConfermaDialog;

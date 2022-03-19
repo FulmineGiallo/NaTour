@@ -22,7 +22,7 @@ public class StatisticheDAO implements StatisticheDAOInterface
         requestAPI.sendRequest();
     }
     public PublishSubject<JSONObject> getCountRicerche(Context context){
-        RequestAPI requestAPI = new RequestAPI("statistiche/getNumRierche.php", context, null);
+        RequestAPI requestAPI = new RequestAPI("statistiche/getNumRicerche.php", context, null);
         return  requestAPI.sendRequest();
     }
 

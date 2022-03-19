@@ -123,7 +123,6 @@ public class ProfileFragment extends Fragment
                                     {
                                         controllerProfile.signOut();
                                     }
-
                                     @Override
                                     public void actionAnnulla()
                                     {

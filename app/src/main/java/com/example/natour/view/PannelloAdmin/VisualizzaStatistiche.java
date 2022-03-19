@@ -1,28 +1,24 @@
-package com.example.natour.view.admin;
+package com.example.natour.view.PannelloAdmin;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
 
 import com.example.natour.controller.ControllerStatistiche;
 import com.example.natour.databinding.FragmentVisualizzaStatisticheBinding;
-
-import java.util.concurrent.TimeUnit;
 
 public class VisualizzaStatistiche extends Fragment
 {
 
     private FragmentVisualizzaStatisticheBinding binding;
     private ControllerStatistiche controllerStatistiche;
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +34,7 @@ public class VisualizzaStatistiche extends Fragment
         controllerStatistiche.aggiornaStatisticheItinerario();
         binding.txtValItinerariTotale.setText("");
 
-        final PeriodicWorkRequest periodicWorkRequest1 = new PeriodicWorkRequest.Builder(BackgroundStatistiche.class,10, TimeUnit.MILLISECONDS)
+        /*final PeriodicWorkRequest periodicWorkRequest1 = new PeriodicWorkRequest.Builder(BackgroundStatistiche.class,1000, TimeUnit.MILLISECONDS)
                 .setInitialDelay(1,TimeUnit.MILLISECONDS)
                 .build();
 
@@ -55,9 +51,41 @@ public class VisualizzaStatistiche extends Fragment
 
                         }
                     }
-                });
+                });*/
 
 
         return binding.getRoot();
+    }
+
+    private void aggiornaUI()
+    {
+
+    }
+
+    public void updateItinerari(String num)
+    {
+        binding.txtValItinerariTotale.setText(num);
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        controllerStatistiche.stopPolling();
+    }
+
+    public void updateRecensioni(String num)
+    {
+        binding.txtValRecensioniTotale.setText(num);
+    }
+
+    public void updateSegnalazioni(String num)
+    {
+        binding.txtValSegnalazioniTotale2.setText(num);
+    }
+
+    public void updateImmagini(String num)
+    {
+        binding.txtValFotoTotale.setText(num);
     }
 }

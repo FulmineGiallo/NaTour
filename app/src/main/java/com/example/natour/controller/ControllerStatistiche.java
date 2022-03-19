@@ -118,9 +118,7 @@ public class ControllerStatistiche
                 success ->
                 {
                     String num = success.getString("numero");
-                    context.requireActivity().runOnUiThread(()->{
-                        context.updateRecensioni(num);
-                    });
+                    context.requireActivity().runOnUiThread(()-> context.updateRecensioni(num));
                 },
                 error ->{}
         );
@@ -128,9 +126,7 @@ public class ControllerStatistiche
                 success ->
                 {
                     String num = success.getString("numero");
-                    context.requireActivity().runOnUiThread(()->{
-                        context.updateSegnalazioni(num);
-                    });
+                    context.requireActivity().runOnUiThread(()-> context.updateSegnalazioni(num));
                 },
                 error ->{}
         );
@@ -140,9 +136,7 @@ public class ControllerStatistiche
                 {
                     String num = success.getString("numero");
                     context.requireActivity().runOnUiThread(()->
-                    {
-                        context.updateImmagini(num);
-                    });
+                            context.updateImmagini(num));
                 }
 
         );

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.result.AuthSignInResult;
 import com.amplifyframework.rx.RxAmplify;
+import com.android.volley.RequestQueue;
 import com.example.natour.model.connection.RequestAPI;
 
 import org.json.JSONObject;
@@ -102,6 +103,12 @@ public class UtenteDAO
         return  requestAPI.sendRequest();
     }
 
+    public PublishSubject<JSONObject> getCountUtenti(Context requireContext, PublishSubject<JSONObject> utenti, RequestQueue queue)
+    {
+        String path = "utente/countUtenti.php";
+        RequestAPI requestAPI = new RequestAPI(path, requireContext, null);
+        return requestAPI.sendRequest(utenti, queue);
+    }
 }
 
 

@@ -163,33 +163,11 @@ public class ControllerStatistiche
         recensioneDAO.getCountRecensioni(context.requireContext(),recensioni, queue);
         segnalazioneDAO.getCountSegnalazioni(context.requireContext(),segnalazioni, queue);
         immagineDAO.getCountImmagini(context.requireContext(),immagini, queue);
+        statisticheDAO.getCountLogin(context.requireContext(),login,queue);
+        statisticheDAO.getCountRicerche(context.requireContext(), ricerche, queue);
+        utenteDAO.getCountUtenti(context.requireContext(), utenti, queue);
 
 
-    }
-
-    private void resetObservers()
-    {
-        disposableItinerari.dispose();
-        disposableImmagini.dispose();
-        disposableRecensioni.dispose();
-        disposableSegnalazioni.dispose();
-        disposableItinerari = null;
-        disposableImmagini = null;
-        disposableRecensioni = null;
-        disposableSegnalazioni = null;
-        JSONObject jsonObject = new JSONObject();
-        itinerari.onNext(jsonObject);
-        immagini.onNext(jsonObject);
-        recensioni.onNext(jsonObject);
-        segnalazioni.onNext(jsonObject);
-        itinerari.onComplete();
-        immagini.onComplete();
-        recensioni.onComplete();
-        segnalazioni.onComplete();
-        itinerari = new ItinerarioDAO().getCountItinerari(context.requireContext());
-        recensioni = new RecensioneDAO().getCountRecensioni(context.requireContext());
-        segnalazioni = new SegnalazioneDAO().getCountSegnalazioni(context.requireContext());
-        immagini = new ImmagineDAO().getCountImmagini(context.requireContext());
     }
 
 

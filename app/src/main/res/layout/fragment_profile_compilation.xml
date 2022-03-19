@@ -21,17 +21,22 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-1dp" />
 
-    <ImageView
-        android:id="@+id/img_profileUtente"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="29dp"
-        android:src="@drawable/avatat_test" />
+        android:id="@+id/img_profileUtente"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="50dp"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/avatat_test"
+            />
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/utente"

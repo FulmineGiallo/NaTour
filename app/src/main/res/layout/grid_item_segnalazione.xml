@@ -4,8 +4,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="300dp"
-    android:layout_height="120dp"
-    app:cardCornerRadius="20dp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
     android:layout_marginTop="5dp"
     android:backgroundTint="@color/segnalazione"
     android:layout_marginLeft="10dp"
@@ -15,26 +15,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:id="@+id/cardImg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            >
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/avatat_test"
+                android:layout_gravity="center"
+                />
+
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/segnalatoda"
             android:text="Segnalato da:"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/robotoregular"
+            android:layout_marginLeft="5dp"
+            app:layout_constraintLeft_toRightOf="@id/cardImg"
+            app:layout_constraintTop_toTopOf="@id/cardImg"
+            app:layout_constraintBottom_toBottomOf="@id/cardImg"
             app:layout_constraintRight_toLeftOf="@id/txt_utente_segnalazione"
             />
         <TextView
             android:id="@+id/txt_utente_segnalazione"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
             app:layout_constraintLeft_toRightOf="@id/segnalatoda"
-            app:layout_constraintTop_toTopOf="parent"
-
+            app:layout_constraintTop_toTopOf="@id/segnalatoda"
+            app:layout_constraintBottom_toBottomOf="@id/segnalatoda"
+            android:layout_marginLeft="10dp"
             android:fontFamily="@font/robotoregular"
             android:text="Nome Utente"
             />
@@ -45,12 +64,10 @@
             android:id="@+id/txt_testo_segnalazione"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_titolo_segnalazione"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="20dp"
             android:fontFamily="@font/robotoregular"
             android:text="Questo è un placeHolder per la segnalazione"
             />
@@ -63,8 +80,8 @@
             android:text="Titolo esempio"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/cardImg"
             android:layout_marginLeft="10dp"
-            app:layout_constraintTop_toBottomOf="@id/txt_utente_segnalazione"
 
             />
 

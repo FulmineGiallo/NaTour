@@ -47,7 +47,6 @@ public class AdminPanel extends AppCompatActivity {
         cardMenuPicture = findViewById(R.id.cardView3);
         textStatistiche = findViewById(R.id.txt_statistiche);
         fragment = findViewById(R.id.fragment_statistiche);
-        buttonRefresh = findViewById(R.id.btn_refresh_admin);
         options.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -67,7 +66,6 @@ public class AdminPanel extends AppCompatActivity {
                             case R.id.option_2:
                                 textStatistiche.setVisibility(View.VISIBLE);
                                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_statistiche, new VisualizzaStatistiche()).commit();
-                                buttonRefresh.setVisibility(View.VISIBLE);
                                 //TODO: CALL API STATISTICHE
                                 break;
                             default:

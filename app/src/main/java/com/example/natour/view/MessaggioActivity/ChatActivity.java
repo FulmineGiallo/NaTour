@@ -1,5 +1,6 @@
 package com.example.natour.view.MessaggioActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.natour.databinding.ActivityChatBinding;
 import com.example.natour.model.Utente;
+import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.adapter.ChatAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
@@ -118,7 +120,13 @@ public class ChatActivity extends AppCompatActivity
     }
 
     private void setListener(){
-        binding.btnIndietroMessaggio.setOnClickListener(view -> onBackPressed());
+        //binding.btnIndietroMessaggio.setOnClickListener(view -> onBackPressed());
+        binding.btnIndietroMessaggio.setOnClickListener(new View.OnClickListener(){
+            @Override
+        public void onClick(View v) {
+            Intent i = new Intent(ChatActivity.this, TabActivity.class);
+            startActivity(i);
+        }});
         binding.imgSendmessage.setOnClickListener(view -> sendMessage());
     }
 

@@ -214,6 +214,7 @@ public class ControllerProfile implements ControllerInterface
                         profileFragment.requireActivity().runOnUiThread(() ->
                                 itinerariCompilationAdapter.notifyItemInserted(compilation.getItinerariCompilation().indexOf(itinerario)));
                     }
+
                 },
                 error -> {}
         );
@@ -234,6 +235,8 @@ public class ControllerProfile implements ControllerInterface
                         profileFragment.requireActivity().runOnUiThread(() ->
                                 compilationAdapter.notifyItemInserted(compilationList.indexOf(compilation)));
                     }
+                    if(compilationList.isEmpty())
+                        profileCompilation.requireActivity().runOnUiThread(()->profileCompilation.showItemsCompilation());
                 },
                 error -> {}
         );

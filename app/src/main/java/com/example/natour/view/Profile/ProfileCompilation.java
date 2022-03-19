@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerProfile;
 import com.example.natour.view.PannelloAdmin.AdminPanel;
@@ -37,6 +38,8 @@ public class ProfileCompilation extends Fragment
     private NavigationView menuView;
     private MaterialCardView cardMenu;
     private RecyclerView recyclerView;
+    private LottieAnimationView animation;
+    private TextView compilationVuote;
 
     public ProfileCompilation()
     {
@@ -70,7 +73,8 @@ public class ProfileCompilation extends Fragment
         menuView = requireView().findViewById(R.id.menuview);
         cardMenu = requireView().findViewById(R.id.cardMenu);
         recyclerView = requireView().findViewById(R.id.rec_item_compilation);
-
+        animation = requireActivity().findViewById(R.id.animationViewCompilation);
+        compilationVuote = requireActivity().findViewById(R.id.txt_noCompilation);
         controllerProfile.setCompilationAdapter(recyclerView);
         controllerProfile.setFragmentController(this);
         SharedViewModel model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
@@ -149,5 +153,11 @@ public class ProfileCompilation extends Fragment
         s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
         item.setTitle(s);
         item.setVisible(true);
+    }
+
+    public void showItemsCompilation()
+    {
+        animation.setVisibility(View.VISIBLE);
+        compilationVuote.setVisibility(View.VISIBLE);
     }
 }

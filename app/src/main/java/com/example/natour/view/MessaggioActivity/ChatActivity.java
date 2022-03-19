@@ -1,6 +1,6 @@
 package com.example.natour.view.MessaggioActivity;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.natour.databinding.ActivityChatBinding;
 import com.example.natour.model.Utente;
-import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.adapter.ChatAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
@@ -18,16 +17,12 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Document;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity
 {
@@ -55,6 +50,7 @@ public class ChatActivity extends AppCompatActivity
         listenMessages();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = ((value, error) -> {
         if(error != null){
             return;
@@ -70,7 +66,7 @@ public class ChatActivity extends AppCompatActivity
                     chatMessage.timeStamp = documentChange.getDocument().getDate(Costanti.KEY_TIMESTAMP);
                     chatMessages.add(chatMessage);
                 }
-                Collections.sort(chatMessages, (obj1,obj2) -> obj1.timeStamp.compareTo(obj2.timeStamp));
+                Collections.sort(chatMessages, Comparator.comparing(obj -> obj.timeStamp));
                 if(count == 0){
                     chatAdapter.notifyDataSetChanged();
                 }
@@ -86,14 +82,6 @@ public class ChatActivity extends AppCompatActivity
             checkForConversion();
         }
     });
-
-    private void addConversation(HashMap<String,Object> conversation){
-        database.collection(Costanti.KEY_COLLECTION_PATH)
-                .add(conversation)
-                .addOnSuccessListener(documentReference ->
-                    conversionId = documentReference.getId()
-                );
-    }
 
     private void updateConversation(String message){
         DocumentReference documentReference = database.collection(Costanti.KEY_COLLECTION_PATH)
@@ -121,13 +109,11 @@ public class ChatActivity extends AppCompatActivity
 
     private void setListener(){
         binding.btnIndietroMessaggio.setOnClickListener(view -> onBackPressed());
-        /*binding.btnIndietroMessaggio.setOnClickListener(new View.OnClickListener(){
-            @Override
-        public void onClick(View v) {
-            Intent i = new Intent(ChatActivity.this, TabActivity.class);
-            startActivity(i);
-        }});*/
-        binding.imgSendmessage.setOnClickListener(view -> sendMessage());
+        binding.imgSendmessage.setOnClickListener(view ->
+        {
+            if(!binding.edtMessaggio.getText().toString().isEmpty())
+                sendMessage();
+        });
     }
 
     private void init(){
@@ -146,19 +132,7 @@ public class ChatActivity extends AppCompatActivity
         database.collection(Costanti.KEY_COLLECTION_CHAT).add(messaggio);
         checkForConversion();
         if(conversionId != null) updateConversation(binding.edtMessaggio.getText().toString());
-        else {
-            HashMap<String, Object> conversation = new HashMap<>();
-            conversation.put(Costanti.KEY_SENDER, senderUtente.getToken());
-            conversation.put(Costanti.KEY_RECIEVER, receiverUtente.getToken());
-            conversation.put(Costanti.KEY_LAST_MESSAGE, binding.edtMessaggio.getText().toString());
-            conversation.put(Costanti.KEY_TIMESTAMP, new Date());
-            //addConversation(conversation);
-        }
         binding.edtMessaggio.setText(null);
-    }
-
-    private String getReadableTimeStamp(Date date){
-        return new SimpleDateFormat("MMMM dd, yyyy-hh:mm a", Locale.getDefault()).format(date);
     }
 
     private void checkForConversationRemotely(String senderId, String receiverId){

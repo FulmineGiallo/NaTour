@@ -190,9 +190,8 @@ public class ControllerLogin
 
     public void terminaLogin()
     {
-        /*contexController.finish();
-        loginDisposable.dispose();
-        userInfoDisposable.dispose();
-        setDataDiNascitaDisposable.dispose();*/
+        if(loginDisposable != null) loginDisposable.dispose();
+        if(userInfoDisposable != null) userInfoDisposable.dispose();
+        if(setDataDiNascitaDisposable != null) setDataDiNascitaDisposable.dispose();
     }
 }

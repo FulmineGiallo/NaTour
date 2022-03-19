@@ -1,9 +1,5 @@
 package com.example.natour.view.PannelloAdmin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,9 +11,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.example.natour.R;
 import com.example.natour.view.Signout;
-import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
 import com.google.android.material.card.MaterialCardView;

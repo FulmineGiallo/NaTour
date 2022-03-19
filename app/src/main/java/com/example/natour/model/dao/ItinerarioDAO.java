@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.daointerface.ItinerarioDAOInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class ItinerarioDAO
+public class ItinerarioDAO implements ItinerarioDAOInterface
 {
     public PublishSubject<JSONObject> insertItinerario(String key, String nome, String durata, boolean disabili, int difficolta, String descrizione, Context context, String tokenUtente, String nomefile)
     {

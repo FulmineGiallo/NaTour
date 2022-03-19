@@ -4,18 +4,20 @@ import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.daointerface.StatisticheDAOInterface;
 
 import org.json.JSONObject;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class StatisticheDAO
+public class StatisticheDAO implements StatisticheDAOInterface
 {
     public void updateRicerche(Context context){
         RequestAPI requestAPI = new RequestAPI("statistiche/updateRicerche.php", context, null);
         requestAPI.sendRequest();
     }
-    public void updateLogin(Context context){
+    public void updateLogin(Context context)
+        {
         RequestAPI requestAPI = new RequestAPI("statistiche/updateLogin.php", context, null);
         requestAPI.sendRequest();
     }

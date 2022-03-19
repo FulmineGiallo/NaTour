@@ -3,6 +3,7 @@ package com.example.natour.model.dao;
 import android.content.Context;
 
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.daointerface.CompilationDAOInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class CompilationDAO
+public class CompilationDAO implements CompilationDAOInterface
 {
     public PublishSubject<JSONObject> insertCompilation(String titolo, String descrizione, String fk_utente, Context context)
     {

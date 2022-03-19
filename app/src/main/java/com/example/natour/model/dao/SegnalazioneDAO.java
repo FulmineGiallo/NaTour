@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.daointerface.SegnalazioneDAOInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class SegnalazioneDAO
+public class SegnalazioneDAO implements SegnalazioneDAOInterface
 {
     public PublishSubject<JSONObject> insertSegnalazione(String titolo, String testo, String fk_utente, String fk_itinerario, Context context)
     {

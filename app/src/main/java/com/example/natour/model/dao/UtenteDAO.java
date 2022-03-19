@@ -6,6 +6,7 @@ import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.result.AuthSignInResult;
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.daointerface.UtenteDAOInterface;
 
 import org.json.JSONObject;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class UtenteDAO
+public class UtenteDAO implements UtenteDAOInterface
 {
     public void insertUtenteSocial(String token, String nome, String cognome, Context activityPrec)
     {

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.daointerface.RecensioneDAOInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class RecensioneDAO
+public class RecensioneDAO implements RecensioneDAOInterface
 {
 
     public PublishSubject<JSONObject> insertRecensione(float valutazione, String testoRecensione, String fk_utente, String fk_itinerario, Context context)

@@ -152,7 +152,7 @@ public class ControllerCerca implements ControllerInterface
 
         Log.i("SIZE COPIA", String.valueOf(copiaLista.size()));
         adapter.notifyItemRangeChanged(0, copiaLista.size() - 1);
-
+        
     }
 
 }

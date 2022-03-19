@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.connection.RequestAPI;
+import com.example.natour.model.dao.daointerface.ImmagineDAOInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-public class ImmagineDAO
+public class ImmagineDAO implements ImmagineDAOInterface
 {
 
     public void insertImmagine(Immagine imgList, String idItinerario, Double lat, Double longitudine, Context context)

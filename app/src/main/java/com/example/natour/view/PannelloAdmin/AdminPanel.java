@@ -30,7 +30,6 @@ public class AdminPanel extends AppCompatActivity {
     private CardView cardMenuPicture;
     private ImageButton options;
     private FrameLayout fragment;
-    private ImageButton buttonRefresh;
     private TextView textStatistiche;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -84,7 +83,7 @@ public class AdminPanel extends AppCompatActivity {
 
     public void backToHomepage(View view) {
         Toast.makeText(this,"Homepage", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, TabActivity.class));
+        onBackPressed();
     }
 
     public void logOutAdmin(View view) {
@@ -103,5 +102,11 @@ public class AdminPanel extends AppCompatActivity {
 
             }
         }).show(getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

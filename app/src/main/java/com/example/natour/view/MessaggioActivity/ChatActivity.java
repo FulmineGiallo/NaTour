@@ -120,13 +120,13 @@ public class ChatActivity extends AppCompatActivity
     }
 
     private void setListener(){
-        //binding.btnIndietroMessaggio.setOnClickListener(view -> onBackPressed());
-        binding.btnIndietroMessaggio.setOnClickListener(new View.OnClickListener(){
+        binding.btnIndietroMessaggio.setOnClickListener(view -> onBackPressed());
+        /*binding.btnIndietroMessaggio.setOnClickListener(new View.OnClickListener(){
             @Override
         public void onClick(View v) {
             Intent i = new Intent(ChatActivity.this, TabActivity.class);
             startActivity(i);
-        }});
+        }});*/
         binding.imgSendmessage.setOnClickListener(view -> sendMessage());
     }
 
@@ -183,4 +183,9 @@ public class ChatActivity extends AppCompatActivity
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

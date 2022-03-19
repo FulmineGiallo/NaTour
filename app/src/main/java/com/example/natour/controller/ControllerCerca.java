@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.model.dao.StatisticheDAO;
 import com.example.natour.view.Tab.CercaFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.MasonryAdapter;
@@ -65,7 +66,7 @@ public class ControllerCerca implements ControllerInterface
         }
         Log.i("SIZE COPIA", String.valueOf(copiaLista.size()));
         adapter.notifyItemRangeChanged(0, copiaLista.size() - 1);
-
+        new StatisticheDAO().updateRicerche(fragment.requireContext());
     }
 
     public void setListaItinerari(ArrayList<Itinerario> itinerariFiltrati)
@@ -85,6 +86,7 @@ public class ControllerCerca implements ControllerInterface
 
     public void filtraItinerarioWithFilter(String address, int difficolta, String durata, boolean disabili)
     {
+        new StatisticheDAO().updateRicerche(fragment.requireContext());
         copiaLista.clear();
         GeoPoint p1;
         List<Address> addressList = new ArrayList<>();

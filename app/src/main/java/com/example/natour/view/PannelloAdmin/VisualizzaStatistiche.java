@@ -87,4 +87,19 @@ public class VisualizzaStatistiche extends Fragment
     {
         binding.txtValFotoTotale.setText(num);
     }
+
+    public void updateLogin(String num)
+    {
+        binding.txtValAccessiTotale.setText(num);
+    }
+
+    public void updateUtenti(String num)
+    {
+        binding.txtValRegistratiTotale.setText(num);
+    }
+
+    public void updateRicerche(String num)
+    {
+        binding.txtValRicercheTotale.setText(num);
+    }
 }

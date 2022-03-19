@@ -10,6 +10,7 @@ import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.result.AuthSignInResult;
 import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.Utente;
+import com.example.natour.model.dao.StatisticheDAO;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.PannelloAdmin.AdminPanel;
 import com.example.natour.view.dialog.ErrorDialog;
@@ -82,6 +83,7 @@ public class ControllerLogin
                                                setDataDiNascitaDisposable = subject.subscribe(
                                                        data ->
                                                        {
+                                                           new StatisticheDAO().updateLogin(contexController);
                                                            utenteLoggato.setDataDiNascita(data.getString("data_di_nascita"));
                                                            intentHomePage.putExtra("utente",utenteLoggato);
                                                            contexController.startActivity(intentHomePage);
@@ -131,6 +133,7 @@ public class ControllerLogin
                                             error -> Log.e("AuthDemo", "Failed to fetch attributes.", error),
                                             () ->
                                             {
+                                                new StatisticheDAO().updateLogin(contexController);
                                                 intentHomePage.putExtra("utente", utenteLoggato);
                                                 utenteDati.insertUtenteSocial(utenteLoggato.getToken(), utenteLoggato.getNome(), utenteLoggato.getCognome(), contexController);
                                                 contexController.startActivity(intentHomePage);
@@ -169,6 +172,7 @@ public class ControllerLogin
                                             error -> Log.e("AuthDemo", "Failed to fetch attributes.", error),
                                             () ->
                                             {
+                                                new StatisticheDAO().updateLogin(contexController);
                                                 intentHomePage.putExtra("utente",utenteLoggato);
                                                 utenteDati.insertUtenteSocial(utenteLoggato.getToken(), utenteLoggato.getNome(), utenteLoggato.getCognome(), contexController);
                                                 contexController.startActivity(intentHomePage);

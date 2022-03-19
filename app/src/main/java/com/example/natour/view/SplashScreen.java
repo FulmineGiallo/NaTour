@@ -19,6 +19,8 @@ import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
+import com.example.natour.model.dao.StatisticheDAO;
+import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.Tab.TabActivity;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -112,17 +114,9 @@ public class SplashScreen extends AppCompatActivity
                                                     , 2000);
                                         },
                                         () -> {
-                                            Intent intentHomepage = new Intent(getBaseContext(), TabActivity.class);
-
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("nome", utenteLoggato.getNome());
-                                            bundle.putString("cognome", utenteLoggato.getCognome());
-                                            bundle.putString("datadinascita", utenteLoggato.getDataDiNascita());
-                                            bundle.putString("token", utenteLoggato.getToken());
-                                            bundle.putString("email", utenteLoggato.getEmail());
-                                            intentHomepage.putExtras(bundle);
 
                                             progress_bar.setProgressCompat(90, true);
+                                            new StatisticheDAO().updateLogin(this);
                                             new Handler(Looper.getMainLooper()).postDelayed(() ->{
                                                 Intent intent = new Intent(this, TabActivity.class);
                                                 intent.putExtra("utente",utenteLoggato);
@@ -130,7 +124,7 @@ public class SplashScreen extends AppCompatActivity
                                                 startActivity(intent);
                                                 finish();
                                             }
-                                            , 2000);
+                                            , 1000);
                                         }
                                 );
                     }

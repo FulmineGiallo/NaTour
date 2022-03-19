@@ -8,14 +8,13 @@ import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
 import com.example.natour.model.dao.RecensioneDAO;
 import com.example.natour.model.dao.SegnalazioneDAO;
+import com.example.natour.model.dao.StatisticheDAO;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.PannelloAdmin.VisualizzaStatistiche;
 
 import org.json.JSONObject;
 
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ControllerStatistiche
@@ -34,6 +33,15 @@ public class ControllerStatistiche
     private RecensioneDAO recensioneDAO;
     private PublishSubject<JSONObject> recensioni;
     private Disposable disposableRecensioni;
+    private StatisticheDAO statisticheDAO;
+    private Disposable disposableLogin;
+    private Disposable disposableRicerche;
+    private PublishSubject<JSONObject> login;
+    private PublishSubject<JSONObject> ricerche;
+    private UtenteDAO utenteDAO;
+    private PublishSubject<JSONObject> utenti;
+    private Disposable disposableUtenti;
+
     private final RequestQueue queue;
 
     private final Runnable pollingProcess = new Runnable()
@@ -46,7 +54,7 @@ public class ControllerStatistiche
                 aggiornaStatisticheItinerario();
             } finally
             {
-                waitPolling.postDelayed(pollingProcess, 5 * 1000);
+                waitPolling.postDelayed(pollingProcess, 3 * 1000);
             }
         }
     };
@@ -59,10 +67,42 @@ public class ControllerStatistiche
         recensioneDAO = new RecensioneDAO();
         segnalazioneDAO = new SegnalazioneDAO();
         immagineDAO = new ImmagineDAO();
+        utenteDAO = new UtenteDAO();
+        statisticheDAO = new StatisticheDAO();
+        utenti = utenteDAO.getCountUtenti(context.requireContext());
+        login = statisticheDAO.getCountLogin(context.requireContext());
+        ricerche = statisticheDAO.getCountRicerche(context.requireContext());
         itinerari = itinerarioDAO.getCountItinerari(context.requireContext());
         recensioni = recensioneDAO.getCountRecensioni(context.requireContext());
         segnalazioni = segnalazioneDAO.getCountSegnalazioni(context.requireContext());
         immagini = immagineDAO.getCountImmagini(context.requireContext());
+        disposableLogin = login.subscribe(
+                success -> {
+                    String num = success.getString("numero");
+                    context.requireActivity().runOnUiThread(()-> context.updateLogin(num));
+                },
+                error -> {
+
+                }
+        );
+        disposableUtenti = utenti.subscribe(
+                success -> {
+                    String num = success.getString("numero");
+                    context.requireActivity().runOnUiThread(()-> context.updateUtenti(num));
+                },
+                error -> {
+
+                }
+        );
+        disposableRicerche = ricerche.subscribe(
+                success -> {
+                    String num = success.getString("numero");
+                    context.requireActivity().runOnUiThread(()-> context.updateRicerche(num));
+                },
+                error -> {
+
+                }
+        );
         disposableItinerari = itinerari.subscribe(
                 success ->
                 {

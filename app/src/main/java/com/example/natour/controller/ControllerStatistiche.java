@@ -21,26 +21,26 @@ public class ControllerStatistiche
 {
     private final VisualizzaStatistiche context;
     private final Handler waitPolling;
-    private ItinerarioDAO itinerarioDAO;
-    private PublishSubject<JSONObject> itinerari;
-    private Disposable disposableItinerari;
-    private ImmagineDAO immagineDAO;
-    private PublishSubject<JSONObject> immagini;
-    private Disposable disposableImmagini;
-    private SegnalazioneDAO segnalazioneDAO;
-    private PublishSubject<JSONObject> segnalazioni;
-    private Disposable disposableSegnalazioni;
-    private RecensioneDAO recensioneDAO;
-    private PublishSubject<JSONObject> recensioni;
-    private Disposable disposableRecensioni;
-    private StatisticheDAO statisticheDAO;
-    private Disposable disposableLogin;
-    private Disposable disposableRicerche;
-    private PublishSubject<JSONObject> login;
-    private PublishSubject<JSONObject> ricerche;
-    private UtenteDAO utenteDAO;
-    private PublishSubject<JSONObject> utenti;
-    private Disposable disposableUtenti;
+    private final ItinerarioDAO itinerarioDAO;
+    private final PublishSubject<JSONObject> itinerari;
+    private final Disposable disposableItinerari;
+    private final ImmagineDAO immagineDAO;
+    private final PublishSubject<JSONObject> immagini;
+    private final Disposable disposableImmagini;
+    private final SegnalazioneDAO segnalazioneDAO;
+    private final PublishSubject<JSONObject> segnalazioni;
+    private final Disposable disposableSegnalazioni;
+    private final RecensioneDAO recensioneDAO;
+    private final PublishSubject<JSONObject> recensioni;
+    private final Disposable disposableRecensioni;
+    private final StatisticheDAO statisticheDAO;
+    private final Disposable disposableLogin;
+    private final Disposable disposableRicerche;
+    private final PublishSubject<JSONObject> login;
+    private final PublishSubject<JSONObject> ricerche;
+    private final UtenteDAO utenteDAO;
+    private final PublishSubject<JSONObject> utenti;
+    private final Disposable disposableUtenti;
 
     private final RequestQueue queue;
 
@@ -178,9 +178,16 @@ public class ControllerStatistiche
         disposableImmagini.dispose();
         disposableRecensioni.dispose();
         disposableSegnalazioni.dispose();
+        disposableLogin.dispose();
+        disposableRicerche.dispose();
+        disposableUtenti.dispose();
+        login.onComplete();
+        ricerche.onComplete();
+        utenti.onComplete();
         itinerari.onComplete();
         immagini.onComplete();
         recensioni.onComplete();
         segnalazioni.onComplete();
+
     }
 }

@@ -85,6 +85,7 @@ public class ControllerLogin
                                                            utenteLoggato.setDataDiNascita(data.getString("data_di_nascita"));
                                                            intentHomePage.putExtra("utente",utenteLoggato);
                                                            contexController.startActivity(intentHomePage);
+                                                           contexController.finish();
                                                            terminaLogin();
                                                        },
                                                        dataError ->
@@ -135,6 +136,7 @@ public class ControllerLogin
                                                 intentHomePage.putExtra("utente", utenteLoggato);
                                                 utenteDati.insertUtenteSocial(utenteLoggato.getToken(), utenteLoggato.getNome(), utenteLoggato.getCognome(), contexController);
                                                 contexController.startActivity(intentHomePage);
+                                                contexController.finish();
                                                 terminaLogin();
                                             }
                                     );
@@ -174,6 +176,7 @@ public class ControllerLogin
                                                 intentHomePage.putExtra("utente",utenteLoggato);
                                                 utenteDati.insertUtenteSocial(utenteLoggato.getToken(), utenteLoggato.getNome(), utenteLoggato.getCognome(), contexController);
                                                 contexController.startActivity(intentHomePage);
+                                                contexController.finish();
                                                 terminaLogin();
                                             }
                                     );

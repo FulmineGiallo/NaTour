@@ -5,7 +5,8 @@
         android:title="" />
     <item android:id="@+id/option_1"
         android:icon="@drawable/ic_modificaprofilo"
-        android:title="@string/modifica_profilo" />
+        android:title="@string/modifica_profilo"
+        android:visible="false"/>
     <item android:id="@+id/option_2"
         android:icon="@drawable/ic_iconcompilation"
         android:title="@string/le_mie_compilation" />

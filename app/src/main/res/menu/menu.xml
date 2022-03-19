@@ -3,23 +3,24 @@
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_profile__1_"
-        android:title="Profilo" />
+        android:title="@string/profilo" />
     <item
         android:id="@+id/cerca"
-        android:title="Cerca"
+        android:title="@string/cerca"
         android:icon="@drawable/ic_icon_search" />
     <item
         android:id="@+id/home"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/ic_icon_home"
 
         />
     <item
         android:id="@+id/messaggio"
-        android:title="Messaggio"
+        android:title="@string/messaggio"
         android:icon="@drawable/ic_chat" />
     <item
         android:id="@+id/notifica"
-        android:title="Notifiche"
-        android:icon="@drawable/ic_icon_bell_on" />
+        android:title="@string/notifiche"
+        android:icon="@drawable/ic_icon_bell_on"
+        android:visible="false"/>
 </menu>

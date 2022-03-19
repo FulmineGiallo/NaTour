@@ -64,7 +64,7 @@ public class Login extends AppCompatActivity
 
         btn_login.setOnClickListener(view ->
         {
-            email = edtEmail.getText().toString();
+            email = edtEmail.getText().toString().trim();
             password = edtPassword.getText().toString();
 
             controllerLogin.checkLoginCognito(email, password);

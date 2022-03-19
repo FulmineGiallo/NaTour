@@ -5,16 +5,16 @@
         android:title="" />
     <item android:id="@+id/option_1"
         android:icon="@drawable/ic_modificaprofilo"
-        android:title="Modifica Profilo" />
+        android:visible="false"
+        android:title="@string/modifica_profilo" />
     <item android:id="@+id/option_2"
         android:icon="@drawable/ic_iconcompilation"
-        android:title="I miei itinerari" />
+        android:title="@string/i_miei_itinerari" />
     <item android:id="@+id/option_admin_compilation"
         android:icon="@drawable/ic_admin"
         android:visible="false"
-        android:iconTint="@color/esperto"
         android:title="@string/pannello_admin"/>
     <item android:id="@+id/option_3"
         android:icon="@drawable/ic_logout"
-        android:title="Logout" />
+        android:title="@string/logout" />
 </menu>

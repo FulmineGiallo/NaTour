@@ -45,4 +45,10 @@
     <string name="logout">Logout</string>
     <string name="le_mie_compilation">Le mie compilation</string>
     <string name="modifica_profilo">Modifica Profilo</string>
+    <string name="profilo">Profilo</string>
+    <string name="cerca">Cerca</string>
+    <string name="home">Home</string>
+    <string name="messaggio">Messaggio</string>
+    <string name="notifiche">Notifiche</string>
+    <string name="i_miei_itinerari">I miei itinerari</string>
 </resources>

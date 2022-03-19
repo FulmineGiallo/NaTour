@@ -2,6 +2,7 @@ package com.example.natour.model.dao;
 
 import android.content.Context;
 
+import com.android.volley.RequestQueue;
 import com.example.natour.model.connection.RequestAPI;
 
 import org.json.JSONArray;
@@ -38,6 +39,12 @@ public class RecensioneDAO
     {
         RequestAPI get = new RequestAPI("recensione/countRecensioni.php", context, null);
         return get.sendRequest();
+    }
+
+    public PublishSubject<JSONObject> getCountRecensioni(Context context, PublishSubject<JSONObject> publishSubject, RequestQueue queue)
+    {
+        RequestAPI get = new RequestAPI("recensione/countRecensioni.php", context, null);
+        return get.sendRequest(publishSubject,queue);
     }
 
 }

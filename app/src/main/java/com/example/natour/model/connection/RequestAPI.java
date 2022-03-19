@@ -77,6 +77,41 @@ public class RequestAPI
 
         return risposta;
     }
+
+    public PublishSubject<JSONObject> sendRequest(PublishSubject<JSONObject> publishSubject, RequestQueue queue)
+    {
+        StringRequest request = new StringRequest(Request.Method.POST, endpoint + path, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response)
+            {
+                try
+                {
+                    respObj = new JSONObject(response);
+                    publishSubject.onNext(respObj);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Log.e("ERROR", error.toString());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                return params;
+            }
+        };
+
+        queue.add(request);
+        return risposta;
+    }
+
     public PublishSubject<JSONArray> getMultipleRows()
     {
         rispostArr = PublishSubject.create();

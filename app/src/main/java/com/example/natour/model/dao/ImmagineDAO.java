@@ -3,6 +3,7 @@ package com.example.natour.model.dao;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.RequestQueue;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.connection.RequestAPI;
@@ -54,5 +55,11 @@ public class ImmagineDAO
     {
         RequestAPI get = new RequestAPI("immagine/countImmagini.php", context, null);
         return get.sendRequest();
+    }
+
+    public PublishSubject<JSONObject> getCountImmagini(Context context, PublishSubject<JSONObject> publishSubject, RequestQueue queue)
+    {
+        RequestAPI get = new RequestAPI("immagine/countImmagini.php", context, null);
+        return get.sendRequest(publishSubject, queue);
     }
 }

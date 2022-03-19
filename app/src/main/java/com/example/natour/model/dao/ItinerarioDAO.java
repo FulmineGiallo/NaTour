@@ -2,6 +2,7 @@ package com.example.natour.model.dao;
 
 import android.content.Context;
 
+import com.android.volley.RequestQueue;
 import com.example.natour.model.connection.RequestAPI;
 
 import org.json.JSONArray;
@@ -53,5 +54,11 @@ public class ItinerarioDAO
     {
         RequestAPI insert = new RequestAPI("itinerario/countItinerari.php", context, null);
         return insert.sendRequest();
+    }
+
+    public PublishSubject<JSONObject> getCountItinerari(Context context, PublishSubject<JSONObject> publishSubject, RequestQueue queue)
+    {
+        RequestAPI insert = new RequestAPI("itinerario/countItinerari.php", context, null);
+        return insert.sendRequest(publishSubject, queue);
     }
 }

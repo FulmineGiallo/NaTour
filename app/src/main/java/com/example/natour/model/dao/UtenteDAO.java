@@ -95,6 +95,13 @@ public class UtenteDAO
         return request.sendRequest();
     }
 
+    public PublishSubject<JSONObject> getCountUtenti(Context context)
+    {
+        String path = "utente/countUtenti.php";
+        RequestAPI requestAPI = new RequestAPI(path, context, null);
+        return  requestAPI.sendRequest();
+    }
+
 }
 
 

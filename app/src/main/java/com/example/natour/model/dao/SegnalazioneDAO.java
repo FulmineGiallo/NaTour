@@ -2,6 +2,7 @@ package com.example.natour.model.dao;
 
 import android.content.Context;
 
+import com.android.volley.RequestQueue;
 import com.example.natour.model.connection.RequestAPI;
 
 import org.json.JSONArray;
@@ -41,5 +42,11 @@ public class SegnalazioneDAO
     {
         RequestAPI get = new RequestAPI("segnalazione/countSegnalazioni.php", context, null);
         return get.sendRequest();
+    }
+
+    public PublishSubject<JSONObject> getCountSegnalazioni(Context context, PublishSubject<JSONObject> publishSubject, RequestQueue queue)
+    {
+        RequestAPI get = new RequestAPI("segnalazione/countSegnalazioni.php", context, null);
+        return get.sendRequest(publishSubject, queue);
     }
 }

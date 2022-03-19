@@ -31,7 +31,6 @@ public class VisualizzaStatistiche extends Fragment
     {
         binding = FragmentVisualizzaStatisticheBinding.inflate(getLayoutInflater());
         controllerStatistiche = new ControllerStatistiche(this);
-        controllerStatistiche.aggiornaStatisticheItinerario();
         binding.txtValItinerariTotale.setText("");
 
         /*final PeriodicWorkRequest periodicWorkRequest1 = new PeriodicWorkRequest.Builder(BackgroundStatistiche.class,1000, TimeUnit.MILLISECONDS)

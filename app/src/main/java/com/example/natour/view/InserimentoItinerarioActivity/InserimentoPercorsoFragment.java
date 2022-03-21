@@ -29,7 +29,6 @@ import androidx.transition.TransitionInflater;
 
 import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
-import com.example.natour.controller.ControllerMappaEditabile;
 import com.example.natour.model.Immagine;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -55,7 +54,6 @@ import java.util.Locale;
 
 public class InserimentoPercorsoFragment extends Fragment implements MapEventsReceiver, LocationListener
 {
-    private ControllerMappaEditabile controllerMappaEditabile;
     private MapView mapView;
     private OverlayViewModel model;
     private ImageButton indietro;
@@ -117,8 +115,6 @@ public class InserimentoPercorsoFragment extends Fragment implements MapEventsRe
     {
 
         super.onViewCreated(view, savedInstanceState);
-        controllerMappaEditabile = new ControllerMappaEditabile();
-
 
 
 

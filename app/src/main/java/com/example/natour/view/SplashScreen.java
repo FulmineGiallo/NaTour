@@ -20,10 +20,10 @@ import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.example.natour.R;
 import com.example.natour.model.Utente;
 import com.example.natour.model.dao.StatisticheDAO;
-import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.Tab.TabActivity;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -34,7 +34,7 @@ public class SplashScreen extends AppCompatActivity
     Utente utenteLoggato;
     LinearProgressIndicator progress_bar;
     ImageView backGround;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -45,6 +45,7 @@ public class SplashScreen extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //gradient animation
         backGround = findViewById(R.id.splash_screen);

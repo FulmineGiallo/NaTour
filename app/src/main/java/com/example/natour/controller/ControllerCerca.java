@@ -102,6 +102,7 @@ public class ControllerCerca implements ControllerInterface
         copiaLista.clear();
         GeoPoint p1;
         List<Address> addressList = new ArrayList<>();
+        boolean exists = false;
         for (Itinerario i : itinerari)
         {
             if(i.isAccessibilitaDisabili() == disabili && i.getDifficoltà() == difficolta)
@@ -149,18 +150,12 @@ public class ControllerCerca implements ControllerInterface
                         }
                     }
                 }
+                exists = true;
             }
-            else
-            {
-                //Non ci sono itinerari per quel filtro
-                new ErrorDialog("Non ci sono itinerario che rispecchiano questo filtro!").show(fragmentManager, null);
-            }
-
-
-
-
 
         }
+        if(!exists)
+            new ErrorDialog("Non ci sono itinerario che rispecchiano questo filtro!").show(fragmentManager, null);
 
         Log.i("SIZE COPIA", String.valueOf(copiaLista.size()));
         adapter.notifyItemRangeChanged(0, copiaLista.size() - 1);

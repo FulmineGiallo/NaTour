@@ -31,6 +31,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,7 @@ public class CercaFragment extends Fragment {
     private LottieAnimationView animationView;
     private boolean stateDisabili = false;
     private MaterialButton filtraItinerario;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public CercaFragment()
     {
@@ -70,6 +72,7 @@ public class CercaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireContext());
     }
 
     @Override
@@ -175,7 +178,7 @@ public class CercaFragment extends Fragment {
         });
         animationView = requireView().findViewById(R.id.animationView);
 
-        controllerCerca = new ControllerCerca(getParentFragmentManager(), this, itinerariFiltrati);
+        controllerCerca = new ControllerCerca(getParentFragmentManager(), this, itinerariFiltrati, mFirebaseAnalytics);
         RecyclerView recyclerView = requireView().findViewById(R.id.rec_viewSearch);
         controllerCerca.setAdapter(recyclerView);
 

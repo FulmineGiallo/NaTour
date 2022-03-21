@@ -3,6 +3,7 @@ package com.example.natour.controller;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +18,7 @@ import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity
 import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
 import com.example.natour.view.dialog.ErrorDialog;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -34,13 +36,14 @@ public class ControllerCerca implements ControllerInterface
     private List<Immagine> immagineList = new LinkedList<>();
     private String token;
     private ArrayList<Itinerario> copiaLista = new ArrayList<>();
+    private FirebaseAnalytics mFirebaseAnalytics;
 
-    public ControllerCerca(FragmentManager fragmentManager, CercaFragment fragment, ArrayList<Itinerario> itinerari)
+    public ControllerCerca(FragmentManager fragmentManager, CercaFragment fragment, ArrayList<Itinerario> itinerari, FirebaseAnalytics mFirebaseAnalytics)
     {
         this.fragmentManager = fragmentManager;
         this.fragment = fragment;
         this.itinerari = itinerari;
-
+        this.mFirebaseAnalytics = mFirebaseAnalytics;
     }
 
 
@@ -55,6 +58,15 @@ public class ControllerCerca implements ControllerInterface
         fragment.requireActivity().startActivity(intent);
         itinerario.getImmagini().add(immagineSaved);
     }
+
+    @Override
+    public void visualizzaTrigger(String name)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("path_name", name);
+        mFirebaseAnalytics.logEvent("path_look_up", bundle);
+    }
+
 
     public void filtraItinerarioWithSearch(String query)
     {
@@ -155,4 +167,8 @@ public class ControllerCerca implements ControllerInterface
         
     }
 
+    public ArrayList<Itinerario> getCopiaLista()
+    {
+        return copiaLista;
+    }
 }

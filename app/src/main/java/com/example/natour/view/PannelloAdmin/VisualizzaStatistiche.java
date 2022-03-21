@@ -56,11 +56,6 @@ public class VisualizzaStatistiche extends Fragment
         return binding.getRoot();
     }
 
-    private void aggiornaUI()
-    {
-
-    }
-
     public void updateItinerari(String num)
     {
         binding.txtValItinerariTotale.setText(num);

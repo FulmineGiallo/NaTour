@@ -1,5 +1,6 @@
 package com.example.natour.view.adapter;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.natour.R;
 import com.example.natour.controller.ControllerInterface;
 import com.example.natour.model.Itinerario;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +88,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
             {
                 Log.i("position", String.valueOf(holder.getAdapterPosition()));
                 /* Mettere nel put extra l'itinerario e fare l'intent a visualizzaItinerarioActivity */
+                controllerAdapter.visualizzaTrigger(itinerari.get(holder.getAdapterPosition()).getNome());
                 controllerAdapter.visualizzaItinerario(itinerari.get(holder.getAdapterPosition()));
             }
         });

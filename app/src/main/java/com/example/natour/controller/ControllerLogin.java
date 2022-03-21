@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.amplifyframework.auth.AuthException;
 import com.amplifyframework.auth.AuthProvider;
 import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.result.AuthSignInResult;
@@ -97,7 +98,11 @@ public class ControllerLogin
                        },
                        error ->
                        {
-                           new ErrorDialog("Utente non esistente, registrati!").show(fragmentManager, null);
+
+                           if(error.getClass() == AuthException.class)
+                               new ErrorDialog("Connessione assente!").show(fragmentManager, null);
+                           else
+                               new ErrorDialog("Utente non esistente, registrati!").show(fragmentManager, null);
                            Log.e("AuthQuickstart", error.toString());
                        }
                );

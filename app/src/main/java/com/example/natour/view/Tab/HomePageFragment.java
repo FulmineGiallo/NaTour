@@ -19,6 +19,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class HomePageFragment extends Fragment
     private String token;
     private ControllerHomePage controllerHomePage;
     private SharedViewModel model;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public HomePageFragment() {
 
@@ -41,7 +43,7 @@ public class HomePageFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireContext());
 
     }
     @Override
@@ -53,7 +55,7 @@ public class HomePageFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         if(controllerHomePage == null)
-            controllerHomePage = new ControllerHomePage(getParentFragmentManager(), this);
+            controllerHomePage = new ControllerHomePage(getParentFragmentManager(), this, mFirebaseAnalytics);
 
 
 

@@ -2,6 +2,7 @@ package com.example.natour.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
@@ -26,6 +27,7 @@ import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity
 import com.example.natour.view.adapter.CompilationAdapter;
 import com.example.natour.view.adapter.ItinerariCompilationAdapter;
 import com.example.natour.view.adapter.ProfileAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,7 +55,9 @@ public class ControllerProfile implements ControllerInterface
     private Intent intentLogin;
     private boolean isViewLoaded = false;
 
-    public ControllerProfile(ProfileFragment profileFragment, FragmentManager fragmentManager, Context contexController, String token, List<Itinerario> listIt)
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+    public ControllerProfile(ProfileFragment profileFragment, FragmentManager fragmentManager, Context contexController, String token, List<Itinerario> listIt, FirebaseAnalytics mFirebaseAnalytics)
     {
         this.profileFragment = profileFragment;
         this.fragmentManager = fragmentManager;
@@ -61,6 +65,7 @@ public class ControllerProfile implements ControllerInterface
         intentLogin = new Intent(contexController, Signout.class);
         this.token = token;
         this.listIt = listIt;
+        this.mFirebaseAnalytics = mFirebaseAnalytics;
     }
 
     public void signOut()
@@ -150,6 +155,14 @@ public class ControllerProfile implements ControllerInterface
         intent.putExtra("token", itinerario.getFk_utente());
         profileFragment.requireActivity().startActivity(intent);
         itinerario.getImmagini().add(immagineSaved);
+    }
+
+    @Override
+    public void visualizzaTrigger(String name)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("path_name", name);
+        mFirebaseAnalytics.logEvent("path_look_up", bundle);
     }
 
 

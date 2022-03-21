@@ -18,9 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.natour.R;
 import com.example.natour.view.LoginActivity.Login;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class TransazioneRegister extends AppCompatActivity
 {
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -29,6 +32,9 @@ public class TransazioneRegister extends AppCompatActivity
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transazione_register);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         ImageView logo = findViewById(R.id.img_logoReg);
         ImageView ok = findViewById(R.id.img_regconfermata);
         ImageView gufo = findViewById(R.id.img_gufo);
@@ -69,6 +75,10 @@ public class TransazioneRegister extends AppCompatActivity
         ok.startAnimation(animationSet);
         gufo.startAnimation(anim);
         conferma.startAnimation(anim);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
 
         new Handler().postDelayed(new Runnable() {
             @Override

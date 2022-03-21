@@ -1,6 +1,7 @@
 package com.example.natour.controller;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
@@ -15,6 +16,7 @@ import com.example.natour.view.Tab.HomePageFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,13 +34,14 @@ public class ControllerHomePage implements ControllerInterface
     private ArrayList<Itinerario> itinerari = new ArrayList<>();
     private List<Immagine> immagineList = new ArrayList<>();
     private String token;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
-    public ControllerHomePage(FragmentManager fragmentManager, HomePageFragment fragment)
+    public ControllerHomePage(FragmentManager fragmentManager, HomePageFragment fragment, FirebaseAnalytics mFirebaseAnalytics)
     {
         this.fragmentManager = fragmentManager;
         this.fragment = fragment;
         setItinerariHomePage();
-
+        this.mFirebaseAnalytics = mFirebaseAnalytics;
     }
 
     public void setItinerariHomePage()
@@ -120,6 +123,14 @@ public class ControllerHomePage implements ControllerInterface
         intent.putExtra("token", token);
         fragment.requireActivity().startActivity(intent);
         itinerario.getImmagini().add(immagineSaved);
+    }
+
+    @Override
+    public void visualizzaTrigger(String name)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("path_name", name);
+        mFirebaseAnalytics.logEvent("path_look_up", bundle);
     }
 
     public void addItinerario(Itinerario itinerario)

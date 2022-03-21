@@ -31,6 +31,7 @@ import com.example.natour.view.dialog.ConfermaDialog;
 import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +49,13 @@ public class ProfileFragment extends Fragment
     private List<Itinerario> itinerari = new ArrayList<>();
     private String tokenUtente;
     private RecyclerView recView;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireContext());
     }
 
     @Override
@@ -74,7 +77,7 @@ public class ProfileFragment extends Fragment
         animationView = view.findViewById(R.id.animationViewProfile);
         noItinerario = view.findViewById(R.id.txt_noItinerario);
 
-        controllerProfile = new ControllerProfile(this, getParentFragmentManager(), getActivity(), tokenUtente, itinerari);
+        controllerProfile = new ControllerProfile(this, getParentFragmentManager(), getActivity(), tokenUtente, itinerari, mFirebaseAnalytics);
         setInterface();
 
         model.getUtente().observe(getViewLifecycleOwner(),

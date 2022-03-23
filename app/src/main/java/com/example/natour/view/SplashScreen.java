@@ -70,8 +70,8 @@ public class SplashScreen extends AppCompatActivity
         {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
-        //TODO: aggiungere errore in caso di mancanza di connessione internet
-        RxAmplify.Auth.fetchAuthSession().subscribe(
+        RxAmplify.Auth.fetchAuthSession().subscribe
+                (
                 result -> {
                     progress_bar.setProgressCompat(25, true);
                     if(result.isSignedIn())

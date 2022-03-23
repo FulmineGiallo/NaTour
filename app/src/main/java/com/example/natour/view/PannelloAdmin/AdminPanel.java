@@ -22,8 +22,8 @@ import com.example.natour.view.dialog.ConfermaDialogInterfaccia;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 
-public class AdminPanel extends AppCompatActivity {
-
+public class AdminPanel extends AppCompatActivity
+{
     private NavigationView menuView;
     private MaterialCardView cardMenu;
     private CardView cardMenuPicture;

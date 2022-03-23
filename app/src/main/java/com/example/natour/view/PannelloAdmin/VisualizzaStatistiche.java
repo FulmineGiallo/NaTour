@@ -16,10 +16,6 @@ public class VisualizzaStatistiche extends Fragment
     private FragmentVisualizzaStatisticheBinding binding;
     private ControllerStatistiche controllerStatistiche;
 
-
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

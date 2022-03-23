@@ -213,6 +213,7 @@ public class CercaFragment extends Fragment {
             }
         });
 
+
     }
 
     @NonNull

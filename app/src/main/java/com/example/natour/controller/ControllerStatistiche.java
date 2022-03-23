@@ -11,7 +11,6 @@ import com.example.natour.model.dao.SegnalazioneDAO;
 import com.example.natour.model.dao.StatisticheDAO;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.view.PannelloAdmin.VisualizzaStatistiche;
-import com.google.firebase.perf.metrics.AddTrace;
 
 import org.json.JSONObject;
 
@@ -60,7 +59,6 @@ public class ControllerStatistiche
         }
     };
 
-    @AddTrace(name = "ControllerStatistiche Constructor")
     public ControllerStatistiche(VisualizzaStatistiche context)
     {
         this.context = context;
@@ -151,7 +149,6 @@ public class ControllerStatistiche
         pollingProcess.run();
     }
 
-    @AddTrace(name = "aggiorna statistiche")
     public void aggiornaStatisticheItinerario()
     {
         /*if(disposableItinerari != null){

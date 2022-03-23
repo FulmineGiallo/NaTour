@@ -20,6 +20,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class RequestAPI
 {
+
     private String endpoint = "http://ec2-54-170-64-235.eu-west-1.compute.amazonaws.com/natour21/api/";
     private String path;
     private Context context;

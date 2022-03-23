@@ -98,6 +98,12 @@ public class ControllerCerca implements ControllerInterface
 
     public void filtraItinerarioWithFilter(String address, int difficolta, String durata, boolean disabili)
     {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "cercafiltro");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "cerca");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "filtro");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
         new StatisticheDAO().updateRicerche(fragment.requireContext());
         copiaLista.clear();
         GeoPoint p1;

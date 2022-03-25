@@ -9,6 +9,8 @@ public class Utente implements Serializable
     private String cognome;
     private String dataDiNascita;
     private String token;
+    private boolean isAdmin = false;
+
 
     public boolean isAdmin()
     {
@@ -19,8 +21,6 @@ public class Utente implements Serializable
     {
         isAdmin = admin;
     }
-
-    private boolean isAdmin;
 
     public String getNome() {
         return nome;

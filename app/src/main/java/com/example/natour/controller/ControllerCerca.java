@@ -1,5 +1,6 @@
 package com.example.natour.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -20,8 +21,6 @@ import com.example.natour.view.adapter.MasonryAdapter;
 import com.example.natour.view.adapter.SpacesItemDecoration;
 import com.example.natour.view.dialog.ErrorDialog;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import org.osmdroid.util.GeoPoint;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -103,43 +102,62 @@ public class ControllerCerca implements ControllerInterface
 
     public void filtraItinerarioWithFilter(String address, int difficolta, String durata, boolean disabili)
     {
+        Boolean exists = Boolean.FALSE;
         AnalyticsUseCase.event("filtro", "filter", "cerca_con_filtro", fragment.getContext());
 
         new StatisticheDAO().updateRicerche(fragment.requireContext());
+        try{
+            exists = filterResult(address, difficolta, durata, disabili, fragment.requireContext());
+        }catch (NullPointerException e){
+            exists = Boolean.FALSE;
+        }
+        if(!exists)
+            new ErrorDialog("Non ci sono itinerario che rispecchiano questo filtro!").show(fragmentManager, null);
+
+        Log.i("SIZE COPIA", String.valueOf(copiaLista.size()));
+        adapter.notifyItemRangeChanged(0, copiaLista.size() - 1);
+
+    }
+
+    public Boolean filterResult(String address, int difficolta, String durata, boolean disabili, Context context) throws NullPointerException
+    {
+        boolean exists = Boolean.FALSE;
         copiaLista.clear();
-        GeoPoint p1;
         List<Address> addressList = new ArrayList<>();
-        boolean exists = false;
         for (Itinerario i : itinerari)
         {
             if(i.isAccessibilitaDisabili() == disabili && i.getDifficoltà() == difficolta)
             {
                 if(!address.isEmpty())
                 {
-                    Geocoder coder = new Geocoder(fragment.getActivity());
+                    Geocoder coder = new Geocoder(context);
+                    Address location = null;
+                    Address currLocation = null;
                     try
                     {
                         addressList = coder.getFromLocationName(address, 5);
-                        Address location = addressList.get(0);
-                        location.getLatitude();
-                        location.getLongitude();
-                        p1 = new GeoPoint(location.getLatitude(), location.getLongitude());
+                        location = addressList.get(0);
+                        addressList = coder.getFromLocation(i.getWaypoints().get(0).getLatitude()
+                                , i.getWaypoints().get(0).getLongitude(), 1);
+                        currLocation = addressList.get(0);
                     }
-                    catch (IOException e)
+                    catch (IOException | IndexOutOfBoundsException e)
                     {
                         e.printStackTrace();
                     }
 
-                    if(addressList.contains(address))
+                    if(currLocation != null && currLocation.getCountryName().equals(location.getCountryName()))
                         if(!copiaLista.contains(i))
                         {
                             if(durata.isEmpty())
                             {
                                 copiaLista.add(i);
+                                exists = true;
                             }
                             else if(i.getDurata().contains(durata))
                             {
                                 copiaLista.add(i);
+                                exists = true;
                             }
                         }
                 }
@@ -150,23 +168,20 @@ public class ControllerCerca implements ControllerInterface
                         if(durata.isEmpty())
                         {
                             copiaLista.add(i);
+                            exists = true;
                         }
                         else if(i.getDurata().contains(durata))
                         {
                             copiaLista.add(i);
+                            exists = true;
                         }
                     }
                 }
-                exists = true;
+
             }
 
         }
-        if(!exists)
-            new ErrorDialog("Non ci sono itinerario che rispecchiano questo filtro!").show(fragmentManager, null);
-
-        Log.i("SIZE COPIA", String.valueOf(copiaLista.size()));
-        adapter.notifyItemRangeChanged(0, copiaLista.size() - 1);
-        
+        return exists;
     }
 
     public ArrayList<Itinerario> getCopiaLista()

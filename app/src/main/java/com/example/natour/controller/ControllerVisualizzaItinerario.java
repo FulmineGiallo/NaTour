@@ -20,6 +20,7 @@ import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
 import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
+import com.example.natour.exception.IllegalSegnalazioneException;
 import com.example.natour.R;
 import com.example.natour.model.Compilation;
 import com.example.natour.model.Immagine;
@@ -65,12 +66,13 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 public class ControllerVisualizzaItinerario
 {
     private NotDeletableImageAdapter imageAdapter;
-    private VisualizzaItinerarioActivity activity;
-    private Itinerario itinerario;
-    private String tokenUtenteLoggato;
-    private ArrayList<Recensione> recensioni = new ArrayList<>();
+    private final VisualizzaItinerarioActivity activity;
+    private final Itinerario itinerario;
+    private final String tokenUtenteLoggato;
+    private final ArrayList<Recensione> recensioni = new ArrayList<>();
     private RecensioniAdapter recensioneAdapter;
     private List<Segnalazione> criminalRecord;
+
 
     public ControllerVisualizzaItinerario(VisualizzaItinerarioActivity activity, Itinerario itinerario, String token)
     {
@@ -79,7 +81,8 @@ public class ControllerVisualizzaItinerario
         LinkedList<Immagine> listImmagine = new LinkedList<>();
         itinerario.setImmagini(listImmagine);
         this.tokenUtenteLoggato = token;
-        checkSegnalazioni();
+        if(activity != null)
+            checkSegnalazioni();
     }
 
     private void checkSegnalazioni()
@@ -257,7 +260,7 @@ public class ControllerVisualizzaItinerario
                     for(Recensione r : recensioni)
                     {
                         media = media + r.getValutazione();
-                        mediaRecensioni.setText("MEDIA TOTALE: " + String.valueOf(media / recensioni.size()));
+                        mediaRecensioni.setText("MEDIA TOTALE: " + media / recensioni.size());
                     }
 
                     recensioneAdapter.notifyItemInserted(recensioni.indexOf(recensione));
@@ -325,9 +328,9 @@ public class ControllerVisualizzaItinerario
         {
             sommaTotale = sommaTotale + r.getValutazione();
         }
-        media = (float) sommaTotale / (float) recensioni.size();
+        media = sommaTotale / (float) recensioni.size();
 
-        mediaTotale.setText("MEDIA TOTALE: " + String.valueOf(media));
+        mediaTotale.setText("MEDIA TOTALE: " + media);
 
     }
 
@@ -623,6 +626,24 @@ public class ControllerVisualizzaItinerario
                 .addOnFailureListener(exception ->{
                     Toast.makeText(activity.getApplicationContext(), "si è verificato un errore", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    public boolean validateDeleteSegnalazione(Utente utente, Itinerario itinerario, Segnalazione segnalazione){
+        if(utente.getToken() == null || itinerario.getFk_utente() == null || segnalazione.getFk_utente() == null)
+            throw new NullPointerException();
+        if(itinerario.getFk_utente().equals(segnalazione.getFk_utente()))
+           throw new IllegalSegnalazioneException("Impossibile avere Segnalazioni dall'autore");
+        else{
+            if(utente.isAdmin()) return true;
+            if(!utente.getToken().equals(segnalazione.getFk_utente())){
+                return false;
+            }
+            else{
+                if(utente.getToken().equals(segnalazione.getFk_utente()))
+                    return true;
+                return !itinerario.getFk_utente().equals(utente.getToken());
+            }
+        }
     }
 
 }

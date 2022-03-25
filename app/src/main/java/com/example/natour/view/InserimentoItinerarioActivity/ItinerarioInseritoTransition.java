@@ -31,6 +31,7 @@ public class ItinerarioInseritoTransition extends AppCompatActivity
             Intent intent = new Intent(this,TabActivity.class);
             intent.putExtra("itinerario",itinerario);
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            finish();
         },5000);
     }
 }

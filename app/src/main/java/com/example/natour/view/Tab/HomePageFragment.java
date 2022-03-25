@@ -56,7 +56,7 @@ public class HomePageFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         if(controllerHomePage == null)
-            controllerHomePage = new ControllerHomePage(getParentFragmentManager(), this, mFirebaseAnalytics);
+            controllerHomePage = new ControllerHomePage(this, mFirebaseAnalytics);
 
 
 

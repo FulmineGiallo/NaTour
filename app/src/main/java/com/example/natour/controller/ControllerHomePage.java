@@ -28,7 +28,6 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ControllerHomePage implements ControllerInterface
 {
-    private FragmentManager fragmentManager;
     private HomePageFragment fragment;
     private MasonryAdapter adapter;
     private ArrayList<Itinerario> itinerari = new ArrayList<>();
@@ -36,9 +35,8 @@ public class ControllerHomePage implements ControllerInterface
     private String token;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public ControllerHomePage(FragmentManager fragmentManager, HomePageFragment fragment, FirebaseAnalytics mFirebaseAnalytics)
+    public ControllerHomePage(HomePageFragment fragment, FirebaseAnalytics mFirebaseAnalytics)
     {
-        this.fragmentManager = fragmentManager;
         this.fragment = fragment;
         setItinerariHomePage();
         this.mFirebaseAnalytics = mFirebaseAnalytics;
@@ -104,7 +102,7 @@ public class ControllerHomePage implements ControllerInterface
 
     public void setAdapter(RecyclerView mRecyclerView)
     {
-        adapter = new MasonryAdapter(fragment, itinerari, fragmentManager, this);
+        adapter = new MasonryAdapter(fragment, itinerari, fragment.getParentFragmentManager(), this);
         mRecyclerView.setAdapter(adapter);
         SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         mRecyclerView.addItemDecoration(decoration);

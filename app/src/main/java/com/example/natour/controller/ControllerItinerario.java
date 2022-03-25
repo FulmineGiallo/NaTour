@@ -28,6 +28,7 @@ import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageUploadFileResult;
 import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
 import com.example.natour.R;
+import com.example.natour.exception.IllegalPositionException;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.ImmagineDAO;
@@ -86,7 +87,7 @@ public class ControllerItinerario
     public void inserisciItinerario(float value, String nome, String durata, boolean disabili, String descrizione, ArrayList<GeoPoint> waypoints, Context context)
     {
         Itinerario itinerarioInserito = new Itinerario();
-        String chiaveItinerario = UUID.randomUUID().toString();;
+        String chiaveItinerario = UUID.randomUUID().toString();
         /* INSERIMENTO DELL'ID ALL'INTERNO DEL DATABASE E DELLE SUE INFORMAZIONI DI BASE */
         /* Chiamato all'ItinerarioDAO */
         try
@@ -96,19 +97,21 @@ public class ControllerItinerario
             /* UPLOAD FILE SU S3 */
             uploadFileGPXOnS3(gpx, chiaveItinerario);
             ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
-            PublishSubject<JSONObject> risultato = itinerarioDAO.insertItinerario(chiaveItinerario, nome, durata, disabili,(int) value, descrizione, context, token, chiaveItinerario);
+            PublishSubject<JSONObject> risultato = itinerarioDAO.insertItinerario(chiaveItinerario, nome, durata, disabili, (int) value, descrizione, context, token, chiaveItinerario);
             risultato.subscribe(
                     data ->
                     {
-                        if(data.getBoolean("risultato"))
+                        if (data.getBoolean("risultato"))
                         {
                             /*  Se INSERT dell'itinerario è andato a buon fine, allora gli associo le immagini */
                             ImmagineDAO immagineDAO = new ImmagineDAO();
-                            for(Immagine img : mapKeyURI)
+                            for (Immagine img : mapKeyURI)
                             {
-                                if(img.getMarker()!=null){
+                                if (img.getMarker() != null)
+                                {
                                     immagineDAO.insertImmagine(img, chiaveItinerario, img.getMarker().getPosition().getLatitude(), img.getMarker().getPosition().getLongitude(), context);
-                                }else{
+                                } else
+                                {
                                     immagineDAO.insertImmagine(img, chiaveItinerario, null, null, context);
                                 }
                             }
@@ -116,8 +119,7 @@ public class ControllerItinerario
                             intent.putExtra("itinerario", itinerarioInserito);
                             inserimentoItinerarioActivity.startActivity(intent);
                             AnalyticsUseCase.event("insert_itinerario", "insert", "inserimento_itinerario_successo", inserimentoItinerarioActivity);
-                        }
-                        else
+                        } else
                         {
                             AnalyticsUseCase.event("insert_itinerario", "insert", "inserimento_itinerario_fallito", inserimentoItinerarioActivity);
                             /* INSERT FALLITO */
@@ -125,7 +127,7 @@ public class ControllerItinerario
                             //TODO: eliminare il file da S3
                             removeOnBackPressedImage();
                             removeGPXFromS3Bucket(chiaveItinerario);
-                            }
+                        }
                     },
                     error ->
                     {
@@ -133,12 +135,10 @@ public class ControllerItinerario
                     }
             );
 
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
-
 
 
     }
@@ -162,7 +162,7 @@ public class ControllerItinerario
         // open file handle
         StringBuffer buffer = new StringBuffer();
         File gpxfile = null;
-        for(GeoPoint p : waypoints)
+        for (GeoPoint p : waypoints)
         {
             buffer.append(p.getLatitude());
             buffer.append("\n");
@@ -172,20 +172,19 @@ public class ControllerItinerario
         Environment.getExternalStorageState();
         try
         {
-            File root = new File(inserimentoItinerarioActivity.getCacheDir(),"filetmp");
+            File root = new File(inserimentoItinerarioActivity.getApplicationContext().getCacheDir(), "filetmp");
             if (!root.exists())
             {
                 root.mkdirs();
             }
-            gpxfile = new File(root, "waypoints"+ chiave +".txt");
+            gpxfile = new File(root, "waypoints" + chiave + ".txt");
             FileWriter writer = new FileWriter(gpxfile);
             writer.append(buffer.toString());
             writer.flush();
             writer.close();
 
             Toast.makeText(inserimentoItinerarioActivity, inserimentoItinerarioActivity.getCacheDir().toString(), Toast.LENGTH_SHORT).show();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -235,7 +234,7 @@ public class ControllerItinerario
     }
 
 
-    public GeoPoint currentPositionPhone( LocationListener locationListener)
+    public GeoPoint currentPositionPhone(LocationListener locationListener)
     {
         LocationManager locManager = (LocationManager) inserimentoItinerarioActivity.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(inserimentoItinerarioActivity,
@@ -244,13 +243,21 @@ public class ControllerItinerario
                         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, locationListener);
-            Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             double longitude;
             double latitude;
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            try
+            {
+                Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                return new GeoPoint(latitude, longitude);
+            } catch (NullPointerException e)
+            {
+                new ErrorDialog("Si è verificato un errore, riprova più tardi");
+                goBack();
+            }
+            return null;
 
-            return new GeoPoint(latitude, longitude);
         } else
             return new GeoPoint(40.839326626673405, 14.185227261143826);
     }
@@ -275,8 +282,7 @@ public class ControllerItinerario
             p1 = new GeoPoint(location.getLatitude(), location.getLongitude());
 
             return p1;
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -302,14 +308,13 @@ public class ControllerItinerario
         if (resultCode == RESULT_OK)
         {
             /* Inserimento singolo di un immagine */
-            if(intent.getData() != null)
+            if (intent.getData() != null)
             {
                 singolaFoto = intent.getData();
                 Immagine immagine = new Immagine(singolaFoto, singolaKey);
 
 
-
-                if(!controlloUriDoppio(mapKeyURI, immagine))
+                if (!controlloUriDoppio(mapKeyURI, immagine))
                 {
                     mapKeyURI.add(immagine);
                     imageAdapter.notifyItemInserted(mapKeyURI.indexOf(immagine));
@@ -318,6 +323,7 @@ public class ControllerItinerario
             }
         }
     }
+
     public boolean controlloUriDoppio(List<Immagine> immagini, Immagine findUri)
     {
         return immagini.contains(findUri);
@@ -339,7 +345,8 @@ public class ControllerItinerario
                             {
                                 Log.i("MyAmplifyApp", "Successfully uploaded: ");
                                 RxAmplify.Storage.getUrl(immagine.getKey()).subscribe(
-                                        risultato -> {
+                                        risultato ->
+                                        {
                                             Log.i("MyAmplifyApp", "Successfully generated: " + risultato.getUrl());
                                             String URL = "https://besimsoft.com/.natour21/uq6PMpSfiZ/api/itinerary/nfws";
                                             String URLImage = risultato.getUrl().toString();
@@ -354,15 +361,15 @@ public class ControllerItinerario
                                                     {
                                                         if(imageResult.getBoolean("is_save"))
                                                         {*/
-                                                            Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
-                                                            /* recupero metadati */
-                                                            immagine.setURL(URLImage);
+                                            Log.i("CONFERMA IMG", "Rimane nel Bucket, immagine valida");
+                                            /* recupero metadati */
+                                            immagine.setURL(URLImage);
 
-                                                            inserimentoItinerarioActivity.runOnUiThread(()->
-                                                            {
-                                                                getMetadatiImage(exampleInputStream, immagine);
-                                                                inserimentoItinerarioFragment.stopMapLoading();
-                                                            });
+                                            inserimentoItinerarioActivity.runOnUiThread(() ->
+                                            {
+                                                getMetadatiImage(exampleInputStream, immagine);
+                                                inserimentoItinerarioFragment.stopMapLoading();
+                                            });
 
                                                       /*  }
                                                         else
@@ -394,8 +401,7 @@ public class ControllerItinerario
                                 inserimentoItinerarioFragment.stopMapLoading();
                             }
                     );
-        }
-        catch (FileNotFoundException error)
+        } catch (FileNotFoundException error)
         {
             Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
         }
@@ -461,7 +467,7 @@ public class ControllerItinerario
 
     public void removeOnBackPressedImage()
     {
-        for(Immagine img : mapKeyURI)
+        for (Immagine img : mapKeyURI)
         {
             removeImageFromS3Bucket(img);
         }
@@ -487,14 +493,13 @@ public class ControllerItinerario
                 immagine = inserimentoItinerarioActivity.getContentResolver().openInputStream(uriImage.getUri());
                 ExifInterface metadati = new ExifInterface(immagine);
                 float[] latLong = new float[2];
-                if(metadati.getLatLong(latLong))
+                if (metadati.getLatLong(latLong))
                 {
                     Log.i("Metadati", "POS" + latLong[0] + " " + latLong[1]);
                     inserimentoItinerarioFragment.addPhotoMarker(uriImage, latLong);
                 }
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -511,9 +516,10 @@ public class ControllerItinerario
             inserimentoItinerarioActivity.startActivityForResult(intent, 20);
 
     }
+
     public void insertGPX(int requestCode, int resultCode, Intent intent)
     {
-        if(requestCode == 20)
+        if (requestCode == 20)
             if (resultCode == RESULT_OK)
             {
                 String fileName = inserimentoItinerarioActivity.getContentResolver().getType(intent.getData());
@@ -528,8 +534,7 @@ public class ControllerItinerario
                     {
                         InputStream in = inserimentoItinerarioActivity.getContentResolver().openInputStream(intent.getData());
                         parsedGpx = parser.parse(in);
-                    }
-                    catch (IOException  | XmlPullParserException e)
+                    } catch (IOException | XmlPullParserException e)
                     {
                         new ErrorDialog("Errore nel caricamento del file .gpx").show(fragmentManager, null);
                         e.printStackTrace();
@@ -537,18 +542,19 @@ public class ControllerItinerario
                     if (parsedGpx == null)
                     {
                         new ErrorDialog("Errore nel caricamento del file .gpx").show(fragmentManager, null);
-                    }
-                    else
+                    } else
                     {
                         /*
                             Nei casi precedenti viene controllato che il file gpx sia stato correttamente  analizzato dal parser
                             Ed entra in questo else solamente se vengono passati tutti i controlli procedendo poi a recuperare eventuali routes e waypoint
                         */
-                        if(parsedGpx.getTracks() != null)
+                        if (parsedGpx.getTracks() != null)
                         {
                             waypoints.clear();
-                            for(int i = 0; i < parsedGpx.getTracks().size(); i++){
-                                for(int j = 0; j < parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().size(); j++){
+                            for (int i = 0; i < parsedGpx.getTracks().size(); i++)
+                            {
+                                for (int j = 0; j < parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().size(); j++)
+                                {
                                     waypoints.add(new GeoPoint(parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(j).getLatitude(), parsedGpx.getTracks().get(i).getTrackSegments().get(i).getTrackPoints().get(j).getLongitude()));
                                     Log.i("WAYPOINTS", waypoints.get(j).getLatitude() + "    " + waypoints.get(j).getLongitude());
                                 }
@@ -559,14 +565,40 @@ public class ControllerItinerario
                         }
 
                     }
-                }
-                else
+                } else
                 {
                     new ErrorDialog("Il file inserito non è di tipo .gpx").show(fragmentManager, null);
                 }
             }
     }
 
+    public boolean isImageValid(Immagine immagine, List<GeoPoint> geoPoints)
+    {
+        String exceptionMsg = "Latitudine o longitudine errati!";
+        for (GeoPoint geoPoint: geoPoints){
+            if(!isLatLonValid(geoPoint.getLatitude(), geoPoint.getLongitude()))
+                throw new IllegalPositionException(exceptionMsg);
+        }
+        if(!isLatLonValid(immagine.getLatitude(), immagine.getLongitude()))
+            throw new IllegalPositionException(exceptionMsg);
+        float minDistance;
+        float[] dist = new float[1];
+        Location.distanceBetween(immagine.getLatitude(),immagine.getLongitude(),
+                geoPoints.get(0).getLatitude(),geoPoints.get(0).getLongitude(), dist);
+        minDistance = dist[0];
+        for (GeoPoint geoPoint: geoPoints)
+        {
+            Location.distanceBetween(immagine.getLatitude(),immagine.getLongitude(),
+                    geoPoint.getLatitude(),geoPoint.getLongitude(), dist);
+            if(dist[0] < minDistance){
+                minDistance = dist[0];
+            }
+        }
+        return minDistance < 500;
+    }
 
+    private boolean isLatLonValid(double lat, double lng){
+        return (lat >= -90f && lat <= 90f) && (lng >= -180f && lng <= 180f);
+    }
 
 }

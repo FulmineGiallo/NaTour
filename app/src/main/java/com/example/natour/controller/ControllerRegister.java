@@ -12,6 +12,7 @@ import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.example.natour.model.dao.UtenteDAO;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.RegisterActivity.ConfermaRegistrazioneDialog;
 import com.example.natour.view.RegisterActivity.Register;
 
@@ -57,10 +58,7 @@ public class ControllerRegister
                     utenteDAO.setTokenUtente(result.getUser().getUserId(), dataDiNascita, nome, cognome, activity);
                 },
                 error -> Log.e("AuthQuickStart", "Sign up failed", error)
-                // TODO: Fare schermata sign up failed
         );
-
-
 
 
     }
@@ -90,6 +88,8 @@ public class ControllerRegister
                     });
 
                     Log.i("RESULT SIGN IN", result.toString());
+                    AnalyticsUseCase.event("register_user", "register", "register_user_application", activity);
+
                 },
                 error ->
                 {

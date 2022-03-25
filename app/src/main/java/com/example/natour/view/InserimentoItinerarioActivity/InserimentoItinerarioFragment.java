@@ -34,6 +34,7 @@ import com.example.natour.R;
 import com.example.natour.controller.ControllerItinerario;
 import com.example.natour.databinding.FragmentInserimentoItinerarioBinding;
 import com.example.natour.model.Immagine;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.dialog.ErrorDialog;
 import com.google.android.material.slider.Slider;
 
@@ -264,6 +265,9 @@ public class InserimentoItinerarioFragment extends Fragment implements LocationL
             public void onClick(View view)
             {
                 controllerItinerario.uploadFile();
+                AnalyticsUseCase.event("upload_image", "insert", "image_inserted", getContext());
+
+
             }
         });
 

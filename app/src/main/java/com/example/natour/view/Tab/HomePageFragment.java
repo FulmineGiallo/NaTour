@@ -17,6 +17,7 @@ import com.example.natour.R;
 import com.example.natour.controller.ControllerHomePage;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -82,7 +83,7 @@ public class HomePageFragment extends Fragment
         {
             intentInserimentoItinerario.putExtra("token", token);
             startActivity(intentInserimentoItinerario);
-
+            AnalyticsUseCase.event("Ha Inserito l'utente" + token, "insert", "inserimento_itinerario", this.getContext());
         });
     }
 

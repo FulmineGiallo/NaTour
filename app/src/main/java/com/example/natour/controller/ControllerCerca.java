@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.StatisticheDAO;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.Tab.CercaFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.MasonryAdapter;
@@ -51,6 +52,8 @@ public class ControllerCerca implements ControllerInterface
     public void visualizzaItinerario(Itinerario itinerario)
     {
         Intent intent = new Intent(fragment.requireContext(), VisualizzaItinerarioActivity.class);
+        AnalyticsUseCase.event("visualizza_itinerario_ricercato", "visualizza", "visualizza_in_cerca", fragment.getContext());
+
         Immagine immagineSaved = new Immagine(itinerario.getImmagini().get(0).getURL());
         itinerario.getImmagini().clear();
         intent.putExtra("itinerarioselezionato", itinerario);
@@ -70,6 +73,8 @@ public class ControllerCerca implements ControllerInterface
 
     public void filtraItinerarioWithSearch(String query)
     {
+        AnalyticsUseCase.event("cerca", "cerca", "cerca_con_searc", fragment.getContext());
+
         copiaLista.clear();
         for (Itinerario i : itinerari)
         {
@@ -98,11 +103,7 @@ public class ControllerCerca implements ControllerInterface
 
     public void filtraItinerarioWithFilter(String address, int difficolta, String durata, boolean disabili)
     {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "cercafiltro");
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "cerca");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "filtro");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        AnalyticsUseCase.event("filtro", "filter", "cerca_con_filtro", fragment.getContext());
 
         new StatisticheDAO().updateRicerche(fragment.requireContext());
         copiaLista.clear();

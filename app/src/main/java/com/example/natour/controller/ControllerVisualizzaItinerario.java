@@ -19,20 +19,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amplifyframework.rx.RxAmplify;
 import com.amplifyframework.rx.RxStorageBinding;
 import com.amplifyframework.storage.result.StorageDownloadFileResult;
-import com.example.natour.R;
 import com.amplifyframework.storage.result.StorageUploadInputStreamResult;
+import com.example.natour.R;
 import com.example.natour.model.Compilation;
 import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Recensione;
 import com.example.natour.model.Segnalazione;
-import com.example.natour.model.Utente;
 import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.RecensioneDAO;
 import com.example.natour.model.dao.SegnalazioneDAO;
 import com.example.natour.model.dao.UtenteDAO;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.MessaggioActivity.Costanti;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.NotDeletableImageAdapter;
@@ -84,6 +84,7 @@ public class ControllerVisualizzaItinerario
 
     private void checkSegnalazioni()
     {
+
         new SegnalazioneDAO().getNumSegnalazioni(activity,itinerario.getIdItinerario()).subscribe(
                 result ->{
                     int num = result.getInt("numero");
@@ -217,6 +218,7 @@ public class ControllerVisualizzaItinerario
 
     public void showSegnalazioni()
     {
+        AnalyticsUseCase.event("check_segnalazioni_itinerario" + itinerario.getNome(), "check", "segnalazioni_itinerario", activity);
 
         criminalRecord = new LinkedList<>();
         activity.showBottomSheetSegnalazione(criminalRecord);
@@ -259,6 +261,8 @@ public class ControllerVisualizzaItinerario
                     }
 
                     recensioneAdapter.notifyItemInserted(recensioni.indexOf(recensione));
+                    AnalyticsUseCase.event("insert_recensione" + itinerario.getNome(), "insert", "recensione_itinerario_insert", activity);
+
                 },
                 error ->
                 {
@@ -335,6 +339,8 @@ public class ControllerVisualizzaItinerario
 
     public void addItinerarioToCompilation(Compilation compilation)
     {
+        AnalyticsUseCase.event("insert_itinerario_to_compilation" + itinerario.getNome() + "compilation name" + compilation.getNome(), "insert", "compilation_itinerario_add", activity);
+
         new CompilationDAO().addItinerarioToCompilation(compilation.getIdCompilation(), itinerario.getIdItinerario(), activity);
         new ErrorDialog("itinerario inserito con successo", R.drawable.ic_check_circle).show(activity.getSupportFragmentManager(), null);
         Log.i("ControllerVisItin","inserire itinerario nella compilation anche nel database");
@@ -411,6 +417,8 @@ public class ControllerVisualizzaItinerario
 
     public void addPhotoItinerario()
     {
+        AnalyticsUseCase.event("foto_itinerario_presente " + itinerario.getNome(), "insert", "foto_itinerario_presente", activity);
+
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         if (intent.resolveActivity(activity.getPackageManager()) != null)
@@ -598,7 +606,10 @@ public class ControllerVisualizzaItinerario
 
     }
 
-    public void insertChatToFirestore(FirebaseFirestore database, String recieverToken){
+    public void insertChatToFirestore(FirebaseFirestore database, String recieverToken)
+    {
+        AnalyticsUseCase.event("chat_aperta", "chat", "chat_iniziata", activity);
+
         HashMap<String, Object> data = new HashMap<>();
         data.put(Costanti.KEY_SENDER, tokenUtenteLoggato);
         data.put(Costanti.KEY_RECIEVER, recieverToken);

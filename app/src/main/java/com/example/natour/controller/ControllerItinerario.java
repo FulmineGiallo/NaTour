@@ -32,6 +32,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerario;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoItinerarioFragment;
 import com.example.natour.view.InserimentoItinerarioActivity.InserimentoPercorsoFragment;
@@ -114,9 +115,11 @@ public class ControllerItinerario
                             Intent intent = new Intent(inserimentoItinerarioActivity, ItinerarioInseritoTransition.class);
                             intent.putExtra("itinerario", itinerarioInserito);
                             inserimentoItinerarioActivity.startActivity(intent);
+                            AnalyticsUseCase.event("insert_itinerario", "insert", "inserimento_itinerario_successo", inserimentoItinerarioActivity);
                         }
                         else
                         {
+                            AnalyticsUseCase.event("insert_itinerario", "insert", "inserimento_itinerario_fallito", inserimentoItinerarioActivity);
                             /* INSERT FALLITO */
                             new ErrorDialog("Caricamento dell'itinerario fallito, controlla la tua connessione e riprova :(").show(fragmentManager, null);
                             //TODO: eliminare il file da S3

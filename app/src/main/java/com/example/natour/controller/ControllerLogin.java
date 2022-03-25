@@ -13,6 +13,7 @@ import com.amplifyframework.rx.RxAmplify;
 import com.example.natour.model.Utente;
 import com.example.natour.model.dao.StatisticheDAO;
 import com.example.natour.model.dao.UtenteDAO;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.LoginActivity.Login;
 import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.dialog.ErrorDialog;
@@ -93,12 +94,13 @@ public class ControllerLogin
                                                                Log.e("ERROR Birt", dataError.toString())
 
                                                );
+                                               AnalyticsUseCase.event("cognito_login", "login", "cognito_login", contexController);
+
                                            }
                                    );
                        },
                        error ->
                        {
-
                            if(error.getClass() == AuthException.class)
                                new ErrorDialog("Connessione assente!").show(fragmentManager, null);
                            else
@@ -143,6 +145,8 @@ public class ControllerLogin
                                                 contexController.startActivity(intentHomePage);
                                                 contexController.finish();
                                                 terminaLogin();
+                                                AnalyticsUseCase.event("facebook_login", "login", "facebook_login",contexController);
+
                                             }
                                     );
                         },
@@ -183,6 +187,8 @@ public class ControllerLogin
                                                 contexController.startActivity(intentHomePage);
                                                 contexController.finish();
                                                 terminaLogin();
+                                                AnalyticsUseCase.event("google_login", "login", "google_login",contexController);
+
                                             }
                                     );
                         },

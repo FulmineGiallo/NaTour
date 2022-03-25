@@ -1,7 +1,6 @@
 package com.example.natour.controller;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentManager;
@@ -12,6 +11,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.dao.ImmagineDAO;
 import com.example.natour.model.dao.ItinerarioDAO;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.Tab.HomePageFragment;
 import com.example.natour.view.VisualizzaItinerario.VisualizzaItinerarioActivity;
 import com.example.natour.view.adapter.MasonryAdapter;
@@ -116,6 +116,7 @@ public class ControllerHomePage implements ControllerInterface
 
     public void visualizzaItinerario(Itinerario itinerario)
     {
+        AnalyticsUseCase.event(itinerario.getNome(), "itinerario", "visualizza_itinerario", fragment.getContext());
         Intent intent = new Intent(fragment.requireContext(), VisualizzaItinerarioActivity.class);
         Immagine immagineSaved = new Immagine(itinerario.getImmagini().get(0).getURL());
         itinerario.getImmagini().clear();
@@ -128,10 +129,9 @@ public class ControllerHomePage implements ControllerInterface
     @Override
     public void visualizzaTrigger(String name)
     {
-        Bundle bundle = new Bundle();
-        bundle.putString("path_name", name);
-        mFirebaseAnalytics.logEvent("path_look_up", bundle);
+
     }
+
 
     public void addItinerario(Itinerario itinerario)
     {

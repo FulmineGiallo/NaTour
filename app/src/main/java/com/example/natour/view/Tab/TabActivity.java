@@ -11,15 +11,14 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natour.R;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Utente;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.MessaggioActivity.MessaggioFragment;
 import com.example.natour.view.Profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -72,23 +71,31 @@ public class TabActivity extends AppCompatActivity {
             switch (item.getItemId())
             {
                 case R.id.home:
+                    AnalyticsUseCase.event("sezione_homepage", "click", "homepage", getApplicationContext());
                     homepage.itinerarioAdded((Itinerario)getIntent().getSerializableExtra("itinerario"));
                     DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barrahomepage));
                     getSupportFragmentManager().beginTransaction().addToBackStack(homepage.toString()).replace(R.id.container, homepage).commit();
                     break;
                 case R.id.profile:
+                    AnalyticsUseCase.event("sezione_profile", "click", "profilo", getApplicationContext());
+
                     DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barraprofilo));
                     getSupportFragmentManager().beginTransaction().addToBackStack(profile.toString()).replace(R.id.container, profile).commit();
                     break;
                 case R.id.cerca:
+                    AnalyticsUseCase.event("sezione_cerca", "click", "cerca", getApplicationContext());
                     DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barraricerca));
                     getSupportFragmentManager().beginTransaction().addToBackStack(cerca.toString()).replace(R.id.container, cerca).commit();
                     break;
                 case R.id.messaggio:
+                    AnalyticsUseCase.event("sezione_messaggio", "click", "messaggio", getApplicationContext());
+
                     DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barrachat));
                     getSupportFragmentManager().beginTransaction().addToBackStack(messaggio.toString()).replace(R.id.container, messaggio).commit();
                     break;
                 case R.id.notifica:
+                    AnalyticsUseCase.event("notifica", "click", "notifica", getApplicationContext());
+
                     DrawableCompat.setTint(wrappedDrawable, getResources().getColor(R.color.colore_barranotifiche));
                     getSupportFragmentManager().beginTransaction().addToBackStack(notifica.toString()).replace(R.id.container, notifica).commit();
                     break;

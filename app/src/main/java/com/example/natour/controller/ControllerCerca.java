@@ -73,7 +73,7 @@ public class ControllerCerca implements ControllerInterface
 
     public void filtraItinerarioWithSearch(String query)
     {
-        AnalyticsUseCase.event("cerca", "cerca", "cerca_con_searc", fragment.getContext());
+        AnalyticsUseCase.event("cerca", "cerca", "cerca_con_search", fragment.getContext());
 
         copiaLista.clear();
         for (Itinerario i : itinerari)

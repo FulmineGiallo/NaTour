@@ -57,6 +57,11 @@ public class ControllerItinerarioTest
         }
     }
 
+    /**
+     * branch esaminato: dopo aver esaminato i geopoints nella lista e averli trovati corretti
+     * lancia l'eccezione per la latitudine e longitudine invalidi dell'immagine
+     * */
+
     @Test
     public void isImageValid2()
     {
@@ -79,6 +84,14 @@ public class ControllerItinerarioTest
         }
     }
 
+/**
+ * TODO: da testare
+ * in questo branch: dopo aver controllato che gli indirizzi sono inseriti correttamente
+ * verifica che il secondo punto è più vicino e lo selezione come distanza minima.
+ * In fine restituisce true in quanto la distanza tra il punto minore e il punto dell'immagine è
+ * inferiore a 300 metri
+ * */
+
     @Test
     public void isImageValid3()
     {
@@ -87,10 +100,11 @@ public class ControllerItinerarioTest
         immagine.setLatitude(40.899628001261995);
         immagine.setLongitude(14.092006225335721);
         GeoPoint geoPoint = new GeoPoint(40.89839534981892, 14.092006225335721);
+        GeoPoint geoPoint1 = new GeoPoint(40.89969534981892,14.092006225335731);
         ControllerItinerario controllerItinerario = new ControllerItinerario(null,null,null);
         List<GeoPoint> waypoints = new ArrayList<>();
         waypoints.add(geoPoint);
+        waypoints.add(geoPoint1);
         assertTrue(controllerItinerario.isImageValid(immagine, waypoints));
-
     }
 }

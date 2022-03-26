@@ -27,6 +27,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Recensione;
 import com.example.natour.model.Segnalazione;
+import com.example.natour.model.Utente;
 import com.example.natour.model.connection.RequestAPI;
 import com.example.natour.model.dao.CompilationDAO;
 import com.example.natour.model.dao.ImmagineDAO;

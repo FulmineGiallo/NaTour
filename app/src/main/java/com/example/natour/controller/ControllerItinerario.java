@@ -594,7 +594,7 @@ public class ControllerItinerario
                 minDistance = dist[0];
             }
         }
-        return minDistance < 500;
+        return minDistance < 300f;
     }
 
     private boolean isLatLonValid(double lat, double lng){

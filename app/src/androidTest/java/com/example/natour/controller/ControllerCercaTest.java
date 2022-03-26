@@ -17,7 +17,7 @@ public class ControllerCercaTest
 {
 
     /*
-    * Uno stub del catch non può essere verificato in
+    * Il branch del catch (IOException) non può essere verificato in
     * quanto sarebbe necessario imporre al geocoder di non funzionare
     * oppure mettere la modalità aereo,
     * cosa non possibile in fase di test.
@@ -27,7 +27,14 @@ public class ControllerCercaTest
     * */
 
     /* il punto 40.85157508957582, 14.26479657279487 è stato preso
-    * con servizi esterni e indica la posizione di napoli*/
+    * con servizi esterni e indica la posizione di napoli
+    * */
+
+    /*
+    * I test seguenti sono stati effettuati mediante tecnica whitebox con strategia
+    * di statement coverage.
+    * */
+
 
     @Test
     public void testfilterResultCorretto()
@@ -74,6 +81,8 @@ public class ControllerCercaTest
         assertTrue(exist);
 
     }
+
+
 
     @Test
     public void testfilterResultWrongAddress()
@@ -144,6 +153,8 @@ public class ControllerCercaTest
 
     }
 
+
+    //TODO: questo metodo non esplora nuovi statement... da eliminare
     @Test
     public void testfilterResultNoWaypoint()
     {

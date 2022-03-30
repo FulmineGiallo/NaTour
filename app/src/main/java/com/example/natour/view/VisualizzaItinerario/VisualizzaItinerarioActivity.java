@@ -29,6 +29,7 @@ import com.example.natour.model.Immagine;
 import com.example.natour.model.Itinerario;
 import com.example.natour.model.Segnalazione;
 import com.example.natour.model.dao.UtenteDAO;
+import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.Tab.TabActivity;
 import com.example.natour.view.dialog.RecensioneBottomSheet;
 import com.example.natour.view.dialog.SegnalazioneBottomSheet;
@@ -187,7 +188,10 @@ public class VisualizzaItinerarioActivity extends AppCompatActivity implements R
         controllerVisualizzaItinerario.getRecensioneItinerario(mediaRecensioni, recensionivuote, imageInfo);
 
 
-        btn_addRecensione.setOnClickListener(v -> {
+        btn_addRecensione.setOnClickListener(v ->
+        {
+            AnalyticsUseCase.event("recensione_insert " + itinerario.getNome(), "insert", "recensione_insert", getApplicationContext());
+
             new RecensioneBottomSheet().show(getSupportFragmentManager(),null);
         });
         btn_addSegnalazione.setOnClickListener(v -> {

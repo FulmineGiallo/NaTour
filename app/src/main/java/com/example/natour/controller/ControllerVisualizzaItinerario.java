@@ -466,7 +466,7 @@ public class ControllerVisualizzaItinerario
                                 RxAmplify.Storage.getUrl(immagine.getKey()).subscribe(
                                         risultato -> {
                                             Log.i("MyAmplifyApp", "Successfully generated: " + risultato.getUrl());
-                                            String URL = "https://besimsoft.com/.natour21/uq6PMpSfiZ/api/itinerary/nfws";
+                                            String URL = "https://besimsoft.com/.natour21/uq6PMpSfiZ/api/itinerary/nfws.php";
                                             String URLImage = risultato.getUrl().toString();
                                             //Controllo effettuata sulla singola aggiunta
                                             Map<String, String> paramsUrl = new HashMap<>();

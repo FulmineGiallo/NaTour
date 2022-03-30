@@ -11,14 +11,12 @@ import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
-import com.example.natour.model.Utente;
 import com.example.natour.model.dao.UtenteDAO;
 import com.example.natour.util.AnalyticsUseCase;
 import com.example.natour.view.RegisterActivity.ConfermaRegistrazioneDialog;
 import com.example.natour.view.RegisterActivity.Register;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ControllerRegister
 {
@@ -86,6 +84,8 @@ public class ControllerRegister
                         {
                             dialog.dismiss();
                             register.load();
+                            AnalyticsUseCase.event("registrazione", "register", "registrazione_cognito_verficata", activity);
+
                         }
                     });
 

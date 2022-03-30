@@ -109,7 +109,6 @@ public class CercaFragment extends Fragment {
                 txt_cercaQui.setVisibility(View.INVISIBLE);
             else if(searchView.getQuery().length() == 0) txt_cercaQui.setVisibility(View.VISIBLE);
 
-
         });
         FrameLayout viewTop = requireView().findViewById(R.id.viewtop_cerca);
         viewTop.setOnClickListener((banner)->
@@ -190,6 +189,7 @@ public class CercaFragment extends Fragment {
                 controllerCerca.filtraItinerarioWithSearch(query);
                 animationView.setVisibility(View.INVISIBLE);
                 Log.i("QUERY", query);
+                searchView.setQuery("", false);
                 return true;
             }
 

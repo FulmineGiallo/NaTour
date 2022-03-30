@@ -68,7 +68,8 @@ public class ControllerCerca implements ControllerInterface
         mFirebaseAnalytics.logEvent("path_look_up", bundle);
     }
 
-    public void filtraItinerarioWithSearch(String query) {
+    public void filtraItinerarioWithSearch(String query)
+    {
         AnalyticsUseCase.event("cerca", "cerca", "cerca_con_search", fragment.getContext());
         copiaLista.clear();
         for (Itinerario i : itinerari) {

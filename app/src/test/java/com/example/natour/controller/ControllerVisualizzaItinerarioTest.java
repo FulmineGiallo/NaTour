@@ -33,9 +33,14 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (IllegalSegnalazioneException e){
             assertTrue(true);
@@ -56,8 +61,11 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token2");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
-        assertFalse(controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione));
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
+        assertFalse(controllerVisualizzaItinerario
+                .validateDeleteSegnalazione(utente,itinerario,segnalazione));
     }
 
     /** Per il metodo seguente:
@@ -72,9 +80,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(itinerario.getFk_utente());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (IllegalSegnalazioneException e){
             assertTrue(true);
@@ -94,8 +105,11 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token3");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
-        assertFalse(controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione));
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
+        assertFalse(controllerVisualizzaItinerario
+                .validateDeleteSegnalazione(utente,itinerario,segnalazione));
     }
 
     /** Per il metodo seguente:
@@ -110,8 +124,11 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
-        assertTrue(controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione));
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
+        assertTrue(controllerVisualizzaItinerario
+                .validateDeleteSegnalazione(utente,itinerario,segnalazione));
     }
 
     /** Per il metodo seguente:
@@ -127,9 +144,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (IllegalSegnalazioneException e){
             assertTrue(true);
@@ -151,8 +171,11 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token2");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
-        assertTrue(controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione));
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
+        assertTrue(controllerVisualizzaItinerario
+                .validateDeleteSegnalazione(utente,itinerario,segnalazione));
     }
 
     /** Per il metodo seguente:
@@ -168,9 +191,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(itinerario.getFk_utente());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (IllegalSegnalazioneException e){
             assertTrue(true);
@@ -191,8 +217,11 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token3");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
-        assertTrue(controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione));
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
+        assertTrue(controllerVisualizzaItinerario
+                .validateDeleteSegnalazione(utente,itinerario,segnalazione));
     }
 
     /** Per il metodo seguente:
@@ -208,8 +237,11 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
-        assertTrue(controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione));
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
+        assertTrue(controllerVisualizzaItinerario
+                .validateDeleteSegnalazione(utente,itinerario,segnalazione));
     }
 
     /** Per il metodo seguente:
@@ -224,9 +256,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -247,9 +282,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token2");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -270,9 +308,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(itinerario.getFk_utente());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -293,9 +334,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token3");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -316,9 +360,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -340,9 +387,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -364,9 +414,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token2");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -388,9 +441,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(itinerario.getFk_utente());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -412,9 +468,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token3");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -436,9 +495,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -460,9 +522,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(itinerario.getFk_utente());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -483,9 +548,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token3");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -507,9 +575,12 @@ public class ControllerVisualizzaItinerarioTest
         itinerario.setFk_utente(null);
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -532,9 +603,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(itinerario.getFk_utente());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -556,9 +630,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente("token3");
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -580,9 +657,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setFk_utente(utente.getToken());
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -603,9 +683,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -626,9 +709,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -650,9 +736,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         itinerario.setFk_utente(utente.getToken());
         Segnalazione segnalazione = new Segnalazione();
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);
@@ -675,9 +764,12 @@ public class ControllerVisualizzaItinerarioTest
         Itinerario itinerario = new Itinerario();
         itinerario.setFk_utente("token2");
         Segnalazione segnalazione = new Segnalazione();
-        ControllerVisualizzaItinerario controllerVisualizzaItinerario = new ControllerVisualizzaItinerario(null, itinerario, utente.getToken());
+        ControllerVisualizzaItinerario controllerVisualizzaItinerario =
+                new ControllerVisualizzaItinerario(null
+                        , itinerario, utente.getToken());
         try{
-            controllerVisualizzaItinerario.validateDeleteSegnalazione(utente,itinerario,segnalazione);
+            controllerVisualizzaItinerario
+                    .validateDeleteSegnalazione(utente,itinerario,segnalazione);
             fail();
         }catch (NullPointerException e){
             assertTrue(true);

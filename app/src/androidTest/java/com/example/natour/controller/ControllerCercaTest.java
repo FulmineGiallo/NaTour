@@ -39,7 +39,8 @@ public class ControllerCercaTest
     @Test
     public void testfilterResultCorretto()
     {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context appContext = InstrumentationRegistry
+                .getInstrumentation().getTargetContext();
         ArrayList<Itinerario> itinerari = new ArrayList<>();
         Itinerario itinerario = new Itinerario();
         itinerario.setNome("Napoli che bella");
@@ -47,14 +48,17 @@ public class ControllerCercaTest
         itinerario.setDescrizione("una bella passeggiata a napoli");
         itinerario.setDurata("13");
         itinerario.setAccessibilitaDisabili(false);
-        GeoPoint punto = new GeoPoint(40.85157508957582, 14.26479657279487);
+        GeoPoint punto = new GeoPoint(40.85157508957582,
+                14.26479657279487);
         ArrayList<GeoPoint> waypoints = new ArrayList<>();
         waypoints.add(punto);
         itinerario.setWaypoints(waypoints);
         itinerari.add(itinerario);
-        ControllerCerca controllerCerca = new ControllerCerca(null, null, itinerari, null);
+        ControllerCerca controllerCerca = new ControllerCerca(null,
+                null, itinerari, null);
         Boolean exist;
-        exist = controllerCerca.filterResult("napoli",3,"13",false, appContext);
+        exist = controllerCerca.filterResult("napoli",
+                3,"13",false, appContext);
         assertTrue(exist);
 
     }
@@ -70,14 +74,17 @@ public class ControllerCercaTest
         itinerario.setDescrizione("una bella passeggiata a napoli");
         itinerario.setDurata("13");
         itinerario.setAccessibilitaDisabili(false);
-        GeoPoint punto = new GeoPoint(40.85157508957582, 14.26479657279487);
+        GeoPoint punto = new GeoPoint(40.85157508957582,
+                14.26479657279487);
         ArrayList<GeoPoint> waypoints = new ArrayList<>();
         waypoints.add(punto);
         itinerario.setWaypoints(waypoints);
         itinerari.add(itinerario);
-        ControllerCerca controllerCerca = new ControllerCerca(null, null, itinerari, null);
+        ControllerCerca controllerCerca = new ControllerCerca(null,
+                null, itinerari, null);
         Boolean exist;
-        exist = controllerCerca.filterResult("",3,"13",false, appContext);
+        exist = controllerCerca.filterResult("",
+                3,"13",false, appContext);
         assertTrue(exist);
 
     }
@@ -95,14 +102,17 @@ public class ControllerCercaTest
         itinerario.setDescrizione("una bella passeggiata a napoli");
         itinerario.setDurata("13");
         itinerario.setAccessibilitaDisabili(false);
-        GeoPoint punto = new GeoPoint(40.85157508957582, 14.26479657279487);
+        GeoPoint punto = new GeoPoint(40.85157508957582,
+                14.26479657279487);
         ArrayList<GeoPoint> waypoints = new ArrayList<>();
         waypoints.add(punto);
         itinerario.setWaypoints(waypoints);
         itinerari.add(itinerario);
-        ControllerCerca controllerCerca = new ControllerCerca(null, null, itinerari, null);
+        ControllerCerca controllerCerca = new ControllerCerca(null,
+                null, itinerari, null);
         Boolean exist;
-        exist = controllerCerca.filterResult("xxxxxxxx",3,"13",false, appContext);
+        exist = controllerCerca.filterResult("xxxxxxxx",
+                3,"13",false, appContext);
         assertFalse(exist);
 
     }
@@ -123,9 +133,11 @@ public class ControllerCercaTest
         waypoints.add(punto);
         itinerario.setWaypoints(waypoints);
         itinerari.add(itinerario);
-        ControllerCerca controllerCerca = new ControllerCerca(null, null, itinerari, null);
+        ControllerCerca controllerCerca = new ControllerCerca(null,
+                null, itinerari, null);
         Boolean exist;
-        exist = controllerCerca.filterResult("napoli",3,"",false, appContext);
+        exist = controllerCerca.filterResult("napoli",
+                3,"",false, appContext);
         assertTrue(exist);
 
     }
@@ -141,41 +153,19 @@ public class ControllerCercaTest
         itinerario.setDescrizione("una bella passeggiata a napoli");
         itinerario.setDurata("13");
         itinerario.setAccessibilitaDisabili(false);
-        GeoPoint punto = new GeoPoint(40.85157508957582, 14.26479657279487);
+        GeoPoint punto = new GeoPoint(40.85157508957582,
+                14.26479657279487);
         ArrayList<GeoPoint> waypoints = new ArrayList<>();
         waypoints.add(punto);
         itinerario.setWaypoints(waypoints);
         itinerari.add(itinerario);
-        ControllerCerca controllerCerca = new ControllerCerca(null, null, itinerari, null);
+        ControllerCerca controllerCerca = new ControllerCerca(null,
+                null, itinerari, null);
         Boolean exist;
-        exist = controllerCerca.filterResult("",3,"",false, appContext);
+        exist = controllerCerca.filterResult("",
+                3,"",false, appContext);
         assertTrue(exist);
 
-    }
-
-
-    //TODO: questo metodo non esplora nuovi statement... da eliminare
-    @Test
-    public void testfilterResultNoWaypoint()
-    {
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        ArrayList<Itinerario> itinerari = new ArrayList<>();
-        Itinerario itinerario = new Itinerario();
-        itinerario.setNome("Napoli che bella");
-        itinerario.setDifficoltà(3);
-        itinerario.setDescrizione("una bella passeggiata a napoli");
-        itinerario.setDurata("13");
-        itinerario.setAccessibilitaDisabili(false);
-        itinerari.add(itinerario);
-        ControllerCerca controllerCerca = new ControllerCerca(null, null, itinerari, null);
-        try{
-            controllerCerca.filterResult("napoli",3,"13",false, appContext);
-            fail();
-        }catch (NullPointerException e){
-            assertTrue(true);
-        }catch (Exception e){
-            fail();
-        }
     }
 
 }

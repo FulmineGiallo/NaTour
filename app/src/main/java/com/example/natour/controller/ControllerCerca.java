@@ -62,21 +62,16 @@ public class ControllerCerca implements ControllerInterface
     }
 
     @Override
-    public void visualizzaTrigger(String name)
-    {
+    public void visualizzaTrigger(String name) {
         Bundle bundle = new Bundle();
         bundle.putString("path_name", name);
         mFirebaseAnalytics.logEvent("path_look_up", bundle);
     }
 
-
-    public void filtraItinerarioWithSearch(String query)
-    {
+    public void filtraItinerarioWithSearch(String query) {
         AnalyticsUseCase.event("cerca", "cerca", "cerca_con_search", fragment.getContext());
-
         copiaLista.clear();
-        for (Itinerario i : itinerari)
-        {
+        for (Itinerario i : itinerari) {
             if(i.getNome().contains(query))
                 copiaLista.add(i);
         }
@@ -85,8 +80,7 @@ public class ControllerCerca implements ControllerInterface
         new StatisticheDAO().updateRicerche(fragment.requireContext());
     }
 
-    public void setListaItinerari(ArrayList<Itinerario> itinerariFiltrati)
-    {
+    public void setListaItinerari(ArrayList<Itinerario> itinerariFiltrati) {
         this.itinerari = itinerariFiltrati;
     }
     public void setAdapter(RecyclerView mRecyclerView)
@@ -99,12 +93,10 @@ public class ControllerCerca implements ControllerInterface
         mRecyclerView.addItemDecoration(decoration);
     }
 
-
     public void filtraItinerarioWithFilter(String address, int difficolta, String durata, boolean disabili)
     {
-        Boolean exists = Boolean.FALSE;
+        Boolean exists;
         AnalyticsUseCase.event("filtro", "filter", "cerca_con_filtro", fragment.getContext());
-
         new StatisticheDAO().updateRicerche(fragment.requireContext());
         try{
             exists = filterResult(address, difficolta, durata, disabili, fragment.requireContext());
@@ -113,11 +105,12 @@ public class ControllerCerca implements ControllerInterface
         }
         if(!exists)
             new ErrorDialog("Non ci sono itinerario che rispecchiano questo filtro!").show(fragmentManager, null);
-
         Log.i("SIZE COPIA", String.valueOf(copiaLista.size()));
         adapter.notifyItemRangeChanged(0, copiaLista.size() - 1);
-
     }
+
+
+
 
     public Boolean filterResult(String address, int difficolta, String durata, boolean disabili, Context context) throws NullPointerException
     {
@@ -146,7 +139,8 @@ public class ControllerCerca implements ControllerInterface
                         e.printStackTrace();
                     }
 
-                    if(currLocation != null && currLocation.getCountryName().equals(location.getCountryName()))
+                    if(currLocation != null && currLocation.getCountryName()
+                            .equals(location.getCountryName()))
                         if(!copiaLista.contains(i))
                         {
                             if(durata.isEmpty())
